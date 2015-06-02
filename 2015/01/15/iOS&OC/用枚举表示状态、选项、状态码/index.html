@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>高效OC编程-用枚举表示状态、选项、状态码  | 桂庆的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="由于Objective-C 基于C 语言，所以C 语言有的功能它都有。其中之一就是枚举类型：
+enum 系统框架中频繁用到此类型，然而开发者容易忽视它。在以一系列常量来表示错误状态码或可组合的选项时，极宜使用枚举为其命名。由于C++11 标准扩充了枚举的特性所以最新版系统框架使用了“强类型”（strong type）的枚举。没错，Objective-C 也能得益于C++11 标准。枚举只是一种常量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高效OC编程-用枚举表示状态、选项、状态码 ">
+<meta property="og:url" content="http://yoursite.com/2015/01/15/iOS&OC/用枚举表示状态、选项、状态码/index.html">
+<meta property="og:site_name" content="桂庆的个人主页">
+<meta property="og:description" content="由于Objective-C 基于C 语言，所以C 语言有的功能它都有。其中之一就是枚举类型：
+enum 系统框架中频繁用到此类型，然而开发者容易忽视它。在以一系列常量来表示错误状态码或可组合的选项时，极宜使用枚举为其命名。由于C++11 标准扩充了枚举的特性所以最新版系统框架使用了“强类型”（strong type）的枚举。没错，Objective-C 也能得益于C++11 标准。枚举只是一种常量">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高效OC编程-用枚举表示状态、选项、状态码 ">
+<meta name="twitter:description" content="由于Objective-C 基于C 语言，所以C 语言有的功能它都有。其中之一就是枚举类型：
+enum 系统框架中频繁用到此类型，然而开发者容易忽视它。在以一系列常量来表示错误状态码或可组合的选项时，极宜使用枚举为其命名。由于C++11 标准扩充了枚举的特性所以最新版系统框架使用了“强类型”（strong type）的枚举。没错，Objective-C 也能得益于C++11 标准。枚举只是一种常量">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  
+  
+    <link rel="stylesheet" href="/scrollLoading/style.css" type="text/css">
+  
+  
+
+
+  
+    <style type="text/css">
+      .logo { background-image:url(http://ppoffice.github.io/hexo-theme-hueman/css/images/logo-header.png); }
+    </style>
+  
+
+  
+    <link href='//fonts.useso.com/css?family=Titillium+Web:300,400,600' rel='stylesheet' type='text/css'>
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="wrap">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div class="container">
+      <div class="container-inner">
+        <div id="header-title">
+          <h1 class="logo-wrap">
+            <a href="/" class="logo"></a>
+          </h1>
+          
+            <h2 class="subtitle-wrap">
+              <p class="subtitle">记录自己的学习 工作 感悟</p>
+            </h2>
+          
+        </div>
+        <div id="header-inner" class="nav-container">
+          <a id="main-nav-toggle" class="nav-icon"></a>
+          <div class="nav-container-inner">
+            <ul id="main-nav">
+              
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/">主页</a></li>
+              
+                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/iOS-OC/">iOS&OC</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/主页维护记录/">主页维护记录</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/应用架构/">应用架构</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/每日知识总结/">每日知识总结</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/辅助编程技能/">辅助编程技能</a></li></ul>
+                  
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/about/index.html">关于我</a></li>
+              
+            </ul>
+            <nav id="sub-nav">
+              <div id="search-form-wrap">
+                <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="container">
+      <div class="main-body container-inner">
+        <div class="main-body-inner">
+          <section id="main">
+            <div class="main-body-header">
+
+              <h1 class="header"><a class="page-title-link" href="/categories/iOS-OC/">iOS&OC</a></h1>
+            </div>
+            <div class="main-body-content">
+              
+  <article id="post-iOS&amp;OC/用枚举表示状态、选项、状态码" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+      <!--  -->
+      
+        <header class="article-header">
+          
+  
+    <h1 class="article-title" itemprop="name">
+      高效OC编程-用枚举表示状态、选项、状态码 
+    </h1>
+  
+
+        </header>
+      
+      <p class="article-byline">
+        <a href="/2015/01/15/iOS&OC/用枚举表示状态、选项、状态码/" class="article-date">
+  <time datetime="2015-01-15T04:21:05.000Z" itemprop="datePublished">2015-01-15</time>
+</a>
+      </p>
+      <div class="article-entry" itemprop="articleBody">
+        <p>由于Objective-C 基于C 语言，所以C 语言有的功能它都有。其中之一就是枚举类型：</p>
+<p>enum 系统框架中频繁用到此类型，然而开发者容易忽视它。在以一系列常量来表示错误状态码或可组合的选项时，极宜使用枚举为其命名。由于C++11 标准扩充了枚举的特性所以最新版系统框架使用了“强类型”（strong type）的枚举。没错，Objective-C 也能得益于<br>C++11 标准。<br>枚举只是一种常量命名方式。某个对象所经历的各种状态就可以定义为一个简单的枚举集（enumeration set）。比如说，可以用下列枚举表示“套接字连接”（socket connection）的状态:  </p>
+<figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EOCConnectionState</span> </span>&#123;</span><br><span class="line">EOCConnectionStateDisconnected,  </span><br><span class="line"></span><br><span class="line">EOCConnectionStateConnecting,  </span><br><span class="line"></span><br><span class="line">EOCConnectionStateConnected,  </span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>由于每种状态都用一个便于理解的值来表示，所以这样写出来的代码更易读懂。编译器会为枚举分配一个独有的编号，从0 开始，每个枚举递增1。实现枚举所用的数据类型取决于编译器，不过其二进制位（bit）的个数必须能完全表示下枚举编号才行。在前例中，由于最大编号是2，所以使用1 个字节5的char 类型即可。然而定义枚举变量的方式却不太简洁，要依如下语法编写:  </p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enum EOCConnectionState <span class="keyword">state</span> = EOCConnectionStateDisconnected;</span><br></pre></td></tr></table></figure>
+<p>若是每次不用敲入enum 而只需写EOCConnectionState 就好了。要想这样做，则需使用<br>typedef 关键字重新定义枚举类型：  </p>
+<figure class="highlight thrift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EOCConnectionState</span> </span>&#123;</span><br><span class="line">EOCConnectionStateDisconnected,</span><br><span class="line">EOCConnectionStateConnecting,</span><br><span class="line">EOCConnectionStateConnected,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">enum</span> <span class="title">EOCConnectionState</span> EOCConnectionState;</span></span><br></pre></td></tr></table></figure>
+<p>现在可以用简写的EOCConnectionState 来代替完整的enum EOCConnectionState 了：  </p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EOCConnectionState <span class="keyword">state</span> = EOCConnectionStateDisconnected;</span><br></pre></td></tr></table></figure>
+<p>C++11 标准修订了枚举的某些特性。其中一项改动是：可以指明用何种“底层数据类型”<br>（underlying type）来保存枚举类型的变量。这样做的好处是，可以向前声明枚举变量了。若<br>不指定底层数据类型，则无法向前声明枚举类型，因为编译器不清楚底层数据类型的大小，<br>所以在用到此枚举类型时，也就不知道究竟该给变量分配多少空间。<br>指定底层数据类型所用的语法是：  </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">enum</span> <span class="rule"><span class="attribute">EOCConnectionStateConnectionState </span>:<span class="value"> NSInteger &#123; <span class="comment">/* ... */</span> &#125;</span></span>;</span><br></pre></td></tr></table></figure>
+<p>上面这行代码确保枚举的底层数据类型是NSInteger。也可以在向前声明时指定底层数<br>据类型：  </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">enum</span> <span class="rule"><span class="attribute">EOCConnectionStateConnectionState </span>:<span class="value"> NSInteger</span></span>;</span><br></pre></td></tr></table></figure>
+<p>还可以不使用编译器所分配的序号，而是手工指定某个枚举成员所对应的值。语法如下：  </p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EOCConnectionStateConnectionState</span> </span>&#123;</span><br><span class="line"><span class="constant">     EOCConnectionStateDisconnected</span> = <span class="number">1</span>,</span><br><span class="line"><span class="constant">     EOCConnectionStateConnecting,</span><br><span class="line">     EOCConnectionStateConnected,</span><br><span class="line">&#125;;</span></span><br></pre></td></tr></table></figure>
+<p>上述代码把<code>EOCConnectionStateDisconnected</code> 的值设为1，而不使用编译器所分配的0。<br>如前所述，接下来几个枚举的值都会在上一个的基础上递增1。比如说，<code>EOCConnectionStateConnected</code> 的值就是3。<br>还有一种情况应该使用枚举类型，那就是定义选项的时候。若这些选项可以彼此组<br>合，则更应如此。只要枚举定义得对，各选项之间就可通过“按位或操作符”（bitwise OR operator）来组合。例如，iOS UI 框架中有如下枚举类型，用来表示某个视图应该如何在水平<br>或垂直方向上调整大小：  </p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">UIViewAutoresizing</span> </span>&#123;</span><br><span class="line"><span class="constant">UIViewAutoresizingNone</span> = <span class="number">0</span>,</span><br><span class="line"><span class="constant">UIViewAutoresizingFlexibleLeftMargin</span> = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,</span><br><span class="line"><span class="constant">UIViewAutoresizingFlexibleWidth</span> = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,</span><br><span class="line"><span class="constant">UIViewAutoresizingFlexibleRightMargin</span> = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,</span><br><span class="line"><span class="constant">UIViewAutoresizingFlexibleTopMargin</span> = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,</span><br><span class="line"><span class="constant">UIViewAutoresizingFlexibleHeight</span> = <span class="number">1</span> &lt;&lt; <span class="number">4</span>,</span><br><span class="line"><span class="constant">UIViewAutoresizingFlexibleBottomMargin</span> = <span class="number">1</span> &lt;&lt; <span class="number">5</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每个选项均可启用或禁用，使用上述方式来定义枚举值即可保证这一点，因为在每个枚<br>举值6所对应的二进制表示中，只有1 个二进制位的值是1。用“按位或操作符”可组合多个<br>选项，例如：<code>UIViewAutoResizingFlexibleWidth|UIViewAutoresizingFlexibleHeight</code>。用“按位与操作符”（bitwise AND operator）即可判断出是否已启用某个选项：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="built_in">UIViewAutoresizing</span> resizing =</span><br><span class="line"><span class="built_in">UIViewAutoresizingFlexibleWidth</span> |</span><br><span class="line"><span class="built_in">UIViewAutoresizingFlexibleHeight</span>;</span><br><span class="line"><span class="keyword">if</span> (resizing &amp; <span class="built_in">UIViewAutoresizingFlexibleWidth</span>) &#123;</span><br><span class="line"><span class="comment">// UIViewAutoresizingFlexibleWidth is set</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>UIViewAutoresizingNone</code> 除外，它的值是0，对应的二进制值也是0，其中没有值为1 的二进制位<br>系统库中频繁使用这个办法。iOS UI 框架中的UIKit 里还有个例子，用枚举值告诉系统<br>视图所支持的设备显示方向。这个枚举类型叫做<code>UIInterfaceOrientationMask</code>，开发者需要实<br>现一个名为supportedInterfaceOrientations 的方法，将视图所支持的显示方向告诉系统：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSUInteger</span>)supportedInterfaceOrientations &#123;</span><br><span class="line">　　 <span class="keyword">return</span> <span class="built_in">UIInterfaceOrientationMaskPortrait</span> |</span><br><span class="line"><span class="built_in">UIInterfaceOrientationMaskLandscapeLeft</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Foundation 框架中定义了一些辅助的宏，用这些宏来定义枚举类型时，也可以指定用于<br>保存枚举值的底层数据类型。这些宏具备向后兼容（backward compatibility）能力，如果目标<br>平台的编译器支持新标准，那就使用新式语法，否则改用旧式语法。这些宏是用#define 预<br>处理指令来定义的，其中一个用于定义像EOCConnectionState 这种普通的枚举类型，另一个<br>用于定义像UIViewAutoresizing 这种包含一系列选项的枚举类型，其用法如下：  </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSUInteger</span>, EOCConnectionState) &#123;</span><br><span class="line">EOCConnectionStateDisconnected,</span><br><span class="line">EOCConnectionStateConnecting,</span><br><span class="line">EOCConnectionStateConnected,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_OPTIONS</span>(<span class="built_in">NSUInteger</span>, EOCPermittedDirection) &#123;</span><br><span class="line">EOCPermittedDirectionUp = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,</span><br><span class="line">EOCPermittedDirectionDown = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,</span><br><span class="line">EOCPermittedDirectionLeft = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,</span><br><span class="line">EOCPermittedDirectionRight = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这些宏的定义如下：  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">if</span> (__cplusplus &amp;&amp; __cplusplus &gt;= 201103L&amp;&amp;</span></span><br><span class="line">(__has_extension(cxx_strong_enums) ||</span><br><span class="line">__has_feature(objc_fixed_enum))</span><br><span class="line">) ||</span><br><span class="line">(!__cplusplus &amp;&amp; __has_feature(objc_fixed_enum))</span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> NS_ENUM(_type, _name)</span></span><br><span class="line"><span class="keyword">enum</span> _name : _type _name; <span class="keyword">enum</span> _name : _type</span><br><span class="line"><span class="preprocessor">#<span class="keyword">if</span> (__cplusplus)</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> NS_OPTIONS(_type, _name)</span></span><br><span class="line">type _name; <span class="keyword">enum</span> : _type</span><br><span class="line"><span class="preprocessor">#<span class="keyword">else</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> NS_OPTIONS(_type, _name)</span></span><br><span class="line"><span class="keyword">enum</span> _name : _type _name; <span class="keyword">enum</span> _name : _type</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">else</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> NS_ENUM(_type, _name) _type _name; enum</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> NS_OPTIONS(_type, _name) _type _name; enum</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>由于需要分别处理不同情况，所以上述代码用多种方式来定义这两个宏。第一个#if 用<br>于判断编译器是否支持新式枚举。其中所用的布尔逻辑看上去相当复杂，不过其意思就是想<br>判断编译器是否支持新的枚举特性。如果不支持，那么就用老式语法来定义枚举。<br>如果支持新特性，那么用NS_ENUM 宏所定义的枚举类型展开之后就是：  </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">typedef</span> <span class="tag">enum</span> <span class="rule"><span class="attribute">EOCConnectionState </span>:<span class="value"> NSUInteger EOCConnectionState</span></span>;</span><br><span class="line"><span class="tag">enum</span> <span class="rule"><span class="attribute">EOCConnectionState </span>:<span class="value"> NSUInteger &#123;</span><br><span class="line">EOCConnectionStateDisconnected,</span><br><span class="line">EOCConnectionStateConnecting,</span><br><span class="line">EOCConnectionStateConnected,</span><br><span class="line">&#125;</span></span>;</span><br></pre></td></tr></table></figure>
+<p>根据是否要将代码按C++ 模式编译，NS_OPTIONS 宏的定义方式也有所不同。如果<br>不按C++ 编译，那么其展开方式就和NS_ENUM 相同。若按C++ 编译，则展开后的代码<br>略有不同。原因在于，用按位或运算来操作两个枚举值时，C++ 编译模式的处理办法与非<br>C++ 模式不一样。而上面已经提到了，作为选项的枚举值经常需要用按位或运算来组合。<br>在用或运算操作两个枚举值时，C++ 认为运算结果的数据类型应该是枚举的底层数据类<br>型，也就是NSUInteger。而且C++ 不允许将这个底层类型“隐式转换”（implicit cast）为<br>枚举类型本身。我们用EOCPermittedDirection 来演示一下，假设按NS_ENUM 方式将其<br>展开：  </p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef <span class="class"><span class="keyword">enum</span> <span class="title">EOCPermittedDirection</span> : int EOCPermittedDirection;</span><br><span class="line">enum EOCPermittedDirection : int </span>&#123;</span><br><span class="line"><span class="constant">EOCPermittedDirectionUp</span> = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,</span><br><span class="line"><span class="constant">EOCPermittedDirectionDown</span> = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,</span><br><span class="line"><span class="constant">EOCPermittedDirectionLeft</span> = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,</span><br><span class="line"><span class="constant">EOCPermittedDirectionRight</span> = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后考虑下列代码：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EOCPermittedDirection permittedDirections =</span><br><span class="line">EOCPermittedDirectionLeft <span class="string">| EOCPermittedDirectionUp;</span></span><br></pre></td></tr></table></figure>
+<p>若编译器按C++ 模式编译（也可能是按Objective-C++ 模式编译），则会给出下列错误信息：  </p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">error: cannot initialize <span class="operator">a</span> <span class="built_in">variable</span> <span class="operator">of</span> type</span><br><span class="line"><span class="string">'EOCPermittedDirection'</span> <span class="operator">with</span> <span class="operator">an</span> rvalue <span class="operator">of</span> type <span class="string">'int'</span></span><br></pre></td></tr></table></figure>
+<p>如果想编译这行代码， 就要将按位或操作的结果显式转换（explicit cast） 为EOCPermittedDirection。所以，在C++ 模式下应该用另一种方式定义NS_OPTIONS 宏，以便省去类型转换操作。鉴于此，凡是需要以按位或操作来组合的枚举都应使用NS_OPTIONS定义。若是枚举不需要互相组合，则应使用NS_ENUM 来定义。<br>能够用到枚举的情况还有很多。前面已经提到，枚举可以表示选项与状态，然而还有许<br>多东西也能用枚举来表示。比如状态码就是个好例子。可以把逻辑含义相似的一组状态码放入同一个枚举集里，而不要用#define 预处理指令或常量来定义。以枚举来表示样式（style）<br>也很合宜。假如创建某个UI 元素时可以使用不同的样式，那么在这种情况下就最应该把样式声明为枚举类型了。<br>最后再讲一种枚举的用法，就是在switch语句里。有时可以这样定义：</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger, EOCConnectionState) &#123;    EOCConnectionStateDisconnected,</span><br><span class="line">    EOCConnectionStateConnecting,</span><br><span class="line">    EOCConnectionStateConnected,</span><br><span class="line">&#125;;</span><br><span class="line">switch (_currentState) &#123;</span><br><span class="line">EOCConnectionStateDisconnected:</span><br><span class="line">// Handle disconnected <span class="keyword">state</span></span><br><span class="line">break;</span><br><span class="line">EOCConnectionStateConnecting:</span><br><span class="line">// Handle connecting <span class="keyword">state</span></span><br><span class="line">break;</span><br><span class="line">EOCConnectionStateConnected:</span><br><span class="line">// Handle connected <span class="keyword">state</span></span><br><span class="line">break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们总习惯在switch 语句中加上default 分支。然而，若是用枚举来定义状态机（state machine），则最好不要有default 分支。这样的话，如果稍后又加了一种状态，那么编译器就会发出警告信息，提示新加入的状态并未在switch 分支中处理。假如写上了default 分支，那么它就会处理这个新状态，从而导致编译器不发警告信息。用NS_ENUM 定义其他枚举类型时也要注意此问题。例如，在定义代表UI 元素样式的枚举时，通常要确保switch 语句能正确处理所有样式。</p>
+<p>要点</p>
+<ul>
+<li><p>应该用枚举来表示状态机的状态、传递给方法的选项以及状态码等值，给这些值起个易懂的名字。  </p>
+</li>
+<li><p>如果把传递给某个方法的选项表示为枚举类型，而多个选项又可同时使用，那么就将各选项值定义为2 的幂，以便通过按位或操作将其组合起来。</p>
+</li>
+<li><p>用 NS_ENUM 与 NS_OPTIONS 宏来定义枚举类型，并指明其底层数据类型。这样做可以确保枚举是用开发者所选的底层数据类型实现出来的，而不会采用编译器所选的类型。</p>
+</li>
+<li><p>在处理枚举类型的 switch 语句中不要实现 default 分支。这样的话，加入新枚举之后,编译器就会提示开发者：switch 语句并未处理所有枚举。</p>
+</li>
+</ul>
+
+      </div>
+      <footer class="article-footer">
+        <a data-url="http://yoursite.com/2015/01/15/iOS&OC/用枚举表示状态、选项、状态码/" data-id="ciaek99h70010rafyve31nr3a" class="article-share-link">分享到</a>
+        
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/高效OC编程/">高效OC编程</a></li></ul>
+
+      </footer>
+    </div>
+  </article>
+  
+
+            </div>
+          </section>
+          <aside id="sidebar">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+  <div class="sidebar-top">
+    <p>关注我 :</p>
+    <ul class="social-links">
+      
+        <li><a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank"><i id="icon-github" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="weibo" href="/" target="_blank"><i id="icon-weibo" class="icon"></i></a></li>
+      
+    </ul>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/03/07/辅助编程技能/从开一个手机号码开始/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <p class="article-nav-title">
+        
+          从开一个手机号码开始-正则表达式
+        
+      </p>
+      <i class="icon" id="icon-chevron-right"></i>
+    </a>
+  
+  
+    <a href="/2014/11/10/应用架构/ iOS平台(移动平台)架构问题 /" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <p class="article-nav-title">架构的概念和最基本的三层架构</p>
+      <i class="icon" id="icon-chevron-left"></i>
+    </a>
+  
+</nav>
+
+  
+  <div class="widgets-container">
+    
+      
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="thumbnail">
+  
+    <span style="background-image:url(http://ww4.sinaimg.cn/large/9e446dffjw1esorix0zrej20hs06qq3q.jpg
+)" alt="2015-06-01滚动监听 触摸点获取 Tranform RecealApp" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/每日知识总结/">每日知识总结</a></p>
+              <p class="item-title"><a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="title">2015-06-01滚动监听 触摸点获取 Tranform RecealApp</a></p>
+              <p class="item-date"><time datetime="2015-06-01T09:57:26.000Z" itemprop="datePublished">2015-06-01</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="thumbnail">
+  
+    <span class="thumbnail-image thumbnail-none"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/iOS-OC/">iOS&OC</a></p>
+              <p class="item-title"><a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="title">关于@property中NSString的copy-深入细节</a></p>
+              <p class="item-date"><time datetime="2015-05-20T02:01:14.000Z" itemprop="datePublished">2015-05-20</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
+  
+    <span style="background-image:url(./15.1.png
+)" alt="15-图层性能" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="title">15-图层性能</a></p>
+              <p class="item-date"><time datetime="2015-05-12T01:32:52.000Z" itemprop="datePublished">2015-05-12</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="thumbnail">
+  
+    <span style="background-image:url(./14.1.jpeg
+)" alt="14-图像 IO " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="title">14-图像 IO </a></p>
+              <p class="item-date"><time datetime="2015-05-10T01:32:52.000Z" itemprop="datePublished">2015-05-10</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
+  
+    <span style="background-image:url(./13.1.png
+)" alt="13-高效绘图 " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="title">13-高效绘图 </a></p>
+              <p class="item-date"><time datetime="2015-05-07T01:32:52.000Z" itemprop="datePublished">2015-05-07</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS-OC/">iOS&OC</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/主页维护记录/">主页维护记录</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/应用架构/">应用架构</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/每日知识总结/">每日知识总结</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/辅助编程技能/">辅助编程技能</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">四月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/小脚本大智慧/">小脚本大智慧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试小样/">测试小样</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题解决和思考/">问题解决和思考</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高效OC编程/">高效OC编程</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-float">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/小脚本大智慧/" style="font-size: 10px;">小脚本大智慧</a><a href="/tags/正则表达式/" style="font-size: 13.33px;">正则表达式</a><a href="/tags/测试小样/" style="font-size: 10px;">测试小样</a><a href="/tags/问题解决和思考/" style="font-size: 20px;">问题解决和思考</a><a href="/tags/高效OC编程/" style="font-size: 16.67px;">高效OC编程</a>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+  
+  <div class="container">
+    <div class="container-inner">
+      <a id="back-to-top" href="javascript:;"><i class="icon" id="icon-angle-up"></i></a>
+      <div class="credit">
+        <h1 class="logo-wrap">
+          <a href="/" class="logo"></a>
+        </h1>
+        <p>&copy; 2015 桂庆</p>
+        <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+  <script src="/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+  <script src="/scrollLoading/main.js" type="text/javascript"></script>
+
+
+<script src="/js/html-patch.js" type="text/javascript"></script>
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

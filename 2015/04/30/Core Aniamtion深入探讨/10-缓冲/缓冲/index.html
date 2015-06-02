@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>10-缓冲 | 桂庆的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="缓冲
+生活和艺术一样，最美的永远是曲线。 — 爱德华布尔沃 - 利顿
+
+在第九章“图层时间”中，我们讨论了动画时间和CAMediaTiming协议。现在我们来看一下另一个和时间相关的机制—所谓的缓冲。Core Animation使用缓冲来使动画移动更平滑更自然，而不是看起来的那种机械和人工，在这一章我们将要研究如何对你的动画控制和自定义缓冲曲线。
+动画速度动画实际上就是一段时间内的变化，这就暗示了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10-缓冲">
+<meta property="og:url" content="http://yoursite.com/2015/04/30/Core Aniamtion深入探讨/10-缓冲/缓冲/index.html">
+<meta property="og:site_name" content="桂庆的个人主页">
+<meta property="og:description" content="缓冲
+生活和艺术一样，最美的永远是曲线。 — 爱德华布尔沃 - 利顿
+
+在第九章“图层时间”中，我们讨论了动画时间和CAMediaTiming协议。现在我们来看一下另一个和时间相关的机制—所谓的缓冲。Core Animation使用缓冲来使动画移动更平滑更自然，而不是看起来的那种机械和人工，在这一章我们将要研究如何对你的动画控制和自定义缓冲曲线。
+动画速度动画实际上就是一段时间内的变化，这就暗示了">
+<meta property="og:image" content="10.1.jpeg">
+<meta property="og:image" content="10.2.jpeg">
+<meta property="og:image" content="10.3.jpeg">
+<meta property="og:image" content="10.4.jpeg">
+<meta property="og:image" content="10.5.jpeg">
+<meta property="og:image" content="10.6.jpeg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="10-缓冲">
+<meta name="twitter:description" content="缓冲
+生活和艺术一样，最美的永远是曲线。 — 爱德华布尔沃 - 利顿
+
+在第九章“图层时间”中，我们讨论了动画时间和CAMediaTiming协议。现在我们来看一下另一个和时间相关的机制—所谓的缓冲。Core Animation使用缓冲来使动画移动更平滑更自然，而不是看起来的那种机械和人工，在这一章我们将要研究如何对你的动画控制和自定义缓冲曲线。
+动画速度动画实际上就是一段时间内的变化，这就暗示了">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  
+  
+    <link rel="stylesheet" href="/scrollLoading/style.css" type="text/css">
+  
+  
+
+
+  
+    <style type="text/css">
+      .logo { background-image:url(http://ppoffice.github.io/hexo-theme-hueman/css/images/logo-header.png); }
+    </style>
+  
+
+  
+    <link href='//fonts.useso.com/css?family=Titillium+Web:300,400,600' rel='stylesheet' type='text/css'>
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="wrap">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div class="container">
+      <div class="container-inner">
+        <div id="header-title">
+          <h1 class="logo-wrap">
+            <a href="/" class="logo"></a>
+          </h1>
+          
+            <h2 class="subtitle-wrap">
+              <p class="subtitle">记录自己的学习 工作 感悟</p>
+            </h2>
+          
+        </div>
+        <div id="header-inner" class="nav-container">
+          <a id="main-nav-toggle" class="nav-icon"></a>
+          <div class="nav-container-inner">
+            <ul id="main-nav">
+              
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/">主页</a></li>
+              
+                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/iOS-OC/">iOS&OC</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/主页维护记录/">主页维护记录</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/应用架构/">应用架构</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/每日知识总结/">每日知识总结</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/辅助编程技能/">辅助编程技能</a></li></ul>
+                  
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/about/index.html">关于我</a></li>
+              
+            </ul>
+            <nav id="sub-nav">
+              <div id="search-form-wrap">
+                <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="container">
+      <div class="main-body container-inner">
+        <div class="main-body-inner">
+          <section id="main">
+            <div class="main-body-header">
+
+              <h1 class="header"><a class="page-title-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></h1>
+            </div>
+            <div class="main-body-content">
+              
+  <article id="post-Core Aniamtion深入探讨/10-缓冲/缓冲" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+      <!--  -->
+      
+        <header class="article-header">
+          
+  
+    <h1 class="article-title" itemprop="name">
+      10-缓冲
+    </h1>
+  
+
+        </header>
+      
+      <p class="article-byline">
+        <a href="/2015/04/30/Core Aniamtion深入探讨/10-缓冲/缓冲/" class="article-date">
+  <time datetime="2015-04-30T01:32:52.000Z" itemprop="datePublished">2015-04-30</time>
+</a>
+      </p>
+      <div class="article-entry" itemprop="articleBody">
+        <h1 id="缓冲">缓冲</h1><blockquote>
+<p>生活和艺术一样，最美的永远是曲线。 — 爱德华布尔沃 - 利顿</p>
+</blockquote>
+<p>在第九章“图层时间”中，我们讨论了动画时间和<code>CAMediaTiming</code>协议。现在我们来看一下另一个和时间相关的机制—所谓的<em>缓冲</em>。Core Animation使用缓冲来使动画移动更平滑更自然，而不是看起来的那种机械和人工，在这一章我们将要研究如何对你的动画控制和自定义缓冲曲线。</p>
+<h2 id="动画速度">动画速度</h2><p>动画实际上就是一段时间内的变化，这就暗示了变化一定是随着某个特定的速率进行。速率由以下公式计算而来：</p>
+<pre><code>velocity = <span class="operator"><span class="keyword">change</span> / <span class="keyword">time</span></span>
+</code></pre><p>这里的<em>变化</em>可以指的是一个物体移动的距离，<em>时间</em>指动画持续的时长，用这样的一个移动可以更加形象的描述（比如<code>position</code>和<code>bounds</code>属性的动画），但实际上它应用于任意可以做动画的属性（比如<code>color</code>和<code>opacity</code>）。</p>
+<p>上面的等式假设了速度在整个动画过程中都是恒定不变的（就如同第八章“显式动画”的情况），对于这种恒定速度的动画我们称之为“线性步调”，而且从技术的角度而言这也是实现动画最简单的方式，但也是<em>完全不真实</em>的一种效果。</p>
+<p>考虑一个场景，一辆车行驶在一定距离内，它并不会一开始就以60mph的速度行驶，然后到达终点后突然变成0mph。一是因为需要无限大的加速度（即使是最好的车也不会在0秒内从0跑到60），另外不然的话会干死所有乘客。在现实中，它会慢慢地加速到全速，然后当它接近终点的时候，它会慢慢地减速，直到最后停下来。</p>
+<p>那么对于一个掉落到地上的物体又会怎样呢？它会首先停在空中，然后一直加速到落到地面，然后突然停止（然后由于积累的动能转换伴随着一声巨响，砰！）。</p>
+<p>现实生活中的任何一个物体都会在运动中加速或者减速。那么我们如何在动画中实现这种加速度呢？一种方法是使用<em>物理引擎</em>来对运动物体的摩擦和动量来建模，然而这会使得计算过于复杂。我们称这种类型的方程为<em>缓冲函数</em>，幸运的是，Core Animation内嵌了一系列标准函数提供给我们使用。</p>
+<h3 id="CAMediaTimingFunction"><code>CAMediaTimingFunction</code></h3><p>那么该如何使用缓冲方程式呢？首先需要设置<code>CAAnimation</code>的<code>timingFunction</code>属性，是<code>CAMediaTimingFunction</code>类的一个对象。如果想改变隐式动画的计时函数，同样也可以使用<code>CATransaction</code>的<code>+setAnimationTimingFunction:</code>方法。</p>
+<p>这里有一些方式来创建<code>CAMediaTimingFunction</code>，最简单的方式是调用<code>+timingFunctionWithName:</code>的构造方法。这里传入如下几个常量之一：</p>
+<pre><code>k<span class="built_in">CAMediaTimingFunctionLinear</span> 
+k<span class="built_in">CAMediaTimingFunctionEaseIn</span> 
+k<span class="built_in">CAMediaTimingFunctionEaseOut</span> 
+k<span class="built_in">CAMediaTimingFunctionEaseInEaseOut</span>
+k<span class="built_in">CAMediaTimingFunctionDefault</span>
+</code></pre><p><code>kCAMediaTimingFunctionLinear</code>选项创建了一个线性的计时函数，同样也是<code>CAAnimation</code>的<code>timingFunction</code>属性为空时候的默认函数。线性步调对于那些立即加速并且保持匀速到达终点的场景会有意义（例如射出枪膛的子弹），但是默认来说它看起来很奇怪，因为对大多数的动画来说确实很少用到。</p>
+<p><code>kCAMediaTimingFunctionEaseIn</code>常量创建了一个慢慢加速然后突然停止的方法。对于之前提到的自由落体的例子来说很适合，或者比如对准一个目标的导弹的发射。</p>
+<p><code>kCAMediaTimingFunctionEaseOut</code>则恰恰相反，它以一个全速开始，然后慢慢减速停止。它有一个削弱的效果，应用的场景比如一扇门慢慢地关上，而不是砰地一声。</p>
+<p><code>kCAMediaTimingFunctionEaseInEaseOut</code>创建了一个慢慢加速然后再慢慢减速的过程。这是现实世界大多数物体移动的方式，也是大多数动画来说最好的选择。如果只可以用一种缓冲函数的话，那就必须是它了。那么你会疑惑为什么这不是默认的选择，实际上当使用<code>UIView</code>的动画方法时，他的确是默认的，但当创建<code>CAAnimation</code>的时候，就需要手动设置它了。</p>
+<p>最后还有一个<code>kCAMediaTimingFunctionDefault</code>，它和<code>kCAMediaTimingFunctionEaseInEaseOut</code>很类似，但是加速和减速的过程都稍微有些慢。它和<code>kCAMediaTimingFunctionEaseInEaseOut</code>的区别很难察觉，可能是苹果觉得它对于隐式动画来说更适合（然后对UIKit就改变了想法，而是使用<code>kCAMediaTimingFunctionEaseInEaseOut</code>作为默认效果），虽然它的名字说是默认的，但还是要记住当创建<em>显式</em>的<code>CAAnimation</code>它并不是默认选项（换句话说，默认的图层行为动画用<code>kCAMediaTimingFunctionDefault</code>作为它们的计时方法）。</p>
+<p>你可以使用一个简单的测试工程来实验一下（清单10.1），在运行之前改变缓冲函数的代码，然后点击任何地方来观察图层是如何通过指定的缓冲移动的。</p>
+<p>清单10.1 缓冲函数的简单测试</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, strong) CALayer *colorLayer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create a red layer&#10;    self.colorLayer = [CALayer layer];&#10;    self.colorLayer.frame = CGRectMake(0, 0, 100, 100);&#10;    self.colorLayer.position = CGPointMake(self.view.bounds.size.width/2.0, self.view.bounds.size.height/2.0);&#10;    self.colorLayer.backgroundColor = [UIColor redColor].CGColor;&#10;    [self.view.layer addSublayer:self.colorLayer];&#10;&#125;&#10;&#10;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#10;    //configure the transaction&#10;    [CATransaction begin];&#10;    [CATransaction setAnimationDuration:1.0];&#10;    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];&#10;    //set the position&#10;    self.colorLayer.position = [[touches anyObject] locationInView:self.view];&#10;    //commit transaction&#10;    [CATransaction commit];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<h3 id="UIView的动画缓冲"><code>UIView</code>的动画缓冲</h3><p>UIKit的动画也同样支持这些缓冲方法的使用，尽管语法和常量有些不同，为了改变<code>UIView</code>动画的缓冲选项，给<code>options</code>参数添加如下常量之一：</p>
+<pre><code><span class="built_in">UIViewAnimationOptionCurveEaseInOut</span> 
+<span class="built_in">UIViewAnimationOptionCurveEaseIn</span> 
+<span class="built_in">UIViewAnimationOptionCurveEaseOut</span> 
+<span class="built_in">UIViewAnimationOptionCurveLinear</span>
+</code></pre><p>它们和<code>CAMediaTimingFunction</code>紧密关联，<code>UIViewAnimationOptionCurveEaseInOut</code>是默认值（这里没有<code>kCAMediaTimingFunctionDefault</code>相对应的值了）。</p>
+<p>具体使用方法见清单10.2（注意到这里不再使用<code>UIView</code>额外添加的图层，因为UIKit的动画并不支持这类图层）。</p>
+<p>清单10.2 使用UIKit动画的缓冲测试工程</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, strong) UIView *colorView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create a red layer&#10;    self.colorView = [[UIView alloc] init];&#10;    self.colorView.bounds = CGRectMake(0, 0, 100, 100);&#10;    self.colorView.center = CGPointMake(self.view.bounds.size.width / 2, self.view.bounds.size.height / 2);&#10;    self.colorView.backgroundColor = [UIColor redColor];&#10;    [self.view addSubview:self.colorView];&#10;&#125;&#10;&#10;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#10;    //perform the animation&#10;    [UIView animateWithDuration:1.0 delay:0.0&#10;                        options:UIViewAnimationOptionCurveEaseOut&#10;                     animations:^&#123;&#10;                            //set the position&#10;                            self.colorView.center = [[touches anyObject] locationInView:self.view];&#10;                        &#125;&#10;                     completion:NULL];&#10;    &#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<h3 id="缓冲和关键帧动画">缓冲和关键帧动画</h3><p>或许你会回想起第八章里面颜色切换的关键帧动画由于线性变换的原因（见清单8.5）看起来有些奇怪，使得颜色变换非常不自然。为了纠正这点，我们来用更加合适的缓冲方法，例如<code>kCAMediaTimingFunctionEaseIn</code>，给图层的颜色变化添加一点<em>脉冲</em>效果，让它更像现实中的一个彩色灯泡。</p>
+<p>我们不想给整个动画过程应用这个效果，我们希望对每个动画的过程重复这样的缓冲，于是每次颜色的变换都会有脉冲效果。</p>
+<p><code>CAKeyframeAnimation</code>有一个<code>NSArray</code>类型的<code>timingFunctions</code>属性，我们可以用它来对每次动画的步骤指定不同的计时函数。但是指定函数的个数一定要等于<code>keyframes</code>数组的元素个数<em>减一</em>，因为它是描述每一帧之间动画速度的函数。</p>
+<p>在这个例子中，我们自始至终想使用同一个缓冲函数，但我们同样需要一个函数的数组来告诉动画不停地重复每个步骤，而不是在整个动画序列只做一次缓冲，我们简单地使用包含多个相同函数拷贝的数组就可以了（见清单10.3）。</p>
+<p>运行更新后的代码，你会发现动画看起来更加自然了。</p>
+<p>清单10.3 对<code>CAKeyframeAnimation</code>使用<code>CAMediaTimingFunction</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView;&#10;@property (nonatomic, weak) IBOutlet CALayer *colorLayer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create sublayer&#10;    self.colorLayer = [CALayer layer];&#10;    self.colorLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);&#10;    self.colorLayer.backgroundColor = [UIColor blueColor].CGColor;&#10;    //add it to our view&#10;    [self.layerView.layer addSublayer:self.colorLayer];&#10;&#125;&#10;&#10;- (IBAction)changeColor&#10;&#123;&#10;    //create a keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;backgroundColor&#34;;&#10;    animation.duration = 2.0;&#10;    animation.values = @[&#10;                         (__bridge id)[UIColor blueColor].CGColor,&#10;                         (__bridge id)[UIColor redColor].CGColor,&#10;                         (__bridge id)[UIColor greenColor].CGColor,&#10;                         (__bridge id)[UIColor blueColor].CGColor ];&#10;    //add timing function&#10;    CAMediaTimingFunction *fn = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn];&#10;    animation.timingFunctions = @[fn, fn, fn];&#10;    //apply animation to layer&#10;    [self.colorLayer addAnimation:animation forKey:nil];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<h2 id="自定义缓冲函数">自定义缓冲函数</h2><p>在第八章中，我们给时钟项目添加了动画。看起来很赞，但是如果有合适的缓冲函数就更好了。在显示世界中，钟表指针转动的时候，通常起步很慢，然后迅速啪地一声，最后缓冲到终点。但是标准的缓冲函数在这里每一个适合它，那该如何创建一个新的呢？</p>
+<p>除了<code>+functionWithName:</code>之外，<code>CAMediaTimingFunction</code>同样有另一个构造函数，一个有四个浮点参数的<code>+functionWithControlPoints::::</code>（注意这里奇怪的语法，并没有包含具体每个参数的名称，这在objective-C中是合法的，但是却违反了苹果对方法命名的指导方针，而且看起来是一个奇怪的设计）。</p>
+<p>使用这个方法，我们可以创建一个自定义的缓冲函数，来匹配我们的时钟动画，为了理解如何使用这个方法，我们要了解一些<code>CAMediaTimingFunction</code>是如何工作的。</p>
+<h3 id="三次贝塞尔曲线">三次贝塞尔曲线</h3><p><code>CAMediaTimingFunction</code>函数的主要原则在于它把输入的时间转换成起点和终点之间成比例的改变。我们可以用一个简单的图标来解释，横轴代表时间，纵轴代表改变的量，于是线性的缓冲就是一条从起点开始的简单的斜线（图10.1）。</p>
+<p><img src="10.1.jpeg" alt="图10.1" title="图10.1" width="700"></p>
+<p>图10.1 线性缓冲函数的图像</p>
+<p>这条曲线的斜率代表了速度，斜率的改变代表了加速度，原则上来说，任何加速的曲线都可以用这种图像来表示，但是<code>CAMediaTimingFunction</code>使用了一个叫做<em>三次贝塞尔曲线</em>的函数，它只可以产出指定缓冲函数的子集（我们之前在第八章中创建<code>CAKeyframeAnimation</code>路径的时候提到过三次贝塞尔曲线）。</p>
+<p>你或许会回想起，一个三次贝塞尔曲线通过四个点来定义，第一个和最后一个点代表了曲线的起点和终点，剩下中间两个点叫做<em>控制点</em>，因为它们控制了曲线的形状，贝塞尔曲线的控制点其实是位于曲线之外的点，也就是说曲线并不一定要穿过它们。你可以把它们想象成吸引经过它们曲线的磁铁。</p>
+<p>图10.2展示了一个三次贝塞尔缓冲函数的例子</p>
+<p><img src="10.2.jpeg" alt="图10.2" title="图10.2" width="700"></p>
+<p>图10.2 三次贝塞尔缓冲函数</p>
+<p>实际上它是一个很奇怪的函数，先加速，然后减速，最后快到达终点的时候又加速，那么标准的缓冲函数又该如何用图像来表示呢？</p>
+<p><code>CAMediaTimingFunction</code>有一个叫做<code>-getControlPointAtIndex:values:</code>的方法，可以用来检索曲线的点，这个方法的设计的确有点奇怪（或许也就只有苹果能回答为什么不简单返回一个<code>CGPoint</code>），但是使用它我们可以找到标准缓冲函数的点，然后用<code>UIBezierPath</code>和<code>CAShapeLayer</code>来把它画出来。</p>
+<p>曲线的起始和终点始终是{0, 0}和{1, 1}，于是我们只需要检索曲线的第二个和第三个点（控制点）。具体代码见清单10.4。所有的标准缓冲函数的图像见图10.3。</p>
+<p>清单10.4 使用<code>UIBezierPath</code>绘制<code>CAMediaTimingFunction</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create timing function&#10;    CAMediaTimingFunction *function = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut];&#10;    //get control points&#10;    CGPoint controlPoint1, controlPoint2;&#10;    [function getControlPointAtIndex:1 values:(float *)&#38;controlPoint1];&#10;    [function getControlPointAtIndex:2 values:(float *)&#38;controlPoint2];&#10;    //create curve&#10;    UIBezierPath *path = [[UIBezierPath alloc] init];&#10;    [path moveToPoint:CGPointZero];&#10;    [path addCurveToPoint:CGPointMake(1, 1)&#10;            controlPoint1:controlPoint1 controlPoint2:controlPoint2];&#10;    //scale the path up to a reasonable size for display&#10;    [path applyTransform:CGAffineTransformMakeScale(200, 200)];&#10;    //create shape layer&#10;    CAShapeLayer *shapeLayer = [CAShapeLayer layer];&#10;    shapeLayer.strokeColor = [UIColor redColor].CGColor;&#10;    shapeLayer.fillColor = [UIColor clearColor].CGColor;&#10;    shapeLayer.lineWidth = 4.0f;&#10;    shapeLayer.path = path.CGPath;&#10;    [self.layerView.layer addSublayer:shapeLayer];&#10;    //flip geometry so that 0,0 is in the bottom-left&#10;    self.layerView.layer.geometryFlipped = YES;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p><img src="10.3.jpeg" alt="图10.3" title="图10.3" width="700"></p>
+<p>图10.3 标准<code>CAMediaTimingFunction</code>缓冲曲线</p>
+<p>那么对于我们自定义时钟指针的缓冲函数来说，我们需要初始微弱，然后迅速上升，最后缓冲到终点的曲线，通过一些实验之后，最终结果如下：</p>
+<pre><code><span class="title">[CAMediaTimingFunction functionWithControlPoints:1 :0 :0.75 :1]</span><span class="comment">;</span>
+</code></pre><p>如果把它转换成缓冲函数的图像，最后如图10.4所示，如果把它添加到时钟的程序，就形成了之前一直期待的非常赞的效果（见代清单10.5）。</p>
+<p><img src="10.4.jpeg" alt="图10.4" title="图10.4" width="700"></p>
+<p>图10.4 自定义适合时钟的缓冲函数</p>
+<p>清单10.5 添加了自定义缓冲函数的时钟程序</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)setAngle:(CGFloat)angle forHand:(UIView *)handView &#65532;animated:(BOOL)animated&#10;&#123;&#10;    //generate transform&#10;    CATransform3D transform = CATransform3DMakeRotation(angle, 0, 0, 1);&#10;    if (animated) &#123;&#10;        //create transform animation&#10;        CABasicAnimation *animation = [CABasicAnimation animation];&#10;        animation.keyPath = @&#34;transform&#34;;&#10;        animation.fromValue = [handView.layer.presentationLayer valueForKey:@&#34;transform&#34;];&#10;        animation.toValue = [NSValue valueWithCATransform3D:transform];&#10;        animation.duration = 0.5;&#10;        animation.delegate = self;&#10;        animation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:1 :0 :0.75 :1];&#10;        //apply animation&#10;        handView.layer.transform = transform;&#10;        [handView.layer addAnimation:animation forKey:nil];&#10;    &#125; else &#123;&#10;        //set transform directly&#10;        handView.layer.transform = transform;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="更加复杂的动画曲线">更加复杂的动画曲线</h3><p>考虑一个橡胶球掉落到坚硬的地面的场景，当开始下落的时候，它会持续加速知道落到地面，然后经过几次反弹，最后停下来。如果用一张图来说明，它会如图10.5所示。</p>
+<p><img src="10.5.jpeg" alt="图10.5" title="图10.5" width="700"></p>
+<p>图10.5 一个没法用三次贝塞尔曲线描述的反弹的动画</p>
+<p>这种效果没法用一个简单的三次贝塞尔曲线表示，于是不能用<code>CAMediaTimingFunction</code>来完成。但如果想要实现这样的效果，可以用如下几种方法：</p>
+<ul>
+<li>用<code>CAKeyframeAnimation</code>创建一个动画，然后分割成几个步骤，每个小步骤使用自己的计时函数（具体下节介绍）。</li>
+<li>使用定时器逐帧更新实现动画（见第11章，“基于定时器的动画”）。</li>
+</ul>
+<h3 id="基于关键帧的缓冲">基于关键帧的缓冲</h3><p>为了使用关键帧实现反弹动画，我们需要在缓冲曲线中对每一个显著的点创建一个关键帧（在这个情况下，关键点也就是每次反弹的峰值），然后应用缓冲函数把每段曲线连接起来。同时，我们也需要通过<code>keyTimes</code>来指定每个关键帧的时间偏移，由于每次反弹的时间都会减少，于是关键帧并不会均匀分布。</p>
+<p>清单10.6展示了实现反弹球动画的代码（见图10.6）</p>
+<p>清单10.6 使用关键帧实现反弹球的动画</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, strong) UIImageView *ballView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //add ball image view&#10;    UIImage *ballImage = [UIImage imageNamed:@&#34;Ball.png&#34;];&#10;    self.ballView = [[UIImageView alloc] initWithImage:ballImage];&#10;    [self.containerView addSubview:self.ballView];&#10;    //animate&#10;    [self animate];&#10;&#125;&#10;&#10;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#10;    //replay animation on tap&#10;    [self animate];&#10;&#125;&#10;&#10;- (void)animate&#10;&#123;&#10;    //reset ball to top of screen&#10;    self.ballView.center = CGPointMake(150, 32);&#10;    //create keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;position&#34;;&#10;    animation.duration = 1.0;&#10;    animation.delegate = self;&#10;    animation.values = @[&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 32)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 140)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 220)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 250)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)]&#10;                         ];&#10;    &#10;    animation.timingFunctions = @[&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn]&#10;                                  ];&#10;    &#10;    animation.keyTimes = @[@0.0, @0.3, @0.5, @0.7, @0.8, @0.9, @0.95, @1.0];&#10;    //apply animation&#10;    self.ballView.layer.position = CGPointMake(150, 268);&#10;    [self.ballView.layer addAnimation:animation forKey:nil];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p><img src="10.6.jpeg" alt="图10.6" title="图10.6" width="700"></p>
+<p>图10.6 使用关键帧实现的反弹球动画</p>
+<p>这种方式还算不错，但是实现起来略显笨重（因为要不停地尝试计算各种关键帧和时间偏移）并且和动画强绑定了（因为如果要改变动画的一个属性，那就意味着要重新计算所有的关键帧）。那该如何写一个方法，用缓冲函数来把任何简单的属性动画转换成关键帧动画呢，下面我们来实现它。</p>
+<h3 id="流程自动化">流程自动化</h3><p>在清单10.6中，我们把动画分割成相当大的几块，然后用Core Animation的缓冲进入和缓冲退出函数来大约形成我们想要的曲线。但如果我们把动画分割成更小的几部分，那么我们就可以用直线来拼接这些曲线（也就是线性缓冲）。为了实现自动化，我们需要知道如何做如下两件事情：</p>
+<ul>
+<li>自动把任意属性动画分割成多个关键帧</li>
+<li>用一个数学函数表示弹性动画，使得可以对帧做便宜</li>
+</ul>
+<p>为了解决第一个问题，我们需要复制Core Animation的插值机制。这是一个传入起点和终点，然后在这两个点之间指定时间点产出一个新点的机制。对于简单的浮点起始值，公式如下（假设时间从0到1）：</p>
+<pre><code>value = (endValue – startValue) × <span class="property">time</span> + startValue;
+</code></pre><p>那么如果要插入一个类似于<code>CGPoint</code>，<code>CGColorRef</code>或者<code>CATransform3D</code>这种更加复杂类型的值，我们可以简单地对每个独立的元素应用这个方法（也就<code>CGPoint</code>中的x和y值，<code>CGColorRef</code>中的红，蓝，绿，透明值，或者是<code>CATransform3D</code>中独立矩阵的坐标）。我们同样需要一些逻辑在插值之前对对象拆解值，然后在插值之后在重新封装成对象，也就是说需要实时地检查类型。</p>
+<p>一旦我们可以用代码获取属性动画的起始值之间的任意插值，我们就可以把动画分割成许多独立的关键帧，然后产出一个线性的关键帧动画。清单10.7展示了相关代码。</p>
+<p>注意到我们用了60 x 动画时间（秒做单位）作为关键帧的个数，这时因为Core Animation按照每秒60帧去渲染屏幕更新，所以如果我们每秒生成60个关键帧，就可以保证动画足够的平滑（尽管实际上很可能用更少的帧率就可以达到很好的效果）。</p>
+<p>我们在示例中仅仅引入了对<code>CGPoint</code>类型的插值代码。但是，从代码中很清楚能看出如何扩展成支持别的类型。作为不能识别类型的备选方案，我们仅仅在前一半返回了<code>fromValue</code>，在后一半返回了<code>toValue</code>。</p>
+<p>清单10.7 使用插入的值创建一个关键帧动画</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float interpolate(float from, float to, float time)&#10;&#123;&#10;    return (to - from) * time + from;&#10;&#125;&#10;&#10;- (id)interpolateFromValue:(id)fromValue toValue:(id)toValue time:(float)time&#10;&#123;&#10;    if ([fromValue isKindOfClass:[NSValue class]]) &#123;&#10;        //get type&#10;        const char *type = [fromValue objCType];&#10;        if (strcmp(type, @encode(CGPoint)) == 0) &#123;&#10;            CGPoint from = [fromValue CGPointValue];&#10;            CGPoint to = [toValue CGPointValue];&#10;            CGPoint result = CGPointMake(interpolate(from.x, to.x, time), interpolate(from.y, to.y, time));&#10;            return [NSValue valueWithCGPoint:result];&#10;        &#125;&#10;    &#125;&#10;    //provide safe default implementation&#10;    return (time &#60; 0.5)? fromValue: toValue;&#10;&#125;&#10;&#10;- (void)animate&#10;&#123;&#10;    //reset ball to top of screen&#10;    self.ballView.center = CGPointMake(150, 32);&#10;    //set up animation parameters&#10;    NSValue *fromValue = [NSValue valueWithCGPoint:CGPointMake(150, 32)];&#10;    NSValue *toValue = [NSValue valueWithCGPoint:CGPointMake(150, 268)];&#10;    CFTimeInterval duration = 1.0;&#10;    //generate keyframes&#10;    NSInteger numFrames = duration * 60;&#10;    NSMutableArray *frames = [NSMutableArray array];&#10;    for (int i = 0; i &#60; numFrames; i++) &#123;&#10;        float time = 1 / (float)numFrames * i;&#10;        [frames addObject:[self interpolateFromValue:fromValue toValue:toValue time:time]];&#10;    &#125;&#10;    //create keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;position&#34;;&#10;    animation.duration = 1.0;&#10;    animation.delegate = self;&#10;    animation.values = frames;&#10;    //apply animation&#10;    [self.ballView.layer addAnimation:animation forKey:nil];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这可以起到作用，但效果并不是很好，到目前为止我们所完成的只是一个非常复杂的方式来使用线性缓冲复制<code>CABasicAnimation</code>的行为。这种方式的好处在于我们可以更加精确地控制缓冲，这也意味着我们可以应用一个完全定制的缓冲函数。那么该如何做呢？</p>
+<p>缓冲背后的数学并不很简单，但是幸运的是我们不需要一一实现它。罗伯特·彭纳有一个网页关于缓冲函数（<a href="http://www.robertpenner.com/easing" target="_blank" rel="external">http://www.robertpenner.com/easing</a>），包含了大多数普遍的缓冲函数的多种编程语言的实现的链接，包括C。这里是一个缓冲进入缓冲退出函数的示例（实际上有很多不同的方式去实现它）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">quadraticEaseInOut</span><span class="params">(<span class="keyword">float</span> t)</span> </span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (t &lt; <span class="number">0.5</span>)? (<span class="number">2</span> * t * t): (-<span class="number">2</span> * t * t) + (<span class="number">4</span> * t) - <span class="number">1</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对我们的弹性球来说，我们可以使用<code>bounceEaseOut</code>函数：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">bounceEaseOut</span><span class="params">(<span class="keyword">float</span> t)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (t &lt; <span class="number">4</span>/<span class="number">11.0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="number">121</span> * t * t)/<span class="number">16.0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (t &lt; <span class="number">8</span>/<span class="number">11.0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="number">363</span>/<span class="number">40.0</span> * t * t) - (<span class="number">99</span>/<span class="number">10.0</span> * t) + <span class="number">17</span>/<span class="number">5.0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (t &lt; <span class="number">9</span>/<span class="number">10.0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="number">4356</span>/<span class="number">361.0</span> * t * t) - (<span class="number">35442</span>/<span class="number">1805.0</span> * t) + <span class="number">16061</span>/<span class="number">1805.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">54</span>/<span class="number">5.0</span> * t * t) - (<span class="number">513</span>/<span class="number">25.0</span> * t) + <span class="number">268</span>/<span class="number">25.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果修改清单10.7的代码来引入<code>bounceEaseOut</code>方法，我们的任务就是仅仅交换缓冲函数，现在就可以选择任意的缓冲类型创建动画了（见清单10.8）。</p>
+<p>清单10.8 用关键帧实现自定义的缓冲函数</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)animate&#10;&#123;&#10;    //reset ball to top of screen&#10;    self.ballView.center = CGPointMake(150, 32);&#10;    //set up animation parameters&#10;    NSValue *fromValue = [NSValue valueWithCGPoint:CGPointMake(150, 32)];&#10;    NSValue *toValue = [NSValue valueWithCGPoint:CGPointMake(150, 268)];&#10;    CFTimeInterval duration = 1.0;&#10;    //generate keyframes&#10;    NSInteger numFrames = duration * 60;&#10;    NSMutableArray *frames = [NSMutableArray array];&#10;    for (int i = 0; i &#60; numFrames; i++) &#123;&#10;        float time = 1/(float)numFrames * i;&#10;        //apply easing&#10;        time = bounceEaseOut(time);&#10;        //add keyframe&#10;        [frames addObject:[self interpolateFromValue:fromValue toValue:toValue time:time]];&#10;    &#125;&#10;    //create keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;position&#34;;&#10;    animation.duration = 1.0;&#10;    animation.delegate = self;&#10;    animation.values = frames;&#10;    //apply animation&#10;    [self.ballView.layer addAnimation:animation forKey:nil];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2><p>在这一章中，我们了解了有关缓冲和<code>CAMediaTimingFunction</code>类，它可以允许我们创建自定义的缓冲函数来完善我们的动画，同样了解了如何用<code>CAKeyframeAnimation</code>来避开<code>CAMediaTimingFunction</code>的限制，创建完全自定义的缓冲函数。</p>
+<p>在下一章中，我们将要研究基于定时器的动画—另一个给我们对动画更多控制的选择，并且实现对动画的实时操纵。</p>
+<p><strong>来源网址:[<a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques](" target="_blank" rel="external">https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques](</a></strong>来源网址:<a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques__)__" target="_blank" rel="external">https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques__)__</a></p>
+
+      </div>
+      <footer class="article-footer">
+        <a data-url="http://yoursite.com/2015/04/30/Core Aniamtion深入探讨/10-缓冲/缓冲/" data-id="ciaek99j8002drafyxv2fwy6o" class="article-share-link">分享到</a>
+        
+        
+      </footer>
+    </div>
+  </article>
+  
+
+            </div>
+          </section>
+          <aside id="sidebar">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+  <div class="sidebar-top">
+    <p>关注我 :</p>
+    <ul class="social-links">
+      
+        <li><a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank"><i id="icon-github" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="weibo" href="/" target="_blank"><i id="icon-weibo" class="icon"></i></a></li>
+      
+    </ul>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/05/01/Core Aniamtion深入探讨/11-基于定时器的动画/基于定时器的动画/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <p class="article-nav-title">
+        
+          11-基于定时器的动画
+        
+      </p>
+      <i class="icon" id="icon-chevron-right"></i>
+    </a>
+  
+  
+    <a href="/2015/04/29/Core Aniamtion深入探讨/9-图层时间/图层时间/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <p class="article-nav-title">9-图层时间</p>
+      <i class="icon" id="icon-chevron-left"></i>
+    </a>
+  
+</nav>
+
+  
+  <div class="widgets-container">
+    
+      
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="thumbnail">
+  
+    <span style="background-image:url(http://ww4.sinaimg.cn/large/9e446dffjw1esorix0zrej20hs06qq3q.jpg
+)" alt="2015-06-01滚动监听 触摸点获取 Tranform RecealApp" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/每日知识总结/">每日知识总结</a></p>
+              <p class="item-title"><a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="title">2015-06-01滚动监听 触摸点获取 Tranform RecealApp</a></p>
+              <p class="item-date"><time datetime="2015-06-01T09:57:26.000Z" itemprop="datePublished">2015-06-01</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="thumbnail">
+  
+    <span class="thumbnail-image thumbnail-none"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/iOS-OC/">iOS&OC</a></p>
+              <p class="item-title"><a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="title">关于@property中NSString的copy-深入细节</a></p>
+              <p class="item-date"><time datetime="2015-05-20T02:01:14.000Z" itemprop="datePublished">2015-05-20</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
+  
+    <span style="background-image:url(./15.1.png
+)" alt="15-图层性能" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="title">15-图层性能</a></p>
+              <p class="item-date"><time datetime="2015-05-12T01:32:52.000Z" itemprop="datePublished">2015-05-12</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="thumbnail">
+  
+    <span style="background-image:url(./14.1.jpeg
+)" alt="14-图像 IO " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="title">14-图像 IO </a></p>
+              <p class="item-date"><time datetime="2015-05-10T01:32:52.000Z" itemprop="datePublished">2015-05-10</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
+  
+    <span style="background-image:url(./13.1.png
+)" alt="13-高效绘图 " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="title">13-高效绘图 </a></p>
+              <p class="item-date"><time datetime="2015-05-07T01:32:52.000Z" itemprop="datePublished">2015-05-07</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS-OC/">iOS&OC</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/主页维护记录/">主页维护记录</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/应用架构/">应用架构</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/每日知识总结/">每日知识总结</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/辅助编程技能/">辅助编程技能</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">四月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/小脚本大智慧/">小脚本大智慧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试小样/">测试小样</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题解决和思考/">问题解决和思考</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高效OC编程/">高效OC编程</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-float">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/小脚本大智慧/" style="font-size: 10px;">小脚本大智慧</a><a href="/tags/正则表达式/" style="font-size: 13.33px;">正则表达式</a><a href="/tags/测试小样/" style="font-size: 10px;">测试小样</a><a href="/tags/问题解决和思考/" style="font-size: 20px;">问题解决和思考</a><a href="/tags/高效OC编程/" style="font-size: 16.67px;">高效OC编程</a>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+  
+  <div class="container">
+    <div class="container-inner">
+      <a id="back-to-top" href="javascript:;"><i class="icon" id="icon-angle-up"></i></a>
+      <div class="credit">
+        <h1 class="logo-wrap">
+          <a href="/" class="logo"></a>
+        </h1>
+        <p>&copy; 2015 桂庆</p>
+        <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+  <script src="/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+  <script src="/scrollLoading/main.js" type="text/javascript"></script>
+
+
+<script src="/js/html-patch.js" type="text/javascript"></script>
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

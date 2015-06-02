@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS开发中,用脚本实现给文件添加@xx后缀-小脚本大智慧 | 桂庆的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="脚本是用于执行一些重复性的操作,非常小巧方便.不需要创建工程
+context自己最近手头有个项目,对方的美工是个完全的新手.所以,给的图片,虽然按照分辨率处理妥当(只有@2x版本),但是命名统一没有添加@2x,已经发过来了,让她去每个文件重新命名也是有点不近人情,自己去手动重命名更是傻瓜行为.  
+这种情况,脚本要粉末登场了.\&amp;lt;!—more—&amp;gt;  
+shell首先想到的是类unix系统的s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发中,用脚本实现给文件添加@xx后缀-小脚本大智慧">
+<meta property="og:url" content="http://yoursite.com/2015/04/04/辅助编程技能/提升效率的脚本/index.html">
+<meta property="og:site_name" content="桂庆的个人主页">
+<meta property="og:description" content="脚本是用于执行一些重复性的操作,非常小巧方便.不需要创建工程
+context自己最近手头有个项目,对方的美工是个完全的新手.所以,给的图片,虽然按照分辨率处理妥当(只有@2x版本),但是命名统一没有添加@2x,已经发过来了,让她去每个文件重新命名也是有点不近人情,自己去手动重命名更是傻瓜行为.  
+这种情况,脚本要粉末登场了.\&amp;lt;!—more—&amp;gt;  
+shell首先想到的是类unix系统的s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发中,用脚本实现给文件添加@xx后缀-小脚本大智慧">
+<meta name="twitter:description" content="脚本是用于执行一些重复性的操作,非常小巧方便.不需要创建工程
+context自己最近手头有个项目,对方的美工是个完全的新手.所以,给的图片,虽然按照分辨率处理妥当(只有@2x版本),但是命名统一没有添加@2x,已经发过来了,让她去每个文件重新命名也是有点不近人情,自己去手动重命名更是傻瓜行为.  
+这种情况,脚本要粉末登场了.\&amp;lt;!—more—&amp;gt;  
+shell首先想到的是类unix系统的s">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  
+  
+    <link rel="stylesheet" href="/scrollLoading/style.css" type="text/css">
+  
+  
+
+
+  
+    <style type="text/css">
+      .logo { background-image:url(http://ppoffice.github.io/hexo-theme-hueman/css/images/logo-header.png); }
+    </style>
+  
+
+  
+    <link href='//fonts.useso.com/css?family=Titillium+Web:300,400,600' rel='stylesheet' type='text/css'>
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="wrap">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div class="container">
+      <div class="container-inner">
+        <div id="header-title">
+          <h1 class="logo-wrap">
+            <a href="/" class="logo"></a>
+          </h1>
+          
+            <h2 class="subtitle-wrap">
+              <p class="subtitle">记录自己的学习 工作 感悟</p>
+            </h2>
+          
+        </div>
+        <div id="header-inner" class="nav-container">
+          <a id="main-nav-toggle" class="nav-icon"></a>
+          <div class="nav-container-inner">
+            <ul id="main-nav">
+              
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/">主页</a></li>
+              
+                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/iOS-OC/">iOS&OC</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/主页维护记录/">主页维护记录</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/应用架构/">应用架构</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/每日知识总结/">每日知识总结</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/辅助编程技能/">辅助编程技能</a></li></ul>
+                  
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/about/index.html">关于我</a></li>
+              
+            </ul>
+            <nav id="sub-nav">
+              <div id="search-form-wrap">
+                <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="container">
+      <div class="main-body container-inner">
+        <div class="main-body-inner">
+          <section id="main">
+            <div class="main-body-header">
+
+              <h1 class="header"><a class="page-title-link" href="/categories/辅助编程技能/">辅助编程技能</a></h1>
+            </div>
+            <div class="main-body-content">
+              
+  <article id="post-辅助编程技能/提升效率的脚本" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+      <!--  -->
+      
+        <header class="article-header">
+          
+  
+    <h1 class="article-title" itemprop="name">
+      iOS开发中,用脚本实现给文件添加@xx后缀-小脚本大智慧
+    </h1>
+  
+
+        </header>
+      
+      <p class="article-byline">
+        <a href="/2015/04/04/辅助编程技能/提升效率的脚本/" class="article-date">
+  <time datetime="2015-04-04T03:03:06.000Z" itemprop="datePublished">2015-04-04</time>
+</a>
+      </p>
+      <div class="article-entry" itemprop="articleBody">
+        <p><em>脚本是用于执行一些重复性的操作,非常小巧方便.不需要创建工程</em></p>
+<h1 id="context">context</h1><p>自己最近手头有个项目,对方的美工是个完全的新手.所以,给的图片,虽然按照分辨率处理妥当(只有<code>@2x</code>版本),但是命名统一没有添加<code>@2x</code>,已经发过来了,让她去每个文件重新命名也是有点不近人情,自己去手动重命名更是傻瓜行为.  </p>
+<p>这种情况,脚本要粉末登场了.<br>\&lt;!—more—>  </p>
+<h2 id="shell">shell</h2><p>首先想到的是类<code>unix</code>系统的<code>shell</code>,这种强大于<code>windows</code>下<code>cmd</code>的存在.以前,自己仅仅会一些简单地命令行命令.写这种相对具有一定功能的脚本还是第一次,好在,经过各种查找资料,终于写了出来.  </p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">`# !/bin/bash</span><br><span class="line"><span class="keyword">append</span>=<span class="string">"@2x"</span></span><br><span class="line">ext=<span class="string">"png"</span></span><br><span class="line"><span class="keyword">dir</span>=$(eval <span class="keyword">pwd</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">file</span> <span class="keyword">in</span> $(<span class="keyword">ls</span> <span class="label">$dir</span> | grep .<span class="label">$oldext</span>)</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">name=$(<span class="keyword">ls</span> <span class="label">$file</span> | cut -<span class="keyword">d</span>. -f1)<span class="label">$append</span></span><br><span class="line">mv <span class="label">$file</span> <span class="label">$&#123;name&#125;</span>.<span class="label">$ext</span></span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>`<br>可以看出,即使没有可以精简,只需要不到10行代码即可完成任务.</p>
+<h2 id="python">python</h2><p>既然想到了脚本,自己难以抑制的就取想<code>python</code>了,于是有了下面的代码  </p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">`import os</span><br><span class="line"></span><br><span class="line">path = <span class="string">'.'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> os.<span class="function"><span class="title">listdir</span><span class="params">(os.curdir)</span></span>:</span><br><span class="line">f,ext=os<span class="class">.path</span><span class="class">.splitext</span>(file)</span><br><span class="line"><span class="keyword">if</span> <span class="string">'.png'</span>==ext :</span><br><span class="line">newfile = f+<span class="string">'@2x'</span>+ext</span><br><span class="line">print newfile</span><br><span class="line">os.<span class="function"><span class="title">renames</span><span class="params">(file,newfile)</span></span></span><br></pre></td></tr></table></figure>
+<p>`  </p>
+<p>不出所料,也是非常简单的.  </p>
+<h2 id="更进一步">更进一步</h2><p>现在两者实现的功能都是非常简单地,而且只能命名当前目录的<code>png</code>后缀的文件.最终,我选择用<code>python</code>代码更进一步.  </p>
+<p>定义两个函数,一个递归增加后缀,一个递归删除后缀(python版本是2.7.9),具体什么操作,只要后面调用一下即可.  </p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">`__author__ = <span class="string">'katsura'</span>  </span><br><span class="line">  </span><br><span class="line">import os  </span><br><span class="line">  </span><br><span class="line">def <span class="function"><span class="title">add_suffix</span><span class="params">(suffix)</span></span> :  </span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> os.<span class="function"><span class="title">listdir</span><span class="params">(os.path.curdir)</span></span> :  </span><br><span class="line">        print file  </span><br><span class="line">        <span class="keyword">if</span> file[<span class="number">0</span>:<span class="number">1</span>]() == <span class="string">'.'</span> :  </span><br><span class="line">            continue  </span><br><span class="line">        filename,ext = os<span class="class">.path</span><span class="class">.splitext</span>(file)  </span><br><span class="line">        <span class="keyword">if</span> <span class="string">'.png'</span> == ext :  </span><br><span class="line">            newfilename =  filename+suffix+ext  </span><br><span class="line">            os.<span class="function"><span class="title">renames</span><span class="params">(file,newfilename)</span></span>  </span><br><span class="line">        <span class="keyword">if</span> os<span class="class">.path</span><span class="class">.isdir</span>(file) :  </span><br><span class="line">            origindir = os.<span class="function"><span class="title">getcwd</span><span class="params">()</span></span>  </span><br><span class="line">            newdir = file  </span><br><span class="line">            os.<span class="function"><span class="title">chdir</span><span class="params">(newdir)</span></span>  </span><br><span class="line">            <span class="function"><span class="title">add_suffix</span><span class="params">(suffix)</span></span>  </span><br><span class="line">            os.<span class="function"><span class="title">chdir</span><span class="params">(origindir)</span></span>  </span><br><span class="line">  </span><br><span class="line">def <span class="function"><span class="title">remove_suffix</span><span class="params">(suffix)</span></span> :  </span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> os.<span class="function"><span class="title">listdir</span><span class="params">(os.path.curdir)</span></span> :  </span><br><span class="line">        <span class="id">#print</span> file  </span><br><span class="line">        <span class="keyword">if</span> file[<span class="number">0</span>:<span class="number">1</span>]() == <span class="string">'.'</span> :  </span><br><span class="line">            continue  </span><br><span class="line">        filename,ext = os<span class="class">.path</span><span class="class">.splitext</span>(file)  </span><br><span class="line">        <span class="keyword">if</span> <span class="string">'.png'</span> == ext :  </span><br><span class="line">            newfilename =  filename.<span class="function"><span class="title">rstrip</span><span class="params">(suffix)</span></span>+ext  </span><br><span class="line">            os.<span class="function"><span class="title">renames</span><span class="params">(file,newfilename)</span></span>  </span><br><span class="line">        <span class="keyword">if</span> os<span class="class">.path</span><span class="class">.isdir</span>(file) :  </span><br><span class="line">            origindir = os.<span class="function"><span class="title">getcwd</span><span class="params">()</span></span>  </span><br><span class="line">            newdir = file  </span><br><span class="line">            os.<span class="function"><span class="title">chdir</span><span class="params">(newdir)</span></span>  </span><br><span class="line">            <span class="function"><span class="title">remove_suffix</span><span class="params">(suffix)</span></span>  </span><br><span class="line">            os.<span class="function"><span class="title">chdir</span><span class="params">(origindir)</span></span>  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="title">add_suffix</span><span class="params">(<span class="string">'@2x'</span>)</span></span></span><br></pre></td></tr></table></figure>
+<p>`  </p>
+<h2 id="感想">感想</h2><p>语言就应该仅仅是工具,不应该执迷于语言的学习.因为当你有一定的经验之后,你会发现,什么语言都很简单… 难点是深入下去  </p>
+
+      </div>
+      <footer class="article-footer">
+        <a data-url="http://yoursite.com/2015/04/04/辅助编程技能/提升效率的脚本/" data-id="ciaek99f80001rafyp4iemy4j" class="article-share-link">分享到</a>
+        
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小脚本大智慧/">小脚本大智慧</a></li></ul>
+
+      </footer>
+    </div>
+  </article>
+  
+
+            </div>
+          </section>
+          <aside id="sidebar">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+  <div class="sidebar-top">
+    <p>关注我 :</p>
+    <ul class="social-links">
+      
+        <li><a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank"><i id="icon-github" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="weibo" href="/" target="_blank"><i id="icon-weibo" class="icon"></i></a></li>
+      
+    </ul>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/10/Core Aniamtion深入探讨/1-图层树/图层树/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <p class="article-nav-title">
+        
+          1-图层树
+        
+      </p>
+      <i class="icon" id="icon-chevron-right"></i>
+    </a>
+  
+  
+    <a href="/2015/03/17/辅助编程技能/开始使用正则表达式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <p class="article-nav-title">开始使用正则表达式-正则表达式</p>
+      <i class="icon" id="icon-chevron-left"></i>
+    </a>
+  
+</nav>
+
+  
+  <div class="widgets-container">
+    
+      
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="thumbnail">
+  
+    <span style="background-image:url(http://ww4.sinaimg.cn/large/9e446dffjw1esorix0zrej20hs06qq3q.jpg
+)" alt="2015-06-01滚动监听 触摸点获取 Tranform RecealApp" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/每日知识总结/">每日知识总结</a></p>
+              <p class="item-title"><a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="title">2015-06-01滚动监听 触摸点获取 Tranform RecealApp</a></p>
+              <p class="item-date"><time datetime="2015-06-01T09:57:26.000Z" itemprop="datePublished">2015-06-01</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="thumbnail">
+  
+    <span class="thumbnail-image thumbnail-none"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/iOS-OC/">iOS&OC</a></p>
+              <p class="item-title"><a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="title">关于@property中NSString的copy-深入细节</a></p>
+              <p class="item-date"><time datetime="2015-05-20T02:01:14.000Z" itemprop="datePublished">2015-05-20</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
+  
+    <span style="background-image:url(./15.1.png
+)" alt="15-图层性能" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="title">15-图层性能</a></p>
+              <p class="item-date"><time datetime="2015-05-12T01:32:52.000Z" itemprop="datePublished">2015-05-12</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="thumbnail">
+  
+    <span style="background-image:url(./14.1.jpeg
+)" alt="14-图像 IO " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="title">14-图像 IO </a></p>
+              <p class="item-date"><time datetime="2015-05-10T01:32:52.000Z" itemprop="datePublished">2015-05-10</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
+  
+    <span style="background-image:url(./13.1.png
+)" alt="13-高效绘图 " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="title">13-高效绘图 </a></p>
+              <p class="item-date"><time datetime="2015-05-07T01:32:52.000Z" itemprop="datePublished">2015-05-07</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS-OC/">iOS&OC</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/主页维护记录/">主页维护记录</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/应用架构/">应用架构</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/每日知识总结/">每日知识总结</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/辅助编程技能/">辅助编程技能</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">四月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/小脚本大智慧/">小脚本大智慧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试小样/">测试小样</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题解决和思考/">问题解决和思考</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高效OC编程/">高效OC编程</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-float">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/小脚本大智慧/" style="font-size: 10px;">小脚本大智慧</a><a href="/tags/正则表达式/" style="font-size: 13.33px;">正则表达式</a><a href="/tags/测试小样/" style="font-size: 10px;">测试小样</a><a href="/tags/问题解决和思考/" style="font-size: 20px;">问题解决和思考</a><a href="/tags/高效OC编程/" style="font-size: 16.67px;">高效OC编程</a>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+  
+  <div class="container">
+    <div class="container-inner">
+      <a id="back-to-top" href="javascript:;"><i class="icon" id="icon-angle-up"></i></a>
+      <div class="credit">
+        <h1 class="logo-wrap">
+          <a href="/" class="logo"></a>
+        </h1>
+        <p>&copy; 2015 桂庆</p>
+        <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+  <script src="/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+  <script src="/scrollLoading/main.js" type="text/javascript"></script>
+
+
+<script src="/js/html-patch.js" type="text/javascript"></script>
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

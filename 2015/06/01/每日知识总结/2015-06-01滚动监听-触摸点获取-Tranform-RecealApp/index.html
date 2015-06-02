@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>2015-06-01滚动监听 触摸点获取 Tranform RecealApp | 桂庆的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概要
+UITableView 滚动行为的监听,触摸点的获取
+CGAffineTransformMakeTranslation和CGAffineTransformTranslate
+reveal app 的项目集成
+inputAccessoryView 遇到的几个问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2015-06-01滚动监听 触摸点获取 Tranform RecealApp">
+<meta property="og:url" content="http://yoursite.com/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/index.html">
+<meta property="og:site_name" content="桂庆的个人主页">
+<meta property="og:description" content="概要
+UITableView 滚动行为的监听,触摸点的获取
+CGAffineTransformMakeTranslation和CGAffineTransformTranslate
+reveal app 的项目集成
+inputAccessoryView 遇到的几个问题">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/9e446dffjw1esorix0zrej20hs06qq3q.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/9e446dffjw1esorixpfx2j20hs097wfn.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2015-06-01滚动监听 触摸点获取 Tranform RecealApp">
+<meta name="twitter:description" content="概要
+UITableView 滚动行为的监听,触摸点的获取
+CGAffineTransformMakeTranslation和CGAffineTransformTranslate
+reveal app 的项目集成
+inputAccessoryView 遇到的几个问题">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  
+  
+    <link rel="stylesheet" href="/scrollLoading/style.css" type="text/css">
+  
+  
+
+
+  
+    <style type="text/css">
+      .logo { background-image:url(http://ppoffice.github.io/hexo-theme-hueman/css/images/logo-header.png); }
+    </style>
+  
+
+  
+    <link href='//fonts.useso.com/css?family=Titillium+Web:300,400,600' rel='stylesheet' type='text/css'>
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="wrap">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div class="container">
+      <div class="container-inner">
+        <div id="header-title">
+          <h1 class="logo-wrap">
+            <a href="/" class="logo"></a>
+          </h1>
+          
+            <h2 class="subtitle-wrap">
+              <p class="subtitle">记录自己的学习 工作 感悟</p>
+            </h2>
+          
+        </div>
+        <div id="header-inner" class="nav-container">
+          <a id="main-nav-toggle" class="nav-icon"></a>
+          <div class="nav-container-inner">
+            <ul id="main-nav">
+              
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/">主页</a></li>
+              
+                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/iOS-OC/">iOS&OC</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/主页维护记录/">主页维护记录</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/应用架构/">应用架构</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/每日知识总结/">每日知识总结</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/辅助编程技能/">辅助编程技能</a></li></ul>
+                  
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/about/index.html">关于我</a></li>
+              
+            </ul>
+            <nav id="sub-nav">
+              <div id="search-form-wrap">
+                <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="container">
+      <div class="main-body container-inner">
+        <div class="main-body-inner">
+          <section id="main">
+            <div class="main-body-header">
+
+              <h1 class="header"><a class="page-title-link" href="/categories/每日知识总结/">每日知识总结</a></h1>
+            </div>
+            <div class="main-body-content">
+              
+  <article id="post-每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+      <!--  -->
+      
+        <header class="article-header">
+          
+  
+    <h1 class="article-title" itemprop="name">
+      2015-06-01滚动监听 触摸点获取 Tranform RecealApp
+    </h1>
+  
+
+        </header>
+      
+      <p class="article-byline">
+        <a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="article-date">
+  <time datetime="2015-06-01T09:57:26.000Z" itemprop="datePublished">2015-06-01</time>
+</a>
+      </p>
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="概要">概要</h2><ul>
+<li>UITableView 滚动行为的监听,触摸点的获取</li>
+<li>CGAffineTransformMakeTranslation和CGAffineTransformTranslate</li>
+<li>reveal app 的项目集成</li>
+<li>inputAccessoryView 遇到的几个问题</li>
+</ul>
+<a id="more"></a>
+<h3 id="UITableView_滚动行为的监听,触摸点的获取">UITableView 滚动行为的监听,触摸点的获取</h3><p>项目中有个需求是当 tableView 滚动的时候,将 tableView 上面的视图隐藏,就类似于 HeadView 那种推上去的效果. 但是按照 UI 层级来说,不能使用  Header ,所以有了这样一个需求.</p>
+<h4 id="网络上找到的零散知识">网络上找到的零散知识</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*获得哪一行滚动上去了*/</span></span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSIndexPath</span> *path =  [<span class="keyword">self</span><span class="variable">.bottomView</span> indexPathForRowAtPoint:<span class="built_in">CGPointMake</span>(scrollView<span class="variable">.contentOffset</span><span class="variable">.x</span>, scrollView<span class="variable">.contentOffset</span><span class="variable">.y</span>)];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"这是第%ld行"</span>,path<span class="variable">.row</span>);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*获得触摸点的位置*/</span></span><br><span class="line"> <span class="built_in">UITableView</span> *tableView=(<span class="built_in">UITableView</span> *)<span class="keyword">self</span><span class="variable">.view</span>;</span><br><span class="line">    <span class="built_in">NSSet</span> *touches = [event allTouches]; <span class="comment">//包含所有的uitouch 单点触控就只有一个uitouch</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UITouch</span> *touch= [touches anyObject];    <span class="comment">//获取触摸点在uitableVIEW上的位置</span></span><br><span class="line">    <span class="built_in">CGPoint</span> p=[touch locationInView:tableView];</span><br><span class="line">    <span class="built_in">NSIndexPath</span> *path= [tableView indexPathForRowAtPoint:p];</span><br><span class="line">    Book *book=<span class="keyword">self</span><span class="variable">.books</span>[path<span class="variable">.row</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"row--%@"</span>,book<span class="variable">.name</span>);</span><br></pre></td></tr></table></figure>
+<p>但是使用的时候,结果始终是 0 ,就是不能正确取到触摸点的位置.<br>所以还是利用下面的方法:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSIndexPath</span> *path =  [<span class="keyword">self</span><span class="variable">.bottomView</span> indexPathForRowAtPoint:<span class="built_in">CGPointMake</span>(scrollView<span class="variable">.contentOffset</span><span class="variable">.x</span>, scrollView<span class="variable">.contentOffset</span><span class="variable">.y</span>)];</span><br><span class="line">    </span><br><span class="line">   <span class="comment">// NSLog(@"这是第%ld行",path.row);</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%f,%f"</span>,scrollView<span class="variable">.contentOffset</span><span class="variable">.x</span>,scrollView<span class="variable">.contentOffset</span><span class="variable">.y</span>);</span><br><span class="line">    </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="CGAffineTransformMakeTranslation和CGAffineTransformTranslate">CGAffineTransformMakeTranslation和CGAffineTransformTranslate</h3><p>简单提一下两个的区别(其他的缩放,旋转一个意思): </p>
+<ul>
+<li>Translate(动词) 的是累加的形式,以前一个状态的 Transform 作为参照</li>
+<li>MakeTranslation(名词) 是以最开始的状态为参照</li>
+</ul>
+<p>主要是两者的使用场景:</p>
+<ul>
+<li>如果你的参数是累加的,那么通常用 MakeXXX能够完成需求</li>
+<li>如果参数是固定的,那么通常 动词的形式是你要的结果</li>
+</ul>
+<h4 id="我的需求的最终实现代码">我的需求的最终实现代码</h4><p>最终效果实现</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#pragma mark -system deleage</span></span><br><span class="line">-(<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSIndexPath</span> *path =  [<span class="keyword">self</span><span class="variable">.bottomView</span> indexPathForRowAtPoint:<span class="built_in">CGPointMake</span>(scrollView<span class="variable">.contentOffset</span><span class="variable">.x</span>, scrollView<span class="variable">.contentOffset</span><span class="variable">.y</span>)];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span><span class="variable">.topView</span><span class="variable">.transform</span> =  <span class="built_in">CGAffineTransformMakeTranslation</span>(<span class="number">0</span>,-scrollView<span class="variable">.contentOffset</span><span class="variable">.y</span>);</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.bottomView</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> clearColor];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.topView</span><span class="variable">.transform</span> = <span class="built_in">CGAffineTransformMakeTranslation</span>(<span class="number">0</span>, -scrollView<span class="variable">.contentOffset</span><span class="variable">.y</span>);</span><br><span class="line">    </span><br><span class="line">    [<span class="built_in">UIView</span> beginAnimations:<span class="literal">nil</span> context:<span class="literal">nil</span>];</span><br><span class="line">     [<span class="built_in">UIView</span> setAnimationDuration:<span class="number">0.25</span>];</span><br><span class="line">    <span class="keyword">if</span> (-scrollView<span class="variable">.contentOffset</span><span class="variable">.y</span>&lt;<span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.bottomView</span><span class="variable">.y</span> = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.headerView</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> grayColor];</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.bottomView</span><span class="variable">.y</span> = (<span class="keyword">self</span><span class="variable">.topView</span><span class="variable">.y</span>+<span class="keyword">self</span><span class="variable">.topView</span><span class="variable">.height</span>);</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.headerView</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> redColor];</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    [<span class="built_in">UIView</span> commitAnimations];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="reveal_app_的使用">reveal app 的使用</h3><p>之前研究逆向的时候,用过,但是时间久了,居然忘记怎么集成了.<br>查阅了网上的资料,找到了方法</p>
+<h4 id="一-_简单的做法">一. 简单的做法</h4><p>安装Reveal不算复杂，要把Reveal用到工程中则需要把framework或者dylib编入。</p>
+<ol>
+<li><p>打开Xcode工程</p>
+</li>
+<li><p>打开Revel工具，选择Menu-&gt;Help-&gt;Show Reveal Library in Finder，这样就会打开RevealApp里面带的库</p>
+</li>
+<li>把Reveal.framework加入工程，在弹出框中选中Copy items into destination group’s folder (if needed).</li>
+<li>在工程设置中，在Other Linker Flags项增加-ObjC -framework Reveal 如果你使用的还是Xcode4，那么还需要增加-frame CFNetwork -frame QuartzCore -framework CoreGraphics</li>
+</ol>
+<h4 id="二-相对复杂,但是对项目的侵入性比较小的做法">二.相对复杂,但是对项目的侵入性比较小的做法</h4><ol>
+<li><p>在当前用户目录新建一个文件.lldbinit，位于~/.lldbinit，LLDB每次启动的时候都会加载这个文件。</p>
+</li>
+<li><p>在.lldbinit中输入如下内容：</p>
+</li>
+</ol>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">command alias reveal_load_sim expr (<span class="keyword">void</span>*)dlopen(<span class="string">"/Applications/Reveal.app/Contents/SharedSupport/iOS-Libraries/libReveal.dylib"</span>, <span class="number">0x2</span>);</span><br><span class="line"></span><br><span class="line">command alias reveal_load_dev expr (<span class="keyword">void</span>*)dlopen([(<span class="built_in">NSString</span>*)[(<span class="built_in">NSBundle</span>*)[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@"libReveal"</span> ofType:<span class="string">@"dylib"</span>] cStringUsingEncoding:<span class="number">0x4</span>], <span class="number">0x2</span>);</span><br><span class="line"></span><br><span class="line">command alias reveal_start expr (<span class="keyword">void</span>)[(<span class="built_in">NSNotificationCenter</span>*)[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:<span class="string">@"IBARevealRequestStart"</span> object:<span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line">command alias reveal_stop expr (<span class="keyword">void</span>)[(<span class="built_in">NSNotificationCenter</span>*)[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:<span class="string">@"IBARevealRequestStop"</span> object:<span class="literal">nil</span>];</span><br></pre></td></tr></table></figure>
+<p>上述文件创建了4个命令：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reveal_load_sim,reveal_load_dev, reveal_start 和 reveal_stop</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>reveal_load_sim 这个只在iOS模拟器上有效。它从Reveal的应用程序bundle中找到并加载libReveal.dylib（请确保你把Reveal安装到了系统的Application文件夹，如果你换地方了，你修改上述的文件）。</p>
+</li>
+<li><p>reveal_load_dev 这个命令在iOS设备和模拟器上都有效。不过，它需要你在Build Phase中的的Copy Bundle Resources中加上libReveal.dylib，请确保没有放到Link Binary With Libraries这个地方。</p>
+</li>
+<li><p>reveal_start 这个命令发出一个通知启动Reveal Server。</p>
+</li>
+<li><p>reveal_stop 这个命令发出一个通知停止Reveal Server。</p>
+</li>
+</ul>
+<p><strong>请注意：只有在iOS应用发出了UIApplicationDidFinishLaunchingNotification通知之后，比如应用的delegate已经处理过application::didFinishLaunchingWithOptions:之后才能调用上面的reveal<em>load</em>*命令，然后再调用reveal_start</strong></p>
+<p>在设备起来之后，你就可以断下应用，在LLDB提示框中输入上述的命令了。<br><img src="http://ww4.sinaimg.cn/large/9e446dffjw1esorix0zrej20hs06qq3q.jpg"></p>
+<p>上述的过程还需要手动输入，下面介绍如何设置条件断点，使得Reveal在启动之后自动加载。</p>
+<p>在你的应用的application:didFinishLaunchingWithOptions 中的代码出加一个断点，然后右键，选择编辑断点。</p>
+<p>输入如下图一样的命令：</p>
+<p><img src="http://ww1.sinaimg.cn/large/9e446dffjw1esorixpfx2j20hs097wfn.jpg"></p>
+<p>重新运行下应用，如果控制台输出了如下信息：</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Reveal <span class="keyword">server</span> started.</span><br></pre></td></tr></table></figure>
+<p>说明成功了</p>
+<p>个人推荐用第一种方法,然后项目发布的时候,记得删除即可</p>
+<h3 id="InputAccessoryView_可能遇到的问题">InputAccessoryView 可能遇到的问题</h3><h4 id="辅助布局的样式">辅助布局的样式</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIBarButtonItem</span> * button1 =[[<span class="built_in">UIBarButtonItem</span>  alloc]initWithBarButtonSystemItem:                                        <span class="built_in">UIBarButtonSystemItemFlexibleSpace</span> target:<span class="keyword">self</span> action:<span class="literal">nil</span>];</span><br></pre></td></tr></table></figure>
+<h4 id="定义普通的按钮">定义普通的按钮</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIBarButtonItem * doneButton = [[UIBarButtonItem alloc]<span class="string">initWithTitle:</span>@<span class="string">"完成"</span> <span class="string">style:</span>UIBarButtonItemStyleDone  <span class="string">target:</span>self <span class="string">action:</span><span class="annotation">@selector</span>(resignKeyboard)];</span><br></pre></td></tr></table></figure>
+<h4 id="添加按钮">添加按钮</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSArray</span> * buttonsArray = [<span class="built_in">NSArray</span> arrayWithObjects:button1,button2,doneButton,<span class="literal">nil</span>];    </span><br><span class="line">   [topView setItems:buttonsArray];</span><br></pre></td></tr></table></figure>
+<p>参考网址:<br><a href="http://www.cocoachina.com/bbs/read.php?tid=293372" target="_blank" rel="external">http://www.cocoachina.com/bbs/read.php?tid=293372</a><br><a href="http://blog.csdn.net/yongyinmg/article/details/39293015" target="_blank" rel="external">http://blog.csdn.net/yongyinmg/article/details/39293015</a><br><a href="http://blog.csdn.net/sakulafly/article/details/17994173" target="_blank" rel="external">http://blog.csdn.net/sakulafly/article/details/17994173</a></p>
+
+      </div>
+      <footer class="article-footer">
+        <a data-url="http://yoursite.com/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" data-id="ciaek99gq000hrafynet49x2n" class="article-share-link">分享到</a>
+        
+        
+      </footer>
+    </div>
+  </article>
+  
+
+            </div>
+          </section>
+          <aside id="sidebar">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+  <div class="sidebar-top">
+    <p>关注我 :</p>
+    <ul class="social-links">
+      
+        <li><a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank"><i id="icon-github" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="weibo" href="/" target="_blank"><i id="icon-weibo" class="icon"></i></a></li>
+      
+    </ul>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <p class="article-nav-title">关于@property中NSString的copy-深入细节</p>
+      <i class="icon" id="icon-chevron-left"></i>
+    </a>
+  
+</nav>
+
+  
+  <div class="widgets-container">
+    
+      
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="thumbnail">
+  
+    <span style="background-image:url(http://ww4.sinaimg.cn/large/9e446dffjw1esorix0zrej20hs06qq3q.jpg
+)" alt="2015-06-01滚动监听 触摸点获取 Tranform RecealApp" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/每日知识总结/">每日知识总结</a></p>
+              <p class="item-title"><a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="title">2015-06-01滚动监听 触摸点获取 Tranform RecealApp</a></p>
+              <p class="item-date"><time datetime="2015-06-01T09:57:26.000Z" itemprop="datePublished">2015-06-01</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="thumbnail">
+  
+    <span class="thumbnail-image thumbnail-none"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/iOS-OC/">iOS&OC</a></p>
+              <p class="item-title"><a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="title">关于@property中NSString的copy-深入细节</a></p>
+              <p class="item-date"><time datetime="2015-05-20T02:01:14.000Z" itemprop="datePublished">2015-05-20</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
+  
+    <span style="background-image:url(./15.1.png
+)" alt="15-图层性能" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="title">15-图层性能</a></p>
+              <p class="item-date"><time datetime="2015-05-12T01:32:52.000Z" itemprop="datePublished">2015-05-12</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="thumbnail">
+  
+    <span style="background-image:url(./14.1.jpeg
+)" alt="14-图像 IO " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="title">14-图像 IO </a></p>
+              <p class="item-date"><time datetime="2015-05-10T01:32:52.000Z" itemprop="datePublished">2015-05-10</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
+  
+    <span style="background-image:url(./13.1.png
+)" alt="13-高效绘图 " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="title">13-高效绘图 </a></p>
+              <p class="item-date"><time datetime="2015-05-07T01:32:52.000Z" itemprop="datePublished">2015-05-07</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS-OC/">iOS&OC</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/主页维护记录/">主页维护记录</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/应用架构/">应用架构</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/每日知识总结/">每日知识总结</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/辅助编程技能/">辅助编程技能</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">四月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/小脚本大智慧/">小脚本大智慧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试小样/">测试小样</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题解决和思考/">问题解决和思考</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高效OC编程/">高效OC编程</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-float">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/小脚本大智慧/" style="font-size: 10px;">小脚本大智慧</a><a href="/tags/正则表达式/" style="font-size: 13.33px;">正则表达式</a><a href="/tags/测试小样/" style="font-size: 10px;">测试小样</a><a href="/tags/问题解决和思考/" style="font-size: 20px;">问题解决和思考</a><a href="/tags/高效OC编程/" style="font-size: 16.67px;">高效OC编程</a>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+  
+  <div class="container">
+    <div class="container-inner">
+      <a id="back-to-top" href="javascript:;"><i class="icon" id="icon-angle-up"></i></a>
+      <div class="credit">
+        <h1 class="logo-wrap">
+          <a href="/" class="logo"></a>
+        </h1>
+        <p>&copy; 2015 桂庆</p>
+        <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+  <script src="/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+  <script src="/scrollLoading/main.js" type="text/javascript"></script>
+
+
+<script src="/js/html-patch.js" type="text/javascript"></script>
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

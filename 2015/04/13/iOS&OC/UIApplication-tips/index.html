@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>UIApplication tips -给新手的笔记 | 桂庆的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="UIApplication 对象是应用程序的象征每一个应用程序都有自己的 UIApplication对象,而且是单例的.通过 [UIApplication sharedApplication]可以获得这个单例对象一个iOS程序启动后创建的第一个对象就是 UIApplication 对象一个iOS程序启动后创建的第一个对象就是 UIApplication 对象利用 UIApplication 对象,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIApplication tips -给新手的笔记">
+<meta property="og:url" content="http://yoursite.com/2015/04/13/iOS&OC/UIApplication-tips/index.html">
+<meta property="og:site_name" content="桂庆的个人主页">
+<meta property="og:description" content="UIApplication 对象是应用程序的象征每一个应用程序都有自己的 UIApplication对象,而且是单例的.通过 [UIApplication sharedApplication]可以获得这个单例对象一个iOS程序启动后创建的第一个对象就是 UIApplication 对象一个iOS程序启动后创建的第一个对象就是 UIApplication 对象利用 UIApplication 对象,">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/9e446dffjw1er45jyinfhj202k02o3yh.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/9e446dffjw1er45pquehhj207h01sglh.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIApplication tips -给新手的笔记">
+<meta name="twitter:description" content="UIApplication 对象是应用程序的象征每一个应用程序都有自己的 UIApplication对象,而且是单例的.通过 [UIApplication sharedApplication]可以获得这个单例对象一个iOS程序启动后创建的第一个对象就是 UIApplication 对象一个iOS程序启动后创建的第一个对象就是 UIApplication 对象利用 UIApplication 对象,">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  
+  
+    <link rel="stylesheet" href="/scrollLoading/style.css" type="text/css">
+  
+  
+
+
+  
+    <style type="text/css">
+      .logo { background-image:url(http://ppoffice.github.io/hexo-theme-hueman/css/images/logo-header.png); }
+    </style>
+  
+
+  
+    <link href='//fonts.useso.com/css?family=Titillium+Web:300,400,600' rel='stylesheet' type='text/css'>
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="wrap">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div class="container">
+      <div class="container-inner">
+        <div id="header-title">
+          <h1 class="logo-wrap">
+            <a href="/" class="logo"></a>
+          </h1>
+          
+            <h2 class="subtitle-wrap">
+              <p class="subtitle">记录自己的学习 工作 感悟</p>
+            </h2>
+          
+        </div>
+        <div id="header-inner" class="nav-container">
+          <a id="main-nav-toggle" class="nav-icon"></a>
+          <div class="nav-container-inner">
+            <ul id="main-nav">
+              
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/">主页</a></li>
+              
+                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/iOS-OC/">iOS&OC</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/主页维护记录/">主页维护记录</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/应用架构/">应用架构</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/每日知识总结/">每日知识总结</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/辅助编程技能/">辅助编程技能</a></li></ul>
+                  
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/about/index.html">关于我</a></li>
+              
+            </ul>
+            <nav id="sub-nav">
+              <div id="search-form-wrap">
+                <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="container">
+      <div class="main-body container-inner">
+        <div class="main-body-inner">
+          <section id="main">
+            <div class="main-body-header">
+
+              <h1 class="header"><a class="page-title-link" href="/categories/iOS-OC/">iOS&OC</a></h1>
+            </div>
+            <div class="main-body-content">
+              
+  <article id="post-iOS&amp;OC/UIApplication-tips" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+      <!--  -->
+      
+        <header class="article-header">
+          
+  
+    <h1 class="article-title" itemprop="name">
+      UIApplication tips -给新手的笔记
+    </h1>
+  
+
+        </header>
+      
+      <p class="article-byline">
+        <a href="/2015/04/13/iOS&OC/UIApplication-tips/" class="article-date">
+  <time datetime="2015-04-13T14:25:14.000Z" itemprop="datePublished">2015-04-13</time>
+</a>
+      </p>
+      <div class="article-entry" itemprop="articleBody">
+        <h3 id="UIApplication_对象是应用程序的象征">UIApplication 对象是应用程序的象征</h3><p>每一个应用程序都有自己的 UIApplication对象,而且是单例的.<br>通过 [UIApplication sharedApplication]可以获得这个单例对象<br>一个iOS程序启动后创建的第一个对象就是 UIApplication 对象<br>一个iOS程序启动后创建的第一个对象就是 UIApplication 对象<br>利用 UIApplication 对象,能进行一些应用级别的操作 </p>
+<p>验证单例操作:  </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">true    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIApplication</span> *app  = [<span class="built_in">UIApplication</span> sharedApplication];</span><br><span class="line">    <span class="built_in">UIApplication</span> *app2 = [<span class="built_in">UIApplication</span> sharedApplication];</span><br><span class="line">    <span class="built_in">UIApplication</span> *app3 = [[<span class="built_in">UIApplication</span> alloc] init];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%p,%p,%p"</span>,app,app2,app3);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>运行项目结果报错: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2015</span>-<span class="number">04</span>-<span class="number">13</span> <span class="number">19</span>:<span class="number">05</span>:<span class="number">19.695</span> <span class="keyword">for</span>B<span class="built_in">log</span>Test[<span class="number">1897</span>:<span class="number">80612</span>] *** Terminating app due to uncaught exception <span class="string">'NSInternalInconsistencyException'</span>, reason: <span class="string">'There can only be one UIApplication instance.'</span></span><br></pre></td></tr></table></figure>
+<p>错误信息很明确: 只能有一个 UIApplication 实例.  </p>
+<p>现在,我们改动一下程序   </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">true    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIApplication</span> *app  = [<span class="built_in">UIApplication</span> sharedApplication];</span><br><span class="line">    <span class="built_in">UIApplication</span> *app2 = [<span class="built_in">UIApplication</span> sharedApplication];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%p,%p"</span>,app,app2);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>控制台打印:  </p>
+ <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x7f8453d13b80</span>,<span class="number">0x7f8453d13b80</span></span><br></pre></td></tr></table></figure>
+<p>可以看到,地址是一样的. </p>
+<h3 id="利用_UIApplication_做应用级别的常见操作">利用 UIApplication 做应用级别的常见操作</h3><h4 id="1-_图标右上角的数字">1. 图标右上角的数字</h4><p><img src="http://ww1.sinaimg.cn/large/9e446dffjw1er45jyinfhj202k02o3yh.jpg" alt="应用程序角标"><br>如图,这个右上角的数字是可以通过代码控制的.最常见的是在推送的处理上.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIApplication</span> *app = [<span class="built_in">UIApplication</span> sharedApplication];</span><br><span class="line">  <span class="comment">//0 代表清除图标右上角的数字</span></span><br><span class="line">  app<span class="variable">.applicationIconBadgeNumber</span> = <span class="number">0</span> ;</span><br></pre></td></tr></table></figure>
+<p>因为 Application 是程序级别的单例对象,所以,任何地方执行这段代码均可清除角标.  </p>
+<h4 id="2-设置显示联网状态">2.设置显示联网状态</h4><p>通过一下代码即可让状态栏显示 “菊花”  </p>
+<figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">app.networkActivityIndicatorVisible </span>=<span class="string"> YES;</span></span><br></pre></td></tr></table></figure>
+<p>效果如图:<br><img src="http://ww4.sinaimg.cn/large/9e446dffjw1er45pquehhj207h01sglh.jpg" alt="联网状态">  </p>
+<h4 id="3-打开_URL">3.打开 URL</h4><ul>
+<li>URL 一个资源的唯一路径</li>
+<li>URL 的组成 : 协议头://主机域名/路径  </li>
+<li>网络资源 URL 的组成: <a href="http://主机域名/路径" target="_blank" rel="external">http://主机域名/路径</a>  例如 <code>http://www.baidu.com/image/1.png</code>  </li>
+<li>本地资源 URL 的组成: file:///路径  因为是本地主机域名可以不写,但<code>/</code> 不能省略. 例如<code>file:///User/apple/desktop/2.png</code>  </li>
+</ul>
+<p>UIApplication对象的 openURL 可以依靠协议头,打开各种需要的程序 .比如,下面的代码将会调用 Safari 打开网址</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">[app openURL:<span class="collection">[NSURL URLWithString:@<span class="string">"http://wwww.baidu.com"</span>]</span>]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>如果是图片等,会自动调用相应的程序,上面的代码我们写的是 http ,所以会调用 Safari.<br>而下面的代码将会调用电话功能    </p>
+<p><code>[app openURL:[NSURL URLWithString:@&quot;tel://10086&quot;]];</code>  </p>
+<p>openURL 功能是非常强大的,以下简单列举一下常用的方法  </p>
+<ul>
+<li>打电话</li>
+</ul>
+<p><code>[app openURL:[NSURLURLWithString:@&quot;tel://10086&quot;]];</code></p>
+<ul>
+<li>发短信</li>
+</ul>
+<p><code>[app openURL:[NSURLURLWithString:@&quot;sms://10086&quot;]];</code></p>
+<ul>
+<li>发邮件  </li>
+</ul>
+<p><code>[app openURL:[NSURLURLWithString:@&quot;mailto://12345@qq.com&quot;]];</code></p>
+<ul>
+<li>打开网页资源  </li>
+</ul>
+<p><code>[app openURL:[NSURLURLWithString:@&quot;http://ios.itcast.cn&quot;]];</code></p>
+<ul>
+<li>打开其他 App 根据协议头,系统进行调用    </li>
+</ul>
+<h4 id="4_管理状态栏">4 管理状态栏</h4><p>从iOS7开始，系统提供了2种管理状态栏的方式    </p>
+<h5 id="a-通过UIViewController管理（每一个UIViewController都可以拥有自己不同的状态栏）-">a.通过UIViewController管理（每一个UIViewController都可以拥有自己不同的状态栏）.</h5><p>在iOS7中，默认情况下，状态栏都是由UIViewController管理的，UIViewController实现下列方法就可以轻松管理状态栏的可见性和样式</p>
+<p>状态栏的样式　<br>　　<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- <span class="list">(<span class="keyword">UIStatusBarStyle</span>)</span>preferredStatusBarStyle<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>状态栏的可见性　　</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-<span class="list">(<span class="keyword">BOOL</span>)</span>prefersStatusBarHidden<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>详细代码:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#pragma mark-设置状态栏的样式</span></span><br><span class="line">-(<span class="built_in">UIStatusBarStyle</span>)preferredStatusBarStyle</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//设置为白色</span></span><br><span class="line">    <span class="comment">//return UIStatusBarStyleLightContent;</span></span><br><span class="line">    <span class="comment">//默认为黑色</span></span><br><span class="line">     <span class="keyword">return</span> <span class="built_in">UIStatusBarStyleDefault</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">#pragma mark-设置状态栏是否隐藏（否）</span></span><br><span class="line">-(<span class="built_in">BOOL</span>)prefersStatusBarHidden</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="b-通过UIApplication管理（一个应用程序的状态栏都由它统一管理）">b.通过UIApplication管理（一个应用程序的状态栏都由它统一管理）</h5><p>如果想利用UIApplication来管理状态栏，首先得修改Info.plist的设置<br>在 info.plist文件中,添加一个:<br><code>View controller-based status bar appearance</code>  值为 NO<br>这样,就是不让控制器管理 statusbar</p>
+<p>代码:  </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过sharedApplication获取该程序的UIApplication对象</span></span><br><span class="line"><span class="built_in">UIApplication</span> *app=[<span class="built_in">UIApplication</span> sharedApplication];</span><br><span class="line">app<span class="variable">.applicationIconBadgeNumber</span>=<span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置指示器的联网动画</span></span><br><span class="line">app<span class="variable">.networkActivityIndicatorVisible</span>=<span class="literal">YES</span>;</span><br><span class="line"><span class="comment">//设置状态栏的样式</span></span><br><span class="line"><span class="comment">//app.statusBarStyle=UIStatusBarStyleDefault;//默认（黑色）</span></span><br><span class="line"><span class="comment">//设置为白色+动画效果</span></span><br><span class="line">  [app setStatusBarStyle:<span class="built_in">UIStatusBarStyleLightContent</span> animated:<span class="literal">YES</span>];</span><br><span class="line"><span class="comment">//设置状态栏是否隐藏</span></span><br><span class="line">app<span class="variable">.statusBarHidden</span>=<span class="literal">YES</span>;</span><br><span class="line">  <span class="comment">//设置状态栏是否隐藏+动画效果</span></span><br><span class="line">[app setStatusBarHidden:<span class="literal">YES</span> withAnimation:<span class="built_in">UIStatusBarAnimationFade</span>];</span><br></pre></td></tr></table></figure>
+<p>既然两种都可以对状态栏进行管理，那么什么时候该用什么呢？<br>如果状态栏的样式只设置一次，那就用UIApplication来进行管理；<br>如果状态栏是否隐藏，样式不一样那就用控制器进行管理。<br>UIApplication来进行管理有额外的好处，可以提供动画效果。</p>
+
+      </div>
+      <footer class="article-footer">
+        <a data-url="http://yoursite.com/2015/04/13/iOS&OC/UIApplication-tips/" data-id="ciaek99hj001crafyf8a2p8hz" class="article-share-link">分享到</a>
+        
+        
+      </footer>
+    </div>
+  </article>
+  
+
+            </div>
+          </section>
+          <aside id="sidebar">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+  <div class="sidebar-top">
+    <p>关注我 :</p>
+    <ul class="social-links">
+      
+        <li><a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank"><i id="icon-github" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="weibo" href="/" target="_blank"><i id="icon-weibo" class="icon"></i></a></li>
+      
+    </ul>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/14/主页维护记录/网站错误解决日志/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <p class="article-nav-title">
+        
+          网站错误解决日志
+        
+      </p>
+      <i class="icon" id="icon-chevron-right"></i>
+    </a>
+  
+  
+    <a href="/2015/04/13/Core Aniamtion深入探讨/2-寄宿图/寄宿图/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <p class="article-nav-title">2-寄宿图</p>
+      <i class="icon" id="icon-chevron-left"></i>
+    </a>
+  
+</nav>
+
+  
+  <div class="widgets-container">
+    
+      
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="thumbnail">
+  
+    <span style="background-image:url(http://ww4.sinaimg.cn/large/9e446dffjw1esorix0zrej20hs06qq3q.jpg
+)" alt="2015-06-01滚动监听 触摸点获取 Tranform RecealApp" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/每日知识总结/">每日知识总结</a></p>
+              <p class="item-title"><a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="title">2015-06-01滚动监听 触摸点获取 Tranform RecealApp</a></p>
+              <p class="item-date"><time datetime="2015-06-01T09:57:26.000Z" itemprop="datePublished">2015-06-01</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="thumbnail">
+  
+    <span class="thumbnail-image thumbnail-none"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/iOS-OC/">iOS&OC</a></p>
+              <p class="item-title"><a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="title">关于@property中NSString的copy-深入细节</a></p>
+              <p class="item-date"><time datetime="2015-05-20T02:01:14.000Z" itemprop="datePublished">2015-05-20</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
+  
+    <span style="background-image:url(./15.1.png
+)" alt="15-图层性能" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="title">15-图层性能</a></p>
+              <p class="item-date"><time datetime="2015-05-12T01:32:52.000Z" itemprop="datePublished">2015-05-12</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="thumbnail">
+  
+    <span style="background-image:url(./14.1.jpeg
+)" alt="14-图像 IO " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="title">14-图像 IO </a></p>
+              <p class="item-date"><time datetime="2015-05-10T01:32:52.000Z" itemprop="datePublished">2015-05-10</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
+  
+    <span style="background-image:url(./13.1.png
+)" alt="13-高效绘图 " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="title">13-高效绘图 </a></p>
+              <p class="item-date"><time datetime="2015-05-07T01:32:52.000Z" itemprop="datePublished">2015-05-07</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS-OC/">iOS&OC</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/主页维护记录/">主页维护记录</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/应用架构/">应用架构</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/每日知识总结/">每日知识总结</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/辅助编程技能/">辅助编程技能</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">四月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/小脚本大智慧/">小脚本大智慧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试小样/">测试小样</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题解决和思考/">问题解决和思考</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高效OC编程/">高效OC编程</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-float">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/小脚本大智慧/" style="font-size: 10px;">小脚本大智慧</a><a href="/tags/正则表达式/" style="font-size: 13.33px;">正则表达式</a><a href="/tags/测试小样/" style="font-size: 10px;">测试小样</a><a href="/tags/问题解决和思考/" style="font-size: 20px;">问题解决和思考</a><a href="/tags/高效OC编程/" style="font-size: 16.67px;">高效OC编程</a>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+  
+  <div class="container">
+    <div class="container-inner">
+      <a id="back-to-top" href="javascript:;"><i class="icon" id="icon-angle-up"></i></a>
+      <div class="credit">
+        <h1 class="logo-wrap">
+          <a href="/" class="logo"></a>
+        </h1>
+        <p>&copy; 2015 桂庆</p>
+        <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+  <script src="/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+  <script src="/scrollLoading/main.js" type="text/javascript"></script>
+
+
+<script src="/js/html-patch.js" type="text/javascript"></script>
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

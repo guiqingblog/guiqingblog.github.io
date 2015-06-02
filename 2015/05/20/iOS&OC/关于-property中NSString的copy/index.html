@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>关于@property中NSString的copy-深入细节 | 桂庆的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前几天和东盟君讨论关于在 @property(nonatomic,copy)NSString * string;中 copy的使用问题. 虽然自己很明白,见到NSString,果断用 copy,但是却说不出个道道.
+今天偶尔在一片国外论坛的文章上看到了关于这个的内容(因为在pad上看的,具体地址没法引用了).所以简单记录一下.
+因为类似 NSString这样的不可变父类,它们有可变的子类(比如 N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于@property中NSString的copy-深入细节">
+<meta property="og:url" content="http://yoursite.com/2015/05/20/iOS&OC/关于-property中NSString的copy/index.html">
+<meta property="og:site_name" content="桂庆的个人主页">
+<meta property="og:description" content="前几天和东盟君讨论关于在 @property(nonatomic,copy)NSString * string;中 copy的使用问题. 虽然自己很明白,见到NSString,果断用 copy,但是却说不出个道道.
+今天偶尔在一片国外论坛的文章上看到了关于这个的内容(因为在pad上看的,具体地址没法引用了).所以简单记录一下.
+因为类似 NSString这样的不可变父类,它们有可变的子类(比如 N">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于@property中NSString的copy-深入细节">
+<meta name="twitter:description" content="前几天和东盟君讨论关于在 @property(nonatomic,copy)NSString * string;中 copy的使用问题. 虽然自己很明白,见到NSString,果断用 copy,但是却说不出个道道.
+今天偶尔在一片国外论坛的文章上看到了关于这个的内容(因为在pad上看的,具体地址没法引用了).所以简单记录一下.
+因为类似 NSString这样的不可变父类,它们有可变的子类(比如 N">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  
+  
+    <link rel="stylesheet" href="/scrollLoading/style.css" type="text/css">
+  
+  
+
+
+  
+    <style type="text/css">
+      .logo { background-image:url(http://ppoffice.github.io/hexo-theme-hueman/css/images/logo-header.png); }
+    </style>
+  
+
+  
+    <link href='//fonts.useso.com/css?family=Titillium+Web:300,400,600' rel='stylesheet' type='text/css'>
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="wrap">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div class="container">
+      <div class="container-inner">
+        <div id="header-title">
+          <h1 class="logo-wrap">
+            <a href="/" class="logo"></a>
+          </h1>
+          
+            <h2 class="subtitle-wrap">
+              <p class="subtitle">记录自己的学习 工作 感悟</p>
+            </h2>
+          
+        </div>
+        <div id="header-inner" class="nav-container">
+          <a id="main-nav-toggle" class="nav-icon"></a>
+          <div class="nav-container-inner">
+            <ul id="main-nav">
+              
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/">主页</a></li>
+              
+                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/iOS-OC/">iOS&OC</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/主页维护记录/">主页维护记录</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/应用架构/">应用架构</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/每日知识总结/">每日知识总结</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/辅助编程技能/">辅助编程技能</a></li></ul>
+                  
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/about/index.html">关于我</a></li>
+              
+            </ul>
+            <nav id="sub-nav">
+              <div id="search-form-wrap">
+                <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="container">
+      <div class="main-body container-inner">
+        <div class="main-body-inner">
+          <section id="main">
+            <div class="main-body-header">
+
+              <h1 class="header"><a class="page-title-link" href="/categories/iOS-OC/">iOS&OC</a></h1>
+            </div>
+            <div class="main-body-content">
+              
+  <article id="post-iOS&amp;OC/关于-property中NSString的copy" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+      <!--  -->
+      
+        <header class="article-header">
+          
+  
+    <h1 class="article-title" itemprop="name">
+      关于@property中NSString的copy-深入细节
+    </h1>
+  
+
+        </header>
+      
+      <p class="article-byline">
+        <a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="article-date">
+  <time datetime="2015-05-20T02:01:14.000Z" itemprop="datePublished">2015-05-20</time>
+</a>
+      </p>
+      <div class="article-entry" itemprop="articleBody">
+        <p>前几天和东盟君讨论关于在 <code>@property(nonatomic,copy)NSString * string;</code>中 <code>copy</code>的使用问题. 虽然自己很明白,见到<code>NSString</code>,果断用 <code>copy</code>,但是却说不出个道道.</p>
+<p>今天偶尔在一片国外论坛的文章上看到了关于这个的内容(因为在pad上看的,具体地址没法引用了).所以简单记录一下.</p>
+<p><strong>因为类似 NSString这样的不可变父类,它们有可变的子类(比如 NSMutableString),那么就可能造成修改指针指向的结果,而这是我们不愿意看到的</strong></p>
+<p>是比较抽象的描述,要弄明白这段话,需要明确 <code>copy</code> 做了什么 ?</p>
+<p>在官方的描述中: <code>copy</code>是复制一个对象,并强引用它.</p>
+<p>那么开始解释一开始的话:</p>
+<p>假设我有一个 <code>Person</code> 类,他有一个 <code>name</code>属性,它是<code>NSString</code>类型的.不可变对象对吧.</p>
+<p>那么问题来了,下面的语法是成立的:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">NSMutableString</span> * mutableString = [[<span class="built_in">NSMutableString</span> alloc]initWithString:<span class="string">@"gg"</span>];</span><br><span class="line"> <span class="comment">//1</span></span><br><span class="line">per<span class="variable">.name</span> = mutableString;</span><br></pre></td></tr></table></figure>
+<p>上面1处首先语法没有问题, NSString是 NSMutableString的父类.<br>然后这个时候,如果 <code>name</code>属性是 <code>@property</code> 是 <code>strong</code>的,<br>那么 <code>per.name</code> 和 <code>mutableString</code> 指向的是同一块内存区域,<br>那么,我就可以通过修改 <code>mutableString</code>来修改<code>per.name</code>了,而当初我们既然选择了 <code>NSString</code>,那么就是考虑到不会对其进行修改的.所以,这样违背了我们的初衷.</p>
+<p>如果是<code>copy</code>,<code>per.name</code>在使用前会复制一份出来,这样使用的其实是它的副本,即使修改了<code>mutableString</code>也不会对<code>per.name</code>的本尊造成影响.</p>
+<h3 id="关于_copy_和_mutableCopy">关于 copy 和 mutableCopy</h3><p>现在我说的这两者是在代码中使用的时候,就是对象创建和赋值时候的.<br>苹果的设计是:</p>
+<ul>
+<li>copy        拿到的永远是不可变对象</li>
+<li>mutableCopy 拿到的是可变对象</li>
+</ul>
+<p>为什么这样设计呢?</p>
+<p>以上两者的调用者可能是 可变的或者不可变的,那么就会有四种组合,对于开发者去记忆四种组合是比较蹩脚的.所以干脆 </p>
+<ul>
+<li>不管调用者类型是可变与否,copy到得就不可变</li>
+<li>不管调用者类型是可变与否,mutableCopy到得就是可变对象</li>
+</ul>
+<h3 id="关于创建可变类型">关于创建可变类型</h3><p>以前都是用类似 <code>NSMutableString * string = [ NSMutableString string ];</code>这样的方式创建,但是在和东盟君讨论的时候,打印了一下,发现 <code>string</code>的class是:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> * string = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"string"</span>];</span><br><span class="line"> <span class="built_in">NSLog</span>(<span class="string">@"string is %@"</span>,[string class]);</span><br><span class="line"> </span><br><span class="line"> <span class="built_in">NSMutableString</span> * mutableString = [<span class="built_in">NSMutableString</span> string];</span><br><span class="line"> <span class="built_in">NSLog</span>(<span class="string">@"mutable string is %@"</span>,[mutableString class]);</span><br></pre></td></tr></table></figure>
+<p>打印结果:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2015<span class="tag">-05-20</span> 10<span class="pseudo">:36</span><span class="pseudo">:43</span><span class="class">.549</span> <span class="tag">TestNsstring</span><span class="attr_selector">[10993:1874316]</span> <span class="tag">string</span> <span class="tag">is</span> __<span class="tag">NSCFString</span></span><br><span class="line">2015<span class="tag">-05-20</span> 10<span class="pseudo">:36</span><span class="pseudo">:43</span><span class="class">.550</span> <span class="tag">TestNsstring</span><span class="attr_selector">[10993:1874316]</span> <span class="tag">mutable</span> <span class="tag">string</span> <span class="tag">is</span> __<span class="tag">NSCFString</span></span><br></pre></td></tr></table></figure>
+<p>究其原因, NSString是一个类簇,具体的实现都会找到合适的类,这个不用纠结了.</p>
+<p>不久之后,在 <strong>iOS6 by Tutorial</strong>中一书中看到关于 <code>[@[] mutableCopy]</code> 和 <code>[@{} mutableCopy]</code> 这样的用法.</p>
+<p>也符合 copy 和 mutableCopy 的准则</p>
+
+      </div>
+      <footer class="article-footer">
+        <a data-url="http://yoursite.com/2015/05/20/iOS&OC/关于-property中NSString的copy/" data-id="ciaek99hg001arafymx8cip6h" class="article-share-link">分享到</a>
+        
+        
+      </footer>
+    </div>
+  </article>
+  
+
+            </div>
+          </section>
+          <aside id="sidebar">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+  <div class="sidebar-top">
+    <p>关注我 :</p>
+    <ul class="social-links">
+      
+        <li><a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank"><i id="icon-github" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="weibo" href="/" target="_blank"><i id="icon-weibo" class="icon"></i></a></li>
+      
+    </ul>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <p class="article-nav-title">
+        
+          2015-06-01滚动监听 触摸点获取 Tranform RecealApp
+        
+      </p>
+      <i class="icon" id="icon-chevron-right"></i>
+    </a>
+  
+  
+    <a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <p class="article-nav-title">15-图层性能</p>
+      <i class="icon" id="icon-chevron-left"></i>
+    </a>
+  
+</nav>
+
+  
+  <div class="widgets-container">
+    
+      
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="thumbnail">
+  
+    <span style="background-image:url(http://ww4.sinaimg.cn/large/9e446dffjw1esorix0zrej20hs06qq3q.jpg
+)" alt="2015-06-01滚动监听 触摸点获取 Tranform RecealApp" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/每日知识总结/">每日知识总结</a></p>
+              <p class="item-title"><a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="title">2015-06-01滚动监听 触摸点获取 Tranform RecealApp</a></p>
+              <p class="item-date"><time datetime="2015-06-01T09:57:26.000Z" itemprop="datePublished">2015-06-01</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="thumbnail">
+  
+    <span class="thumbnail-image thumbnail-none"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/iOS-OC/">iOS&OC</a></p>
+              <p class="item-title"><a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="title">关于@property中NSString的copy-深入细节</a></p>
+              <p class="item-date"><time datetime="2015-05-20T02:01:14.000Z" itemprop="datePublished">2015-05-20</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
+  
+    <span style="background-image:url(./15.1.png
+)" alt="15-图层性能" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="title">15-图层性能</a></p>
+              <p class="item-date"><time datetime="2015-05-12T01:32:52.000Z" itemprop="datePublished">2015-05-12</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="thumbnail">
+  
+    <span style="background-image:url(./14.1.jpeg
+)" alt="14-图像 IO " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="title">14-图像 IO </a></p>
+              <p class="item-date"><time datetime="2015-05-10T01:32:52.000Z" itemprop="datePublished">2015-05-10</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
+  
+    <span style="background-image:url(./13.1.png
+)" alt="13-高效绘图 " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="title">13-高效绘图 </a></p>
+              <p class="item-date"><time datetime="2015-05-07T01:32:52.000Z" itemprop="datePublished">2015-05-07</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS-OC/">iOS&OC</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/主页维护记录/">主页维护记录</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/应用架构/">应用架构</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/每日知识总结/">每日知识总结</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/辅助编程技能/">辅助编程技能</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">四月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/小脚本大智慧/">小脚本大智慧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试小样/">测试小样</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题解决和思考/">问题解决和思考</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高效OC编程/">高效OC编程</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-float">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/小脚本大智慧/" style="font-size: 10px;">小脚本大智慧</a><a href="/tags/正则表达式/" style="font-size: 13.33px;">正则表达式</a><a href="/tags/测试小样/" style="font-size: 10px;">测试小样</a><a href="/tags/问题解决和思考/" style="font-size: 20px;">问题解决和思考</a><a href="/tags/高效OC编程/" style="font-size: 16.67px;">高效OC编程</a>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+  
+  <div class="container">
+    <div class="container-inner">
+      <a id="back-to-top" href="javascript:;"><i class="icon" id="icon-angle-up"></i></a>
+      <div class="credit">
+        <h1 class="logo-wrap">
+          <a href="/" class="logo"></a>
+        </h1>
+        <p>&copy; 2015 桂庆</p>
+        <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+  <script src="/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+  <script src="/scrollLoading/main.js" type="text/javascript"></script>
+
+
+<script src="/js/html-patch.js" type="text/javascript"></script>
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

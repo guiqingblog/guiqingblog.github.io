@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>架构的概念和最基本的三层架构 | 桂庆的个人主页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="架构Martin Fowler 给”架构”这个词做了两点归纳:
+
+最高层次的系统分解 
+系统中不易改变的决定
+
+它包括了一些开发者希望能够及早做出的决定,因为这些决定看起来是难以改变的. 如果发现一些决定并不像你想象的那么难以改变,那么他就不再与架构相关.这么下去,架构自然就浓缩成了一些重要的东西.
+在架构模式中,层次是最为重要的,Martin Fowler的&amp;lt;&amp;lt;企业应用架构模式&amp;gt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="架构的概念和最基本的三层架构">
+<meta property="og:url" content="http://yoursite.com/2014/11/06/应用架构/架构的概念和最基本的三层架构/index.html">
+<meta property="og:site_name" content="桂庆的个人主页">
+<meta property="og:description" content="架构Martin Fowler 给”架构”这个词做了两点归纳:
+
+最高层次的系统分解 
+系统中不易改变的决定
+
+它包括了一些开发者希望能够及早做出的决定,因为这些决定看起来是难以改变的. 如果发现一些决定并不像你想象的那么难以改变,那么他就不再与架构相关.这么下去,架构自然就浓缩成了一些重要的东西.
+在架构模式中,层次是最为重要的,Martin Fowler的&amp;lt;&amp;lt;企业应用架构模式&amp;gt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="架构的概念和最基本的三层架构">
+<meta name="twitter:description" content="架构Martin Fowler 给”架构”这个词做了两点归纳:
+
+最高层次的系统分解 
+系统中不易改变的决定
+
+它包括了一些开发者希望能够及早做出的决定,因为这些决定看起来是难以改变的. 如果发现一些决定并不像你想象的那么难以改变,那么他就不再与架构相关.这么下去,架构自然就浓缩成了一些重要的东西.
+在架构模式中,层次是最为重要的,Martin Fowler的&amp;lt;&amp;lt;企业应用架构模式&amp;gt">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  
+  
+    <link rel="stylesheet" href="/scrollLoading/style.css" type="text/css">
+  
+  
+
+
+  
+    <style type="text/css">
+      .logo { background-image:url(http://ppoffice.github.io/hexo-theme-hueman/css/images/logo-header.png); }
+    </style>
+  
+
+  
+    <link href='//fonts.useso.com/css?family=Titillium+Web:300,400,600' rel='stylesheet' type='text/css'>
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="wrap">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div class="container">
+      <div class="container-inner">
+        <div id="header-title">
+          <h1 class="logo-wrap">
+            <a href="/" class="logo"></a>
+          </h1>
+          
+            <h2 class="subtitle-wrap">
+              <p class="subtitle">记录自己的学习 工作 感悟</p>
+            </h2>
+          
+        </div>
+        <div id="header-inner" class="nav-container">
+          <a id="main-nav-toggle" class="nav-icon"></a>
+          <div class="nav-container-inner">
+            <ul id="main-nav">
+              
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/">主页</a></li>
+              
+                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/iOS-OC/">iOS&OC</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/主页维护记录/">主页维护记录</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/应用架构/">应用架构</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/每日知识总结/">每日知识总结</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/辅助编程技能/">辅助编程技能</a></li></ul>
+                  
+                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/about/index.html">关于我</a></li>
+              
+            </ul>
+            <nav id="sub-nav">
+              <div id="search-form-wrap">
+                <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="container">
+      <div class="main-body container-inner">
+        <div class="main-body-inner">
+          <section id="main">
+            <div class="main-body-header">
+
+              <h1 class="header"><a class="page-title-link" href="/categories/应用架构/">应用架构</a></h1>
+            </div>
+            <div class="main-body-content">
+              
+  <article id="post-应用架构/架构的概念和最基本的三层架构" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+      <!--  -->
+      
+        <header class="article-header">
+          
+  
+    <h1 class="article-title" itemprop="name">
+      架构的概念和最基本的三层架构
+    </h1>
+  
+
+        </header>
+      
+      <p class="article-byline">
+        <a href="/2014/11/06/应用架构/架构的概念和最基本的三层架构/" class="article-date">
+  <time datetime="2014-11-06T09:43:41.000Z" itemprop="datePublished">2014-11-06</time>
+</a>
+      </p>
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="架构">架构</h2><p>Martin Fowler 给”架构”这个词做了两点归纳:</p>
+<ol>
+<li>最高层次的系统分解 </li>
+<li>系统中不易改变的决定</li>
+</ol>
+<p>它包括了一些开发者希望能够及早做出的决定,因为这些决定看起来是难以改变的. 如果发现一些决定并不像你想象的那么难以改变,那么他就不再与架构相关.这么下去,架构自然就浓缩成了一些重要的东西.</p>
+<p>在架构模式中,层次是最为重要的,Martin Fowler的&lt;&lt;企业应用架构模式&gt;&gt;全书都在阐释怎么将企业应用组织成不同的层次,还有这些层次如何协同工作.<br>架构和模式<br><a id="more"></a><br>其实二者没有严格的区分标准,我们依照架构的”不可轻易改变”抽取出了一部分模式来作为架构,其余的模式作为辅助,帮助架构的实现.这个和前面的说法很相似,因为”是否架构相关往往带有主观性”<br>企业应用</p>
+<p>这里所提到的架构只是适合企业应用的,给企业应用下做几条标准就是:</p>
+<ul>
+<li>涉及到持久化数据</li>
+<li>涉及到大量数据及其处理</li>
+<li>涉及到很多人同事访问数据</li>
+<li>涉及到大量操作数据的用户界面</li>
+<li>与散布在企业周围的其他企业应用集成</li>
+</ul>
+<h2 id="业务逻辑">业务逻辑</h2><p>说是逻辑,其实是最没有逻辑的地方,因为系统中的逻辑并非取决于人们平时的认知,而是来自客户的要求,而客户的要求总是千奇百怪的<br>硬件提升可以解决的问题,就不要交给软件</p>
+<h2 id="层的基本概念和演化">层的基本概念和演化</h2><p>在分解复杂的软件系统时,设计者用的最多的技术之一就是分层.你一定对大学里面的网络分层还有印象,依照不同的标准,我们有个七层网络模型 或者五层网络模型 ,到后来参加工作,听到网络专业的同学们会说:我们是在XX层工作的</p>
+<p>分层的好处可以归纳为以下几点:</p>
+<ul>
+<li>每一层都可以分配人员进行工作,他们可以不用了解其他层的细节<br>  可以替换某个层的实现</li>
+<li>一个层次一旦构建好,就可以为其他层次工作.可复用性强</li>
+</ul>
+<p>当然,事情都是两面的,分层的缺点是:</p>
+<ul>
+<li>一个层不能封装好所有的东西.修改一个层,可能会造成级联式的修改,比如,我们在用户界面(表现层)上增加一个要显示的数据,就必须在数据库中增加对应的字段(持久层)</li>
+<li>层次太多会影响性能 层级之间传递数据是链式的,每个层都会把数据从一种形式转换到另一种形式,层次越多,处理就越多</li>
+</ul>
+<p>分层架构中,最困难的问题</p>
+<ul>
+<li>建立哪些层次?</li>
+<li>每一层的职责?</li>
+</ul>
+<h2 id="层次的起源和进化">层次的起源和进化</h2><h3 id="一层架构">一层架构</h3><p>额,自己从来没见识过这种应用…</p>
+<h3 id="两层架构">两层架构</h3><p>现在企业的应用基本是无法脱离网络的,那么这就造成了天生的两层客户端层 和 服务器层如果应用仅仅是对数据的简单显示和修改,那么这种两层架构还是能够胜任工作的.但是问题来自:每个企业应用都存在所谓的业务逻辑:比如验证,计算,数据的自定义处理等.</p>
+<p>一种思路是把这种逻辑分给两层架构的客户端,这样会很笨拙,并且往往导致把业务逻辑和用户界面耦 合起来,随着业务逻辑的不断复杂,这些代码将越来越难以使用.</p>
+<p>另一种思路是把这些逻辑放到数据库端,作为存储过程.但是存储过程只能提供有限的结构化机制,这将再次导致笨拙的代码.还有,很多人喜欢关系型数据库的原因之一是:SQL是一个标准,这允许他们更换数据库厂商,虽然很少有人更换.但是存储过程是数据库厂商私有的,那么,普通用户就被剥夺了更换厂商的可能性.</p>
+<h3 id="三层架构">三层架构</h3><p>基于以上的问题,一个新的层次便应运而生:业务逻辑层 它成为系统中真正的核心</p>
+<p>三层架构的层次和职责<br>层次     职责<br>表现层     1.显示信息(界面)2.与用户互动(触摸)3.接收信息(加速计等)<br>业务逻辑层     处理业务逻辑<br>数据源层     与数据库,云端,文件等交互,实现数据的持久化</p>
+<p>深入一点说,表现层就是提供一个本应用的接口给别人(或者别的应用)使用,而数据源是使用别的应用的服务(比如数据库软件)</p>
+<p>对每个层的依赖性,有一个普遍的原则: 业务逻辑层和数据源层绝对不要依赖表现层就是说,在业务逻辑层和数据源层的代码中,不要出现调用表现层代码的情况.这个原则将简化在相同基础上,替换表现层的代价,也使得表现层的修改所带来的连锁反应尽量小.</p>
+<p>在使用业务逻辑层的时候,其中一个最复杂的困难就是:什么是业务逻辑,什么是其他逻辑.Martin对这个问题提出了一个不太正规的测试方法:设想向系统中添加一个全新的分层,比如向web应用增加一个命令行界面层.如果在这个过程中,发现需要重复实现某些功能,那么就说明一些本应该在业务逻辑层实现的代码,放到了表现层中了.</p>
+
+      </div>
+      <footer class="article-footer">
+        <a data-url="http://yoursite.com/2014/11/06/应用架构/架构的概念和最基本的三层架构/" data-id="ciaek99gs000krafyp1p2z3nc" class="article-share-link">分享到</a>
+        
+        
+      </footer>
+    </div>
+  </article>
+  
+
+            </div>
+          </section>
+          <aside id="sidebar">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+  <div class="sidebar-top">
+    <p>关注我 :</p>
+    <ul class="social-links">
+      
+        <li><a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank"><i id="icon-github" class="icon"></i></a></li>
+      
+        <li><a class="social-tooltip" title="weibo" href="/" target="_blank"><i id="icon-weibo" class="icon"></i></a></li>
+      
+    </ul>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/11/10/应用架构/ iOS平台(移动平台)架构问题 /" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <p class="article-nav-title">
+        
+          架构的概念和最基本的三层架构
+        
+      </p>
+      <i class="icon" id="icon-chevron-right"></i>
+    </a>
+  
+  
+    <a href="/2014/04/14/iOS&OC/解决TableView重用机制带来的数据混乱问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <p class="article-nav-title">解决TableView重用机制带来的数据混乱问题</p>
+      <i class="icon" id="icon-chevron-left"></i>
+    </a>
+  
+</nav>
+
+  
+  <div class="widgets-container">
+    
+      
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="thumbnail">
+  
+    <span style="background-image:url(http://ww4.sinaimg.cn/large/9e446dffjw1esorix0zrej20hs06qq3q.jpg
+)" alt="2015-06-01滚动监听 触摸点获取 Tranform RecealApp" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/每日知识总结/">每日知识总结</a></p>
+              <p class="item-title"><a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="title">2015-06-01滚动监听 触摸点获取 Tranform RecealApp</a></p>
+              <p class="item-date"><time datetime="2015-06-01T09:57:26.000Z" itemprop="datePublished">2015-06-01</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="thumbnail">
+  
+    <span class="thumbnail-image thumbnail-none"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/iOS-OC/">iOS&OC</a></p>
+              <p class="item-title"><a href="/2015/05/20/iOS&OC/关于-property中NSString的copy/" class="title">关于@property中NSString的copy-深入细节</a></p>
+              <p class="item-date"><time datetime="2015-05-20T02:01:14.000Z" itemprop="datePublished">2015-05-20</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
+  
+    <span style="background-image:url(./15.1.png
+)" alt="15-图层性能" class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="title">15-图层性能</a></p>
+              <p class="item-date"><time datetime="2015-05-12T01:32:52.000Z" itemprop="datePublished">2015-05-12</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="thumbnail">
+  
+    <span style="background-image:url(./14.1.jpeg
+)" alt="14-图像 IO " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/" class="title">14-图像 IO </a></p>
+              <p class="item-date"><time datetime="2015-05-10T01:32:52.000Z" itemprop="datePublished">2015-05-10</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              
+<a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
+  
+    <span style="background-image:url(./13.1.png
+)" alt="13-高效绘图 " class="thumbnail-image"></span>
+  
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a></p>
+              <p class="item-title"><a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="title">13-高效绘图 </a></p>
+              <p class="item-date"><time datetime="2015-05-07T01:32:52.000Z" itemprop="datePublished">2015-05-07</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS-OC/">iOS&OC</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/主页维护记录/">主页维护记录</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/应用架构/">应用架构</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/每日知识总结/">每日知识总结</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入探讨-Core-Animation/">深入探讨 Core Animation</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/辅助编程技能/">辅助编程技能</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">四月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/小脚本大智慧/">小脚本大智慧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试小样/">测试小样</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题解决和思考/">问题解决和思考</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高效OC编程/">高效OC编程</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-float">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/小脚本大智慧/" style="font-size: 10px;">小脚本大智慧</a><a href="/tags/正则表达式/" style="font-size: 13.33px;">正则表达式</a><a href="/tags/测试小样/" style="font-size: 10px;">测试小样</a><a href="/tags/问题解决和思考/" style="font-size: 20px;">问题解决和思考</a><a href="/tags/高效OC编程/" style="font-size: 16.67px;">高效OC编程</a>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-list">
+    <h3 class="widget-title">链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+  
+  <div class="container">
+    <div class="container-inner">
+      <a id="back-to-top" href="javascript:;"><i class="icon" id="icon-angle-up"></i></a>
+      <div class="credit">
+        <h1 class="logo-wrap">
+          <a href="/" class="logo"></a>
+        </h1>
+        <p>&copy; 2015 桂庆</p>
+        <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+  <script src="/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+  <script src="/scrollLoading/main.js" type="text/javascript"></script>
+
+
+<script src="/js/html-patch.js" type="text/javascript"></script>
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
