@@ -19,7 +19,7 @@
 
 在第14章『图像IO』讨论如何高效地载入和显示图像，通过视图来避免可能引起动画帧率下降的性能问题。在最后一章，我们将着重图层树本身，以发掘最好的性能。
 隐式绘制寄宿图可以通过Core Graphics直接绘制，也可以直接载入一个图片文件并赋值给contents属性，或事先绘制一个屏幕之外的CGContext上下文。在">
-<meta property="og:image" content="./15.1.png">
+<meta property="og:image" content="http://i1.tietuku.com/71fdb9ac56e0ea67.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="15-图层性能">
 <meta name="twitter:description" content="图层性能
@@ -178,7 +178,7 @@
 <p>举个例子。清单15.3 的代码展示了一个简单的滚动3D图层矩阵。这看上去很酷，尤其是图层在移动的时候（见图15.1），但是绘制他们并不是很麻烦，因为这些图层就是一些简单的矩形色块。</p>
 <p>清单15.3 绘制3D图层矩阵</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;ViewController.h&#34;&#10;#import &#60;QuartzCore/QuartzCore.h&#62;&#10;&#10;#define WIDTH 10&#10;#define HEIGHT 10&#10;#define DEPTH 10&#10;#define SIZE 100&#10;#define SPACING 150&#10;#define CAMERA_DISTANCE 500&#10;&#10;@interface ViewController ()&#10;&#65532;&#10;@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;&#10;    //set content size&#10;    self.scrollView.contentSize = CGSizeMake((WIDTH - 1)*SPACING, (HEIGHT - 1)*SPACING);&#10;&#10;    //set up perspective transform&#10;    CATransform3D transform = CATransform3DIdentity;&#10;    transform.m34 = -1.0 / CAMERA_DISTANCE;&#10;    self.scrollView.layer.sublayerTransform = transform;&#10;&#10;    //create layers&#10;    for (int z = DEPTH - 1; z &#62;= 0; z--) &#123;&#10;        for (int y = 0; y &#60; HEIGHT; y++) &#123;&#10;            for (int x = 0; x &#60; WIDTH; x++) &#123;&#10;                //create layer&#10;                CALayer *layer = [CALayer layer];&#10;                layer.frame = CGRectMake(0, 0, SIZE, SIZE);&#10;                layer.position = CGPointMake(x*SPACING, y*SPACING);&#10;                layer.zPosition = -z*SPACING;&#10;                //set background color&#10;                layer.backgroundColor = [UIColor colorWithWhite:1-z*(1.0/DEPTH) alpha:1].CGColor;&#10;                //attach to scroll view&#10;                [self.scrollView.layer addSublayer:layer];&#10;            &#125;&#10;        &#125;&#10;    &#125;&#10;    &#65532;&#10;    //log&#10;    NSLog(@&#34;displayed: %i&#34;, DEPTH*HEIGHT*WIDTH);&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./15.1.png" alt=""></p>
+<p><img src="http://i1.tietuku.com/71fdb9ac56e0ea67.png"></p>
 <p>图15.1 滚动的3D图层矩阵</p>
 <p><code>WIDTH</code>，<code>HEIGHT</code>和<code>DEPTH</code>常量控制着图层的生成。在这个情况下，我们得到的是10*10*10个图层，总量为1000个，不过一次性显示在屏幕上的大约就几百个。</p>
 <p>如果把<code>WIDTH</code>和<code>HEIGHT</code>常量增加到100，我们的程序就会慢得像龟爬了。这样我们有了100000个图层，性能下降一点儿也不奇怪。</p>
@@ -208,7 +208,7 @@
 
       </div>
       <footer class="article-footer">
-        <a data-url="http://yoursite.com/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" data-id="ciaeq9897002bigykqqiyqzzc" class="article-share-link">分享到</a>
+        <a data-url="http://yoursite.com/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" data-id="ciaeraoqa002bt6yklzg4ggje" class="article-share-link">分享到</a>
         
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a></li></ul>
@@ -309,7 +309,7 @@
               
 <a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
   
-    <span style="background-image:url(./15.1.png
+    <span style="background-image:url(http://i1.tietuku.com/71fdb9ac56e0ea67.png
 )" alt="15-图层性能" class="thumbnail-image"></span>
   
 </a>
@@ -349,7 +349,7 @@
               
 <a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
   
-    <span style="background-image:url(./13.1.png
+    <span style="background-image:url(http://i1.tietuku.com/b45317302adb1929.png
 )" alt="13-高效绘图 " class="thumbnail-image"></span>
   
 </a>

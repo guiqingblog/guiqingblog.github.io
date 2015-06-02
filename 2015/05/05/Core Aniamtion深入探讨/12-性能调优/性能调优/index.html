@@ -19,19 +19,19 @@ CPU VS GPU关于绘图和动画有两种处理的方式：CPU（中">
 
 在第一和第二部分，我们了解了Core Animation提供的关于绘制和动画的一些特性。Core Animation功能和性能都非常强大，但如果你对背后的原理不清楚的话也会降低效率。让它达到最优的状态是一门艺术。在这章中，我们将探究一些动画运行慢的原因，以及如何去修复这些问题。
 CPU VS GPU关于绘图和动画有两种处理的方式：CPU（中">
-<meta property="og:image" content="./12.1.jpeg">
-<meta property="og:image" content="./12.2.jpeg">
-<meta property="og:image" content="./12.3.jpeg">
-<meta property="og:image" content="./12.4.jpeg">
-<meta property="og:image" content="./12.5.jpeg">
-<meta property="og:image" content="./12.6.jpeg">
-<meta property="og:image" content="./12.7.jpeg">
+<meta property="og:image" content="http://i1.tietuku.com/0c49015f90a1a3de.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/9c6d9b7f266c048c.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/c6861e4fab274a3c.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/f5236352fc76e9e9.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/6c5041d391a4bb60.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/f319f480f0af3370.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/7dad274bc2839dd2.jpg">
 <meta property="og:image" content="./12.8.jpeg">
-<meta property="og:image" content="./12.9.jpeg">
-<meta property="og:image" content="./12.10.jpeg">
-<meta property="og:image" content="./12.11.jpeg">
-<meta property="og:image" content="./12.12.jpeg">
-<meta property="og:image" content="./12.13.jpeg">
+<meta property="og:image" content="http://i1.tietuku.com/05af7935c9390100.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/8478e54c7cd14bb4.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/ccf7d985814711f3.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/6efd22d3ede24b81.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/19be3065d8b6eb51.jpg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="12-性能调优 ">
 <meta name="twitter:description" content="性能调优
@@ -206,7 +206,7 @@ CPU VS GPU关于绘图和动画有两种处理的方式：CPU（中">
 <p>你可以在程序中用<code>CADisplayLink</code>来测量帧率（就像11章“基于定时器的动画”中那样），然后在屏幕上显示出来，但应用内的FPS显示并不能够完全真实测量出Core Animation性能，因为它仅仅测出应用内的帧率。我们知道很多动画都在应用之外发生（在渲染服务器进程中处理），但同时应用内FPS计数的确可以对某些性能问题提供参考，一旦找出一个问题的地方，你就需要得到更多精确详细的数据来定位到问题所在。苹果提供了一个强大的<em>Instruments</em>工具集来帮我们做到这些。</p>
 <h2 id="Instruments">Instruments</h2><p>Instruments是Xcode套件中没有被充分利用的一个工具。很多iOS开发者从没用过Instruments，或者只是用Leaks工具检测循环引用。实际上有很多Instruments工具，包括为动画性能调优的东西。</p>
 <p>你可以通过在菜单中选择Profile选项来打开Instruments（在这之前，记住要把目标设置成iOS设备，而不是模拟器）。然后将会显示出图12.1（如果没有看到所有选项，你可能设置成了模拟器选项）。</p>
-<p><img src="./12.1.jpeg" title="图12.1" alt="图12.1" width="700"></p>
+<p><img src="http://i1.tietuku.com/0c49015f90a1a3de.jpg" title="图12.1" alt="图12.1" width="700"></p>
 <p>图12.1 Instruments工具选项窗口</p>
 <p>就像之前提到的那样，你应该始终将程序设置成发布选项。幸运的是，配置文件默认就是发布选项，所以你不需要在分析的时候调整编译策略。</p>
 <p>我们将讨论如下几个工具：</p>
@@ -219,11 +219,11 @@ CPU VS GPU关于绘图和动画有两种处理的方式：CPU（中">
 </li>
 </ul>
 <p>Instruments的一个很棒的功能在于它可以创建我们自定义的工具集。除了你初始选择的工具之外，如果在Instruments中打开Library窗口，你可以拖拽别的工具到左侧边栏。我们将创建以上我们提到的三个工具，然后就可以并行使用了（见图12.2）。</p>
-<p><img src="./12.2.jpeg" title="图12.2" alt="图12.2" width="700"></p>
+<p><img src="http://i1.tietuku.com/9c6d9b7f266c048c.jpg" title="图12.2" alt="图12.2" width="700"></p>
 <p>图12.2 添加额外的工具到Instruments侧边栏</p>
 <h3 id="时间分析器">时间分析器</h3><p>时间分析器工具用来检测CPU的使用情况。它可以告诉我们程序中的哪个方法正在消耗大量的CPU时间。使用大量的CPU并<em>不一定</em>是个问题 - 你可能期望动画路径对CPU非常依赖，因为动画往往是iOS设备中最苛刻的任务。</p>
 <p>但是如果你有性能问题，查看CPU时间对于判断性能是不是和CPU相关，以及定位到函数都很有帮助（见图12.3）。</p>
-<p><img src="./12.3.jpeg" title="图12.3" alt="图12.3" width="700"></p>
+<p><img src="http://i1.tietuku.com/c6861e4fab274a3c.jpg" title="图12.3" alt="图12.3" width="700"></p>
 <p>图12.3 时间分析器工具</p>
 <p>时间分析器有一些选项来帮助我们定位到我们关心的的方法。可以使用左侧的复选框来打开。其中最有用的是如下几点：</p>
 <ul>
@@ -235,7 +235,7 @@ CPU VS GPU关于绘图和动画有两种处理的方式：CPU（中">
 </li>
 </ul>
 <h3 id="Core_Animation">Core Animation</h3><p>Core Animation工具用来监测Core Animation性能。它给我们提供了周期性的FPS，并且考虑到了发生在程序之外的动画（见图12.4）。</p>
-<p><img src="./12.4.jpeg" title="图12.4" alt="图12.4" width="700"></p>
+<p><img src="http://i1.tietuku.com/f5236352fc76e9e9.jpg" title="图12.4" alt="图12.4" width="700"></p>
 <p>图12.4 使用可视化调试选项的Core Animation工具</p>
 <p>Core Animation工具也提供了一系列复选框选项来帮助调试渲染瓶颈：</p>
 <ul>
@@ -257,10 +257,10 @@ CPU VS GPU关于绘图和动画有两种处理的方式：CPU（中">
 </li>
 </ul>
 <p>这些高亮图层的选项同样在iOS模拟器的调试菜单也可用（图12.5）。我们之前说过用模拟器测试性能并不好，但如果你能通过这些高亮选项识别出性能问题出在什么地方的话，那么使用iOS模拟器来验证问题是否解决也是比真机测试更有效的。</p>
-<p><img src="./12.5.jpeg" title="图12.5" alt="图12.5" width="700"></p>
+<p><img src="http://i1.tietuku.com/6c5041d391a4bb60.jpg" title="图12.5" alt="图12.5" width="700"></p>
 <p>图12.5 iOS模拟器中Core Animation可视化调试选项</p>
 <h3 id="OpenGL_ES驱动">OpenGL ES驱动</h3><p>OpenGL ES驱动工具可以帮你测量GPU的利用率，同样也是一个很好的来判断和GPU相关动画性能的指示器。它同样也提供了类似Core Animation那样显示FPS的工具（图12.6）。</p>
-<p><img src="./12.6.jpeg" title="图12.6" alt="图12.6" width="700"></p>
+<p><img src="http://i1.tietuku.com/f319f480f0af3370.jpg" title="图12.6" alt="图12.6" width="700"></p>
 <p>图12.6 OpenGL ES驱动工具</p>
 <p>侧栏的邮编是一系列有用的工具。其中和Core Animation性能最相关的是如下几点：</p>
 <ul>
@@ -274,31 +274,31 @@ CPU VS GPU关于绘图和动画有两种处理的方式：CPU（中">
 <p>清单12.1 使用假数据的一个简单联系人列表</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;ViewController.h&#34;&#10;#import &#60;QuartzCore/QuartzCore.h&#62;&#10;&#10;@interface ViewController () &#60;UITableViewDataSource&#62;&#10;&#10;@property (nonatomic, strong) NSArray *items;&#10;@property (nonatomic, weak) IBOutlet UITableView *tableView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (NSString *)randomName&#10;&#123;&#10;    NSArray *first = @[@&#34;Alice&#34;, @&#34;Bob&#34;, @&#34;Bill&#34;, @&#34;Charles&#34;, @&#34;Dan&#34;, @&#34;Dave&#34;, @&#34;Ethan&#34;, @&#34;Frank&#34;];&#10;    NSArray *last = @[@&#34;Appleseed&#34;, @&#34;Bandicoot&#34;, @&#34;Caravan&#34;, @&#34;Dabble&#34;, @&#34;Ernest&#34;, @&#34;Fortune&#34;];&#10;    NSUInteger index1 = (rand()/(double)INT_MAX) * [first count];&#10;    NSUInteger index2 = (rand()/(double)INT_MAX) * [last count];&#10;    return [NSString stringWithFormat:@&#34;%@ %@&#34;, first[index1], last[index2]];&#10;&#125;&#10;&#10;- (NSString *)randomAvatar&#10;&#123;&#10;    NSArray *images = @[@&#34;Snowman&#34;, @&#34;Igloo&#34;, @&#34;Cone&#34;, @&#34;Spaceship&#34;, @&#34;Anchor&#34;, @&#34;Key&#34;];&#10;    NSUInteger index = (rand()/(double)INT_MAX) * [images count];&#10;    return images[index];&#10;&#125;&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //set up data&#10;    NSMutableArray *array = [NSMutableArray array];&#10;    for (int i = 0; i &#60; 1000; i++) &#123;&#10;        &#65532;//add name&#10;        [array addObject:@&#123;@&#34;name&#34;: [self randomName], @&#34;image&#34;: [self randomAvatar]&#125;];&#10;    &#125;&#10;    self.items = array;&#10;    //register cell class&#10;    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@&#34;Cell&#34;];&#10;&#125;&#10;&#10;- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section&#10;&#123;&#10;    return [self.items count];&#10;&#125;&#10;&#10;- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath&#10;&#123;&#10;    //dequeue cell&#10;    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@&#34;Cell&#34; forIndexPath:indexPath];&#10;    //load image&#10;    NSDictionary *item = self.items[indexPath.row];&#10;    NSString *filePath = [[NSBundle mainBundle] pathForResource:item[@&#34;image&#34;] ofType:@&#34;png&#34;];&#10;    //set image and text&#10;    cell.imageView.image = [UIImage imageWithContentsOfFile:filePath];&#10;    cell.textLabel.text = item[@&#34;name&#34;];&#10;    //set image shadow&#10;    cell.imageView.layer.shadowOffset = CGSizeMake(0, 5);&#10;    cell.imageView.layer.shadowOpacity = 0.75;&#10;    cell.clipsToBounds = YES;&#10;    //set text shadow&#10;    cell.textLabel.backgroundColor = [UIColor clearColor];&#10;    cell.textLabel.layer.shadowOffset = CGSizeMake(0, 2);&#10;    cell.textLabel.layer.shadowOpacity = 0.5;&#10;    return cell;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
 <p>当快速滑动的时候就会非常卡（见图12.7的FPS计数器）。</p>
-<p><img src="./12.7.jpeg" title="图12.7" alt="图12.7" width="700"></p>
+<p><img src="http://i1.tietuku.com/7dad274bc2839dd2.jpg" title="图12.7" alt="图12.7" width="700"></p>
 <p>图12.7 滑动帧率降到15FPS</p>
 <p>仅凭直觉，我们猜测性能瓶颈应该在图片加载。我们实时从闪存加载图片，而且没有缓存，所以很可能是这个原因。我们可以用一些很赞的代码修复，然后使用GCD异步加载图片，然后缓存。。。等一下，在开始编码之前，测试一下假设是否成立。首先用我们的三个Instruments工具分析一下程序来定位问题。我们推测问题可能和图片加载相关，所以用Time Profiler工具来试试（图12.8）。</p>
 <p><img src="./12.8.jpeg" title="图12.8" alt="图12.8" width="700"></p>
 <p>图12.8 用The timing profile分析联系人列表</p>
 <p><code>-tableView:cellForRowAtIndexPath:</code>中的CPU时间总利用率只有~28%（也就是加载头像图片的地方），非常低。于是建议是CPU/IO并不是真正的限制因素。然后看看是不是GPU的问题：在OpenGL ES Driver工具中检测GPU利用率（图12.9）。</p>
-<p><img src="./12.9.jpeg" title="图12.9" alt="图12.9" width="700"></p>
+<p><img src="http://i1.tietuku.com/05af7935c9390100.jpg" title="图12.9" alt="图12.9" width="700"></p>
 <p>图12.9 OpenGL ES Driver工具显示的GPU利用率</p>
 <p>渲染服务利用率的值达到51%和63%。看起来GPU需要做很多工作来渲染联系人列表。</p>
 <p>为什么GPU利用率这么高呢？我们来用Core Animation调试工具选项来检查屏幕。首先打开Color Blended Layers（图12.10）。</p>
-<p><img src="./12.10.jpeg" title="图12.10" alt="图12.10" width="700"></p>
+<p><img src="http://i1.tietuku.com/8478e54c7cd14bb4.jpg" title="图12.10" alt="图12.10" width="700"></p>
 <p>图12.10 使用Color Blended Layers选项调试程序</p>
 <p>屏幕中所有红色的部分都意味着字符标签视图的高级别混合，这很正常，因为我们把背景设置成了透明色来显示阴影效果。这就解释了为什么渲染利用率这么高了。</p>
 <p>那么离屏绘制呢？打开Core Animation工具的Color Offscreen - Rendered Yellow选项（图12.11）。</p>
-<p><img src="./12.11.jpeg" title="图12.11" alt="图12.11" width="700"></p>
+<p><img src="http://i1.tietuku.com/ccf7d985814711f3.jpg" title="图12.11" alt="图12.11" width="700"></p>
 <p>图12.11 Color Offscreen–Rendered Yellow选项</p>
 <p>所有的表格单元内容都在离屏绘制。这一定是因为我们给图片和标签视图添加的阴影效果。在代码中禁用阴影，然后看下性能是否有提高（图12.12）。</p>
-<p><img src="./12.12.jpeg" title="图12.12" alt="图12.12" width="700"></p>
+<p><img src="http://i1.tietuku.com/6efd22d3ede24b81.jpg" title="图12.12" alt="图12.12" width="700"></p>
 <p>图12.12 禁用阴影之后运行程序接近60FPS</p>
 <p>问题解决了。干掉阴影之后，滑动很流畅。但是我们的联系人列表看起来没有之前好了。那如何保持阴影效果而且不会影响性能呢？</p>
 <p>好吧，每一行的字符和头像在每一帧刷新的时候并不需要变，所以看起来<code>UITableViewCell</code>的图层非常适合做缓存。我们可以使用<code>shouldRasterize</code>来缓存图层内容。这将会让图层离屏之后渲染一次然后把结果保存起来，直到下次利用的时候去更新（见清单12.2）。</p>
 <p>清单12.2 使用<code>shouldRasterize</code>提高性能</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath&#10;&#65532;&#123;&#10;    //dequeue cell&#10;    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@&#34;Cell&#34;&#10;                                                                 forIndexPath:indexPath];&#10;    ...&#10;    //set text shadow&#10;    cell.textLabel.backgroundColor = [UIColor clearColor];&#10;    cell.textLabel.layer.shadowOffset = CGSizeMake(0, 2);&#10;    cell.textLabel.layer.shadowOpacity = 0.5;&#10;    //rasterize&#10;    cell.layer.shouldRasterize = YES;&#10;    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;&#10;    return cell;&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>我们仍然离屏绘制图层内容，但是由于显式地禁用了栅格化，Core Animation就对绘图缓存了结果，于是对提高了性能。我们可以验证缓存是否有效，在Core Animation工具中点击Color Hits Green and Misses Red选项（图12.13）。</p>
-<p><img src="./12.13.jpeg" title="图12.13" alt="图12.13" width="700"></p>
+<p><img src="http://i1.tietuku.com/19be3065d8b6eb51.jpg" title="图12.13" alt="图12.13" width="700"></p>
 <p>图12.13 Color Hits Green and Misses Red验证了缓存有效</p>
 <p>结果和预期一致 - 大部分都是绿色，只有当滑动到屏幕上的时候会闪烁成红色。因此，现在帧率更加平滑了。</p>
 <p>所以我们最初的设想是错的。图片的加载并不是真正的瓶颈所在，而且试图把它置于一个复杂的多线程加载和缓存的实现都将是徒劳。所以在动手修复之前验证问题所在是个很好的习惯！</p>
@@ -308,7 +308,7 @@ CPU VS GPU关于绘图和动画有两种处理的方式：CPU（中">
 
       </div>
       <footer class="article-footer">
-        <a data-url="http://yoursite.com/2015/05/05/Core Aniamtion深入探讨/12-性能调优/性能调优/" data-id="ciaeq989m002kigykc8g750sp" class="article-share-link">分享到</a>
+        <a data-url="http://yoursite.com/2015/05/05/Core Aniamtion深入探讨/12-性能调优/性能调优/" data-id="ciaeraoqo002kt6ykpvil2c3w" class="article-share-link">分享到</a>
         
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a></li></ul>
@@ -409,7 +409,7 @@ CPU VS GPU关于绘图和动画有两种处理的方式：CPU（中">
               
 <a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
   
-    <span style="background-image:url(./15.1.png
+    <span style="background-image:url(http://i1.tietuku.com/71fdb9ac56e0ea67.png
 )" alt="15-图层性能" class="thumbnail-image"></span>
   
 </a>
@@ -449,7 +449,7 @@ CPU VS GPU关于绘图和动画有两种处理的方式：CPU（中">
               
 <a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
   
-    <span style="background-image:url(./13.1.png
+    <span style="background-image:url(http://i1.tietuku.com/b45317302adb1929.png
 )" alt="13-高效绘图 " class="thumbnail-image"></span>
   
 </a>

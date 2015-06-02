@@ -15,12 +15,12 @@
 <meta property="og:description" content="显式动画如果想让事情变得顺利，只有靠自己 — 夏尔·纪尧姆
 上一章介绍了隐式动画的概念。隐式动画是在iOS平台创建动态用户界面的一种直接方式，也是UIKit动画机制的基础，不过它并不能涵盖所有的动画类型。在这一章中，我们将要研究一下显式动画，它能够对一些属性做指定的自定义动画，或者创建非线性动画，比如沿着任意一条曲线移动。
 属性动画首先我们来探讨一下属性动画。属性动画作用于图层的某个单一属性，并指">
-<meta property="og:image" content="./8.1.jpeg">
-<meta property="og:image" content="./8.2.jpeg">
-<meta property="og:image" content="./8.3.jpeg">
-<meta property="og:image" content="./8.4.jpeg">
-<meta property="og:image" content="./8.5.jpeg">
-<meta property="og:image" content="./8.6.jpeg">
+<meta property="og:image" content="http://i1.tietuku.com/f9c6ddc84006573f.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/b5c15c767ec3bf11.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/d538242825a36eed.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/140bf15249048b86.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/5ba7e64fa4bbdb46.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/00f139efb4221bc3.jpg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="8-显式动画">
 <meta name="twitter:description" content="显式动画如果想让事情变得顺利，只有靠自己 — 夏尔·纪尧姆
@@ -234,13 +234,13 @@
 <p>我们这次用<code>CAShapeLayer</code>来在屏幕上绘制曲线，尽管对动画来说并不是必须的，但这会让我们的动画更加形象。绘制完<code>CGPath</code>之后，我们用它来创建一个<code>CAKeyframeAnimation</code>，然后用它来应用到我们的宇宙飞船。代码见清单8.6，结果见图8.1。</p>
 <p>清单8.6 沿着一个贝塞尔曲线对图层做动画</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create a path&#10;    UIBezierPath *bezierPath = [[UIBezierPath alloc] init];&#10;    [bezierPath moveToPoint:CGPointMake(0, 150)];&#10;    [bezierPath addCurveToPoint:CGPointMake(300, 150) controlPoint1:CGPointMake(75, 0) controlPoint2:CGPointMake(225, 300)];&#10;    //draw the path using a CAShapeLayer&#10;    CAShapeLayer *pathLayer = [CAShapeLayer layer];&#10;    pathLayer.path = bezierPath.CGPath;&#10;    pathLayer.fillColor = [UIColor clearColor].CGColor;&#10;    pathLayer.strokeColor = [UIColor redColor].CGColor;&#10;    pathLayer.lineWidth = 3.0f;&#10;    [self.containerView.layer addSublayer:pathLayer];&#10;    //add the ship&#10;    CALayer *shipLayer = [CALayer layer];&#10;    shipLayer.frame = CGRectMake(0, 0, 64, 64);&#10;    shipLayer.position = CGPointMake(0, 150);&#10;    shipLayer.contents = (__bridge id)[UIImage imageNamed: @&#34;Ship.png&#34;].CGImage;&#10;    [self.containerView.layer addSublayer:shipLayer];&#10;    //create the keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;position&#34;;&#10;    animation.duration = 4.0;&#10;    animation.path = bezierPath.CGPath;&#10;    [shipLayer addAnimation:animation forKey:nil];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./8.1.jpeg" alt="图8.1" title="图8.1" width="700"></p>
+<p><img src="http://i1.tietuku.com/f9c6ddc84006573f.jpg" alt="图8.1" title="图8.1" width="700"></p>
 <p>图8.1 沿着一个贝塞尔曲线移动的宇宙飞船图片</p>
 <p>运行示例，你会发现飞船的动画有些不太真实，这是因为当它运动的时候永远指向右边，而不是指向曲线切线的方向。你可以调整它的<code>affineTransform</code>来对运动方向做动画，但很可能和其它的动画冲突。</p>
 <p>幸运的是，苹果预见到了这点，并且给<code>CAKeyFrameAnimation</code>添加了一个<code>rotationMode</code>的属性。设置它为常量<code>kCAAnimationRotateAuto</code>（清单8.7），图层将会根据曲线的切线自动旋转（图8.2）。</p>
 <p>清单8.7 通过<code>rotationMode</code>自动对齐图层到曲线</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create a path&#10;    ...&#10;    //create the keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;position&#34;;&#10;    animation.duration = 4.0;&#10;    animation.path = bezierPath.CGPath;&#10;    animation.rotationMode = kCAAnimationRotateAuto;&#10;    [shipLayer addAnimation:animation forKey:nil];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="./8.2.jpeg" alt="图8.2" title="图8.2" width="700"></p>
+<p><img src="http://i1.tietuku.com/b5c15c767ec3bf11.jpg" alt="图8.2" title="图8.2" width="700"></p>
 <p>图8.2 匹配曲线切线方向的飞船图层</p>
 <h3 id="虚拟属性">虚拟属性</h3><p>之前提到过属性动画实际上是针对于关键<em>路径</em>而不是一个键，这就意味着可以对子属性甚至是<em>虚拟属性</em>做动画。但是<em>虚拟</em>属性到底是什么呢？</p>
 <p>考虑一个旋转的动画：如果想要对一个物体做旋转的动画，那就需要作用于<code>transform</code>属性，因为<code>CALayer</code>没有显式提供角度或者方向之类的属性，代码如清单8.8所示</p>
@@ -266,7 +266,7 @@
 <h2 id="动画组">动画组</h2><p><code>CABasicAnimation</code>和<code>CAKeyframeAnimation</code>仅仅作用于单独的属性，而<code>CAAnimationGroup</code>可以把这些动画组合在一起。<code>CAAnimationGroup</code>是另一个继承于<code>CAAnimation</code>的子类，它添加了一个<code>animations</code>数组的属性，用来组合别的动画。我们把清单8.6那种关键帧动画和调整图层背景色的基础动画组合起来（清单8.10），结果如图8.3所示。</p>
 <p>清单8.10 组合关键帧动画和基础动画</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create a path&#10;    UIBezierPath *bezierPath = [[UIBezierPath alloc] init];&#10;    [bezierPath moveToPoint:CGPointMake(0, 150)];&#10;    [bezierPath addCurveToPoint:CGPointMake(300, 150) controlPoint1:CGPointMake(75, 0) controlPoint2:CGPointMake(225, 300)];&#10;    //draw the path using a CAShapeLayer&#10;    CAShapeLayer *pathLayer = [CAShapeLayer layer];&#10;    pathLayer.path = bezierPath.CGPath;&#10;    pathLayer.fillColor = [UIColor clearColor].CGColor;&#10;    pathLayer.strokeColor = [UIColor redColor].CGColor;&#10;    pathLayer.lineWidth = 3.0f;&#10;    [self.containerView.layer addSublayer:pathLayer];&#10;    //add a colored layer&#10;    CALayer *colorLayer = [CALayer layer];&#10;    colorLayer.frame = CGRectMake(0, 0, 64, 64);&#10;    colorLayer.position = CGPointMake(0, 150);&#10;    colorLayer.backgroundColor = [UIColor greenColor].CGColor;&#10;    [self.containerView.layer addSublayer:colorLayer];&#10;    //create the position animation&#10;    CAKeyframeAnimation *animation1 = [CAKeyframeAnimation animation];&#10;    animation1.keyPath = @&#34;position&#34;;&#10;    animation1.path = bezierPath.CGPath;&#10;    animation1.rotationMode = kCAAnimationRotateAuto;&#10;    //create the color animation&#10;    CABasicAnimation *animation2 = [CABasicAnimation animation];&#10;    animation2.keyPath = @&#34;backgroundColor&#34;;&#10;    animation2.toValue = (__bridge id)[UIColor redColor].CGColor;&#10;    //create group animation&#10;    CAAnimationGroup *groupAnimation = [CAAnimationGroup animation];&#10;    groupAnimation.animations = @[animation1, animation2]; &#10;    groupAnimation.duration = 4.0;&#10;    //add the animation to the color layer&#10;    [colorLayer addAnimation:groupAnimation forKey:nil];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="./8.3.jpeg" alt="图8.3" title="图8.3" width="700"></p>
+<p><img src="http://i1.tietuku.com/d538242825a36eed.jpg" alt="图8.3" title="图8.3" width="700"></p>
 <p>图8.3 关键帧路径和基础动画的组合</p>
 <h2 id="过渡">过渡</h2><p>有时候对于iOS应用程序来说，希望能通过属性动画来对比较难做动画的布局进行一些改变。比如交换一段文本和图片，或者用一段网格视图来替换，等等。属性动画只对图层的可动画属性起作用，所以如果要改变一个不能动画的属性（比如图片），或者从层级关系中添加或者移除图层，属性动画将不起作用。</p>
 <p>于是就有了过渡的概念。过渡并不像属性动画那样平滑地在两个值之间做动画，而是影响到整个图层的变化。过渡动画首先展示之前的图层外观，然后通过一个交换过渡到新的外观。</p>
@@ -288,7 +288,7 @@ k<span class="built_in">CATransitionFromBottom</span>
 <p>清单8.11 使用<code>CATransition</code>来对<code>UIImageView</code>做动画</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIImageView *imageView;&#10;@property (nonatomic, copy) NSArray *images;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //set up images&#10;    self.images = @[[UIImage imageNamed:@&#34;Anchor.png&#34;],&#10;                    [UIImage imageNamed:@&#34;Cone.png&#34;],&#10;                    [UIImage imageNamed:@&#34;Igloo.png&#34;],&#10;                    [UIImage imageNamed:@&#34;Spaceship.png&#34;]];&#10;&#125;&#10;&#10;&#10;- (IBAction)switchImage&#10;&#123;&#10;    //set up crossfade transition&#10;    CATransition *transition = [CATransition animation];&#10;    transition.type = kCATransitionFade;&#10;    //apply transition to imageview backing layer&#10;    [self.imageView.layer addAnimation:transition forKey:nil];&#10;    //cycle to next image&#10;    UIImage *currentImage = self.imageView.image;&#10;    NSUInteger index = [self.images indexOfObject:currentImage];&#10;    index = (index + 1) % [self.images count];&#10;    self.imageView.image = self.images[index];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
 <p>你可以从代码中看出，过渡动画和之前的属性动画或者动画组添加到图层上的方式一致，都是通过<code>-addAnimation:forKey:</code>方法。但是和属性动画不同的是，对指定的图层一次只能使用一次<code>CATransition</code>，因此，无论你对动画的键设置什么值，过渡动画都会对它的键设置成“transition”，也就是常量<code>kCATransition</code>。</p>
-<p><img src="./8.4.jpeg" alt="图8.4" title="图8.4" width="700"></p>
+<p><img src="http://i1.tietuku.com/140bf15249048b86.jpg" alt="图8.4" title="图8.4" width="700"></p>
 <p>图8.4 使用<code>CATransition</code>对图像平滑淡入淡出</p>
 <h3 id="隐式过渡">隐式过渡</h3><p><code>CATransision</code>可以对图层任何变化平滑过渡的事实使得它成为那些不好做动画的属性图层行为的理想候选。苹果当然意识到了这点，并且当设置了<code>CALayer</code>的<code>content</code>属性的时候，<code>CATransition</code>的确是默认的行为。但是对于视图关联的图层，或者是其他隐式动画的行为，这个特性依然是被禁用的，但是对于你自己创建的图层，这意味着对图层<code>contents</code>图片做的改动都会自动附上淡入淡出的动画。</p>
 <p>我们在第七章使用<code>CATransition</code>作为一个图层行为来改变图层的背景色，当然<code>backgroundColor</code>属性可以通过正常的<code>CAPropertyAnimation</code>来实现，但这不是说不可以用<code>CATransition</code>来实行。</p>
@@ -318,7 +318,7 @@ k<span class="built_in">CATransitionFromBottom</span>
 <p>为了让事情更简单，我们用<code>UIView -animateWithDuration:completion:</code>方法来实现。虽然用<code>CABasicAnimation</code>可以达到同样的效果，但是那样的话我们就需要对图层的变换和不透明属性创建单独的动画，然后当动画结束的是哦户在<code>CAAnimationDelegate</code>中把<code>coverView</code>从屏幕中移除。</p>
 <p>清单8.14 用<code>renderInContext:</code>创建自定义过渡效果</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@implementation ViewController&#10;- (IBAction)performTransition&#10;&#123;&#10;    //preserve the current view snapshot&#10;    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, YES, 0.0);&#10;    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];&#10;    UIImage *coverImage = UIGraphicsGetImageFromCurrentImageContext();&#10;    //insert snapshot view in front of this one&#10;    UIView *coverView = [[UIImageView alloc] initWithImage:coverImage];&#10;    coverView.frame = self.view.bounds;&#10;    [self.view addSubview:coverView];&#10;    //update the view (we&#39;ll simply randomize the layer background color)&#10;    CGFloat red = arc4random() / (CGFloat)INT_MAX;&#10;    CGFloat green = arc4random() / (CGFloat)INT_MAX;&#10;    CGFloat blue = arc4random() / (CGFloat)INT_MAX;&#10;    self.view.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];&#10;    //perform animation (anything you like)&#10;    [UIView animateWithDuration:1.0 animations:^&#123;&#10;        //scale, rotate and fade the view&#10;        CGAffineTransform transform = CGAffineTransformMakeScale(0.01, 0.01);&#10;        transform = CGAffineTransformRotate(transform, M_PI_2);&#10;        coverView.transform = transform;&#10;        coverView.alpha = 0.0;&#10;    &#125; completion:^(BOOL finished) &#123;&#10;        //remove the cover view now we&#39;re finished with it&#10;        [coverView removeFromSuperview];&#10;    &#125;];&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./8.5.jpeg" alt="图8.5" title="图8.5" width="700"></p>
+<p><img src="http://i1.tietuku.com/5ba7e64fa4bbdb46.jpg" alt="图8.5" title="图8.5" width="700"></p>
 <p>图8.5 使用<code>renderInContext:</code>创建自定义过渡效果</p>
 <p>这里有个警告：<code>-renderInContext:</code>捕获了图层的图片和子图层，但是不能对子图层正确地处理变换效果，而且对视频和OpenGL内容也不起作用。但是用<code>CATransition</code>，或者用私有的截屏方式就没有这个限制了。</p>
 <h2 id="在动画过程中取消动画">在动画过程中取消动画</h2><p>之前提到过，你可以用<code>-addAnimation:forKey:</code>方法中的<code>key</code>参数来在添加动画之后检索一个动画，使用如下方法：</p>
@@ -333,7 +333,7 @@ k<span class="built_in">CATransitionFromBottom</span>
 <p>清单8.15是更新后的示例代码，图8.6显示了结果。</p>
 <p>清单8.15 开始和停止一个动画</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, strong) CALayer *shipLayer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //add the ship&#10;    self.shipLayer = [CALayer layer];&#10;    self.shipLayer.frame = CGRectMake(0, 0, 128, 128);&#10;    self.shipLayer.position = CGPointMake(150, 150);&#10;    self.shipLayer.contents = (__bridge id)[UIImage imageNamed: @&#34;Ship.png&#34;].CGImage;&#10;    [self.containerView.layer addSublayer:self.shipLayer];&#10;&#125;&#10;&#10;- (IBAction)start&#10;&#123;&#10;    //animate the ship rotation&#10;    CABasicAnimation *animation = [CABasicAnimation animation];&#10;    animation.keyPath = @&#34;transform.rotation&#34;;&#10;    animation.duration = 2.0;&#10;    animation.byValue = @(M_PI * 2);&#10;    animation.delegate = self;&#10;    [self.shipLayer addAnimation:animation forKey:@&#34;rotateAnimation&#34;];&#10;&#125;&#10;&#10;- (IBAction)stop&#10;&#123;&#10;    [self.shipLayer removeAnimationForKey:@&#34;rotateAnimation&#34;];&#10;&#125;&#10;&#10;- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag&#10;&#123;&#10;    //log that the animation stopped&#10;    NSLog(@&#34;The animation stopped (finished: %@)&#34;, flag? @&#34;YES&#34;: @&#34;NO&#34;);&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./8.6.jpeg" alt="图8.6" title="图8.6" width="700"></p>
+<p><img src="http://i1.tietuku.com/00f139efb4221bc3.jpg" alt="图8.6" title="图8.6" width="700"></p>
 <p>图8.6 通过开始和停止按钮控制的旋转动画</p>
 <h2 id="总结">总结</h2><p>这一章中，我们涉及了属性动画（你可以对单独的图层属性动画有更加具体的控制），动画组（把多个属性动画组合成一个独立单元）以及过度（影响整个图层，可以用来对图层的任何内容做任何类型的动画，包括子图层的添加和移除）。</p>
 <p>在第九章中，我们继续学习<code>CAMediaTiming</code>协议，来看一看Core Animation是怎样处理逝去的时间。</p>
@@ -341,7 +341,7 @@ k<span class="built_in">CATransitionFromBottom</span>
 
       </div>
       <footer class="article-footer">
-        <a data-url="http://yoursite.com/2015/04/27/Core Aniamtion深入探讨/8-显式动画/显式动画/" data-id="ciaeq988f001qigykemc6gm3m" class="article-share-link">分享到</a>
+        <a data-url="http://yoursite.com/2015/04/27/Core Aniamtion深入探讨/8-显式动画/显式动画/" data-id="ciaeraopf001qt6ykp0zo11cs" class="article-share-link">分享到</a>
         
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a></li></ul>
@@ -442,7 +442,7 @@ k<span class="built_in">CATransitionFromBottom</span>
               
 <a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
   
-    <span style="background-image:url(./15.1.png
+    <span style="background-image:url(http://i1.tietuku.com/71fdb9ac56e0ea67.png
 )" alt="15-图层性能" class="thumbnail-image"></span>
   
 </a>
@@ -482,7 +482,7 @@ k<span class="built_in">CATransitionFromBottom</span>
               
 <a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
   
-    <span style="background-image:url(./13.1.png
+    <span style="background-image:url(http://i1.tietuku.com/b45317302adb1929.png
 )" alt="13-高效绘图 " class="thumbnail-image"></span>
   
 </a>

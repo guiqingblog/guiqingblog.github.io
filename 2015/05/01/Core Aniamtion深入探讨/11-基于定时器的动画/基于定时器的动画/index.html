@@ -19,8 +19,8 @@
 
 在第10章“缓冲”中，我们研究了CAMediaTimingFunction，它是一个通过控制动画缓冲来模拟物理效果例如加速或者减速来增强现实感的东西，那么如果想更加真实地模拟物理交互或者实时根据用户输入修改动画改怎么办呢？在这一章中，我们将继续探索一种能够允许我们精确地控制一帧一帧展示的基于定时器的动画。
 定时帧动画看起来是">
-<meta property="og:image" content="./11.1.jpeg">
-<meta property="og:image" content="./11.2.jpeg">
+<meta property="og:image" content="http://i1.tietuku.com/2f702cbbb66d60ea.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/190ae60feaa25e3c.jpg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="11-基于定时器的动画">
 <meta name="twitter:description" content="基于定时器的动画
@@ -195,7 +195,7 @@
 <p>具体的代码见清单11.3。注意到我们并没有在任何地方释放<code>cpSpace</code>对象。在这个例子中，内存空间将会在整个app的生命周期中一直存在，所以这没有问题。但是在现实世界的场景中，我们需要像创建木箱结构体和形状一样去管理我们的空间，封装在标准的Cocoa对象中，然后来管理Chipmunk对象的生命周期。图11.1展示了掉落的木箱。</p>
 <p>清单11.3 使用物理学来对掉落的木箱建模</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;ViewController.h&#34; &#10;#import &#60;QuartzCore/QuartzCore.h&#62;&#10;#import &#34;chipmunk.h&#34;&#10;&#13;@interface Crate : UIImageView&#10;&#13;@property (nonatomic, assign) cpBody *body;&#13;@property (nonatomic, assign) cpShape *shape;&#10;&#10;@end&#10;&#13;@implementation Crate&#10;&#13;#define MASS 100&#10;&#13;- (id)initWithFrame:(CGRect)frame&#10;&#123;&#13;    if ((self = [super initWithFrame:frame])) &#123;&#13;        //set image&#13;        self.image = [UIImage imageNamed:@&#34;Crate.png&#34;];&#10;        self.contentMode = UIViewContentModeScaleAspectFill;&#13;        //create the body&#13;        self.body = cpBodyNew(MASS, cpMomentForBox(MASS, frame.size.width, frame.size.height));&#13;        //create the shape&#13;        cpVect corners[] = &#123;&#10;            cpv(0, 0),&#13;            cpv(0, frame.size.height),&#10;            cpv(frame.size.width, frame.size.height),&#10;            cpv(frame.size.width, 0),&#13;        &#125;;&#13;        self.shape = cpPolyShapeNew(self.body, 4, corners, cpv(-frame.size.width/2, -frame.size.height/2));&#13;        //set shape friction &#38; elasticity&#13;        cpShapeSetFriction(self.shape, 0.5);&#10;        cpShapeSetElasticity(self.shape, 0.8);&#13;        //link the crate to the shape&#13;        //so we can refer to crate from callback later on&#10;        self.shape-&#62;data = (__bridge void *)self;&#13;        //set the body position to match view&#13;        cpBodySetPos(self.body, cpv(frame.origin.x + frame.size.width/2, 300 - frame.origin.y - frame.size.height/2));&#13;    &#125;&#13;    return self;&#10;&#125;&#10;&#13;- (void)dealloc&#10;&#123;&#13;    //release shape and body&#13;    cpShapeFree(_shape);&#13;    cpBodyFree(_body);&#10;&#125;&#10;&#13;@end&#10;&#13;@interface ViewController ()&#10;&#13;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, assign) cpSpace *space;&#13;@property (nonatomic, strong) CADisplayLink *timer;&#10;@property (nonatomic, assign) CFTimeInterval lastStep;&#10;&#13;@end&#10;&#13;@implementation ViewController&#10;&#10;#define GRAVITY 1000&#10;&#13;- (void)viewDidLoad&#10;&#123;&#13;    //invert view coordinate system to match physics&#13;    self.containerView.layer.geometryFlipped = YES;&#13;    //set up physics space&#13;    self.space = cpSpaceNew();&#10;    cpSpaceSetGravity(self.space, cpv(0, -GRAVITY));&#13;    //add a crate&#13;    Crate *crate = [[Crate alloc] initWithFrame:CGRectMake(100, 0, 100, 100)];&#10;    [self.containerView addSubview:crate];&#13;    cpSpaceAddBody(self.space, crate.body);&#13;    cpSpaceAddShape(self.space, crate.shape);&#10;    //start the timer&#13;    self.lastStep = CACurrentMediaTime();&#13;    self.timer = [CADisplayLink displayLinkWithTarget:self&#13;                                             selector:@selector(step:)];&#10;    [self.timer addToRunLoop:[NSRunLoop mainRunLoop]&#10;                     forMode:NSDefaultRunLoopMode];&#10;&#125;&#10;&#13;void updateShape(cpShape *shape, void *unused)&#10;&#123;&#13;    //get the crate object associated with the shape&#13;    Crate *crate = (__bridge Crate *)shape-&#62;data;&#13;    //update crate view position and angle to match physics shape&#13;    cpBody *body = shape-&#62;body;&#13;    crate.center = cpBodyGetPos(body);&#13;    crate.transform = CGAffineTransformMakeRotation(cpBodyGetAngle(body));&#13;&#125;&#10;&#13;- (void)step:(CADisplayLink *)timer&#10;&#123;&#13;    //calculate step duration&#13;    CFTimeInterval thisStep = CACurrentMediaTime();&#10;    CFTimeInterval stepDuration = thisStep - self.lastStep;&#10;    self.lastStep = thisStep;&#13;    //update physics&#13;    cpSpaceStep(self.space, stepDuration);&#13;    //update all the shapes&#13;    cpSpaceEachShape(self.space, &#38;updateShape, NULL);&#10;&#125;&#10;&#13;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./11.1.jpeg" alt="图11.1" title="图11.1" width="700"></p>
+<p><img src="http://i1.tietuku.com/2f702cbbb66d60ea.jpg" alt="图11.1" title="图11.1" width="700"></p>
 <p>图11.1 一个木箱图片，根据模拟的重力掉落</p>
 <h3 id="添加用户交互">添加用户交互</h3><p>下一步就是在视图周围添加一道不可见的墙，这样木箱就不会掉落出屏幕之外。或许你会用另一个矩形的<code>cpPolyShape</code>来实现，就和之前创建木箱那样，但是我们需要检测的是木箱何时离开视图，而不是何时碰撞，所以我们需要一个空心而不是固体矩形。</p>
 <p>我们可以通过给<code>cpSpace</code>添加四个<code>cpSegmentShape</code>对象（<code>cpSegmentShape</code>代表一条直线，所以四个拼起来就是一个矩形）。然后赋给空间的<code>staticBody</code>属性（一个不被重力影响的结构体）而不是像木箱那样一个新的<code>cpBody</code>实例，因为我们不想让这个边框矩形滑出屏幕或者被一个下落的木箱击中而消失。</p>
@@ -204,7 +204,7 @@
 <p>清单11.4 使用围墙和多个木箱的更新后的代码</p>
 <pre><code class="objetive-c">- (void)addCrateWithFrame:(CGRect)frame&#10;{&#10;    Crate *crate = [[Crate alloc] initWithFrame:frame];&#10;    [self.containerView addSubview:crate];&#10;    cpSpaceAddBody(self.space, crate.body);&#10;    cpSpaceAddShape(self.space, crate.shape);&#10;}&#10;&#10;- (void)addWallShapeWithStart:(cpVect)start end:(cpVect)end&#10;{&#10;    cpShape *wall = cpSegmentShapeNew(self.space-&#62;staticBody, start, end, 1);&#10;    cpShapeSetCollisionType(wall, 2);&#10;    cpShapeSetFriction(wall, 0.5);&#10;    cpShapeSetElasticity(wall, 0.8);&#10;    cpSpaceAddStaticShape(self.space, wall);&#10;}&#10;&#10;- (void)viewDidLoad&#10;{&#10;    //invert view coordinate system to match physics&#10;    self.containerView.layer.geometryFlipped = YES;&#10;    //set up physics space&#10;    self.space = cpSpaceNew();&#10;    cpSpaceSetGravity(self.space, cpv(0, -GRAVITY));&#10;    //add wall around edge of view&#10;    [self addWallShapeWithStart:cpv(0, 0) end:cpv(300, 0)];&#10;    [self addWallShapeWithStart:cpv(300, 0) end:cpv(300, 300)];&#10;    [self addWallShapeWithStart:cpv(300, 300) end:cpv(0, 300)];&#10;    [self addWallShapeWithStart:cpv(0, 300) end:cpv(0, 0)];&#10;    //add a crates&#10;    [self addCrateWithFrame:CGRectMake(0, 0, 32, 32)];&#10;    [self addCrateWithFrame:CGRectMake(32, 0, 32, 32)];&#10;    [self addCrateWithFrame:CGRectMake(64, 0, 64, 64)];&#10;    [self addCrateWithFrame:CGRectMake(128, 0, 32, 32)];&#10;    [self addCrateWithFrame:CGRectMake(0, 32, 64, 64)];&#10;    //start the timer&#10;    self.lastStep = CACurrentMediaTime();&#10;    self.timer = [CADisplayLink displayLinkWithTarget:self&#10;                                             selector:@selector(step:)];&#10;    [self.timer addToRunLoop:[NSRunLoop mainRunLoop]&#10;                     forMode:NSDefaultRunLoopMode];&#10;    //update gravity using accelerometer&#10;    [UIAccelerometer sharedAccelerometer].delegate = self;&#10;    [UIAccelerometer sharedAccelerometer].updateInterval = 1/60.0;&#10;}&#10;&#10;- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration&#10;{&#10;    //update gravity&#10;    cpSpaceSetGravity(self.space, cpv(acceleration.y * GRAVITY, -acceleration.x * GRAVITY));&#10;}
 </code></pre>
-<p><img src="./11.2.jpeg" alt="图11.2" title="图11.2" width="700"></p>
+<p><img src="http://i1.tietuku.com/190ae60feaa25e3c.jpg" alt="图11.2" title="图11.2" width="700"></p>
 <p>图11.1 真实引力场下的木箱交互</p>
 <h3 id="模拟时间以及固定的时间步长">模拟时间以及固定的时间步长</h3><p>对于实现动画的缓冲效果来说，计算每帧持续的时间是一个很好的解决方案，但是对模拟物理效果并不理想。通过一个可变的时间步长来实现有着两个弊端：</p>
 <ul>
@@ -228,7 +228,7 @@
 
       </div>
       <footer class="article-footer">
-        <a data-url="http://yoursite.com/2015/05/01/Core Aniamtion深入探讨/11-基于定时器的动画/基于定时器的动画/" data-id="ciaeq989p002nigykp8zs2tdl" class="article-share-link">分享到</a>
+        <a data-url="http://yoursite.com/2015/05/01/Core Aniamtion深入探讨/11-基于定时器的动画/基于定时器的动画/" data-id="ciaeraoqr002nt6yklxw1d8e3" class="article-share-link">分享到</a>
         
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a></li></ul>
@@ -329,7 +329,7 @@
               
 <a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
   
-    <span style="background-image:url(./15.1.png
+    <span style="background-image:url(http://i1.tietuku.com/71fdb9ac56e0ea67.png
 )" alt="15-图层性能" class="thumbnail-image"></span>
   
 </a>
@@ -369,7 +369,7 @@
               
 <a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
   
-    <span style="background-image:url(./13.1.png
+    <span style="background-image:url(http://i1.tietuku.com/b45317302adb1929.png
 )" alt="13-高效绘图 " class="thumbnail-image"></span>
   
 </a>

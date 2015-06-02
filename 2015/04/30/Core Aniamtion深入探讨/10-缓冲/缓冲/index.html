@@ -19,12 +19,12 @@
 
 在第九章“图层时间”中，我们讨论了动画时间和CAMediaTiming协议。现在我们来看一下另一个和时间相关的机制—所谓的缓冲。Core Animation使用缓冲来使动画移动更平滑更自然，而不是看起来的那种机械和人工，在这一章我们将要研究如何对你的动画控制和自定义缓冲曲线。
 动画速度动画实际上就是一段时间内的变化，这就暗示了">
-<meta property="og:image" content="10.1.jpeg">
-<meta property="og:image" content="10.2.jpeg">
-<meta property="og:image" content="10.3.jpeg">
-<meta property="og:image" content="10.4.jpeg">
-<meta property="og:image" content="10.5.jpeg">
-<meta property="og:image" content="10.6.jpeg">
+<meta property="og:image" content="http://i1.tietuku.com/a8f3e8543a3762ee.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/39b12c63e37567a2.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/36a1595533faa918.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/d7c51f50e07bd65d.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/c25b0fe1ffab4f70.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/c5ecf790479e24ed.jpg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="10-缓冲">
 <meta name="twitter:description" content="缓冲
@@ -175,29 +175,29 @@ k<span class="built_in">CAMediaTimingFunctionDefault</span>
 <p>除了<code>+functionWithName:</code>之外，<code>CAMediaTimingFunction</code>同样有另一个构造函数，一个有四个浮点参数的<code>+functionWithControlPoints::::</code>（注意这里奇怪的语法，并没有包含具体每个参数的名称，这在objective-C中是合法的，但是却违反了苹果对方法命名的指导方针，而且看起来是一个奇怪的设计）。</p>
 <p>使用这个方法，我们可以创建一个自定义的缓冲函数，来匹配我们的时钟动画，为了理解如何使用这个方法，我们要了解一些<code>CAMediaTimingFunction</code>是如何工作的。</p>
 <h3 id="三次贝塞尔曲线">三次贝塞尔曲线</h3><p><code>CAMediaTimingFunction</code>函数的主要原则在于它把输入的时间转换成起点和终点之间成比例的改变。我们可以用一个简单的图标来解释，横轴代表时间，纵轴代表改变的量，于是线性的缓冲就是一条从起点开始的简单的斜线（图10.1）。</p>
-<p><img src="10.1.jpeg" alt="图10.1" title="图10.1" width="700"></p>
+<p><img src="http://i1.tietuku.com/a8f3e8543a3762ee.jpg" alt="图10.1" title="图10.1" width="700"></p>
 <p>图10.1 线性缓冲函数的图像</p>
 <p>这条曲线的斜率代表了速度，斜率的改变代表了加速度，原则上来说，任何加速的曲线都可以用这种图像来表示，但是<code>CAMediaTimingFunction</code>使用了一个叫做<em>三次贝塞尔曲线</em>的函数，它只可以产出指定缓冲函数的子集（我们之前在第八章中创建<code>CAKeyframeAnimation</code>路径的时候提到过三次贝塞尔曲线）。</p>
 <p>你或许会回想起，一个三次贝塞尔曲线通过四个点来定义，第一个和最后一个点代表了曲线的起点和终点，剩下中间两个点叫做<em>控制点</em>，因为它们控制了曲线的形状，贝塞尔曲线的控制点其实是位于曲线之外的点，也就是说曲线并不一定要穿过它们。你可以把它们想象成吸引经过它们曲线的磁铁。</p>
 <p>图10.2展示了一个三次贝塞尔缓冲函数的例子</p>
-<p><img src="10.2.jpeg" alt="图10.2" title="图10.2" width="700"></p>
+<p><img src="http://i1.tietuku.com/39b12c63e37567a2.jpg" alt="图10.2" title="图10.2" width="700"></p>
 <p>图10.2 三次贝塞尔缓冲函数</p>
 <p>实际上它是一个很奇怪的函数，先加速，然后减速，最后快到达终点的时候又加速，那么标准的缓冲函数又该如何用图像来表示呢？</p>
 <p><code>CAMediaTimingFunction</code>有一个叫做<code>-getControlPointAtIndex:values:</code>的方法，可以用来检索曲线的点，这个方法的设计的确有点奇怪（或许也就只有苹果能回答为什么不简单返回一个<code>CGPoint</code>），但是使用它我们可以找到标准缓冲函数的点，然后用<code>UIBezierPath</code>和<code>CAShapeLayer</code>来把它画出来。</p>
 <p>曲线的起始和终点始终是{0, 0}和{1, 1}，于是我们只需要检索曲线的第二个和第三个点（控制点）。具体代码见清单10.4。所有的标准缓冲函数的图像见图10.3。</p>
 <p>清单10.4 使用<code>UIBezierPath</code>绘制<code>CAMediaTimingFunction</code></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create timing function&#10;    CAMediaTimingFunction *function = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut];&#10;    //get control points&#10;    CGPoint controlPoint1, controlPoint2;&#10;    [function getControlPointAtIndex:1 values:(float *)&#38;controlPoint1];&#10;    [function getControlPointAtIndex:2 values:(float *)&#38;controlPoint2];&#10;    //create curve&#10;    UIBezierPath *path = [[UIBezierPath alloc] init];&#10;    [path moveToPoint:CGPointZero];&#10;    [path addCurveToPoint:CGPointMake(1, 1)&#10;            controlPoint1:controlPoint1 controlPoint2:controlPoint2];&#10;    //scale the path up to a reasonable size for display&#10;    [path applyTransform:CGAffineTransformMakeScale(200, 200)];&#10;    //create shape layer&#10;    CAShapeLayer *shapeLayer = [CAShapeLayer layer];&#10;    shapeLayer.strokeColor = [UIColor redColor].CGColor;&#10;    shapeLayer.fillColor = [UIColor clearColor].CGColor;&#10;    shapeLayer.lineWidth = 4.0f;&#10;    shapeLayer.path = path.CGPath;&#10;    [self.layerView.layer addSublayer:shapeLayer];&#10;    //flip geometry so that 0,0 is in the bottom-left&#10;    self.layerView.layer.geometryFlipped = YES;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="10.3.jpeg" alt="图10.3" title="图10.3" width="700"></p>
+<p><img src="http://i1.tietuku.com/36a1595533faa918.jpg" alt="图10.3" title="图10.3" width="700"></p>
 <p>图10.3 标准<code>CAMediaTimingFunction</code>缓冲曲线</p>
 <p>那么对于我们自定义时钟指针的缓冲函数来说，我们需要初始微弱，然后迅速上升，最后缓冲到终点的曲线，通过一些实验之后，最终结果如下：</p>
 <pre><code><span class="title">[CAMediaTimingFunction functionWithControlPoints:1 :0 :0.75 :1]</span><span class="comment">;</span>
 </code></pre><p>如果把它转换成缓冲函数的图像，最后如图10.4所示，如果把它添加到时钟的程序，就形成了之前一直期待的非常赞的效果（见代清单10.5）。</p>
-<p><img src="10.4.jpeg" alt="图10.4" title="图10.4" width="700"></p>
+<p><img src="http://i1.tietuku.com/d7c51f50e07bd65d.jpg" alt="图10.4" title="图10.4" width="700"></p>
 <p>图10.4 自定义适合时钟的缓冲函数</p>
 <p>清单10.5 添加了自定义缓冲函数的时钟程序</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)setAngle:(CGFloat)angle forHand:(UIView *)handView &#65532;animated:(BOOL)animated&#10;&#123;&#10;    //generate transform&#10;    CATransform3D transform = CATransform3DMakeRotation(angle, 0, 0, 1);&#10;    if (animated) &#123;&#10;        //create transform animation&#10;        CABasicAnimation *animation = [CABasicAnimation animation];&#10;        animation.keyPath = @&#34;transform&#34;;&#10;        animation.fromValue = [handView.layer.presentationLayer valueForKey:@&#34;transform&#34;];&#10;        animation.toValue = [NSValue valueWithCATransform3D:transform];&#10;        animation.duration = 0.5;&#10;        animation.delegate = self;&#10;        animation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:1 :0 :0.75 :1];&#10;        //apply animation&#10;        handView.layer.transform = transform;&#10;        [handView.layer addAnimation:animation forKey:nil];&#10;    &#125; else &#123;&#10;        //set transform directly&#10;        handView.layer.transform = transform;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="更加复杂的动画曲线">更加复杂的动画曲线</h3><p>考虑一个橡胶球掉落到坚硬的地面的场景，当开始下落的时候，它会持续加速知道落到地面，然后经过几次反弹，最后停下来。如果用一张图来说明，它会如图10.5所示。</p>
-<p><img src="10.5.jpeg" alt="图10.5" title="图10.5" width="700"></p>
+<p><img src="http://i1.tietuku.com/c25b0fe1ffab4f70.jpg" alt="图10.5" title="图10.5" width="700"></p>
 <p>图10.5 一个没法用三次贝塞尔曲线描述的反弹的动画</p>
 <p>这种效果没法用一个简单的三次贝塞尔曲线表示，于是不能用<code>CAMediaTimingFunction</code>来完成。但如果想要实现这样的效果，可以用如下几种方法：</p>
 <ul>
@@ -208,7 +208,7 @@ k<span class="built_in">CAMediaTimingFunctionDefault</span>
 <p>清单10.6展示了实现反弹球动画的代码（见图10.6）</p>
 <p>清单10.6 使用关键帧实现反弹球的动画</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, strong) UIImageView *ballView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //add ball image view&#10;    UIImage *ballImage = [UIImage imageNamed:@&#34;Ball.png&#34;];&#10;    self.ballView = [[UIImageView alloc] initWithImage:ballImage];&#10;    [self.containerView addSubview:self.ballView];&#10;    //animate&#10;    [self animate];&#10;&#125;&#10;&#10;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#10;    //replay animation on tap&#10;    [self animate];&#10;&#125;&#10;&#10;- (void)animate&#10;&#123;&#10;    //reset ball to top of screen&#10;    self.ballView.center = CGPointMake(150, 32);&#10;    //create keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;position&#34;;&#10;    animation.duration = 1.0;&#10;    animation.delegate = self;&#10;    animation.values = @[&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 32)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 140)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 220)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 250)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)]&#10;                         ];&#10;    &#10;    animation.timingFunctions = @[&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn]&#10;                                  ];&#10;    &#10;    animation.keyTimes = @[@0.0, @0.3, @0.5, @0.7, @0.8, @0.9, @0.95, @1.0];&#10;    //apply animation&#10;    self.ballView.layer.position = CGPointMake(150, 268);&#10;    [self.ballView.layer addAnimation:animation forKey:nil];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="10.6.jpeg" alt="图10.6" title="图10.6" width="700"></p>
+<p><img src="http://i1.tietuku.com/c5ecf790479e24ed.jpg" alt="图10.6" title="图10.6" width="700"></p>
 <p>图10.6 使用关键帧实现的反弹球动画</p>
 <p>这种方式还算不错，但是实现起来略显笨重（因为要不停地尝试计算各种关键帧和时间偏移）并且和动画强绑定了（因为如果要改变动画的一个属性，那就意味着要重新计算所有的关键帧）。那该如何写一个方法，用缓冲函数来把任何简单的属性动画转换成关键帧动画呢，下面我们来实现它。</p>
 <h3 id="流程自动化">流程自动化</h3><p>在清单10.6中，我们把动画分割成相当大的几块，然后用Core Animation的缓冲进入和缓冲退出函数来大约形成我们想要的曲线。但如果我们把动画分割成更小的几部分，那么我们就可以用直线来拼接这些曲线（也就是线性缓冲）。为了实现自动化，我们需要知道如何做如下两件事情：</p>
@@ -237,7 +237,7 @@ k<span class="built_in">CAMediaTimingFunctionDefault</span>
 
       </div>
       <footer class="article-footer">
-        <a data-url="http://yoursite.com/2015/04/30/Core Aniamtion深入探讨/10-缓冲/缓冲/" data-id="ciaeq989s002qigykelmukwt3" class="article-share-link">分享到</a>
+        <a data-url="http://yoursite.com/2015/04/30/Core Aniamtion深入探讨/10-缓冲/缓冲/" data-id="ciaeraoqv002qt6yk274ejzwo" class="article-share-link">分享到</a>
         
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a></li></ul>
@@ -338,7 +338,7 @@ k<span class="built_in">CAMediaTimingFunctionDefault</span>
               
 <a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
   
-    <span style="background-image:url(./15.1.png
+    <span style="background-image:url(http://i1.tietuku.com/71fdb9ac56e0ea67.png
 )" alt="15-图层性能" class="thumbnail-image"></span>
   
 </a>
@@ -378,7 +378,7 @@ k<span class="built_in">CAMediaTimingFunctionDefault</span>
               
 <a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
   
-    <span style="background-image:url(./13.1.png
+    <span style="background-image:url(http://i1.tietuku.com/b45317302adb1929.png
 )" alt="13-高效绘图 " class="thumbnail-image"></span>
   
 </a>

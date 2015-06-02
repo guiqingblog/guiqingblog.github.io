@@ -19,10 +19,10 @@
 
 我们在第一部分讨论了Core Animation除了动画之外可以做到的任何事情。但是动画是Core Animation库一个非常显著的特性。这一章我们来看看它是怎么做到的。具体来说，我们先来讨论框架自动完成的隐式动画（除非你明确禁用了这个功能）。
 事务Core Animation基于一个假设，说屏幕上的任何东西都可以（或者可能）做动">
-<meta property="og:image" content="./7.1.jpeg">
-<meta property="og:image" content="./7.2.jpeg">
-<meta property="og:image" content="./7.3.jpeg">
-<meta property="og:image" content="./7.4.jpeg">
+<meta property="og:image" content="http://i1.tietuku.com/803540a1d49ac4b4.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/0007db923e6966d7.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/4cf77f8ae1cb2ec0.jpg">
+<meta property="og:image" content="http://i1.tietuku.com/2913394b705287e2.jpg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7-隐式动画">
 <meta name="twitter:description" content="隐式动画
@@ -136,7 +136,7 @@
 <p>这看起来这太棒了，似乎不太真实，我们来用一个demo解释一下：首先和第一章“图层树”一样创建一个蓝色的方块，然后添加一个按钮，随机改变它的颜色。代码见清单7.1。点击按钮，你会发现图层的颜色平滑过渡到一个新值，而不是跳变（图7.1）。</p>
 <p>清单7.1 随机改变图层颜色</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView;&#10;@property (nonatomic, weak) IBOutlet CALayer *colorLayer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create sublayer&#10;    self.colorLayer = [CALayer layer];&#10;    self.colorLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);&#10;    self.colorLayer.backgroundColor = [UIColor blueColor].CGColor;&#10;    //add it to our view&#10;    [self.layerView.layer addSublayer:self.colorLayer];&#10;&#125;&#10;&#10;- (IBAction)changeColor&#10;&#123;&#10;    //randomize the layer background color&#10;    CGFloat red = arc4random() / (CGFloat)INT_MAX;&#10;    CGFloat green = arc4random() / (CGFloat)INT_MAX;&#10;    CGFloat blue = arc4random() / (CGFloat)INT_MAX;&#10;    self.colorLayer.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0].CGColor;                                                                                       &#65532;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./7.1.jpeg" alt="图7.1" title="图7.1" width="700"></p>
+<p><img src="http://i1.tietuku.com/803540a1d49ac4b4.jpg" alt="图7.1" title="图7.1" width="700"></p>
 <p>图7.1 添加一个按钮来控制图层颜色</p>
 <p>这其实就是所谓的<em>隐式</em>动画。之所以叫隐式是因为我们并没有指定任何动画的类型。我们仅仅改变了一个属性，然后Core Animation来决定如何并且何时去做动画。Core Animaiton同样支持<em>显式</em>动画，下章详细说明。</p>
 <p>但当你改变一个属性，Core Animation是如何判断动画类型和持续时间的呢？实际上动画执行的时间取决于当前<em>事务</em>的设置，动画类型取决于<em>图层行为</em>。</p>
@@ -154,7 +154,7 @@
 <h2 id="完成块">完成块</h2><p>基于<code>UIView</code>的block的动画允许你在动画结束的时候提供一个完成的动作。<code>CATranscation</code>接口提供的<code>+setCompletionBlock:</code>方法也有同样的功能。我们来调整上个例子，在颜色变化结束之后执行一些操作。我们来添加一个完成之后的block，用来在每次颜色变化结束之后切换到另一个旋转90的动画。代码见清单7.3，运行结果见图7.2。</p>
 <p>清单7.3 在颜色动画完成之后添加一个回调</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)changeColor&#10;&#123;&#10;    //begin a new transaction&#10;    [CATransaction begin];&#10;    //set the animation duration to 1 second&#10;    [CATransaction setAnimationDuration:1.0];&#10;    //add the spin animation on completion&#10;    [CATransaction setCompletionBlock:^&#123;&#10;        //rotate the layer 90 degrees&#10;        CGAffineTransform transform = self.colorLayer.affineTransform;&#10;        transform = CGAffineTransformRotate(transform, M_PI_2);&#10;        self.colorLayer.affineTransform = transform;&#10;    &#125;];&#10;    //randomize the layer background color&#10;    CGFloat red = arc4random() / (CGFloat)INT_MAX;&#10;    CGFloat green = arc4random() / (CGFloat)INT_MAX;&#10;    CGFloat blue = arc4random() / (CGFloat)INT_MAX;&#10;    self.colorLayer.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0].CGColor;&#10;    //commit the transaction&#10;    [CATransaction commit];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="./7.2.jpeg" alt="图7.2" title="图7.2" width="700"></p>
+<p><img src="http://i1.tietuku.com/0007db923e6966d7.jpg" alt="图7.2" title="图7.2" width="700"></p>
 <p>图7.2 颜色渐变之完成之后再做一次旋转</p>
 <p>注意旋转动画要比颜色渐变快得多，这是因为完成块是在颜色渐变的事务提交并出栈之后才被执行，于是，用默认的事务做变换，默认的时间也就变成了0.25秒。</p>
 <h2 id="图层行为">图层行为</h2><p>现在来做个实验，试着直接对UIView关联的图层做动画而不是一个单独的图层。清单7.4是对清单7.2代码的一点修改，移除了<code>colorLayer</code>，并且直接设置<code>layerView</code>关联图层的背景色。</p>
@@ -190,7 +190,7 @@
 <p>第八章中将会详细解释过渡，不过对于现在，知道<code>CATransition</code>响应<code>CAAction</code>协议，并且可以当做一个图层行为就足够了。结果很赞，不论在什么时候改变背景颜色，新的色块都是从左侧滑入，而不是默认的渐变效果。</p>
 <p>清单7.6 实现自定义行为</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView;&#10;@property (nonatomic, weak) IBOutlet CALayer *colorLayer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    &#10;    //create sublayer&#10;    self.colorLayer = [CALayer layer];&#10;    self.colorLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);&#10;    self.colorLayer.backgroundColor = [UIColor blueColor].CGColor;&#10;    //add a custom action&#10;    CATransition *transition = [CATransition animation];&#10;    transition.type = kCATransitionPush;&#10;    transition.subtype = kCATransitionFromLeft;&#10;    self.colorLayer.actions = @&#123;@&#34;backgroundColor&#34;: transition&#125;;&#10;    //add it to our view&#10;    [self.layerView.layer addSublayer:self.colorLayer];&#10;&#125;&#10;&#10;- (IBAction)changeColor&#10;&#123;&#10;    //randomize the layer background color&#10;    CGFloat red = arc4random() / (CGFloat)INT_MAX;&#10;    CGFloat green = arc4random() / (CGFloat)INT_MAX;&#10;    CGFloat blue = arc4random() / (CGFloat)INT_MAX;&#10;    self.colorLayer.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0].CGColor;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./7.3.jpeg" alt="图7.3" title="图7.3" width="700"></p>
+<p><img src="http://i1.tietuku.com/4cf77f8ae1cb2ec0.jpg" alt="图7.3" title="图7.3" width="700"></p>
 <p>图7.3 使用推进过渡的色值动画</p>
 <h2 id="呈现与模型">呈现与模型</h2><p><code>CALayer</code>的属性行为其实很不正常，因为改变一个图层的属性并没有立刻生效，而是通过一段时间渐变更新。这是怎么做到的呢？</p>
 <p>当你改变一个图层的属性，属性值的确是立刻更新的（如果你读取它的数据，你会发现它的值在你设置它的那一刻就已经生效了），但是屏幕上并没有马上发生改变。这是因为你设置的属性并没有直接调整图层的外观，相反，他只是定义了图层动画结束之后将要变化的外观。</p>
@@ -200,7 +200,7 @@
 <p>每个图层属性的显示值都被存储在一个叫做<em>呈现图层</em>的独立图层当中，他可以通过<code>-presentationLayer</code>方法来访问。这个呈现图层实际上是模型图层的复制，但是它的属性值代表了在任何指定时刻当前外观效果。换句话说，你可以通过呈现图层的值来获取当前屏幕上真正显示出来的值（图7.4）。</p>
 <p>我们在第一章中提到除了图层树，另外还有<em>呈现树</em>。呈现树通过图层树中所有图层的呈现图层所形成。注意呈现图层仅仅当图层首次被<em>提交</em>（就是首次第一次在屏幕上显示）的时候创建，所以在那之前调用<code>-presentationLayer</code>将会返回<code>nil</code>。</p>
 <p>你可能注意到有一个叫做<code>–modelLayer</code>的方法。在呈现图层上调用<code>–modelLayer</code>将会返回它正在呈现所依赖的<code>CALayer</code>。通常在一个图层上调用<code>-modelLayer</code>会返回<code>–self</code>（实际上我们已经创建的原始图层就是一种数据模型）。</p>
-<p><img src="./7.4.jpeg" alt="图7.4" title="图7.4" width="700"></p>
+<p><img src="http://i1.tietuku.com/2913394b705287e2.jpg" alt="图7.4" title="图7.4" width="700"></p>
 <p>图7.4 一个移动的图层是如何通过数据模型呈现的</p>
 <p>大多数情况下，你不需要直接访问呈现图层，你可以通过和模型图层的交互，来让Core Animation更新显示。两种情况下呈现图层会变得很有用，一个是同步动画，一个是处理用户交互。</p>
 <ul>
@@ -218,7 +218,7 @@
 
       </div>
       <footer class="article-footer">
-        <a data-url="http://yoursite.com/2015/04/24/Core Aniamtion深入探讨/7-隐式动画/隐式动画/" data-id="ciaeq988i001tigykct9rif1c" class="article-share-link">分享到</a>
+        <a data-url="http://yoursite.com/2015/04/24/Core Aniamtion深入探讨/7-隐式动画/隐式动画/" data-id="ciaeraopj001tt6ykivpthgdx" class="article-share-link">分享到</a>
         
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a></li></ul>
@@ -319,7 +319,7 @@
               
 <a href="/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/" class="thumbnail">
   
-    <span style="background-image:url(./15.1.png
+    <span style="background-image:url(http://i1.tietuku.com/71fdb9ac56e0ea67.png
 )" alt="15-图层性能" class="thumbnail-image"></span>
   
 </a>
@@ -359,7 +359,7 @@
               
 <a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/" class="thumbnail">
   
-    <span style="background-image:url(./13.1.png
+    <span style="background-image:url(http://i1.tietuku.com/b45317302adb1929.png
 )" alt="13-高效绘图 " class="thumbnail-image"></span>
   
 </a>
