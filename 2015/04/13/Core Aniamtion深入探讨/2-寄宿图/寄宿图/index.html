@@ -19,18 +19,18 @@ contents属性CALayer 有一个属性叫做c">
 
 我们在第一章『图层树』中介绍了CALayer类并创建了一个简单的有蓝色背景的图层。背景颜色还好啦，但是如果它仅仅是展现了一个单调的颜色未免也太无聊了。事实上CALayer类能够包含一张你喜欢的图片，这一章节我们将来探索CALayer的寄宿图（即图层中包含的图）。
 contents属性CALayer 有一个属性叫做c">
-<meta property="og:image" content="./2.1.png">
-<meta property="og:image" content="./2.2.png">
-<meta property="og:image" content="./2.3.png">
-<meta property="og:image" content="./2.4.png">
-<meta property="og:image" content="./2.5.png">
-<meta property="og:image" content="./2.6.png">
-<meta property="og:image" content="./2.7.png">
-<meta property="og:image" content="./2.8.png">
-<meta property="og:image" content="./2.9.png">
-<meta property="og:image" content="./2.10.png">
-<meta property="og:image" content="./2.11.png">
-<meta property="og:image" content="./2.12.png">
+<meta property="og:image" content="http://i1.tietuku.com/32c66c1156e89ff6.png">
+<meta property="og:image" content="http://i1.tietuku.com/e60dd08653489c05.png">
+<meta property="og:image" content="http://i1.tietuku.com/265368df4b0dee5d.png">
+<meta property="og:image" content="http://i1.tietuku.com/7ed03480b54336a5.png">
+<meta property="og:image" content="http://i1.tietuku.com/fd4ce0c4dd5a0cc1.png">
+<meta property="og:image" content="http://i1.tietuku.com/87eb9c5c16057eb0.png">
+<meta property="og:image" content="http://i1.tietuku.com/cfbaa7a4d5061b3a.png">
+<meta property="og:image" content="http://i1.tietuku.com/cfbaa7a4d5061b3a.png">
+<meta property="og:image" content="http://i1.tietuku.com/b3f2cc3480447a08.png">
+<meta property="og:image" content="http://i1.tietuku.com/36ceb25b30b0c7dd.png">
+<meta property="og:image" content="http://i1.tietuku.com/f4ac7ce4f38e0537.png">
+<meta property="og:image" content="http://i1.tietuku.com/1bc64ecb7d221235.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2-寄宿图">
 <meta name="twitter:description" content="寄宿图
@@ -149,7 +149,7 @@ contents属性CALayer 有一个属性叫做c">
 <p>清单2.1 更新后的代码。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;  [super viewDidLoad]; //load an image&#10;  UIImage *image = [UIImage imageNamed:@&#34;Snowman.png&#34;];&#10;&#10;  //add it directly to our view&#39;s layer&#10;  self.layerView.layer.contents = (__bridge id)image.CGImage;&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
 <p>图表2.1 在UIView的宿主图层中显示一张图片</p>
-<p><img src="./2.1.png" alt="图2.1"></p>
+<p><img src="http://i1.tietuku.com/32c66c1156e89ff6.png"></p>
 <p>我们用这些简单的代码做了一件很有趣的事情：我们利用CALayer在一个普通的UIView中显示了一张图片。这不是一个UIImageView，它不是我们通常用来展示图片的方法。通过直接操作图层，我们使用了一些新的函数，使得UIView更加有趣了。</p>
 <p><strong>contentGravity</strong></p>
 <p>你可能已经注意到了我们的雪人看起来有点。。。胖 ＝＝！ 我们加载的图片并不刚好是一个方的，为了适应这个视图，它有一点点被拉伸了。在使用UIImageView的时候遇到过同样的问题，解决方法就是把<code>contentMode</code>属性设置成更合适的值，像这样：</p>
@@ -173,7 +173,7 @@ contents属性CALayer 有一个属性叫做c">
 <p>和<code>cotentMode</code>一样，<code>contentsGravity</code>的目的是为了决定内容在图层的边界中怎么对齐，我们将使用kCAGravityResizeAspect，它的效果等同于UIViewContentModeScaleAspectFit， 同时它还能在图层中等比例拉伸以适应图层的边界。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.layerView.layer.contentsGravity = kCAGravityResizeAspect;</span><br></pre></td></tr></table></figure>
 <p>图2.2 可以看到结果</p>
-<p><img src="./2.2.png" alt="image"></p>
+<p><img src="http://i1.tietuku.com/e60dd08653489c05.png"></p>
 <p>图2.2 正确地设置<code>contentsGravity</code>的值</p>
 <h2 id="contentsScale">contentsScale</h2><p><code>contentsScale</code>属性定义了寄宿图的像素尺寸和视图大小的比例，默认情况下它是一个值为1.0的浮点数。</p>
 <p><code>contentsScale</code>的目的并不是那么明显。它并不是总会对屏幕上的寄宿图有影响。如果你尝试对我们的例子设置不同的值，你就会发现根本没任何影响。因为<code>contents</code>由于设置了<code>contentsGravity</code>属性，所以它已经被拉伸以适应图层的边界。</p>
@@ -181,17 +181,17 @@ contents属性CALayer 有一个属性叫做c">
 <p><code>contentsScale</code>属性其实属于支持高分辨率（又称Hi-DPI或Retina）屏幕机制的一部分。它用来判断在绘制图层的时候应该为寄宿图创建的空间大小，和需要显示的图片的拉伸度（假设并没有设置<code>contentsGravity</code>属性）。UIView有一个类似功能但是非常少用到的<code>contentScaleFactor</code>属性。</p>
 <p>如果<code>contentsScale</code>设置为1.0，将会以每个点1个像素绘制图片，如果设置为2.0，则会以每个点2个像素绘制图片，这就是我们熟知的Retina屏幕。（如果你对像素和点的概念不是很清楚的话，这个章节的后面部分将会对此做出解释）。</p>
 <p>这并不会对我们在使用kCAGravityResizeAspect时产生任何影响，因为它就是拉伸图片以适应图层而已，根本不会考虑到分辨率问题。但是如果我们把<code>contentsGravity</code>设置为kCAGravityCenter（这个值并不会拉伸图片），那将会有很明显的变化（如图2.3）</p>
-<p><img src="./2.3.png" alt="图2.3"></p>
+<p><img src="http://i1.tietuku.com/265368df4b0dee5d.png"></p>
 <p>图2.3 用错误的<code>contentsScale</code>属性显示Retina图片</p>
 <p>如你所见，我们的雪人不仅有点大还有点像素的颗粒感。那是因为和UIImage不同，CGImage没有拉伸的概念。当我们使用UIImage类去读取我们的雪人图片的时候，他读取了高质量的Retina版本的图片。但是当我们用CGImage来设置我们的图层的内容时，拉伸这个因素在转换的时候就丢失了。不过我们可以通过手动设置<code>contentsScale</code>来修复这个问题（如2.2清单），图2.4是结果</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;  [super viewDidLoad]; //load an image&#10;  UIImage *image = [UIImage imageNamed:@&#34;Snowman.png&#34;]; //add it directly to our view&#39;s layer&#10;  self.layerView.layer.contents = (__bridge id)image.CGImage; //center the image&#10;  self.layerView.layer.contentsGravity = kCAGravityCenter;&#10;&#10;  //set the contentsScale to match image&#10;  self.layerView.layer.contentsScale = image.scale;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./2.4.png" alt="图2.4"></p>
+<p><img src="http://i1.tietuku.com/7ed03480b54336a5.png"></p>
 <p>图2.4 同样的Retina图片设置了正确的<code>contentsScale</code>之后</p>
 <p>当用代码的方式来处理寄宿图的时候，一定要记住要手动的设置图层的<code>contentsScale</code>属性，否则，你的图片在Retina设备上就显示得不正确啦。代码如下：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">layer.contentsScale = [UIScreen mainScreen].scale;</span><br></pre></td></tr></table></figure>
 <h2 id="maskToBounds">maskToBounds</h2><p>现在我们的雪人总算是显示了正确的大小，不过你也许已经发现了另外一些事情：他超出了视图的边界。默认情况下，UIView仍然会绘制超过边界的内容或是子视图，在CALayer下也是这样的。</p>
 <p>UIView有一个叫做<code>clipsToBounds</code>的属性可以用来决定是否显示超出边界的内容，CALayer对应的属性叫做<code>masksToBounds</code>，把它设置为YES，雪人就在边界里啦～（如图2.5）</p>
-<p><img src="./2.5.png" alt="图2.5"></p>
+<p><img src="http://i1.tietuku.com/fd4ce0c4dd5a0cc1.png"></p>
 <p>图2.5 使用<code>masksToBounds</code>来修建图层内容</p>
 <h2 id="contentsRect">contentsRect</h2><p>CALayer的<code>contentsRect</code>属性允许我们在图层边框里显示寄宿图的一个子域。这涉及到图片是如何显示和拉伸的，所以要比<code>contentsGravity</code>灵活多了</p>
 <p>和<code>bounds</code>，<code>frame</code>不同，<code>contentsRect</code>不是按点来计算的，它使用了<em>单位坐标</em>，单位坐标指定在0到1之间，是一个相对值（像素和点就是绝对值）。所以他们是相对与寄宿图的尺寸的。iOS使用了以下的坐标系统：</p>
@@ -201,32 +201,32 @@ contents属性CALayer 有一个属性叫做c">
 <li>单位 —— 对于与图片大小或是图层边界相关的显示，单位坐标是一个方便的度量方式， 当大小改变的时候，也不需要再次调整。单位坐标在OpenGL这种纹理坐标系统中用得很多，Core Animation中也用到了单位坐标。</li>
 </ul>
 <p>默认的<code>contentsRect</code>是{0, 0, 1, 1}，这意味着整个寄宿图默认都是可见的，如果我们指定一个小一点的矩形，图片就会被裁剪（如图2.6）</p>
-<p><img src="./2.6.png" alt="图2.6"></p>
+<p><img src="http://i1.tietuku.com/87eb9c5c16057eb0.png"></p>
 <p>图2.6 一个自定义的<code>contentsRect</code>（左）和之前显示的内容（右）</p>
 <p>事实上给<code>contentsRect</code>设置一个负数的原点或是大于{1, 1}的尺寸也是可以的。这种情况下，最外面的像素会被拉伸以填充剩下的区域。</p>
 <p><code>contentsRect</code>在app中最有趣的地方在于一个叫做<em>image sprites</em>（图片拼合）的用法。如果你有游戏编程的经验，那么你一定对图片拼合的概念很熟悉，图片能够在屏幕上独立地变更位置。抛开游戏编程不谈，这个技术常用来指代载入拼合的图片，跟移动图片一点关系也没有。</p>
 <p>典型地，图片拼合后可以打包整合到一张大图上一次性载入。相比多次载入不同的图片，这样做能够带来很多方面的好处：内存使用，载入时间，渲染性能等等</p>
 <p>2D游戏引擎入Cocos2D使用了拼合技术，它使用OpenGL来显示图片。不过我们可以使用拼合在一个普通的UIKit应用中，对！就是使用<code>contentsRect</code></p>
 <p>首先，我们需要一个拼合后的图表 —— 一个包含小一些的拼合图的大图片。如图2.7所示：</p>
-<p><img src="./2.7.png" alt="图2.7"></p>
+<p><img src="http://i1.tietuku.com/cfbaa7a4d5061b3a.png"></p>
 <p>接下来，我们要在app中载入并显示这些拼合图。规则很简单：像平常一样载入我们的大图，然后把它赋值给四个独立的图层的<code>contents</code>，然后设置每个图层的<code>contentsRect</code>来去掉我们不想显示的部分。</p>
 <p>我们的工程中需要一些额外的视图。（为了避免太多代码。我们将使用Interface Builder来拜访他们的位置，如果你愿意还是可以用代码的方式来实现的）。清单2.3有需要的代码，图2.8展示了结果</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;@interface ViewController ()&#10;@property (nonatomic, weak) IBOutlet UIView *coneView;&#10;@property (nonatomic, weak) IBOutlet UIView *shipView;&#10;@property (nonatomic, weak) IBOutlet UIView *iglooView;&#10;@property (nonatomic, weak) IBOutlet UIView *anchorView;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)addSpriteImage:(UIImage *)image withContentRect:(CGRect)rect &#65532;toLayer:(CALayer *)layer //set image&#10;&#123;&#10;  layer.contents = (__bridge id)image.CGImage;&#10;&#10;  //scale contents to fit&#10;  layer.contentsGravity = kCAGravityResizeAspect;&#10;&#10;  //set contentsRect&#10;  layer.contentsRect = rect;&#10;&#125;&#10;&#10;- (void)viewDidLoad &#10;&#123;&#10;  [super viewDidLoad]; //load sprite sheet&#10;  UIImage *image = [UIImage imageNamed:@&#34;Sprites.png&#34;];&#10;  //set igloo sprite&#10;  [self addSpriteImage:image withContentRect:CGRectMake(0, 0, 0.5, 0.5) toLayer:self.iglooView.layer];&#10;  //set cone sprite&#10;  [self addSpriteImage:image withContentRect:CGRectMake(0.5, 0, 0.5, 0.5) toLayer:self.coneView.layer];&#10;  //set anchor sprite&#10;  [self addSpriteImage:image withContentRect:CGRectMake(0, 0.5, 0.5, 0.5) toLayer:self.anchorView.layer];&#10;  //set spaceship sprite&#10;  [self addSpriteImage:image withContentRect:CGRectMake(0.5, 0.5, 0.5, 0.5) toLayer:self.shipView.layer];&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./2.8.png" alt="图2.8"></p>
+<p><img src="http://i1.tietuku.com/cfbaa7a4d5061b3a.png"></p>
 <p>拼合不仅给app提供了一个整洁的载入方式，还有效地提高了载入性能（单张大图比多张小图载入地更快），但是如果有手动安排的话，他们还是有一些不方便的，如果你需要在一个已经创建好的品和图上做一些尺寸上的修改或者其他变动，无疑是比较麻烦的。</p>
 <p>Mac上有一些商业软件可以为你自动拼合图片，这些工具自动生成一个包含拼合后的坐标的XML或者plist文件，拼合图片的使用大大简化。这个文件可以和图片一同载入，并给每个拼合的图层设置<code>contentsRect</code>，这样开发者就不用手动写代码来摆放位置了。</p>
 <p>这些文件通常在OpenGL游戏中使用，不过呢，你要是有兴趣在一些常见的app中使用拼合技术，那么一个叫做LayerSprites的开源库（<a href="https://github.com/nicklockwood/LayerSprites" target="_blank" rel="external">https://github.com/nicklockwood/LayerSprites</a>)，它能够读取Cocos2D格式中的拼合图并在普通的Core Animation层中显示出来。</p>
 <h2 id="contentsCenter">contentsCenter</h2><p>本章我们介绍的最后一个和内容有关的属性是<code>contentsCenter</code>，看名字你可能会以为它可能跟图片的位置有关，不过这名字着实误导了你。<code>contentsCenter</code>其实是一个CGRect，它定义了一个固定的边框和一个在图层上可拉伸的区域。 改变<code>contentsCenter</code>的值并不会影响到寄宿图的显示，除非这个图层的大小改变了，你才看得到效果。</p>
 <p>默认情况下，<code>contentsCenter</code>是{0, 0, 1, 1}，这意味着如果大小（由<code>conttensGravity</code>决定）改变了,那么寄宿图将会均匀地拉伸开。但是如果我们增加原点的值并减小尺寸。我们会在图片的周围创造一个边框。图2.9展示了<code>contentsCenter</code>设置为{0.25, 0.25, 0.5, 0.5}的效果。</p>
-<p><img src="./2.9.png" alt="图2.9"></p>
+<p><img src="http://i1.tietuku.com/b3f2cc3480447a08.png"></p>
 <p>图2.9 <code>contentsCenter</code>的例子</p>
 <p>这意味着我们可以随意重设尺寸，边框仍然会是连续的。他工作起来的效果和UIImage里的-resizableImageWithCapInsets: 方法效果非常类似，只是它可以运用到任何寄宿图，甚至包括在Core Graphics运行时绘制的图形（本章稍后会讲到）。</p>
-<p><img src="./2.10.png" alt="图2.10"></p>
+<p><img src="http://i1.tietuku.com/36ceb25b30b0c7dd.png"></p>
 <p>图2.10 同一图片使用不同的<code>contentsCenter</code></p>
 <p>清单2.4 演示了如何编写这些可拉伸视图。不过，contentsCenter的另一个很酷的特性就是，它可以在Interface Builder里面配置，根本不用写代码。如图2.11</p>
 <p>清单2.4 用<code>contentsCenter</code>设置可拉伸视图</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *button1;&#10;@property (nonatomic, weak) IBOutlet UIView *button2;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)addStretchableImage:(UIImage *)image withContentCenter:(CGRect)rect toLayer:(CALayer *)layer&#10;&#123;  &#10;  //set image&#10;  layer.contents = (__bridge id)image.CGImage;&#10;&#10;  //set contentsCenter&#10;  layer.contentsCenter = rect;&#10;&#125;&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;  [super viewDidLoad]; //load button image&#10;  UIImage *image = [UIImage imageNamed:@&#34;Button.png&#34;];&#10;&#10;  //set button 1&#10;  [self addStretchableImage:image withContentCenter:CGRectMake(0.25, 0.25, 0.5, 0.5) toLayer:self.button1.layer];&#10;&#10;  //set button 2&#10;  [self addStretchableImage:image withContentCenter:CGRectMake(0.25, 0.25, 0.5, 0.5) toLayer:self.button2.layer];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./2.11.png" alt="图2.11"></p>
+<p><img src="http://i1.tietuku.com/f4ac7ce4f38e0537.png"></p>
 <p>图2.11 用Interface Builder 探测窗口控制<code>contentsCenter</code>属性</p>
 <h2 id="Custome_Drawing">Custome Drawing</h2><p>给<code>contents</code>赋CGImage的值不是唯一的设置寄宿图的方法。我们也可以直接用Core Graphics直接绘制寄宿图。能够通过继承UIView并实现<code>-drawRect:</code>方法来自定义绘制。</p>
 <p><code>-drawRect:</code> 方法没有默认的实现，因为对UIView来说，寄宿图并不是必须的，它不在意那到底是单调的颜色还是有一个图片的实例。如果UIView检测到<code>-drawRect:</code> 方法被调用了，它就会为视图分配一个寄宿图，这个寄宿图的像素尺寸等于视图大小乘以 <code>contentsScale</code>的值。</p>
@@ -241,7 +241,7 @@ contents属性CALayer 有一个属性叫做c">
 <p>让我们来继续第一章的项目让它实现CALayerDelegate并做一些绘图工作吧（见清单2.5）.图2.12是他的结果</p>
 <p>清单2.5 实现CALayerDelegate</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@implementation ViewController&#10;- (void)viewDidLoad&#10;&#123;&#10;  [super viewDidLoad];&#10;  &#65532;&#10;  //create sublayer&#10;  CALayer *blueLayer = [CALayer layer];&#10;  blueLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);&#10;  blueLayer.backgroundColor = [UIColor blueColor].CGColor;&#10;&#10;  //set controller as layer delegate&#10;  blueLayer.delegate = self;&#10;&#10;  //ensure that layer backing image uses correct scale&#10;  blueLayer.contentsScale = [UIScreen mainScreen].scale; //add layer to our view&#10;  [self.layerView.layer addSublayer:blueLayer];&#10;&#10;  //force layer to redraw&#10;  [blueLayer display];&#10;&#125;&#10;&#10;- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx&#10;&#123;&#10;  //draw a thick red circle&#10;  CGContextSetLineWidth(ctx, 10.0f); &#10;  CGContextSetStrokeColorWithColor(ctx, [UIColor redColor].CGColor);&#10;  CGContextStrokeEllipseInRect(ctx, layer.bounds);&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./2.12.png" alt="图2.12"></p>
+<p><img src="http://i1.tietuku.com/1bc64ecb7d221235.png"></p>
 <p>图2.12 实现CALayerDelegate来绘制图层</p>
 <p>注意一下一些有趣的事情：</p>
 <ul>
@@ -256,7 +256,7 @@ contents属性CALayer 有一个属性叫做c">
 
       </div>
       <footer class="article-footer">
-        <a data-url="http://yoursite.com/2015/04/13/Core Aniamtion深入探讨/2-寄宿图/寄宿图/" data-id="ciaerdwfx0028twyk2d8ywa63" class="article-share-link">分享到</a>
+        <a data-url="http://yoursite.com/2015/04/13/Core Aniamtion深入探讨/2-寄宿图/寄宿图/" data-id="ciaesn8ec002854yki0m0xcc7" class="article-share-link">分享到</a>
         
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a></li></ul>
@@ -461,10 +461,6 @@ contents属性CALayer 有一个属性叫做c">
     <h3 class="widget-title">链接</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="http://hexo.io">Hexo</a>
-          </li>
         
       </ul>
     </div>

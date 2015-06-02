@@ -1603,18 +1603,18 @@ k<span class="built_in">CATransitionFromBottom</span>
     <link href="http://yoursite.com/2015/04/21/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/5-%E5%8F%98%E6%8D%A2/%E5%8F%98%E6%8D%A2/"/>
     <id>http://yoursite.com/2015/04/21/Core Aniamtion深入探讨/5-变换/变换/</id>
     <published>2015-04-21T01:32:52.000Z</published>
-    <updated>2015-06-02T02:48:37.000Z</updated>
+    <updated>2015-06-02T03:56:37.000Z</updated>
     <content type="html"><![CDATA[<h1 id="变换">变换</h1><blockquote>
 <p><em>很不幸，没人能告诉你母体是什么，你只能自己体会</em> — 骇客帝国</p>
 </blockquote>
 <p>在第四章“可视效果”中，我们研究了一些增强图层和它的内容显示效果的一些技术，在这一章中，我们将要研究可以用来对图层旋转，摆放或者扭曲的<code>CGAffineTransform</code>，以及可以将扁平物体转换成三维空间对象的<code>CATransform3D</code>（而不是仅仅对圆角矩形添加下沉阴影）。</p>
 <h2 id="仿射变换">仿射变换</h2><p>在第三章“图层几何学”中，我们使用了<code>UIView</code>的<code>transform</code>属性旋转了钟的指针，但并没有解释背后运作的原理，实际上<code>UIView</code>的<code>transform</code>属性是一个<code>CGAffineTransform</code>类型，用于在二维空间做旋转，缩放和平移。<code>CGAffineTransform</code>是一个可以和二维空间向量（例如<code>CGPoint</code>）做乘法的3X2的矩阵（见图5.1）。</p>
-<p><img src="./5.1.jpeg" alt="图5.1" title="图5.1" width="700"></p>
+<p><img src="http://i1.tietuku.com/adb6d030a880b185.jpg"></p>
 <p>图5.1 用矩阵表示的<code>CGAffineTransform</code>和<code>CGPoint</code></p>
 <p>用<code>CGPoint</code>的每一列和<code>CGAffineTransform</code>矩阵的每一行对应元素相乘再求和，就形成了一个新的<code>CGPoint</code>类型的结果。要解释一下图中显示的灰色元素，为了能让矩阵做乘法，左边矩阵的列数一定要和右边矩阵的行数个数相同，所以要给矩阵填充一些标志值，使得既可以让矩阵做乘法，又不改变运算结果，并且没必要存储这些添加的值，因为它们的值不会发生变化，但是要用来做运算。</p>
 <p>因此，通常会用3×3（而不是2×3）的矩阵来做二维变换，你可能会见到3行2列格式的矩阵，这是所谓的以列为主的格式，图5.1所示的是以行为主的格式，只要能保持一致，用哪种格式都无所谓。</p>
 <p>当对图层应用变换矩阵，图层矩形内的每一个点都被相应地做变换，从而形成一个新的四边形的形状。<code>CGAffineTransform</code>中的“仿射”的意思是无论变换矩阵用什么值，图层中平行的两条线在变换之后任然保持平行，<code>CGAffineTransform</code>可以做出任意符合上述标注的变换，图5.2显示了一些仿射的和非仿射的变换：</p>
-<p><img src="./5.2.jpeg" alt="图5.2" title="图5.2" width="700"></p>
+<p><img src="http://i1.tietuku.com/efa605e116f25bcf.jpg"></p>
 <p>图5.2 仿射和非仿射变换</p>
 <h3 id="创建一个CGAffineTransform">创建一个<code>CGAffineTransform</code></h3><p>对矩阵数学做一个全面的阐述就超出本书的讨论范围了，不过如果你对矩阵完全不熟悉的话，矩阵变换可能会使你感到畏惧。幸运的是，Core Graphics提供了一系列函数，对完全没有数学基础的开发者也能够简单地做一些变换。如下几个函数都创建了一个<code>CGAffineTransform</code>实例：</p>
 <pre><code><span class="function"><span class="title">CGAffineTransformMakeRotation</span><span class="params">(CGFloat angle)</span></span> 
@@ -1622,7 +1622,7 @@ k<span class="built_in">CATransitionFromBottom</span>
 <span class="function"><span class="title">CGAffineTransformMakeTranslation</span><span class="params">(CGFloat tx, CGFloat ty)</span></span>
 </code></pre><p>旋转和缩放变换都可以很好解释—分别旋转或者缩放一个向量的值。平移变换是指每个点都移动了向量指定的x或者y值—所以如果向量代表了一个点，那它就平移了这个点的距离。</p>
 <p>我们用一个很简单的项目来做个demo，把一个原始视图旋转45度角度（图5.3）</p>
-<p><img src="./5.3.jpeg" alt="图5.3" title="图5.3" width="700"></p>
+<p><img src="http://i1.tietuku.com/070f74e3ec457111.jpg"></p>
 <p>图5.3 使用仿射变换旋转45度角之后的视图</p>
 <p><code>UIView</code>可以通过设置<code>transform</code>属性做变换，但实际上它只是封装了内部图层的变换。</p>
 <p><code>CALayer</code>同样也有一个<code>transform</code>属性，但它的类型是<code>CATransform3D</code>，而不是<code>CGAffineTransform</code>，本章后续将会详细解释。<code>CALayer</code>对应于<code>UIView</code>的<code>transform</code>属性叫做<code>affineTransform</code>，清单5.1的例子就是使用<code>affineTransform</code>对图层做了45度顺时针旋转。</p>
@@ -1642,34 +1642,34 @@ k<span class="built_in">CATransitionFromBottom</span>
 </code></pre><p>我们来用这些函数组合一个更加复杂的变换，先缩小50%，再旋转30度，最后向右移动200个像素（清单5.2）。图5.4显示了图层变换最后的结果。</p>
 <p>清单5.2 使用若干方法创建一个复合变换</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad]; //create a new transform&#10;    CGAffineTransform transform = CGAffineTransformIdentity; //scale by 50%&#10;    transform = CGAffineTransformScale(transform, 0.5, 0.5); //rotate by 30 degrees&#10;    transform = CGAffineTransformRotate(transform, M_PI / 180.0 * 30.0); //translate by 200 points&#10;    transform = CGAffineTransformTranslate(transform, 200, 0);&#10;    //apply transform to layer&#10;    self.layerView.layer.affineTransform = transform;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="./5.4.jpeg" alt="图5.4" title="图5.4" width="700"></p>
+<p><img src="http://i1.tietuku.com/1ea93463a1d07eaa.jpg"></p>
 <p>图5.4 顺序应用多个仿射变换之后的结果</p>
 <p>图5.4中有些需要注意的地方：图片向右边发生了平移，但并没有指定距离那么远（200像素），另外它还有点向下发生了平移。原因在于当你按顺序做了变换，上一个变换的结果将会影响之后的变换，所以200像素的向右平移同样也被旋转了30度，缩小了50%，所以它实际上是斜向移动了100像素。</p>
 <p>这意味着变换的顺序会影响最终的结果，也就是说旋转之后的平移和平移之后的旋转结果可能不同。</p>
 <h3 id="剪切变换">剪切变换</h3><p>Core Graphics为你提供了计算变换矩阵的一些方法，所以很少需要直接设置<code>CGAffineTransform</code>的值。除非需要创建一个<em>斜切</em>的变换，Core Graphics并没有提供直接的函数。</p>
 <p>斜切变换是放射变换的第四种类型，较于平移，旋转和缩放并不常用（这也是Core Graphics没有提供相应函数的原因），但有些时候也会很有用。我们用一张图片可以很直接的说明效果（图5.5）。也许用“倾斜”描述更加恰当，具体做变换的代码见清单5.3。</p>
-<p><img src="./5.5.jpeg" alt="图5.5" title="图5.5" width="700"></p>
+<p><img src="http://i1.tietuku.com/c7d96f71ed1c7751.jpg"></p>
 <p>图5.5 水平方向的斜切变换</p>
 <p>清单5.3 实现一个斜切变换</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@implementation ViewController&#10;&#10;CGAffineTransform CGAffineTransformMakeShear(CGFloat x, CGFloat y)&#10;&#123;&#10;    CGAffineTransform transform = CGAffineTransformIdentity;&#10;    transform.c = -x;&#10;    transform.b = y;&#10;    return transform;&#10;&#125;&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //shear the layer at a 45-degree angle&#10;    self.layerView.layer.affineTransform = CGAffineTransformMakeShear(1, 0);&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
 <h2 id="3D变换">3D变换</h2><p>CG的前缀告诉我们，<code>CGAffineTransform</code>类型属于Core Graphics框架，Core Graphics实际上是一个严格意义上的2D绘图API，并且<code>CGAffineTransform</code>仅仅对2D变换有效。</p>
 <p>在第三章中，我们提到了<code>zPosition</code>属性，可以用来让图层靠近或者远离相机（用户视角），<code>transform</code>属性（<code>CATransform3D</code>类型）可以真正做到这点，即让图层在3D空间内移动或者旋转。</p>
 <p>和<code>CGAffineTransform</code>类似，<code>CATransform3D</code>也是一个矩阵，但是和2x3的矩阵不同，<code>CATransform3D</code>是一个可以在3维空间内做变换的4x4的矩阵（图5.6）。</p>
-<p><img src="./5.6.jpeg" alt="图5.6" title="图5.6" width="700"></p>
+<p><img src="http://i1.tietuku.com/a1ea53bd4112cdd0.png"></p>
 <p>图5.6 对一个3D像素点做<code>CATransform3D</code>矩阵变换</p>
 <p>和<code>CGAffineTransform</code>矩阵类似，Core Animation提供了一系列的方法用来创建和组合<code>CATransform3D</code>类型的矩阵，和Core Graphics的函数类似，但是3D的平移和旋转多处了一个<code>z</code>参数，并且旋转函数除了<code>angle</code>之外多出了<code>x</code>,<code>y</code>,<code>z</code>三个参数，分别决定了每个坐标轴方向上的旋转：</p>
 <pre><code><span class="built_in">CATransform3DMakeRotation</span>(<span class="built_in">CGFloat</span> angle, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y, <span class="built_in">CGFloat</span> z)
 <span class="built_in">CATransform3DMakeScale</span>(<span class="built_in">CGFloat</span> sx, <span class="built_in">CGFloat</span> sy, <span class="built_in">CGFloat</span> sz) 
 <span class="built_in">CATransform3DMakeTranslation</span>(Gloat tx, <span class="built_in">CGFloat</span> ty, <span class="built_in">CGFloat</span> tz)
 </code></pre><p>你应该对X轴和Y轴比较熟悉了，分别以右和下为正方向（回忆第三章，这是iOS上的标准结构，在Mac OS，Y轴朝上为正方向），Z轴和这两个轴分别垂直，指向视角外为正方向（图5.7）。</p>
-<p><img src="./5.7.jpeg" alt="图5.7" title="图5.7" width="700"></p>
+<p><img src="http://i1.tietuku.com/c6b630ab7aa08924.jpg"></p>
 <p>图5.7 X，Y，Z轴，以及围绕它们旋转的方向</p>
 <p>由图所见，绕Z轴的旋转等同于之前二维空间的仿射旋转，但是绕X轴和Y轴的旋转就突破了屏幕的二维空间，并且在用户视角看来发生了倾斜。</p>
 <p>举个例子：清单5.4的代码使用了<code>CATransform3DMakeRotation</code>对视图内的图层绕Y轴做了45度角的旋转，我们可以把视图向右倾斜，这样会看得更清晰。</p>
 <p>结果见图5.8，但并不像我们期待的那样。</p>
 <p>清单5.4 绕Y轴旋转图层</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //rotate the layer 45 degrees along the Y axis&#10;    CATransform3D transform = CATransform3DMakeRotation(M_PI_4, 0, 1, 0);&#10;    self.layerView.layer.transform = transform;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./5.8.jpeg" alt="图5.8" title="图5.8" width="700"></p>
+<p><img src="http://i1.tietuku.com/d033b9cb3cc6e390.jpg"></p>
 <p>图5.8 绕y轴旋转45度的视图</p>
 <p>看起来图层并没有被旋转，而是仅仅在水平方向上的一个压缩，是哪里出了问题呢？</p>
 <p>其实完全没错，视图看起来更窄实际上是因为我们在用一个斜向的视角看它，而不是<em>透视</em>。</p>
@@ -1677,17 +1677,17 @@ k<span class="built_in">CATransitionFromBottom</span>
 <p>在等距投影中，远处的物体和近处的物体保持同样的缩放比例，这种投影也有它自己的用处（例如建筑绘图，颠倒，和伪3D视频），但当前我们并不需要。</p>
 <p>为了做一些修正，我们需要引入<em>投影变换</em>（又称作<em>z变换</em>）来对除了旋转之外的变换矩阵做一些修改，Core Animation并没有给我们提供设置透视变换的函数，因此我们需要手动修改矩阵值，幸运的是，很简单：</p>
 <p><code>CATransform3D</code>的透视效果通过一个矩阵中一个很简单的元素来控制：<code>m34</code>。<code>m34</code>（图5.9）用于按比例缩放X和Y的值来计算到底要离视角多远。</p>
-<p><img src="./5.9.jpeg" alt="图5.9" title="图5.9" width="700"></p>
+<p><img src="http://i1.tietuku.com/d6160e8602e6a4ce.jpg"></p>
 <p>图5.9 <code>CATransform3D</code>的<code>m34</code>元素，用来做透视</p>
 <p><code>m34</code>的默认值是0，我们可以通过设置<code>m34</code>为-1.0 / <code>d</code>来应用透视效果，<code>d</code>代表了想象中视角相机和屏幕之间的距离，以像素为单位，那应该如何计算这个距离呢？实际上并不需要，大概估算一个就好了。</p>
 <p>因为视角相机实际上并不存在，所以可以根据屏幕上的显示效果自由决定它的防止的位置。通常500-1000就已经很好了，但对于特定的图层有时候更小后者更大的值会看起来更舒服，减少距离的值会增强透视效果，所以一个非常微小的值会让它看起来更加失真，然而一个非常大的值会让它基本失去透视效果，对视图应用透视的代码见清单5.5，结果见图5.10。</p>
 <p>清单5.5 对变换应用透视效果</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create a new transform&#10;    CATransform3D transform = CATransform3DIdentity;&#10;    //apply perspective&#10;    transform.m34 = - 1.0 / 500.0;&#10;    //rotate by 45 degrees along the Y axis&#10;    transform = CATransform3DRotate(transform, M_PI_4, 0, 1, 0);&#10;    //apply to layer&#10;    self.layerView.layer.transform = transform;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./5.10.jpeg" alt="图5.10" title="图5.10" width="700"></p>
+<p><img src="http://i1.tietuku.com/c2ecbd5db5454204.jpg"></p>
 <p>图5.10 应用透视效果之后再次对图层做旋转</p>
 <h3 id="灭点">灭点</h3><p>当在透视角度绘图的时候，远离相机视角的物体将会变小变远，当远离到一个极限距离，它们可能就缩成了一个点，于是所有的物体最后都汇聚消失在同一个点。</p>
 <p>在现实中，这个点通常是视图的中心（图5.11），于是为了在应用中创建拟真效果的透视，这个点应该聚在屏幕中点，或者至少是包含所有3D对象的视图中点。</p>
-<p><img src="./5.11.jpeg" alt="图5.11" title="图5.11" width="700"></p>
+<p><img src="http://i1.tietuku.com/efe4aebcddaef0d0.png"></p>
 <p>图5.11 灭点</p>
 <p>Core Animation定义了这个点位于变换图层的<code>anchorPoint</code>（通常位于图层中心，但也有例外，见第三章）。这就是说，当图层发生变换时，这个点永远位于图层变换之前<code>anchorPoint</code>的位置。</p>
 <p>当改变一个图层的<code>position</code>，你也改变了它的灭点，做3D变换的时候要时刻记住这一点，当你视图通过调整<code>m34</code>来让它更加有3D效果，应该首先把它放置于屏幕中央，然后通过平移来把它移动到指定位置（而不是直接改变它的<code>position</code>），这样所有的3D图层都共享一个灭点。</p>
@@ -1695,45 +1695,45 @@ k<span class="built_in">CATransitionFromBottom</span>
 <p><code>CALayer</code>有一个属性叫做<code>sublayerTransform</code>。它也是<code>CATransform3D</code>类型，但和对一个图层的变换不同，它影响到所有的子图层。这意味着你可以一次性对包含这些图层的容器做变换，于是所有的子图层都自动继承了这个变换方法。</p>
 <p>相较而言，通过在一个地方设置透视变换会很方便，同时它会带来另一个显著的优势：灭点被设置在<em>容器图层</em>的中点，从而不需要再对子图层分别设置了。这意味着你可以随意使用<code>position</code>和<code>frame</code>来放置子图层，而不需要把它们放置在屏幕中点，然后为了保证统一的灭点用变换来做平移。</p>
 <p>我们来用一个demo举例说明。这里用Interface Builder并排放置两个视图（图5.12），然后通过设置它们容器视图的透视变换，我们可以保证它们有相同的透视和灭点，代码见清单5.6，结果见图5.13。</p>
-<p><img src="./5.12.jpeg" alt="图5.12" title="图5.12" width="700"></p>
+<p><img src="http://i1.tietuku.com/1dff7af353fc1e09.jpg"></p>
 <p>图5.12 在一个视图容器内并排放置两个视图</p>
 <p>清单5.6 应用<code>sublayerTransform</code></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView1;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView2;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //apply perspective transform to container&#10;    CATransform3D perspective = CATransform3DIdentity;&#10;    perspective.m34 = - 1.0 / 500.0;&#10;    self.containerView.layer.sublayerTransform = perspective;&#10;    //rotate layerView1 by 45 degrees along the Y axis&#10;    CATransform3D transform1 = CATransform3DMakeRotation(M_PI_4, 0, 1, 0);&#10;    self.layerView1.layer.transform = transform1;&#10;    //rotate layerView2 by 45 degrees along the Y axis&#10;    CATransform3D transform2 = CATransform3DMakeRotation(-M_PI_4, 0, 1, 0);&#10;    self.layerView2.layer.transform = transform2;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="./5.13.jpeg" alt="图5.13" title="图5.13" width="700"></p>
+<p><img src="http://i1.tietuku.com/6d6a571f355e1889.jpg"></p>
 <p>图5.13 通过相同的透视效果分别对视图做变换</p>
 <h3 id="背面">背面</h3><p>我们既然可以在3D场景下旋转图层，那么也可以从<em>背面</em>去观察它。如果我们在清单5.4中把角度修改为<code>M_PI</code>（180度）而不是当前的<code>M_PI_4</code>（45度），那么将会把图层完全旋转一个半圈，于是完全背对了相机视角。</p>
 <p>那么从背部看图层是什么样的呢，见图5.14</p>
-<p><img src="./5.14.jpeg" alt="图5.14" title="图5.14" width="700"></p>
+<p><img src="http://i1.tietuku.com/d256c892ff0ee21a.jpg"></p>
 <p>图5.14 视图的背面，一个镜像对称的图片</p>
 <p>如你所见，图层是双面绘制的，反面显示的是正面的一个镜像图片。</p>
 <p>但这并不是一个很好的特性，因为如果图层包含文本或者其他控件，那用户看到这些内容的镜像图片当然会感到困惑。另外也有可能造成资源的浪费：想象用这些图层形成一个不透明的固态立方体，既然永远都看不见这些图层的背面，那为什么浪费GPU来绘制它们呢？</p>
 <p><code>CALayer</code>有一个叫做<code>doubleSided</code>的属性来控制图层的背面是否要被绘制。这是一个<code>BOOL</code>类型，默认为<code>YES</code>，如果设置为<code>NO</code>，那么当图层正面从相机视角消失的时候，它将不会被绘制。</p>
 <h3 id="扁平化图层">扁平化图层</h3><p>如果对包含已经做过变换的图层的图层做反方向的变换将会发什么什么呢？是不是有点困惑？见图5.15</p>
-<p><img src="./5.15.jpeg" alt="图5.15" title="图5.15" width="700"></p>
+<p><img src="http://i1.tietuku.com/cfb668bfe041f088.jpg"></p>
 <p>图5.15 反方向变换的嵌套图层</p>
 <p>注意做了-45度旋转的内部图层是怎样抵消旋转45度的图层，从而恢复正常状态的。</p>
 <p>如果内部图层相对外部图层做了相反的变换（这里是绕Z轴的旋转），那么按照逻辑这两个变换将被相互抵消。</p>
 <p>验证一下，相应代码见清单5.7，结果见5.16</p>
 <p>清单5.7 绕Z轴做相反的旋转变换</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *outerView;&#10;@property (nonatomic, weak) IBOutlet UIView *innerView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //rotate the outer layer 45 degrees&#10;    CATransform3D outer = CATransform3DMakeRotation(M_PI_4, 0, 0, 1);&#10;    self.outerView.layer.transform = outer;&#10;    //rotate the inner layer -45 degrees&#10;    CATransform3D inner = CATransform3DMakeRotation(-M_PI_4, 0, 0, 1);&#10;    self.innerView.layer.transform = inner;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./5.16.jpeg" alt="图5.16" title="图5.16" width="700"></p>
+<p><img src="http://i1.tietuku.com/0d4804a3dc9fd31a.jpg"></p>
 <p>图5.16 旋转后的视图</p>
 <p>运行结果和我们预期的一致。现在在3D情况下再试一次。修改代码，让内外两个视图绕Y轴旋转而不是Z轴，再加上透视效果，以便我们观察。注意不能用<code>sublayerTransform</code>属性，因为内部的图层并不直接是容器图层的子图层，所以这里分别对图层设置透视变换（清单5.8）。</p>
 <p>清单5.8 绕Y轴相反的旋转变换</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //rotate the outer layer 45 degrees&#10;    CATransform3D outer = CATransform3DIdentity;&#10;    outer.m34 = -1.0 / 500.0;&#10;    outer = CATransform3DRotate(outer, M_PI_4, 0, 1, 0);&#10;    self.outerView.layer.transform = outer;&#10;    //rotate the inner layer -45 degrees&#10;    CATransform3D inner = CATransform3DIdentity;&#10;    inner.m34 = -1.0 / 500.0;&#10;    inner = CATransform3DRotate(inner, -M_PI_4, 0, 1, 0);&#10;    self.innerView.layer.transform = inner;&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>预期的效果应该如图5.17所示。</p>
-<p><img src="./5.17.jpeg" alt="图5.17" title="图5.17" width="700"></p>
+<p><img src="http://i1.tietuku.com/92f50e93fb3ac918.jpg"></p>
 <p>图5.17 绕Y轴做相反旋转的预期结果。</p>
 <p>但其实这并不是我们所看到的，相反，我们看到的结果如图5.18所示。发什么了什么呢？内部的图层仍然向左侧旋转，并且发生了扭曲，但按道理说它应该保持正面朝上，并且显示正常的方块。</p>
 <p>这是由于尽管Core Animation图层存在于3D空间之内，但它们并不都存在<em>同一个</em>3D空间。每个图层的3D场景其实是扁平化的，当你从正面观察一个图层，看到的实际上由子图层创建的想象出来的3D场景，但当你倾斜这个图层，你会发现实际上这个3D场景仅仅是被绘制在图层的表面。</p>
-<p><img src="./5.18.jpeg" alt="图5.18" title="图5.18" width="700"></p>
+<p><img src="http://i1.tietuku.com/7781e04efefb13e7.jpg"></p>
 <p>图5.18 绕Y轴做相反旋转的真实结果</p>
 <p>类似的，当你在玩一个3D游戏，实际上仅仅是把屏幕做了一次倾斜，或许在游戏中可以看见有一面墙在你面前，但是倾斜屏幕并不能够看见墙里面的东西。所有场景里面绘制的东西并不会随着你观察它的角度改变而发生变化；图层也是同样的道理。</p>
 <p>这使得用Core Animation创建非常复杂的3D场景变得十分困难。你不能够使用图层树去创建一个3D结构的层级关系—在相同场景下的任何3D表面必须和同样的图层保持一致，这是因为每个的父视图都把它的子视图扁平化了。</p>
 <p>至少当你用正常的<code>CALayer</code>的时候是这样，<code>CALayer</code>有一个叫做<code>CATransformLayer</code>的子类来解决这个问题。具体在第六章“特殊的图层”中将会具体讨论。</p>
 <h2 id="固体对象">固体对象</h2><p>现在你懂得了在3D空间的一些图层布局的基础，我们来试着创建一个固态的3D对象（实际上是一个技术上所谓的<em>空洞</em>对象，但它以固态呈现）。我们用六个独立的视图来构建一个立方体的各个面。</p>
 <p>在这个例子中，我们用Interface Builder来构建立方体的面（图5.19），我们当然可以用代码来写，但是用Interface Builder的好处是可以方便的在每一个面上添加子视图。记住这些面仅仅是包含视图和控件的普通的用户界面元素，它们完全是我们界面交互的部分，并且当把它折成一个立方体之后也不会改变这个性质。</p>
-<p><img src="./5.19.jpeg" alt="图5.19" title="图5.19" width="700"></p>
+<p><img src="http://i1.tietuku.com/5b91ab29ab27a4e7.jpg"></p>
 <p>图5.19 用Interface Builder对立方体的六个面进行布局</p>
 <p>这些面视图并没有放置在主视图当中，而是松散地排列在根nib文件里面。我们并不关心在这个容器中如何摆放它们的位置，因为后续将会用图层的<code>transform</code>对它们进行重新布局，并且用Interface Builder在容器视图之外摆放他们可以让我们容易看清楚它们的内容，如果把它们一个叠着一个都塞进主视图，将会变得很难看。</p>
 <p>我们把一个有颜色的<code>UILabel</code>放置在视图内部，是为了清楚的辨别它们之间的关系，并且<code>UIButton</code>被放置在第三个面视图里面，后面会做简单的解释。</p>
@@ -1755,13 +1755,13 @@ k<span class="built_in">CATransitionFromBottom</span>
 </code></pre><p>我们来用这些函数组合一个更加复杂的变换，先缩小50%，再旋转30度，最后向右移动200个像素（清单5.2）。图5.4显示了图层变换最后的结果。</p>
 <p>清单5.2 使用若干方法创建一个复合变换</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad]; //create a new transform&#10;    CGAffineTransform transform = CGAffineTransformIdentity; //scale by 50%&#10;    transform = CGAffineTransformScale(transform, 0.5, 0.5); //rotate by 30 degrees&#10;    transform = CGAffineTransformRotate(transform, M_PI / 180.0 * 30.0); //translate by 200 points&#10;    transform = CGAffineTransformTranslate(transform, 200, 0);&#10;    //apply transform to layer&#10;    self.layerView.layer.affineTransform = transform;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="./5.4.jpeg" alt="图5.4" title="图5.4" width="700"></p>
+<p><img src="http://i1.tietuku.com/1ea93463a1d07eaa.jpg"></p>
 <p>图5.4 顺序应用多个仿射变换之后的结果</p>
 <p>图5.4中有些需要注意的地方：图片向右边发生了平移，但并没有指定距离那么远（200像素），另外它还有点向下发生了平移。原因在于当你按顺序做了变换，上一个变换的结果将会影响之后的变换，所以200像素的向右平移同样也被旋转了30度，缩小了50%，所以它实际上是斜向移动了100像素。</p>
 <p>这意味着变换的顺序会影响最终的结果，也就是说旋转之后的平移和平移之后的旋转结果可能不同。</p>
 <h3 id="剪切变换-1">剪切变换</h3><p>Core Graphics为你提供了计算变换矩阵的一些方法，所以很少需要直接设置<code>CGAffineTransform</code>的值。除非需要创建一个<em>斜切</em>的变换，Core Graphics并没有提供直接的函数。</p>
 <p>斜切变换是放射变换的第四种类型，较于平移，旋转和缩放并不常用（这也是Core Graphics没有提供相应函数的原因），但有些时候也会很有用。我们用一张图片可以很直接的说明效果（图5.5）。也许用“倾斜”描述更加恰当，具体做变换的代码见清单5.3。</p>
-<p><img src="./5.5.jpeg" alt="图5.5" title="图5.5" width="700"></p>
+<p><img src="http://i1.tietuku.com/c7d96f71ed1c7751.jpg"></p>
 <p>图5.5 水平方向的斜切变换</p>
 <p>清单5.3 实现一个斜切变换</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@implementation ViewController&#10;&#10;CGAffineTransform CGAffineTransformMakeShear(CGFloat x, CGFloat y)&#10;&#123;&#10;    CGAffineTransform transform = CGAffineTransformIdentity;&#10;    transform.c = -x;&#10;    transform.b = y;&#10;    return transform;&#10;&#125;&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //shear the layer at a 45-degree angle&#10;    self.layerView.layer.affineTransform = CGAffineTransformMakeShear(1, 0);&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
@@ -1853,7 +1853,7 @@ k<span class="built_in">CATransitionFromBottom</span>
 <p>具体把视图组织成立方体的代码见清单5.9，结果见图5.20</p>
 <p>清单5.9 创建一个立方体</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, strong) IBOutletCollection(UIView) NSArray *faces;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)addFace:(NSInteger)index withTransform:(CATransform3D)transform&#10;&#123;&#10;    //get the face view and add it to the container&#10;    UIView *face = self.faces[index];&#10;    [self.containerView addSubview:face];&#10;    //center the face view within the container&#10;    CGSize containerSize = self.containerView.bounds.size;&#10;    face.center = CGPointMake(containerSize.width / 2.0, containerSize.height / 2.0);&#10;    // apply the transform&#10;    face.layer.transform = transform;&#10;&#125;&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //set up the container sublayer transform&#10;    CATransform3D perspective = CATransform3DIdentity;&#10;    perspective.m34 = -1.0 / 500.0;&#10;    self.containerView.layer.sublayerTransform = perspective;&#10;    //add cube face 1&#10;    CATransform3D transform = CATransform3DMakeTranslation(0, 0, 100);&#10;    [self addFace:0 withTransform:transform];&#10;    //add cube face 2&#10;    transform = CATransform3DMakeTranslation(100, 0, 0);&#10;    transform = CATransform3DRotate(transform, M_PI_2, 0, 1, 0);&#10;    [self addFace:1 withTransform:transform];&#10;    //add cube face 3&#10;    transform = CATransform3DMakeTranslation(0, -100, 0);&#10;    transform = CATransform3DRotate(transform, M_PI_2, 1, 0, 0);&#10;    [self addFace:2 withTransform:transform];&#10;    //add cube face 4&#10;    transform = CATransform3DMakeTranslation(0, 100, 0);&#10;    transform = CATransform3DRotate(transform, -M_PI_2, 1, 0, 0);&#10;    [self addFace:3 withTransform:transform];&#10;    //add cube face 5&#10;    transform = CATransform3DMakeTranslation(-100, 0, 0);&#10;    transform = CATransform3DRotate(transform, -M_PI_2, 0, 1, 0);&#10;    [self addFace:4 withTransform:transform];&#10;    //add cube face 6&#10;    transform = CATransform3DMakeTranslation(0, 0, -100);&#10;    transform = CATransform3DRotate(transform, M_PI, 0, 1, 0);&#10;    [self addFace:5 withTransform:transform];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./5.20.jpeg" alt="图5.20" title="图5.20" width="700"></p>
+<p><img src="http://i1.tietuku.com/6eb66c57fcdc0d1d.jpg"></p>
 <p>图5.20 正面朝上的立方体</p>
 <p>从这个角度看立方体并不是很明显；看起来只是一个方块，为了更好地欣赏它，我们将更换一个<em>不同的视角</em>。</p>
 <p>旋转这个立方体将会显得很笨重，因为我们要单独对每个面做旋转。另一个简单的方案是通过调整容器视图的<code>sublayerTransform</code>去旋转<em>照相机</em>。</p>
@@ -1861,7 +1861,7 @@ k<span class="built_in">CATransitionFromBottom</span>
 <pre><code>perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment">(perspective, -M_PI_4, 1, 0, 0)</span>; 
 perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment">(perspective, -M_PI_4, 0, 1, 0)</span>;
 </code></pre><p>这就对相机（或者相对相机的整个场景，你也可以这么认为）绕Y轴旋转45度，并且绕X轴旋转45度。现在从另一个角度去观察立方体，就能看出它的真实面貌（图5.21）。</p>
-<p><img src="./5.21.jpeg" alt="图5.21" title="图5.21" width="700"></p>
+<p><img src="http://i1.tietuku.com/fefaf7cd35c56492.jpg"></p>
 <p>图5.21 从一个边角观察的立方体</p>
 <h3 id="光亮和阴影">光亮和阴影</h3><p>现在它看起来更像是一个立方体没错了，但是对每个面之间的连接还是很难分辨。Core Animation可以用3D显示图层，但是它对<em>光线</em>并没有概念。如果想让立方体看起来更加真实，需要自己做一个阴影效果。你可以通过改变每个面的背景颜色或者直接用带光亮效果的图片来调整。</p>
 <p>如果需要<em>动态</em>地创建光线效果，你可以根据每个视图的方向应用不同的alpha值做出半透明的阴影图层，但为了计算阴影图层的不透明度，你需要得到每个面的<em>正太向量</em>（垂直于表面的向量），然后根据一个想象的光源计算出两个向量<em>叉乘</em>结果。叉乘代表了光源和图层之间的角度，从而决定了它有多大程度上的光亮。</p>
@@ -1869,14 +1869,14 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
 <p>结果如图5.22所示，试着调整<code>LIGHT_DIRECTION</code>和<code>AMBIENT_LIGHT</code>的值来切换光线效果</p>
 <p>清单5.10 对立方体的表面应用动态的光线效果</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;ViewController.h&#34; &#10;#import &#60;QuartzCore/QuartzCore.h&#62; &#10;#import &#60;GLKit/GLKit.h&#62;&#10;&#10;#define LIGHT_DIRECTION 0, 1, -0.5 &#10;#define AMBIENT_LIGHT 0.5&#10;&#10;@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, strong) IBOutletCollection(UIView) NSArray *faces;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)applyLightingToFace:(CALayer *)face&#10;&#123;&#10;    //add lighting layer&#10;    CALayer *layer = [CALayer layer];&#10;    layer.frame = face.bounds;&#10;    [face addSublayer:layer];&#10;    //convert the face transform to matrix&#10;    //(GLKMatrix4 has the same structure as CATransform3D)&#10;    //&#35793;&#32773;&#27880;&#65306;GLKMatrix4&#21644;CATransform3D&#20869;&#23384;&#32467;&#26500;&#19968;&#33268;&#65292;&#20294;&#22352;&#26631;&#31867;&#22411;&#26377;&#38271;&#24230;&#21306;&#21035;&#65292;&#25152;&#20197;&#29702;&#35770;&#19978;&#24212;&#35813;&#20570;&#19968;&#27425;float&#21040;CGFloat&#30340;&#36716;&#25442;&#65292;&#24863;&#35874;[@zihuyishi](https://github.com/zihuyishi)&#21516;&#23398;~&#10;    CATransform3D transform = face.transform;&#10;    GLKMatrix4 matrix4 = *(GLKMatrix4 *)&#38;transform;&#10;    GLKMatrix3 matrix3 = GLKMatrix4GetMatrix3(matrix4);&#10;    //get face normal&#10;    GLKVector3 normal = GLKVector3Make(0, 0, 1);&#10;    normal = GLKMatrix3MultiplyVector3(matrix3, normal);&#10;    normal = GLKVector3Normalize(normal);&#10;    //get dot product with light direction&#10;    GLKVector3 light = GLKVector3Normalize(GLKVector3Make(LIGHT_DIRECTION));&#10;    float dotProduct = GLKVector3DotProduct(light, normal);&#10;    //set lighting layer opacity&#10;    CGFloat shadow = 1 + dotProduct - AMBIENT_LIGHT;&#10;    UIColor *color = [UIColor colorWithWhite:0 alpha:shadow];&#10;    layer.backgroundColor = color.CGColor;&#10;&#125;&#10;&#10;- (void)addFace:(NSInteger)index withTransform:(CATransform3D)transform&#10;&#123;&#10;    //get the face view and add it to the container&#10;    UIView *face = self.faces[index];&#10;    [self.containerView addSubview:face];&#10;    //center the face view within the container&#10;    CGSize containerSize = self.containerView.bounds.size;&#10;    face.center = CGPointMake(containerSize.width / 2.0, containerSize.height / 2.0);&#10;    // apply the transform&#10;    face.layer.transform = transform;&#10;    //apply lighting&#10;    [self applyLightingToFace:face.layer];&#10;&#125;&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //set up the container sublayer transform&#10;    CATransform3D perspective = CATransform3DIdentity;&#10;    perspective.m34 = -1.0 / 500.0;&#10;    perspective = CATransform3DRotate(perspective, -M_PI_4, 1, 0, 0);&#10;    perspective = CATransform3DRotate(perspective, -M_PI_4, 0, 1, 0);&#10;    self.containerView.layer.sublayerTransform = perspective;&#10;    //add cube face 1&#10;    CATransform3D transform = CATransform3DMakeTranslation(0, 0, 100);&#10;    [self addFace:0 withTransform:transform];&#10;    //add cube face 2&#10;    transform = CATransform3DMakeTranslation(100, 0, 0);&#10;    transform = CATransform3DRotate(transform, M_PI_2, 0, 1, 0);&#10;    [self addFace:1 withTransform:transform];&#10;    //add cube face 3&#10;    transform = CATransform3DMakeTranslation(0, -100, 0);&#10;    transform = CATransform3DRotate(transform, M_PI_2, 1, 0, 0);&#10;    [self addFace:2 withTransform:transform];&#10;    //add cube face 4&#10;    transform = CATransform3DMakeTranslation(0, 100, 0);&#10;    transform = CATransform3DRotate(transform, -M_PI_2, 1, 0, 0);&#10;    [self addFace:3 withTransform:transform];&#10;    //add cube face 5&#10;    transform = CATransform3DMakeTranslation(-100, 0, 0);&#10;    transform = CATransform3DRotate(transform, -M_PI_2, 0, 1, 0);&#10;    [self addFace:4 withTransform:transform];&#10;    //add cube face 6&#10;    transform = CATransform3DMakeTranslation(0, 0, -100);&#10;    transform = CATransform3DRotate(transform, M_PI, 0, 1, 0);&#10;    [self addFace:5 withTransform:transform];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./5.22.jpeg" alt="图5.22" title="图5.22" width="700"></p>
+<p><img src="http://i1.tietuku.com/bf9c09e6dcc75155.jpg"></p>
 <p>图5.22 动态计算光线效果之后的立方体</p>
 <h3 id="点击事件">点击事件</h3><p>你应该能注意到现在可以在第三个表面的顶部看见按钮了，点击它，什么都没发生，为什么呢？</p>
 <p>这并不是因为iOS在3D场景下正确地处理响应事件，实际上是可以做到的。问题在于<em>视图顺序</em>。在第三章中我们简要提到过，点击事件的处理由视图在父视图中的顺序决定的，并不是3D空间中的Z轴顺序。当给立方体添加视图的时候，我们实际上是按照一个顺序添加，所以按照视图/图层顺序来说，4，5，6在3的前面。</p>
 <p>即使我们看不见4，5，6的表面（因为被1，2，3遮住了），iOS在事件响应上仍然保持之前的顺序。当试图点击表面3上的按钮，表面4，5，6截断了点击事件（取决于点击的位置），这就和普通的2D布局在按钮上覆盖物体一样。</p>
 <p>你也许认为把<code>doubleSided</code>设置成<code>NO</code>可以解决这个问题，因为它不再渲染视图后面的内容，但实际上并不起作用。因为背对相机而隐藏的视图仍然会响应点击事件（这和通过设置<code>hidden</code>属性或者设置<code>alpha</code>为0而隐藏的视图不同，那两种方式将不会响应事件）。所以即使禁止了双面渲染仍然不能解决这个问题（虽然由于性能问题，还是需要把它设置成<code>NO</code>）。</p>
 <p>这里有几种正确的方案：把除了表面3的其他视图<code>userInteractionEnabled</code>属性都设置成<code>NO</code>来禁止事件传递。或者简单通过代码把视图3覆盖在视图6上。无论怎样都可以点击按钮了（图5.23）。</p>
-<p><img src="./5.23.jpeg" alt="图5.23" title="图5.23" width="700"></p>
+<p><img src="http://i1.tietuku.com/1096c5e277cf7dd9.jpg"></p>
 <p>图5.23 背景视图不再阻碍按钮，我们可以点击它了</p>
 <h2 id="总结">总结</h2><p>这一章涉及了一些2D和3D的变换。你学习了一些矩阵计算的基础，以及如何用Core Animation创建3D场景。你看到了图层背后到底是如何呈现的，并且知道了不能把扁平的图片做成真实的立体效果，最后我们用demo说明了触摸事件的处理，视图中图层添加的层级顺序会比屏幕上显示的顺序更有意义。</p>
 <p>第六章我们会研究一些Core Animation提供不同功能的具体的<code>CALayer</code>子类。</p>
@@ -1957,7 +1957,7 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
     <link href="http://yoursite.com/2015/04/17/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/4-%E8%A7%86%E8%A7%89%E6%95%88%E6%9E%9C/4-%E8%A7%86%E8%A7%89%E6%95%88%E6%9E%9C/"/>
     <id>http://yoursite.com/2015/04/17/Core Aniamtion深入探讨/4-视觉效果/4-视觉效果/</id>
     <published>2015-04-17T01:32:52.000Z</published>
-    <updated>2015-06-02T02:48:26.000Z</updated>
+    <updated>2015-06-02T03:48:36.000Z</updated>
     <content type="html"><![CDATA[<h1 id="视觉效果">视觉效果</h1><blockquote>
 <p>嗯，圆和椭圆还不错，但如果是带圆角的矩形呢？</p>
 <p>我们现在能做到那样了么？</p>
@@ -1967,12 +1967,12 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
 <h2 id="圆角">圆角</h2><p>圆角矩形是iOS的一个标志性审美特性。这在iOS的每一个地方都得到了体现，不论是主屏幕图标，还是警告弹框，甚至是文本框。按照这流行程度，你可能会认为一定有不借助Photoshop就能轻易创建圆角举行的方法。恭喜你，猜对了。</p>
 <p>CALayer有一个叫做<code>conrnerRadius</code>的属性控制着图层角的曲率。它是一个浮点数，默认为0（为0的时候就是直角），但是你可以把它设置成任意值。默认情况下，这个曲率值只影响背景颜色而不影响背景图片或是子图层。不过，如果把<code>masksToBounds</code>设置成YES的话，图层里面的所有东西都会被截取。</p>
 <p>我们可以通过一个简单的项目来演示这个效果。在Interface Builder中，我们放置一些视图，他们有一些子视图。而且这些子视图有一些超出了边界（如图4.1）。你可能无法看到他们超出了边界，因为在编辑界面的时候，超出的部分总是被Interface Builder裁切掉了。不过，你相信我就好了 :)</p>
-<p><img src="./4.1.png" alt="图4.1"></p>
+<p><img src="http://i1.tietuku.com/3a95761f3df03285.png"></p>
 <p>图4.1 两个白色的大视图，他们都包含了小一些的红色视图。</p>
 <p>然后在代码中，我们设置角的半径为20个点，并裁剪掉第一个视图的超出部分（见清单4.1）。技术上来说，这些属性都可以在Interface Builder的探测板中分别通过『用户定义运行时属性』和勾选『裁剪子视图』(Clip Subviews)选择框来直接设置属性的值。不过，在这个示例中，代码能够表示得更清楚。图4.2是运行代码的结果</p>
 <p>清单4.1 设置<code>cornerRadius</code>和<code>masksToBounds</code></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView1;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView2;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;- (void)viewDidLoad&#10;&#123;&#65532;&#65532;&#65532;&#10;  [super viewDidLoad];&#10;&#10;  //set the corner radius on our layers&#10;  self.layerView1.layer.cornerRadius = 20.0f;&#10;  self.layerView2.layer.cornerRadius = 20.0f;&#10;&#10;  //enable clipping on the second layer&#10;  self.layerView2.layer.masksToBounds = YES;&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./4.2.png" alt="图4.2"></p>
+<p><img src="http://i1.tietuku.com/dc9050c13c4b29c0.png"></p>
 <p>右图中，红色的子视图沿角半径被裁剪了</p>
 <p>如你所见，右边的子视图沿边界被裁剪了。</p>
 <p>单独控制每个层的圆角曲率也不是不可能的。如果想创建有些圆角有些直角的图层或视图时，你可能需要一些不同的方法。比如使用一个图层蒙板（本章稍后会讲到）或者是CAShapeLayer（见第六章『专用图层』）。</p>
@@ -1982,42 +1982,42 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
 <p>边框是绘制在图层边界里面的，而且在所有子内容之前，也在子图层之前。如果我们在之前的示例中（清单4.2）加入图层的边框，你就能看到到底是怎么一回事了（如图4.3）.</p>
 <p>清单4.2 加上边框</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;  [super viewDidLoad];&#10;&#10;  //set the corner radius on our layers&#10;  self.layerView1.layer.cornerRadius = 20.0f;&#10;  self.layerView2.layer.cornerRadius = 20.0f;&#10;&#10;  //add a border to our layers&#10;  self.layerView1.layer.borderWidth = 5.0f;&#10;  self.layerView2.layer.borderWidth = 5.0f;&#10;&#10;  //enable clipping on the second layer&#10;  self.layerView2.layer.masksToBounds = YES;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./4.3.png" alt="图4.3"></p>
+<p><img src="http://i1.tietuku.com/36dc54ae201277f2.png"></p>
 <p>图4.3 给图层增加一个边框</p>
 <p>仔细观察会发现边框并不会把寄宿图或子图层的形状计算进来，如果图层的子图层超过了边界，或者是寄宿图在透明区域有一个透明蒙板，边框仍然会沿着图层的边界绘制出来（如图4.4）.</p>
-<p><img src="./4.4.png" alt="图4.4"></p>
+<p><img src="http://i1.tietuku.com/86e5c09f8cf07c10.png"></p>
 <p>图4.4 边框是跟随图层的边界变化的，而不是图层里面的内容</p>
 <h2 id="阴影">阴影</h2><p>iOS的另一个常见特性呢，就是阴影。阴影往往可以达到图层深度暗示的效果。也能够用来强调正在显示的图层和优先级（比如说一个在其他视图之前的弹出框），不过有时候他们只是单纯的装饰目的。</p>
 <p>给<code>shadowOpacity</code>属性一个大于默认值（也就是0）的值，阴影就可以显示在任意图层之下。<code>shadowOpacity</code>是一个必须在0.0（不可见）和1.0（完全不透明）之间的浮点数。如果设置为1.0，将会显示一个有轻微模糊的黑色阴影稍微在图层之上。若要改动阴影的表现，你可以使用CALayer的另外三个属性：<code>shadowColor</code>，<code>shadowOffset</code>和<code>shadowRadius</code>。</p>
 <p>显而易见，<code>shadowColor</code>属性控制着阴影的颜色，和<code>borderColor</code>和<code>backgroundColor</code>一样，它的类型也是<code>CGColorRef</code>。阴影默认是黑色，大多数时候你需要的阴影也是黑色的（其他颜色的阴影看起来是不是有一点点奇怪。。）。</p>
 <p><code>shadowOffset</code>属性控制着阴影的方向和距离。它是一个<code>CGSize</code>的值，宽度控制这阴影横向的位移，高度控制着纵向的位移。<code>shadowOffset</code>的默认值是 {0, -3}，意即阴影相对于Y轴有3个点的向上位移。</p>
 <p>为什么要默认向上的阴影呢？尽管Core Animation是从图层套装演变而来（可以认为是为iOS创建的私有动画框架），但是呢，它却是在Mac OS上面世的，前面有提到，二者的Y轴是颠倒的。这就导致了默认的3个点位移的阴影是向上的。在Mac上，<code>shadowOffset</code>的默认值是阴影向下的，这样你就能理解为什么iOS上的阴影方向是向上的了（如图4.5）.</p>
-<p><img src="./4.5.png" alt="图4.5"></p>
+<p><img src="http://i1.tietuku.com/7db986fe34f3b61a.png"></p>
 <p>图4.5 在iOS（左）和Mac OS（右）上<code>shadowOffset</code>的表现。</p>
 <p>苹果更倾向于用户界面的阴影应该是垂直向下的，所以在iOS把阴影宽度设为0，然后高度设为一个正值不失为一个做法。</p>
 <p><code>shadowRadius</code>属性控制着阴影的<em>模糊度</em>，当它的值是0的时候，阴影就和视图一样有一个非常确定的边界线。当值越来越大的时候，边界线看上去就会越来越模糊和自然。苹果自家的应用设计更偏向于自然的阴影，所以一个非零值再合适不过了。</p>
 <p>通常来讲，如果你想让视图或控件非常醒目独立于背景之外（比如弹出框遮罩层），你就应该给<code>shadowRadius</code>设置一个稍大的值。阴影越模糊，图层的深度看上去就会更明显（如图4.6）.</p>
-<p><img src="./4.6.png" alt="图4.6"></p>
+<p><img src="http://i1.tietuku.com/be6b969406fb888a.png"></p>
 <p>图4.6 大一些的阴影位移和角半径会增加图层的深度即视感</p>
 <h2 id="阴影裁剪">阴影裁剪</h2><p>和图层边框不同，图层的阴影继承自内容的外形，而不是根据边界和角半径来确定。为了计算出阴影的形状，Core Animation会将寄宿图（包括子视图，如果有的话）考虑在内，然后通过这些来完美搭配图层形状从而创建一个阴影（见图4.7）。</p>
-<p><img src="./4.7.png" alt="图4.7"></p>
+<p><img src="http://i1.tietuku.com/f3cbc8b39c5d0031.png"></p>
 <p>图4.7 阴影是根据寄宿图的轮廓来确定的</p>
 <p>当阴影和裁剪扯上关系的时候就有一个头疼的限制：阴影通常就是在Layer的边界之外，如果你开启了<code>masksToBounds</code>属性，所有从图层中突出来的内容都会被才剪掉。如果我们在我们之前的边框示例项目中增加图层的阴影属性时，你就会发现问题所在（见图4.8）.</p>
-<p><img src="./4.8.png" alt="图4.8"></p>
+<p><img src="http://i1.tietuku.com/3beca24155d015a1.png"></p>
 <p>图4.8 <code>maskToBounds</code>属性裁剪掉了阴影和内容</p>
 <p>从技术角度来说，这个结果是可以是可以理解的，但确实又不是我们想要的效果。如果你想沿着内容裁切，你需要用到两个图层：一个只画阴影的空的外图层，和一个用<code>masksToBounds</code>裁剪内容的内图层。</p>
 <p>如果我们把之前项目的右边用单独的视图把裁剪的视图包起来，我们就可以解决这个问题（如图4.9）.</p>
-<p><img src="./4.9.png" alt="图4.9"></p>
+<p><img src="http://i1.tietuku.com/7760492f8e8ba8bf.png"></p>
 <p>图4.9 右边，用额外的阴影转换视图包裹被裁剪的视图</p>
 <p>我们只把阴影用在最外层的视图上，内层视图进行裁剪。清单4.3是代码实现，图4.10是运行结果。</p>
 <p>清单4.3 用一个额外的视图来解决阴影裁切的问题</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView1;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView2;&#10;@property (nonatomic, weak) IBOutlet UIView *shadowView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#65532;&#10;- (void)viewDidLoad&#10;&#123;&#10;  [super viewDidLoad];&#10;&#10;  //set the corner radius on our layers&#10;  self.layerView1.layer.cornerRadius = 20.0f;&#10;  self.layerView2.layer.cornerRadius = 20.0f;&#10;&#10;  //add a border to our layers&#10;  self.layerView1.layer.borderWidth = 5.0f;&#10;  self.layerView2.layer.borderWidth = 5.0f;&#10;&#10;  //add a shadow to layerView1&#10;  self.layerView1.layer.shadowOpacity = 0.5f;&#10;  self.layerView1.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);&#10;  self.layerView1.layer.shadowRadius = 5.0f;&#10;&#10;  //add same shadow to shadowView (not layerView2)&#10;  self.shadowView.layer.shadowOpacity = 0.5f;&#10;  self.shadowView.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);&#10;  self.shadowView.layer.shadowRadius = 5.0f;&#10;&#10;  //enable clipping on the second layer&#10;  self.layerView2.layer.masksToBounds = YES;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./4.10.png" alt="图4.10"></p>
+<p><img src="http://i1.tietuku.com/346b0e2ad8ae09d7.png"></p>
 <p>图4.10 右边视图，不受裁切阴影的阴影视图。</p>
 <h2 id="shadowPath属性"><code>shadowPath</code>属性</h2><p>我们已经知道图层阴影并不总是方的，而是从图层内容的形状继承而来。这看上去不错，但是实时计算阴影也是一个非常消耗资源的，尤其是图层有多个子图层，每个图层还有一个有透明效果的寄宿图的时候。</p>
 <p>如果你事先知道你的阴影形状会是什么样子的，你可以通过指定一个<code>shadowPath</code>来提高性能。<code>shadowPath</code>是一个<code>CGPathRef</code>类型（一个指向<code>CGPath</code>的指针）。<code>CGPath</code>是一个Core Graphics对象，用来指定任意的一个矢量图形。我们可以通过这个属性单独于图层形状之外指定阴影的形状。</p>
 <p>图4.11 展示了同一寄宿图的不同阴影设定。如你所见，我们使用的图形很简单，但是它的阴影可以是你想要的任何形状。清单4.4是代码实现。</p>
-<p><img src="./4.11.png" alt="图4.11"></p>
+<p><img src="http://i1.tietuku.com/2799e67d09602635.png"></p>
 <p>图4.11 用<code>shadowPath</code>指定任意阴影形状</p>
 <p>清单4.4 创建简单的阴影形状</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView1;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView2;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;  [super viewDidLoad];&#10;&#10;  //enable layer shadows&#10;  self.layerView1.layer.shadowOpacity = 0.5f;&#10;  self.layerView2.layer.shadowOpacity = 0.5f;&#10;&#10;  //create a square shadow&#10;  CGMutablePathRef squarePath = CGPathCreateMutable();&#10;  CGPathAddRect(squarePath, NULL, self.layerView1.bounds);&#10;  self.layerView1.layer.shadowPath = squarePath; CGPathRelease(squarePath);&#10;&#10;  &#65532;//create a circular shadow&#10;  CGMutablePathRef circlePath = CGPathCreateMutable();&#10;  CGPathAddEllipseInRect(circlePath, NULL, self.layerView2.bounds);&#10;  self.layerView2.layer.shadowPath = circlePath; CGPathRelease(circlePath);&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
@@ -2027,12 +2027,12 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
 <p>CALayer有一个属性叫做<code>mask</code>可以解决这个问题。这个属性本身就是个CALayer类型，有和其他图层一样的绘制和布局属性。它类似于一个子图层，相对于父图层（即拥有该属性的图层）布局，但是它却不是一个普通的子图层。不同于那些绘制在父图层中的子图层，<code>mask</code>图层定义了父图层的部分可见区域。</p>
 <p><code>mask</code>图层的<code>Color</code>属性是无关紧要的，真正重要的是图层的轮廓。<code>mask</code>属性就像是一个饼干切割机，<code>mask</code>图层实心的部分会被保留下来，其他的则会被抛弃。（如图4.12）</p>
 <p>如果<code>mask</code>图层比父图层要小，只有在<code>mask</code>图层里面的内容才是它关心的，除此以外的一切都会被隐藏起来。</p>
-<p><img src="./4.12.png" alt="图4.12"></p>
+<p><img src="http://i1.tietuku.com/3123be453a267e1d.png"></p>
 <p>图4.12 把图片和蒙板图层作用在一起的效果</p>
 <p>我们将代码演示一下这个过程，创建一个简单的项目，通过图层的<code>mask</code>属性来作用于图片之上。为了简便一些，我们用Interface Builder来创建一个包含UIImageView的图片图层。这样我们就只要代码实现蒙板图层了。清单4.5是最终的代码，图4.13是运行后的结果。</p>
 <p>清单4.5 应用蒙板图层</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIImageView *imageView;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;  [super viewDidLoad];&#10;&#10;  //create mask layer&#10;  CALayer *maskLayer = [CALayer layer];&#10;  maskLayer.frame = self.layerView.bounds;&#10;  UIImage *maskImage = [UIImage imageNamed:@&#34;Cone.png&#34;];&#10;  maskLayer.contents = (__bridge id)maskImage.CGImage;&#10;&#10;  //apply mask to image layer&#65532;&#10;  self.imageView.layer.mask = maskLayer;&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./4.13.png" alt="图4.13"></p>
+<p><img src="http://i1.tietuku.com/91a010e3dcb3e549.png"></p>
 <p>图4.13 使用了<code>mask</code>之后的UIImageView</p>
 <p>CALayer蒙板图层真正厉害的地方在于蒙板图不局限于静态图。任何有图层构成的都可以作为<code>mask</code>属性，这意味着你的蒙板可以通过代码甚至是动画实时生成。</p>
 <h2 id="拉伸过滤">拉伸过滤</h2><p>最后我们再来谈谈<code>minificationFilter</code>和<code>magnificationFilter</code>属性。总得来讲，当我们视图显示一个图片的时候，都应该正确地显示这个图片（意即：以正确的比例和正确的1：1像素显示在屏幕上）。原因如下：</p>
@@ -2052,28 +2052,29 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
 <p>minification（缩小图片）和magnification（放大图片）默认的过滤器都是<code>kCAFilterLinear</code>，这个过滤器采用双线性滤波算法，它在大多数情况下都表现良好。双线性滤波算法通过对多个像素取样最终生成新的值，得到一个平滑的表现不错的拉伸。但是当放大倍数比较大的时候图片就模糊不清了。</p>
 <p><code>kCAFilterTrilinear</code>和<code>kCAFilterLinear</code>非常相似，大部分情况下二者都看不出来有什么差别。但是，较双线性滤波算法而言，三线性滤波算法存储了多个大小情况下的图片（也叫多重贴图），并三维取样，同时结合大图和小图的存储进而得到最后的结果。</p>
 <p>这个方法的好处在于算法能够从一系列已经接近于最终大小的图片中得到想要的结果，也就是说不要对很多像素同步取样。这不仅提高了性能，也避免了小概率因舍入错误引起的取样失灵的问题</p>
-<p><img src="./4.14.png" alt="图4.14"></p>
+<p><img src="http://i1.tietuku.com/362db4f8519bde1d.png"></p>
 <p>图4.14 对于大图来说，双线性滤波和三线性滤波表现得更出色</p>
 <p><code>kCAFilterNearest</code>是一种比较武断的方法。从名字不难看出，这个算法（也叫最近过滤）就是取样最近的单像素点而不管其他的颜色。这样做非常快，也不会使图片模糊。但是，最明显的效果就是，会使得压缩图片更糟，图片放大之后也显得块状或是马赛克严重。</p>
-<p><img src="./4.15.png" alt="图4.15"></p>
+<p><img src="http://i1.tietuku.com/79c8bfe9549efe33.png"></p>
 <p>图4.15 对于没有斜线的小图来说，最近过滤算法要好很多</p>
 <p>总的来说，对于比较小的图或者是差异特别明显，极少斜线的大图，最近过滤算法会保留这种差异明显的特质以呈现更好的结果。但是对于大多数的图尤其是有很多斜线或是曲线轮廓的图片来说，最近过滤算法会导致更差的结果。换句话说，线性过滤保留了形状，最近过滤则保留了像素的差异。</p>
 <p>让我们来实验一下。我们对第三章的时钟项目改动一下，用LCD风格的数字方式显示。我们用简单的像素字体（一种用像素构成字符的字体，而非矢量图形）创造数字显示方式，用图片存储起来，而且用第二章介绍过的拼合技术来显示（如图4.16）。</p>
-<p><img src="./4.16.png" alt="图4.16"></p>
+<p><img src="http://i1.tietuku.com/c5d07147325d611e.png"></p>
 <p>图4.16 一个简单的运用拼合技术显示的LCD数字风格的像素字体</p>
 <p>我们在Interface Builder中放置了六个视图，小时、分钟、秒钟各两个，图4.17显示了这六个视图是如何在Interface Builder中放置的。如果每个都用一个淡出的outlets对象就会显得太多了，所以我们就用了一个<code>IBOutletCollection</code>对象把他们和控制器联系起来，这样我们就可以以数组的方式访问视图了。清单4.6是代码实现。</p>
+<p><img src="http://i1.tietuku.com/6d751b3556c52024.png"><br>图4.17</p>
 <p>清单4.6 显示一个LCD风格的时钟</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, strong) IBOutletCollection(UIView) NSArray *digitViews;&#10;@property (nonatomic, weak) NSTimer *timer;&#10;&#65532;&#65532;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;  [super viewDidLoad]; //get spritesheet image&#10;  UIImage *digits = [UIImage imageNamed:@&#34;Digits.png&#34;];&#10;&#10;  //set up digit views&#10;  for (UIView *view in self.digitViews) &#123;&#10;    //set contents&#10;    view.layer.contents = (__bridge id)digits.CGImage;&#10;    view.layer.contentsRect = CGRectMake(0, 0, 0.1, 1.0);&#10;    view.layer.contentsGravity = kCAGravityResizeAspect;&#10;  &#125;&#10;&#10;  //start timer&#10;  self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(tick) userInfo:nil repeats:YES];&#10;&#10;  //set initial clock time&#10;  [self tick];&#10;&#125;&#10;&#10;- (void)setDigit:(NSInteger)digit forView:(UIView *)view&#10;&#123;&#10;  //adjust contentsRect to select correct digit&#10;  view.layer.contentsRect = CGRectMake(digit * 0.1, 0, 0.1, 1.0);&#10;&#125;&#10;&#10;- (void)tick&#10;&#123;&#10;  //convert time to hours, minutes and seconds&#10;  NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];&#10;  NSUInteger units = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;&#10;  &#65532;&#10;  NSDateComponents *components = [calendar components:units fromDate:[NSDate date]];&#10;&#10;  //set hours&#10;  [self setDigit:components.hour / 10 forView:self.digitViews[0]];&#10;  [self setDigit:components.hour % 10 forView:self.digitViews[1]];&#10;&#10;  //set minutes&#10;  [self setDigit:components.minute / 10 forView:self.digitViews[2]];&#10;  [self setDigit:components.minute % 10 forView:self.digitViews[3]];&#10;&#10;  //set seconds&#10;  [self setDigit:components.second / 10 forView:self.digitViews[4]];&#10;  [self setDigit:components.second % 10 forView:self.digitViews[5]];&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
 <p>如图4.18，这样做的确起了效果，但是图片看起来模糊了。看起来默认的<code>kCAFilterLinear</code>选项让我们失望了。</p>
-<p><img src="./4.18.png" alt="图4.18"></p>
+<p><img src="http://i1.tietuku.com/9907966a7840c64a.png"></p>
 <p>图4.18 一个模糊的时钟，由默认的<code>kCAFilterLinear</code>引起</p>
 <p>为了能像图4.19中那样，我们需要在for循环中加入如下代码：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">view.layer.magnificationFilter = kCAFilterNearest;</span><br></pre></td></tr></table></figure>
-<p><img src="./4.19.png" alt="图4.19"></p>
+<p><img src="http://i1.tietuku.com/7acc929bf7f74628.png"></p>
 <p>图4.19 设置了最近过滤之后的清晰显示</p>
 <h2 id="组透明">组透明</h2><p>UIView有一个叫做<code>alpha</code>的属性来确定视图的透明度。CALayer有一个等同的属性叫做<code>opacity</code>，这两个属性都是影响子层级的。也就是说，如果你给一个图层设置了<code>opacity</code>属性，那它的子图层都会受此影响。</p>
 <p>iOS常见的做法是把一个空间的alpha值设置为0.5（50%）以使其看上去呈现为不可用状态。对于独立的视图来说还不错，但是当一个控件有子视图的时候就有点奇怪了，图4.20展示了一个内嵌了UILabel的自定义UIButton；左边是一个不透明的按钮，右边是50%透明度的相同按钮。我们可以注意到，里面的标签的轮廓跟按钮的背景很不搭调。</p>
-<p><img src="./4.20.png" alt="图4.20"></p>
+<p><img src="http://i1.tietuku.com/9d67bc29e9634724.png"></p>
 <p>图4.20 右边的渐隐按钮中，里面的标签清晰可见</p>
 <p>这是由透明度的混合叠加造成的，当你显示一个50%透明度的图层时，图层的每个像素都会一般显示自己的颜色，另一半显示图层下面的颜色。这是正常的透明度的表现。但是如果图层包含一个同样显示50%透明的子图层时，你所看到的视图，50%来自子视图，25%来了图层本身的颜色，另外的25%则来自背景色。</p>
 <p>在我们的示例中，按钮和表情都是白色背景。虽然他们都是50%的可见度，但是合起来的可见度是75%，所以标签所在的区域看上去就没有周围的部分那么透明。所以看上去子视图就高亮了，使得这个显示效果都糟透了。</p>
@@ -2083,7 +2084,7 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
 <p>当<code>shouldRasterize</code>和<code>UIViewGroupOpacity</code>一起的时候，性能问题就出现了（我们在第12章『速度』和第15章『图层性能』将做出介绍），但是性能碰撞都本地化了（译者注：这句话需要再翻译）。</p>
 <p>清单4.7 使用<code>shouldRasterize</code>属性解决组透明问题</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (UIButton *)customButton&#10;&#123;&#10;  //create button&#10;  CGRect frame = CGRectMake(0, 0, 150, 50);&#10;  UIButton *button = [[UIButton alloc] initWithFrame:frame];&#10;  button.backgroundColor = [UIColor whiteColor];&#10;  button.layer.cornerRadius = 10;&#10;&#10;  //add label&#10;  frame = CGRectMake(20, 10, 110, 30);&#10;  UILabel *label = [[UILabel alloc] initWithFrame:frame];&#10;  label.text = @&#34;Hello World&#34;;&#10;  label.textAlignment = NSTextAlignmentCenter;&#10;  [button addSubview:label];&#10;  return button;&#10;&#125;&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;  [super viewDidLoad];&#10;&#10;  //create opaque button&#10;  UIButton *button1 = [self customButton];&#10;  button1.center = CGPointMake(50, 150);&#10;  [self.containerView addSubview:button1];&#10;&#10;  //create translucent button&#10;  UIButton *button2 = [self customButton];&#10;  &#65532;&#10;  button2.center = CGPointMake(250, 150);&#10;  button2.alpha = 0.5;&#10;  [self.containerView addSubview:button2];&#10;&#10;  //enable rasterization for the translucent button&#10;  button2.layer.shouldRasterize = YES;&#10;  button2.layer.rasterizationScale = [UIScreen mainScreen].scale;&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./4.21.png" alt="图4.12"></p>
+<p><img src="http://i1.tietuku.com/1cdd82c2af9c9a89.png"></p>
 <p>图4.21 修正后的图</p>
 <h2 id="总结">总结</h2><p>这一章介绍了一些可以通过代码应用到图层上的视觉效果，比如圆角，阴影和蒙板。我们也了解了拉伸过滤器和组透明。</p>
 <p>在第五章，『变换』中，我们将会研究图层变化和3D转换。</p>
@@ -2193,43 +2194,43 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
     <link href="http://yoursite.com/2015/04/15/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/3-%E5%9B%BE%E5%B1%82%E5%87%A0%E4%BD%95%E5%AD%A6/%E5%9B%BE%E5%B1%82%E5%87%A0%E4%BD%95%E5%AD%A6/"/>
     <id>http://yoursite.com/2015/04/15/Core Aniamtion深入探讨/3-图层几何学/图层几何学/</id>
     <published>2015-04-15T01:32:52.000Z</published>
-    <updated>2015-06-02T02:47:58.000Z</updated>
+    <updated>2015-06-02T03:40:44.000Z</updated>
     <content type="html"><![CDATA[<h1 id="图层几何学">图层几何学</h1><blockquote>
 <p><em>不熟悉几何学的人就不要来这里了</em> —柏拉图学院入口的签名</p>
 </blockquote>
 <p>在第二章里面，我们介绍了图层背后的图片，和一些控制图层坐标和旋转的属性。在这一章中，我们将要看一看图层内部是如何根据父图层和兄弟图层来控制位置和尺寸的。另外我们也会涉及如何管理图层的几何结构，以及它是如何被自动调整和自动布局影响的。</p>
 <h2 id="布局">布局</h2><p><code>UIView</code>有三个比较重要的布局属性：<code>frame</code>，<code>bounds</code>和<code>center</code>，<code>CALayer</code>对应地叫做<code>frame</code>，<code>bounds</code>和<code>position</code>。为了能清楚区分，图层用了“position”，视图用了“center”，但是他们都代表同样的值。</p>
 <p><code>frame</code>代表了图层的外部坐标（也就是在父图层上占据的空间），<code>bounds</code>是内部坐标（{0, 0}通常是图层的左上角），<code>center</code>和<code>position</code>都代表了相对于父图层<code>anchorPoint</code>所在的位置。<code>anchorPoint</code>的属性将会在后续介绍到，现在把它想成图层的中心点就好了。图3.1显示了这些属性是如何相互依赖的。</p>
-<p><img src="./3.1.jpeg" alt="图3.1" title="图3.1" width="700"></p>
+<p><img src="http://i1.tietuku.com/71af11930be4457f.jpg" alt="图3.1" title="图3.1" width="700"></p>
 <p>图3.1 <code>UIView</code>和<code>CALayer</code>的坐标系</p>
 <p>视图的<code>frame</code>，<code>bounds</code>和<code>center</code>属性仅仅是<em>存取方法</em>，当操纵视图的<code>frame</code>，实际上是在改变位于视图下方<code>CALayer</code>的<code>frame</code>，不能够独立于图层之外改变视图的<code>frame</code>。</p>
 <p>对于视图或者图层来说，<code>frame</code>并不是一个非常清晰的属性，它其实是一个虚拟属性，是根据<code>bounds</code>，<code>position</code>和<code>transform</code>计算而来，所以当其中任何一个值发生改变，frame都会变化。相反，改变frame的值同样会影响到他们当中的值</p>
 <p>记住当对图层做变换的时候，比如旋转或者缩放，<code>frame</code>实际上代表了覆盖在图层旋转之后的整个轴对齐的矩形区域，也就是说<code>frame</code>的宽高可能和<code>bounds</code>的宽高不再一致了（图3.2）</p>
-<p><img src="./3.2.jpeg" alt="图3.2" title="图3.2" width="700"></p>
+<p><img src="http://i1.tietuku.com/b3cc087d8701c6c4.jpg"></p>
 <p>图3.2 旋转一个视图或者图层之后的<code>frame</code>属性</p>
 <h2 id="锚点">锚点</h2><p>之前提到过，视图的<code>center</code>属性和图层的<code>position</code>属性都指定了<code>anchorPoint</code>相对于父图层的位置。图层的<code>anchorPoint</code>通过<code>position</code>来控制它的<code>frame</code>的位置，你可以认为<code>anchorPoint</code>是用来移动图层的<em>把柄</em>。</p>
 <p>默认来说，<code>anchorPoint</code>位于图层的中点，所以图层的将会以这个点为中心放置。<code>anchorPoint</code>属性并没有被<code>UIView</code>接口暴露出来，这也是视图的position属性被叫做“center”的原因。但是图层的<code>anchorPoint</code>可以被移动，比如你可以把它置于图层<code>frame</code>的左上角，于是图层的内容将会向右下角的<code>position</code>方向移动（图3.3），而不是居中了。</p>
-<p><img src="./3.3.jpeg" alt="图3.3" title="图3.3" width="700"></p>
+<p><img src="http://i1.tietuku.com/cd0b18512266f4e8.jpg"></p>
 <p>图3.3 改变<code>anchorPoint</code>的效果</p>
 <p>和第二章提到的<code>contentsRect</code>和<code>contentsCenter</code>属性类似，<code>anchorPoint</code>用<em>单位坐标</em>来描述，也就是图层的相对坐标，图层左上角是{0, 0}，右下角是{1, 1}，因此默认坐标是{0.5, 0.5}。<code>anchorPoint</code>可以通过指定x和y值小于0或者大于1，使它放置在图层范围之外。</p>
 <p>注意在图3.3中，当改变了<code>anchorPoint</code>，<code>position</code>属性保持固定的值并没有发生改变，但是<code>frame</code>却移动了。</p>
 <p>那在什么场合需要改变<code>anchorPoint</code>呢？既然我们可以随意改变图层位置，那改变<code>anchorPoint</code>不会造成困惑么？为了举例说明，我们来举一个实用的例子，创建一个模拟闹钟的项目。</p>
 <p>钟面和钟表由四张图片组成（图3.4），为了简单说明，我们还是用传统的方式来装载和加载图片，使用四个<code>UIImageView</code>实例（当然你也可以用正常的视图，设置他们图层的<code>contents</code>图片）。</p>
-<p><img src="./3.4.jpeg" alt="图3.4" title="图3.4" width="700"></p>
+<p><img src="http://i1.tietuku.com/4cf92548d6313258.jpg"></p>
 <p>图3.4 组成钟面和钟表的四张图片</p>
 <p>闹钟的组件通过IB来排列（图3.5），这些图片视图嵌套在一个容器视图之内，并且自动调整和自动布局都被禁用了。这是因为自动调整会影响到视图的<code>frame</code>，而根据图3.2的演示，当视图旋转的时候，<code>frame</code>是会发生改变的，这将会导致一些布局上的失灵。</p>
 <p>我们用<code>NSTimer</code>来更新闹钟，使用视图的<code>transform</code>属性来旋转钟表（如果你对这个属性不太熟悉，不要着急，我们将会在第5章“变换”当中详细说明），具体代码见清单3.1</p>
-<p><img src="./3.5.jpeg" alt="图3.5" title="图3.5" width="700"></p>
+<p><img src="http://i1.tietuku.com/2eb6826a87ecce6b.jpg"></p>
 <p>图3.5 在Interface Builder中布局闹钟视图</p>
 <p>清单3.1 <strong>Clock</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIImageView *hourHand;&#10;@property (nonatomic, weak) IBOutlet UIImageView *minuteHand;&#10;@property (nonatomic, weak) IBOutlet UIImageView *secondHand;&#10;@property (nonatomic, weak) NSTimer *timer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //start timer&#10;    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(tick) userInfo:nil repeats:YES];&#10;                  &#65532;&#10;    //set initial hand positions&#10;    [self tick];&#10;&#125;&#10;&#10;- (void)tick&#10;&#123;&#10;    //convert time to hours, minutes and seconds&#10;    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];&#10;    NSUInteger units = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;&#10;    NSDateComponents *components = [calendar components:units fromDate:[NSDate date]];&#10;    CGFloat hoursAngle = (components.hour / 12.0) * M_PI * 2.0;&#10;    //calculate hour hand angle //calculate minute hand angle&#10;    CGFloat minsAngle = (components.minute / 60.0) * M_PI * 2.0;&#10;    //calculate second hand angle&#10;    CGFloat secsAngle = (components.second / 60.0) * M_PI * 2.0;&#10;    //rotate hands&#10;    self.hourHand.transform = CGAffineTransformMakeRotation(hoursAngle);&#10;    self.minuteHand.transform = CGAffineTransformMakeRotation(minsAngle);&#10;    self.secondHand.transform = CGAffineTransformMakeRotation(secsAngle);&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure></p>
 <p>运行项目，看起来有点奇怪（图3.6），因为钟表的图片在围绕着中心旋转，这并不是我们期待的一个支点。</p>
-<p><img src="./3.6.jpeg" alt="图3.6" title="图3.6" width="700"></p>
+<p><img src="http://i1.tietuku.com/8718ca04ee738767.jpg"></p>
 <p>图3.6 钟面，和不对齐的钟指针</p>
 <p>你也许会认为可以在Interface Builder当中调整指针图片的位置来解决，但其实并不能达到目的，因为如果不放在钟面中间的话，同样不能正确的旋转。</p>
 <p>也许在图片末尾添加一个透明空间也是个解决方案，但这样会让图片变大，也会消耗更多的内存，这样并不优雅。</p>
 <p>更好的方案是使用<code>anchorPoint</code>属性，我们来在<code>-viewDidLoad</code>方法中添加几行代码来给每个钟指针的<code>anchorPoint</code>做一些平移（清单3.2），图3.7显示了正确的结果。</p>
 <p>清单3.2<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#10;&#123;&#10;    [super viewDidLoad];&#10;    // adjust anchor points&#10;&#10;    self.secondHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f); &#10;    self.minuteHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f); &#10;    self.hourHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f);&#10;&#10;&#10;    // start timer&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="./3.7.jpeg" alt="图3.7" title="图3.7" width="700"></p>
+<p><img src="http://i1.tietuku.com/e93155e73f1094dd.jpg"></p>
 <p>图3.7 钟面，和正确对齐的钟指针</p>
 <h2 id="坐标系">坐标系</h2><p>和视图一样，图层在图层树当中也是相对于父图层按层级关系放置，一个图层的<code>position</code>依赖于它父图层的<code>bounds</code>，如果父图层发生了移动，它的所有子图层也会跟着移动。</p>
 <p>这样对于放置图层会更加方便，因为你可以通过移动根图层来将它的子图层作为一个整体来移动，但是有时候你需要知道一个图层的<em>绝对</em>位置，或者是相对于另一个图层的位置，而不是它当前父图层的位置。</p>
@@ -2246,19 +2247,19 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
 <p>通常，图层是根据它们子图层的<code>sublayers</code>出现的顺序来类绘制的，这就是所谓的<em>画家的算法</em>—就像一个画家在墙上作画—后被绘制上的图层将会遮盖住之前的图层，但是通过增加图层的<code>zPosition</code>，就可以把图层向相机方向<em>前置</em>，于是它就在所有其他图层的<em>前面</em>了（或者至少是小于它的<code>zPosition</code>值的图层的前面）。</p>
 <p>这里所谓的“相机”实际上是相对于用户是视角，这里和iPhone背后的内置相机没任何关系。</p>
 <p>图3.8显示了在Interface Builder内的一对视图，正如你所见，首先出现在视图层级绿色的视图被绘制在红色视图的后面。</p>
-<p><img src="./3.8.jpeg" alt="图3.8" title="图3.8" width="700"></p>
+<p><img src="http://i1.tietuku.com/f648365a2b676b41.jpg"></p>
 <p>图3.8 在视图层级中绿色视图被绘制在红色视图的后面</p>
 <p>我们希望在真实的应用中也能显示出绘图的顺序，同样地，如果我们提高绿色视图的<code>zPosition</code>（清单3.3），我们会发现顺序就反了（图3.9）。其实并不需要增加太多，视图都非常地薄，所以给<code>zPosition</code>提高一个像素就可以让绿色视图前置，当然0.1或者0.0001也能够做到，但是最好不要这样，因为浮点类型四舍五入的计算可能会造成一些不便的麻烦。</p>
 <p>清单3.3</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *greenView;&#10;@property (nonatomic, weak) IBOutlet UIView *redView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    &#65532;&#10;    //move the green view zPosition nearer to the camera&#10;    self.greenView.layer.zPosition = 1.0f;&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./3.9.jpeg" alt="图3.9" title="图3.9" width="700"></p>
+<p><img src="http://i1.tietuku.com/5bc7eba82db3b159.jpg"></p>
 <p>图3.9 绿色视图被绘制在红色视图的前面</p>
 <h2 id="Hit_Testing">Hit Testing</h2><p>第一章“图层树”证实了最好使用图层相关视图，而不是创建独立的图层关系。其中一个原因就是要处理额外复杂的触摸事件。</p>
 <p><code>CALayer</code>并不关心任何响应链事件，所以不能直接处理触摸事件或者手势。但是它有一系列的方法帮你处理事件：<code>-containsPoint:</code>和<code>-hitTest:</code>。</p>
 <p><code>-containsPoint:</code>接受一个在本图层坐标系下的<code>CGPoint</code>，如果这个点在图层<code>frame</code>范围内就返回<code>YES</code>。如清单3.4所示第一章的项目的另一个合适的版本，也就是使用<code>-containsPoint:</code>方法来判断到底是白色还是蓝色的图层被触摸了<br>（图3.10）。这需要把触摸坐标转换成每个图层坐标系下的坐标，结果很不方便。</p>
 <p>清单3.4 使用containsPoint判断被点击的图层</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView;&#10;@property (nonatomic, weak) CALayer *blueLayer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create sublayer&#10;    self.blueLayer = [CALayer layer];&#10;    self.blueLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);&#10;    self.blueLayer.backgroundColor = [UIColor blueColor].CGColor;&#10;    //add it to our view&#10;    [self.layerView.layer addSublayer:self.blueLayer];&#10;&#125;&#10;&#10;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#10;    //get touch position relative to main view&#10;    CGPoint point = [[touches anyObject] locationInView:self.view];&#10;    //convert point to the white layer&#39;s coordinates&#10;    point = [self.layerView.layer convertPoint:point fromLayer:self.view.layer];&#10;    //get layer using containsPoint:&#10;    if ([self.layerView.layer containsPoint:point]) &#123;&#10;        //convert point to blueLayer&#8217;s coordinates&#10;        point = [self.blueLayer convertPoint:point fromLayer:self.layerView.layer];&#10;        if ([self.blueLayer containsPoint:point]) &#123;&#10;            [[[UIAlertView alloc] initWithTitle:@&#34;Inside Blue Layer&#34; &#10;                                        message:nil&#10;                                       delegate:nil &#10;                              cancelButtonTitle:@&#34;OK&#34;&#10;                              otherButtonTitles:nil] show];&#10;        &#125; else &#123;&#10;            [[[UIAlertView alloc] initWithTitle:@&#34;Inside White Layer&#34;&#10;                                        message:nil &#10;                                       delegate:nil&#10;                              cancelButtonTitle:@&#34;OK&#34;&#10;                              otherButtonTitles:nil] show];&#10;        &#125;&#10;    &#125;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="./3.10.jpeg" alt="图3.10" title="图3.10" width="700"></p>
+<p><img src="http://i1.tietuku.com/163d32eb250cae4f.jpg"></p>
 <p>图3.10 点击图层被正确标识</p>
 <p><code>-hitTest:</code>方法同样接受一个<code>CGPoint</code>类型参数，而不是<code>BOOL</code>类型，它返回图层本身，或者包含这个坐标点的叶子节点图层。这意味着不再需要像使用<code>-containsPoint:</code>那样，人工地在每个子图层变换或者测试点击的坐标。如果这个点在最外面图层的范围之外，则返回nil。具体使用<code>-hitTest:</code>方法被点击图层的代码如清单3.5所示。</p>
 <p>清单3.5 使用hitTest判断被点击的图层</p>
