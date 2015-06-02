@@ -151,7 +151,7 @@
     <link href="http://yoursite.com/2015/05/12/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/15-%E5%9B%BE%E5%B1%82%E6%80%A7%E8%83%BD/15-%E5%9B%BE%E5%B1%82%E6%80%A7%E8%83%BD/"/>
     <id>http://yoursite.com/2015/05/12/Core Aniamtion深入探讨/15-图层性能/15-图层性能/</id>
     <published>2015-05-12T01:32:52.000Z</published>
-    <updated>2015-05-15T02:10:27.000Z</updated>
+    <updated>2015-06-02T02:49:56.000Z</updated>
     <content type="html"><![CDATA[<h1 id="图层性能">图层性能</h1><blockquote>
 <p>要更快性能，也要做对正确的事情。<br>——Stephen R. Covey</p>
 </blockquote>
@@ -241,7 +241,9 @@
 <p>在第14章『图像IO』讨论如何高效地载入和显示图像，通过视图来避免可能引起动画帧率]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -250,7 +252,7 @@
     <link href="http://yoursite.com/2015/05/10/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/14-%E5%9B%BE%E5%83%8FIO/%E5%9B%BE%E5%83%8FIO/"/>
     <id>http://yoursite.com/2015/05/10/Core Aniamtion深入探讨/14-图像IO/图像IO/</id>
     <published>2015-05-10T01:32:52.000Z</published>
-    <updated>2015-05-15T02:09:52.000Z</updated>
+    <updated>2015-06-02T02:49:48.000Z</updated>
     <content type="html"><![CDATA[<h1 id="图像IO">图像IO</h1><p><em>潜伏期值得思考</em> - 凯文 帕萨特</p>
 <p>在第13章“高效绘图”中，我们研究了和Core Graphics绘图相关的性能问题，以及如何修复。和绘图性能相关紧密相关的是图像性能。在这一章中，我们将研究如何优化从闪存驱动器或者网络中加载和显示图片。</p>
 <h2 id="加载和潜伏">加载和潜伏</h2><p>绘图实际消耗的时间通常并不是影响性能的因素。图片消耗很大一部分内存，而且不太可能把需要显示的图片都保留在内存中，所以需要在应用运行的时候周期性地加载和卸载图片。</p>
@@ -418,7 +420,9 @@
 <p>在第13章“高效绘图”中，我们研究了和Core Graphics绘图相关的性能问题，以及如何修复。和绘图性能相关紧密相关的是图像性能。在这一章中，我们将研究如何优]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -427,7 +431,7 @@
     <link href="http://yoursite.com/2015/05/07/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/13-%E9%AB%98%E6%95%88%E7%BB%98%E5%9B%BE/13-%E9%AB%98%E6%95%88%E7%BB%98%E5%9B%BE/"/>
     <id>http://yoursite.com/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/</id>
     <published>2015-05-07T01:32:52.000Z</published>
-    <updated>2015-05-15T02:09:40.000Z</updated>
+    <updated>2015-06-02T02:49:41.000Z</updated>
     <content type="html"><![CDATA[<h1 id="高效绘图">高效绘图</h1><blockquote>
 <p>不必要的效率考虑往往是性能问题的万恶之源。<br>——William Allan Wulf</p>
 </blockquote>
@@ -490,7 +494,9 @@
 <p>在第12章『速度的曲率』我们学习如何用Instruments来诊断C]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -536,7 +542,7 @@
     <link href="http://yoursite.com/2015/05/05/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/12-%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/"/>
     <id>http://yoursite.com/2015/05/05/Core Aniamtion深入探讨/12-性能调优/性能调优/</id>
     <published>2015-05-05T01:32:52.000Z</published>
-    <updated>2015-05-15T02:09:21.000Z</updated>
+    <updated>2015-06-02T02:49:34.000Z</updated>
     <content type="html"><![CDATA[<h1 id="性能调优">性能调优</h1><blockquote>
 <p><em>代码应该运行的尽量快，而不是更快</em> - 理查德</p>
 </blockquote>
@@ -714,7 +720,9 @@
 <p>在第一和第二部分，我们了解了Core Animation提供的关于绘制和动画的一些特性。Core]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -723,7 +731,7 @@
     <link href="http://yoursite.com/2015/05/01/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/11-%E5%9F%BA%E4%BA%8E%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E5%8A%A8%E7%94%BB/%E5%9F%BA%E4%BA%8E%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E5%8A%A8%E7%94%BB/"/>
     <id>http://yoursite.com/2015/05/01/Core Aniamtion深入探讨/11-基于定时器的动画/基于定时器的动画/</id>
     <published>2015-05-01T01:32:52.000Z</published>
-    <updated>2015-05-15T02:09:02.000Z</updated>
+    <updated>2015-06-02T02:49:26.000Z</updated>
     <content type="html"><![CDATA[<h1 id="基于定时器的动画">基于定时器的动画</h1><blockquote>
 <p><em>我可以指导你，但是你必须按照我说的做。</em> — 骇客帝国</p>
 </blockquote>
@@ -832,7 +840,9 @@
 <p>在第10章“缓冲”中，我们研究了<code>CAMediaTimingF]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -841,7 +851,7 @@
     <link href="http://yoursite.com/2015/04/30/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/10-%E7%BC%93%E5%86%B2/%E7%BC%93%E5%86%B2/"/>
     <id>http://yoursite.com/2015/04/30/Core Aniamtion深入探讨/10-缓冲/缓冲/</id>
     <published>2015-04-30T01:32:52.000Z</published>
-    <updated>2015-05-15T02:08:46.000Z</updated>
+    <updated>2015-06-02T02:49:18.000Z</updated>
     <content type="html"><![CDATA[<h1 id="缓冲">缓冲</h1><blockquote>
 <p>生活和艺术一样，最美的永远是曲线。 — 爱德华布尔沃 - 利顿</p>
 </blockquote>
@@ -955,7 +965,9 @@ k<span class="built_in">CAMediaTimingFunctionDefault</span>
 <p>在第九章“图层时间”中，我们讨论了动画时间和<code>CAMediaTiming</code>协议。现]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -964,7 +976,7 @@ k<span class="built_in">CAMediaTimingFunctionDefault</span>
     <link href="http://yoursite.com/2015/04/29/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/9-%E5%9B%BE%E5%B1%82%E6%97%B6%E9%97%B4/%E5%9B%BE%E5%B1%82%E6%97%B6%E9%97%B4/"/>
     <id>http://yoursite.com/2015/04/29/Core Aniamtion深入探讨/9-图层时间/图层时间/</id>
     <published>2015-04-29T01:32:52.000Z</published>
-    <updated>2015-05-15T02:08:32.000Z</updated>
+    <updated>2015-06-02T02:49:11.000Z</updated>
     <content type="html"><![CDATA[<h1 id="图层时间">图层时间</h1><blockquote>
 <p><em>时间和空间最大的区别在于，时间不能被复用</em> — 弗斯特梅里克</p>
 </blockquote>
@@ -1036,7 +1048,9 @@ k<span class="built_in">CAFillModeRemoved</span>
 <p>在上面两章中，我们探讨了可以用<code>CAAnimation</code>和它]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -1045,7 +1059,7 @@ k<span class="built_in">CAFillModeRemoved</span>
     <link href="http://yoursite.com/2015/04/27/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/8-%E6%98%BE%E5%BC%8F%E5%8A%A8%E7%94%BB/%E6%98%BE%E5%BC%8F%E5%8A%A8%E7%94%BB/"/>
     <id>http://yoursite.com/2015/04/27/Core Aniamtion深入探讨/8-显式动画/显式动画/</id>
     <published>2015-04-27T01:32:52.000Z</published>
-    <updated>2015-05-15T02:08:21.000Z</updated>
+    <updated>2015-06-02T02:49:04.000Z</updated>
     <content type="html"><![CDATA[<h1 id="显式动画">显式动画</h1><p>如果想让事情变得顺利，只有靠自己 — 夏尔·纪尧姆</p>
 <p>上一章介绍了隐式动画的概念。隐式动画是在iOS平台创建动态用户界面的一种直接方式，也是UIKit动画机制的基础，不过它并不能涵盖所有的动画类型。在这一章中，我们将要研究一下<em>显式动画</em>，它能够对一些属性做指定的自定义动画，或者创建非线性动画，比如沿着任意一条曲线移动。</p>
 <h2 id="属性动画">属性动画</h2><p>首先我们来探讨一下<em>属性动画</em>。属性动画作用于图层的某个单一属性，并指定了它的一个目标值，或者一连串将要做动画的值。属性动画分为两种：<em>基础</em>和<em>关键帧</em>。</p>
@@ -1267,7 +1281,9 @@ k<span class="built_in">CATransitionFromBottom</span>
 <p>上一章介绍了隐式动画的概念。隐式动画是在iOS平台创建动态用户界面的一种直接方式，也是UIKit动画机制的基础，不过它并不能涵盖所有的动画类型。在这一章中，我们将]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -1276,7 +1292,7 @@ k<span class="built_in">CATransitionFromBottom</span>
     <link href="http://yoursite.com/2015/04/24/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/7-%E9%9A%90%E5%BC%8F%E5%8A%A8%E7%94%BB/%E9%9A%90%E5%BC%8F%E5%8A%A8%E7%94%BB/"/>
     <id>http://yoursite.com/2015/04/24/Core Aniamtion深入探讨/7-隐式动画/隐式动画/</id>
     <published>2015-04-24T01:32:52.000Z</published>
-    <updated>2015-05-15T02:08:02.000Z</updated>
+    <updated>2015-06-02T02:48:56.000Z</updated>
     <content type="html"><![CDATA[<h1 id="隐式动画">隐式动画</h1><blockquote>
 <p><em>按照我的意思去做，而不是我说的。</em> — 埃德娜，辛普森</p>
 </blockquote>
@@ -1373,7 +1389,9 @@ k<span class="built_in">CATransitionFromBottom</span>
 <p>我们在第一部分讨论了Core Animation除了动画之外可以做到的任何事情。但是动画]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -1382,7 +1400,7 @@ k<span class="built_in">CATransitionFromBottom</span>
     <link href="http://yoursite.com/2015/04/23/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/6-%E4%B8%93%E6%9C%89%E5%9B%BE%E5%B1%82/6-%E4%B8%93%E6%9C%89%E5%9B%BE%E5%B1%82/"/>
     <id>http://yoursite.com/2015/04/23/Core Aniamtion深入探讨/6-专有图层/6-专有图层/</id>
     <published>2015-04-23T01:32:52.000Z</published>
-    <updated>2015-05-15T02:07:51.000Z</updated>
+    <updated>2015-06-02T02:48:48.000Z</updated>
     <content type="html"><![CDATA[<h2 id="专用图层">专用图层</h2><blockquote>
 <p>复杂的组织都是专门化的</p>
 <p>Catharine R. Stimpson</p>
@@ -1574,7 +1592,9 @@ k<span class="built_in">CATransitionFromBottom</span>
 <p>到目前为止，我们已经探讨过<code>CALayer</code>类了，同时我]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -1583,7 +1603,7 @@ k<span class="built_in">CATransitionFromBottom</span>
     <link href="http://yoursite.com/2015/04/21/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/5-%E5%8F%98%E6%8D%A2/%E5%8F%98%E6%8D%A2/"/>
     <id>http://yoursite.com/2015/04/21/Core Aniamtion深入探讨/5-变换/变换/</id>
     <published>2015-04-21T01:32:52.000Z</published>
-    <updated>2015-05-15T02:07:32.000Z</updated>
+    <updated>2015-06-02T02:48:37.000Z</updated>
     <content type="html"><![CDATA[<h1 id="变换">变换</h1><blockquote>
 <p><em>很不幸，没人能告诉你母体是什么，你只能自己体会</em> — 骇客帝国</p>
 </blockquote>
@@ -1869,7 +1889,9 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
 <p>在第四章“可视效果”中，我们研究了一些增强图层和它的内容显示效果的一些技术，在这一章中，]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -1935,7 +1957,7 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
     <link href="http://yoursite.com/2015/04/17/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/4-%E8%A7%86%E8%A7%89%E6%95%88%E6%9E%9C/4-%E8%A7%86%E8%A7%89%E6%95%88%E6%9E%9C/"/>
     <id>http://yoursite.com/2015/04/17/Core Aniamtion深入探讨/4-视觉效果/4-视觉效果/</id>
     <published>2015-04-17T01:32:52.000Z</published>
-    <updated>2015-05-15T02:07:17.000Z</updated>
+    <updated>2015-06-02T02:48:26.000Z</updated>
     <content type="html"><![CDATA[<h1 id="视觉效果">视觉效果</h1><blockquote>
 <p>嗯，圆和椭圆还不错，但如果是带圆角的矩形呢？</p>
 <p>我们现在能做到那样了么？</p>
@@ -2076,7 +2098,9 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
 <p>我们在第三章『图层几何学』中讨论了图层的fr]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
@@ -2169,7 +2193,7 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
     <link href="http://yoursite.com/2015/04/15/Core%20Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/3-%E5%9B%BE%E5%B1%82%E5%87%A0%E4%BD%95%E5%AD%A6/%E5%9B%BE%E5%B1%82%E5%87%A0%E4%BD%95%E5%AD%A6/"/>
     <id>http://yoursite.com/2015/04/15/Core Aniamtion深入探讨/3-图层几何学/图层几何学/</id>
     <published>2015-04-15T01:32:52.000Z</published>
-    <updated>2015-05-15T02:06:59.000Z</updated>
+    <updated>2015-06-02T02:47:58.000Z</updated>
     <content type="html"><![CDATA[<h1 id="图层几何学">图层几何学</h1><blockquote>
 <p><em>不熟悉几何学的人就不要来这里了</em> —柏拉图学院入口的签名</p>
 </blockquote>
@@ -2259,7 +2283,9 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
 <p>在第二章里面，我们介绍了图层背后的图片，和一些控制图层坐标和旋转的属性。在这一章中]]>
     </summary>
     
-      <category term="深入探讨 Core Animation" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Core-Animation/"/>
+      <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
+    
+      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
