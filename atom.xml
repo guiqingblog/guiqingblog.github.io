@@ -4,7 +4,7 @@
   <subtitle><![CDATA[记录自己的学习 工作 感悟]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-06-03T00:22:11.000Z</updated>
+  <updated>2015-06-03T00:23:57.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[根据内存定位程序崩溃点]]></title>
-    <link href="http://yoursite.com/2015/06/03/%E8%BE%85%E5%8A%A9%E7%BC%96%E7%A8%8B%E6%8A%80%E8%83%BD/%E7%A8%8B%E5%BA%8F%E5%B4%A9%E6%BA%83%E9%AB%98%E7%BA%A7%E5%AE%9A%E4%BD%8D/"/>
-    <id>http://yoursite.com/2015/06/03/辅助编程技能/程序崩溃高级定位/</id>
+    <title><![CDATA[定位程序崩溃点的方法探究]]></title>
+    <link href="http://yoursite.com/2015/06/03/%E8%BE%85%E5%8A%A9%E7%BC%96%E7%A8%8B%E6%8A%80%E8%83%BD/%E5%AE%9A%E4%BD%8D%E7%A8%8B%E5%BA%8F%E5%B4%A9%E6%BA%83%E7%82%B9%E7%9A%84%E6%96%B9%E6%B3%95%E6%8E%A2%E7%A9%B6/"/>
+    <id>http://yoursite.com/2015/06/03/辅助编程技能/定位程序崩溃点的方法探究/</id>
     <published>2015-06-02T23:34:58.000Z</published>
-    <updated>2015-06-03T00:22:11.000Z</updated>
+    <updated>2015-06-03T00:23:57.000Z</updated>
     <content type="html"><![CDATA[<h2 id="context">context</h2><p>昨天遇到问题,当我的 NavitgationController back 的时候,程序崩溃,诡异的地方是: 控制台完全没有任何打印,崩溃的断点直接回到了 main 函数中.</p>
 <h2 id="几个尝试">几个尝试</h2><p>想到之前曾经读过一篇出现在这样情景崩溃的文章:有对象依赖被 pop 的控制器,结果导致了崩溃,但是经过仔细排查,发现并没有这样的情况.</p>
 <h2 id="查找资料">查找资料</h2><p>网上对崩溃问题的定位常规方法总结起来有:</p>
