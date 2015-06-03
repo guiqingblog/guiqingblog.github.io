@@ -4,7 +4,7 @@
   <subtitle><![CDATA[记录自己的学习 工作 感悟]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-06-03T01:32:43.000Z</updated>
+  <updated>2015-06-03T09:27:57.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,11 +15,54 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Currying]]></title>
+    <link href="http://yoursite.com/2015/06/03/Swift%E8%BF%9B%E9%98%B6/Currying/"/>
+    <id>http://yoursite.com/2015/06/03/Swift进阶/Currying/</id>
+    <published>2015-06-03T09:06:06.000Z</published>
+    <updated>2015-06-03T09:27:57.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="context">context</h2><p>最近开始读喵神的书,书是好书,就是非常概略,不利于 Swift 基础薄弱的童鞋,所以,借着自己阅读的理解和查阅的资料,把每个知识点扩充一下.</p>
+<h2 id="Currying">Currying</h2><p><strong>Currying就是把一个多参数的方法，拆解为只有第一个参数的方法，这个方法的返回值不是一个具体的值，而是一个新的方法，这个方法的参数是原先的方法刨去第一个参数后的“剩下的方法的片段”，可以理解为，把一个多参数方法只作为某一种模板</strong></p>
+<h2 id="基本写法">基本写法</h2><p>基本结构:</p>
+<p>func <code>function name</code> (<code>parameters</code>)(<code>parameters</code>)-&gt;<code>return type</code>{<br>    <code>statements</code><br>}</p>
+<p>一个 Currying<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func add<span class="function"><span class="params">(originValue: Int)(inputValue: Int)</span> -&gt;</span> Int &#123;</span><br><span class="line">        <span class="keyword">return</span> originValue + inputVlue</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个写法就是 <code>currying</code> 函数的基本写法,<code>originValue</code> 是他的固定的基数(或者说基础参数). <code>inputValue</code>是以后调用的不同的输入值.基础参数构建了一个类似模板的东西,而输入值构建了我们想要的最终结果.</p>
+<p>使用:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let addWith10 = <span class="function"><span class="title">add</span><span class="params">(<span class="number">10</span>)</span></span></span><br><span class="line">let addWith100 = <span class="function"><span class="title">add</span><span class="params">(<span class="number">100</span>)</span></span></span><br></pre></td></tr></table></figure>
+<p>以上,分别构建了一个以 10 和100 为基数的方法.它们都是新的方法,但是是我们最开始方法的一部分,如果要使用:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let result1 = <span class="function"><span class="title">addWith10</span><span class="params">(inputValue: <span class="number">1</span>)</span></span></span><br><span class="line">let result2 = <span class="function"><span class="title">addWith100</span><span class="params">(inputValue: <span class="number">1</span>)</span></span></span><br></pre></td></tr></table></figure>
+<p>result1的结果是  11<br>result2的结果是  101</p>
+<p>以上就是 Currying 的一个小剖析,下面我们从一般函数入手,看看Currying到底是怎么演化的.</p>
+<h2 id="从函数开始">从函数开始</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int,b: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">sum(<span class="number">1</span>, <span class="number">2</span>)   <span class="comment">//输出3</span></span><br></pre></td></tr></table></figure>
+<p>这是一个非常简单的函数,如果用 Currying 的写法,会变成:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: <span class="typename">Int</span>)(b: <span class="typename">Int</span>) -&gt; <span class="typename">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable"><span class="keyword">var</span> sumByFirst</span> = sum(<span class="number">1</span>)</span><br><span class="line">sumByFirst(b: <span class="number">4</span>) <span class="comment">//输出5</span></span><br></pre></td></tr></table></figure>
+<p>只需要传入第一个参数，返回的sumByFirst是一个函数，它包含剩余的其他参数，以及刚刚传入进去的那个1，接着以它自己作为方法传入第二个参数b就行了。<br>如果是三个参数就像这样： </p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int)</span></span>(b: <span class="type">Int</span>)(<span class="built_in">c</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + <span class="built_in">c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">var</span> sumBySecond = sumByFirst(b: <span class="number">4</span>)</span><br><span class="line">sumBySecond(<span class="built_in">c</span>: <span class="number">10</span>)  <span class="comment">//输出15</span></span><br></pre></td></tr></table></figure>
+<p>除了第一个参数以外，其他的参数都要显式地写上参数标签，并且要按参数排列的顺序调用。<br>一个括号中放两个参数也可以： </p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int)</span></span>(b: <span class="type">Int</span>, <span class="built_in">c</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + <span class="built_in">c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line">sumByFirst(b: <span class="number">4</span>,<span class="built_in">c</span>: <span class="number">10</span>)  <span class="comment">//输出15</span></span><br></pre></td></tr></table></figure>
+<p>在某些情况下，你可能会用某个相同的参数重复调用某个方法，那么利用柯里化会使代码更易于维护：</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func <span class="built_in">sum</span>(a: <span class="built_in">Int</span>)(b: <span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">var sumWithFive = <span class="built_in">sum</span>(<span class="number">5</span>)</span><br><span class="line">sumWithFive(b: <span class="number">5</span>)</span><br><span class="line">sumWithFive(b: <span class="number">10</span>)</span><br><span class="line">sumWithFive(b: <span class="number">15</span>)</span><br></pre></td></tr></table></figure>
+<p>因为 Swift 的 Selector  只能通过字符串生成,这会面临一个很严重的问题,就是难以重构,并且无法在编译期间进行检查,这是非常危险的行为.但是利用方法的 Currying ,我们可以解决这个问题.</p>
+<p>参考网址:</p>
+<p><a href="http://blog.csdn.net/zhangao0086/article/details/38851759" target="_blank" rel="external">http://blog.csdn.net/zhangao0086/article/details/38851759</a></p>
+<p><a href="http://www.tuicool.com/articles/bMBjUfn" target="_blank" rel="external">http://www.tuicool.com/articles/bMBjUfn</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="context">context</h2><p>最近开始读喵神的书,书是好书,就是非常概略,不利于 Swift 基础薄弱的童鞋,所以,借着自己阅读的理解和查阅的资料,把每个知识点扩充一下.</p>
+<h2 id="Currying">Currying</h2><p]]>
+    </summary>
+    
+      <category term="Swift 进阶" scheme="http://yoursite.com/tags/Swift-%E8%BF%9B%E9%98%B6/"/>
+    
+      <category term="Swift进阶" scheme="http://yoursite.com/categories/Swift%E8%BF%9B%E9%98%B6/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[新版多说的配置]]></title>
     <link href="http://yoursite.com/2015/06/03/%E4%B8%BB%E9%A1%B5%E7%BB%B4%E6%8A%A4%E8%AE%B0%E5%BD%95/%E6%96%B0%E7%89%88%E5%A4%9A%E8%AF%B4%E7%9A%84%E9%85%8D%E7%BD%AE/"/>
     <id>http://yoursite.com/2015/06/03/主页维护记录/新版多说的配置/</id>
     <published>2015-06-03T01:23:59.000Z</published>
-    <updated>2015-06-03T01:32:43.000Z</updated>
+    <updated>2015-06-03T01:34:38.000Z</updated>
     <content type="html"><![CDATA[<h2 id="context">context</h2><p>最近给博客更换了一款主题,但是发现多说评论失效了,用一期的配置方法进行配置,还报错.现在重新整理</p>
 <h2 id="前提">前提</h2><p>已经注册多说开发者帐号,并且创建了应用.</p>
 <h2 id="步骤">步骤</h2><ol>
@@ -2230,49 +2273,6 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
       <category term="问题解决和思考" scheme="http://yoursite.com/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%92%8C%E6%80%9D%E8%80%83/"/>
     
       <category term="主页维护记录" scheme="http://yoursite.com/categories/%E4%B8%BB%E9%A1%B5%E7%BB%B4%E6%8A%A4%E8%AE%B0%E5%BD%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[高效OC编程-在类的头文件中尽量少引入其他头文件]]></title>
-    <link href="http://yoursite.com/2015/04/15/iOS&OC/%E5%9C%A8%E7%B1%BB%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%AD%E5%B0%BD%E9%87%8F%E5%B0%91%E5%BC%95%E5%85%A5%E5%85%B6%E4%BB%96%E5%A4%B4%E6%96%87%E4%BB%B6/"/>
-    <id>http://yoursite.com/2015/04/15/iOS&OC/在类的头文件中尽量少引入其他头文件/</id>
-    <published>2015-04-15T04:47:38.000Z</published>
-    <updated>2015-06-01T23:40:06.000Z</updated>
-    <content type="html"><![CDATA[<p>与C 和C++ 一样，Objective-C 也使用“头文件”（header file） 与“实现文件”（implementation file）来区隔代码。用Objective-C 语言编写“类”（class）的标准方式为：以类名做文件名，分别创建两个文件，头文件后缀用.h，实现文件后缀用.m。创建好一个类之后，其代码看上去如下所示:   </p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EOCPerson.h</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">EOCPerson</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *firstName;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *lastName;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EOCPerson.m</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"EOCPerson.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">EOCPerson</span></span></span><br><span class="line"><span class="comment">// Implementation of methods</span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>  
-<p>用Objective-C 语言编写任何类几乎都需要引入Foundation.h。如果不在该类本身引入这个文件的话，那么就要引入与其超类所属框架相对应的“基本头文件”（base header file）。例如，在创建iOS 应用程序时，通常会继承UIViewController 类。而这些子类的头文件需要引入UIKit.h。现在看来，EOCPerson 类还好。其头文件引入了整个Foundation 框架，不过这并没有问题。如果此类继承自Foundation 框架中的某个类，那么EOCPerson 类的使用者（consumer）<br>可能会用到其基类中的许多内容。继承自UIViewController 的那些类也是如此，其使用者可能会用到UIKit 中的大部分内容。<br>过段时间， 你可能又创建了一个名为EOCEmployer 的新类， 然后可能觉得每个EOCPerson 实例都应该有一个EOCEmployer。于是，直接为其添加一项属性：   </p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EOCPerson.h</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">EOCPerson</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *firstName;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *lastName;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) EOCEmployer *employer;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>然而这么做有个问题，就是在编译引入了EOCPerson.h 的文件时，EOCEmployer 类并不可见。不便强迫开发者在引入EOCPerson.h 时必须一并引入EOCEmployer.h，所以，常见的<br>办法是在EOCPerson.h 中加入下面这行：  </p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="id">#import</span> <span class="string">"EOCEmployer.h"</span></span><br></pre></td></tr></table></figure>
-<p>这种办法可行，但是不够优雅。在编译一个使用了EOCPerson 类的文件时，不需要知道<br>EOCEmployer 类的全部细节，只需要知道有一个类名叫EOCEmployer 就好。所幸有个办法<br>能把这一情况告诉编译器:  </p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">class</span> <span class="title">EOCEmployer</span>;</span><br></pre></td></tr></table></figure>
-<p>这叫做“向前声明”（forward declaring）该类。现在EOCPerson 的头文件变成了这样：   </p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EOCPerson.h</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">@class</span> <span class="title">EOCEmployer</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">EOCPerson</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *firstName;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *lastName;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) EOCEmployer *employer;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>将引入头文件的时机尽量延后，只在确有需要时才引入，这样就可以减少类的使用者所需引入的头文件数量。假设本例把EOCEmployer.h 引入到EOCPerson.h，那么只要引入EOCPerson.h，就会一并引入EOCEmployer.h 的所有内容。此过程若持续下去，则要引入许<br>多根本用不到的内容，这当然会增加编译时间。<br>向前声明也解决了两个类互相引用的问题。假设要为EOCEmployer 类加入新增及删除雇员的方法，那么其头文件中会加入下述定义:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">-</span> (<span class="tag">void</span>)<span class="rule"><span class="attribute">addEmployee</span>:<span class="value">(EOCPerson*)person</span></span>;</span><br><span class="line"><span class="tag">-</span> (<span class="tag">void</span>)<span class="rule"><span class="attribute">removeEmployee</span>:<span class="value">(EOCPerson*)person</span></span>;</span><br></pre></td></tr></table></figure>
-<p>此时， 若要编译EOCEmployer， 则编译器必须知道EOCPerson 这个类， 而要编译EOCPerson，则又必须知道EOCEmployer。如果在各自头文件中引入对方的头文件，则会导致“循环引用”（chicken-and-egg situation）。当解析其中一个头文件时，编译器会发现它引入<br>了另一个头文件，而那个头文件又回过头来引用第一个头文件。使用#import 而非#include指令虽然不会导致死循环，但却这意味着两个类里有一个无法被正确编译。如果不信的话，读者可以自己试试。<br>但是有时候必须要在头文件中引入其他头文件。如果你写的类继承自某个超类，则必须引入定义那个超类的头文件。同理，如果要声明你写的类遵从某个协议（protocol），那么该协议必须有完整定义，且不能使用向前声明。向前声明只能告诉编译器有某个协议，而此时<br>编译器却要知道该协议中定义的方法。<br>例如，要从图形类中继承一个矩形类，且令其遵循绘制协议：   </p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EOCRectangle.h</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"EOCShape.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"EOCDrawable.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">EOCRectangle</span> : <span class="title">EOCShape</span>&lt;<span class="title">EOCDrawable</span>&gt;</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">float</span> width;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">float</span> height;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>第二条<code>#import</code>是难免的。鉴于此，最好是把协议单独放在一个头文件中。要是把<code>EOCDrawable</code> 协议放在了某个大的头文件里，那么只要引入此协议，就必定会引入那个头文<br>件中的全部内容，如此一来，就像上面说的那样，会产生相互依赖问题，而且还会增加编译<br>时间。<br>然而有些协议，例如“委托协议”（delegate protocol），就不用单独写一个<br>头文件了。在那种情况下，协议只有与接受协议委托的类放在一起定义才有意义。此时最好<br>能在实现文件中声明此类实现了该委托协议，并把这段实现代码放在“ class-continuation 分<br>类”（class-continuation category）里。这样的话，只要在实现文件中引入包含<br>委托协议的头文件即可，而不需将其放在公共头文件（public header file）里。每次在头文件中引入其他头文件之前，都要先问问自己这样做是否确有必要。如果可以用向前声明取代引入，那么就不要引入。若因为要实现属性、实例变量或者要遵循协议而必须引入头文件，则应尽量将其移至“ class-continuation 分类”中。这样做不仅可以缩减编译时间，而且还能降低彼此依赖程度。若是依赖关系过于复杂，则会给维护带来麻烦，而且，如果只想把代码的某个部分开放为公共API 的话，太复杂的依赖关系也会出问题。<br>要点 :</p>
-<ul>
-<li><p>除非确有必要，否则不要引入头文件。一般来说，应在某个类的头文件中使用向前声明来提及别的类，并在实现文件中引入那些类的头文件。这样做可以尽量降低类之间的耦合（coupling）。  </p>
-</li>
-<li><p>有时无法使用向前声明，比如要声明某个类遵循一项协议。这种情况下，尽量把“该类遵循某协议”的这条声明移至“ class-continuation 分类”中。如果不行的话，就把协议单独放在一个头文件中，然后将其引入。</p>
-</li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>与C 和C++ 一样，Objective-C 也使用“头文件”（header file） 与“实现文件”（implementation file）来区隔代码。用Objective-C 语言编写“类”（class）的标准方式为：以类名做文件名，分别创建两个文件，头文件后缀用.h，实现文件后缀用.m。创建好一个类之后，其代码看上去如下所示:   </p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EOCPerson.h</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">EOCPerson</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *firstName;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *lastName;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EOCPerson.m</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"EOCPerson.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">EOCPerson</span></span></span><br><span class="line"><span class="comment">// Implementation of methods</span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>]]>
-    
-    </summary>
-    
-      <category term="高效OC编程" scheme="http://yoursite.com/tags/%E9%AB%98%E6%95%88OC%E7%BC%96%E7%A8%8B/"/>
-    
-      <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
     
   </entry>
   
