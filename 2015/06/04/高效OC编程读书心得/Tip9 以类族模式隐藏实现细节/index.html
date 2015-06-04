@@ -3,17 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: 正则表达式 | 桂庆的个人主页</title>
+  <title>Tip9 以类族模式隐藏实现细节 | 桂庆的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
-<meta property="og:type" content="website">
-<meta property="og:title" content="桂庆的个人主页">
-<meta property="og:url" content="http://yoursite.com/tags/正则表达式/index.html">
+  <meta name="description" content="context类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.
+一个例子: UIButton1UIButton * button = [UIButton buttonWithType];
+该方法返回的对象类型取决于传入的 type ,不同的type决定了这个 button 将来的一些属性的不同(或者说可供设置的属性的不同)
+要实现类似的功能,如果不用类族,那">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tip9 以类族模式隐藏实现细节">
+<meta property="og:url" content="http://yoursite.com/2015/06/04/高效OC编程读书心得/Tip9 以类族模式隐藏实现细节/index.html">
 <meta property="og:site_name" content="桂庆的个人主页">
-<meta property="og:description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
+<meta property="og:description" content="context类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.
+一个例子: UIButton1UIButton * button = [UIButton buttonWithType];
+该方法返回的对象类型取决于传入的 type ,不同的type决定了这个 button 将来的一些属性的不同(或者说可供设置的属性的不同)
+要实现类似的功能,如果不用类族,那">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="桂庆的个人主页">
-<meta name="twitter:description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
+<meta name="twitter:title" content="Tip9 以类族模式隐藏实现细节">
+<meta name="twitter:description" content="context类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.
+一个例子: UIButton1UIButton * button = [UIButton buttonWithType];
+该方法返回的对象类型取决于传入的 type ,不同的type决定了这个 button 将来的一些属性的不同(或者说可供设置的属性的不同)
+要实现类似的功能,如果不用类族,那">
   
   
     <link rel="icon" href="/favicon.png">
@@ -87,97 +96,71 @@
           <section id="main">
             <div class="main-body-header">
 
-              <h1 class="header"><i class="icon" id="icon-tag"></i>标签：<em>正则表达式</em></h1>
+              <h1 class="header"><a class="page-title-link" href="/categories/高效OC编程/">高效OC编程</a></h1>
             </div>
             <div class="main-body-content">
               
-  
-  
-    
-    
+  <article id="post-高效OC编程读书心得/Tip9 以类族模式隐藏实现细节" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+      <!--  -->
       
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year"><i class="icon" id="icon-calendar-o"></i>2015</a>
-        </div>
-        <div class="archives">
-    
-    
-    
-      <div class="article-row">
-    
-        
-  <article class="article article-summary">
-    <div class="article-summary-inner">
-      
-<a href="/2015/03/17/辅助编程技能/开始使用正则表达式/" class="thumbnail">
+        <header class="article-header">
+          
   
-    <span class="thumbnail-image thumbnail-none"></span>
+    <h1 class="article-title" itemprop="name">
+      Tip9 以类族模式隐藏实现细节
+    </h1>
   
-</a>
 
-      <div class="article-meta">
-        <p class="category"><a class="article-category-link" href="/categories/辅助编程技能/">辅助编程技能</a></p>
-        <p class="date"><time datetime="2015-03-17T03:05:40.000Z" itemprop="datePublished">2015-03-17</time></p>
-      </div>
-      <h2 class="article-title">
-        <a href="/2015/03/17/辅助编程技能/开始使用正则表达式/" class="title">开始使用正则表达式-正则表达式</a>
-      </h2>
-      <p class="article-excerpt">
-        
-        一些细节的完善在上篇文章中,我们简单使用了一个正则完成了一些东西,但是也发现了一些问题.那个在线工具并不怎么好用…经常遇到输入之后,没有匹配.这也是 web 程序经常遇到的尴尬.所以,我们使用本地应用来进行处理.笔者的是 mac10.10 ,使用的工具叫做 RegExRx .大家可以选择一款合适的使用.( windows 下的正则程序更加多,功能也很强大)
-开始正则之旅明确了正则的用途之后,我们开
+        </header>
+      
+      <p class="article-byline">
+        <a href="/2015/06/04/高效OC编程读书心得/Tip9 以类族模式隐藏实现细节/" class="article-date">
+  <time datetime="2015-06-04T06:10:47.000Z" itemprop="datePublished">2015-06-04</time>
+</a>
       </p>
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="context">context</h2><p>类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.</p>
+<p>一个例子: UIButton<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIButton</span> * button = [<span class="built_in">UIButton</span> buttonWithType];</span><br></pre></td></tr></table></figure></p>
+<p>该方法返回的对象类型取决于传入的 <code>type</code> ,不同的<code>type</code>决定了这个 button 将来的一些属性的不同(或者说可供设置的属性的不同)</p>
+<p>要实现类似的功能,如果不用类族,那么还可能是一个类中的枚举.比如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (void) drawRect:(CGRect)rect&#123;</span><br><span class="line">true<span class="keyword">if</span>(_<span class="built_in">type</span> == <span class="built_in">type</span>A)&#123;</span><br><span class="line">truetrue//绘制一个 <span class="built_in">type</span>A 类型的 Button</span><br><span class="line">true&#125;<span class="keyword">else</span> <span class="keyword">if</span> (_<span class="built_in">type</span> == <span class="built_in">type</span>B)&#123;</span><br><span class="line">truetrue//绘制一个 <span class="built_in">type</span>B 类型的 Button</span><br><span class="line">true&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个简单的类型,这么看来没有问题,但是如果类型太多,这样就显得非常笨拙了.</p>
+<p>稍微聪明一点的程序员,会把这样的代码重构.不同的实现放到子类中,父类中存放公共代码.但是这样也有一个缺点,就是开发者需要知道所有的子类.</p>
+<p>现在类族的好处就显而易见了.</p>
+<h2 id="一个自定义的类族">一个自定义的类族</h2><p>假设我们有一个 Person 类,Person 分为不同的职业.有老师,学生,医生.那么类族的实现应该是:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger,PersonType) &#123;</span><br><span class="line">    PersonTypeDoctor,</span><br><span class="line">    PersonTypeTeacher,</span><br><span class="line">    PersonTypeStudent</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">+ (Person *) <span class="string">personWithType:</span>(PersonType)type&#123;</span><br><span class="line">    <span class="keyword">switch</span>(type)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeDoctor:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonDoctor alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeTeacher:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonTypeTeacher alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeStudent:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonTypeStudent alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      </div>
+      <footer class="article-footer">
+        <a data-url="http://yoursite.com/2015/06/04/高效OC编程读书心得/Tip9 以类族模式隐藏实现细节/" data-id="ciahtnio00001u3fy0xgtbg1b" class="article-share-link">分享到</a>
+        
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/高效OC编程/">高效OC编程</a></li></ul>
+
+      </footer>
     </div>
   </article>
-
-
-
-
-    
   
-    
-    
-    
-    
-        
-  <article class="article article-summary">
-    <div class="article-summary-inner">
-      
-<a href="/2015/03/07/辅助编程技能/从开一个手机号码开始/" class="thumbnail">
-  
-    <span style="background-image:url(http://ww3.sinaimg.cn/large/9e446dffjw1ervjfylf9tj20on0cogms.jpg
-)" alt="从开一个手机号码开始-正则表达式" class="thumbnail-image"></span>
-  
-</a>
-
-      <div class="article-meta">
-        <p class="category"><a class="article-category-link" href="/categories/辅助编程技能/">辅助编程技能</a></p>
-        <p class="date"><time datetime="2015-03-07T03:30:26.000Z" itemprop="datePublished">2015-03-07</time></p>
-      </div>
-      <h2 class="article-title">
-        <a href="/2015/03/07/辅助编程技能/从开一个手机号码开始/" class="title">从开一个手机号码开始-正则表达式</a>
-      </h2>
-      <p class="article-excerpt">
-        
-        正则表达式是描述一组字符串特征的模式,用来匹配特定的字符串.—Ken Thompson
-虽然有点抽象,但是我觉得大家已经模模糊糊的明白了.
-      </p>
-    </div>
-  </article>
 
 
 
-
-    
-      </div>
-    
-  
-  
-    </div></section>
-  
-  
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2015/06/04/高效OC编程读书心得/Tip9 以类族模式隐藏实现细节/" data-title="Tip9 以类族模式隐藏实现细节" data-url="http://yoursite.com/2015/06/04/高效OC编程读书心得/Tip9 以类族模式隐藏实现细节/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
 
 
             </div>
@@ -194,6 +177,19 @@
       
     </ul>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/06/03/Swift进阶/Currying/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <p class="article-nav-title">Currying</p>
+      <i class="icon" id="icon-chevron-left"></i>
+    </a>
+  
+</nav>
+
   
   <div class="widgets-container">
     

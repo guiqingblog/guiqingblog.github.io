@@ -4,7 +4,7 @@
   <subtitle><![CDATA[记录自己的学习 工作 感悟]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-06-03T09:27:57.000Z</updated>
+  <updated>2015-06-04T06:48:10.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Tip9 以类族模式隐藏实现细节]]></title>
+    <link href="http://yoursite.com/2015/06/04/%E9%AB%98%E6%95%88OC%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E5%BF%83%E5%BE%97/Tip9%20%E4%BB%A5%E7%B1%BB%E6%97%8F%E6%A8%A1%E5%BC%8F%E9%9A%90%E8%97%8F%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82/"/>
+    <id>http://yoursite.com/2015/06/04/高效OC编程读书心得/Tip9 以类族模式隐藏实现细节/</id>
+    <published>2015-06-04T06:10:47.000Z</published>
+    <updated>2015-06-04T06:48:10.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="context">context</h2><p>类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.</p>
+<p>一个例子: UIButton<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIButton</span> * button = [<span class="built_in">UIButton</span> buttonWithType];</span><br></pre></td></tr></table></figure></p>
+<p>该方法返回的对象类型取决于传入的 <code>type</code> ,不同的<code>type</code>决定了这个 button 将来的一些属性的不同(或者说可供设置的属性的不同)</p>
+<p>要实现类似的功能,如果不用类族,那么还可能是一个类中的枚举.比如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (void) drawRect:(CGRect)rect&#123;</span><br><span class="line">true<span class="keyword">if</span>(_<span class="built_in">type</span> == <span class="built_in">type</span>A)&#123;</span><br><span class="line">truetrue//绘制一个 <span class="built_in">type</span>A 类型的 Button</span><br><span class="line">true&#125;<span class="keyword">else</span> <span class="keyword">if</span> (_<span class="built_in">type</span> == <span class="built_in">type</span>B)&#123;</span><br><span class="line">truetrue//绘制一个 <span class="built_in">type</span>B 类型的 Button</span><br><span class="line">true&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个简单的类型,这么看来没有问题,但是如果类型太多,这样就显得非常笨拙了.</p>
+<p>稍微聪明一点的程序员,会把这样的代码重构.不同的实现放到子类中,父类中存放公共代码.但是这样也有一个缺点,就是开发者需要知道所有的子类.</p>
+<p>现在类族的好处就显而易见了.</p>
+<h2 id="一个自定义的类族">一个自定义的类族</h2><p>假设我们有一个 Person 类,Person 分为不同的职业.有老师,学生,医生.那么类族的实现应该是:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger,PersonType) &#123;</span><br><span class="line">    PersonTypeDoctor,</span><br><span class="line">    PersonTypeTeacher,</span><br><span class="line">    PersonTypeStudent</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">+ (Person *) <span class="string">personWithType:</span>(PersonType)type&#123;</span><br><span class="line">    <span class="keyword">switch</span>(type)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeDoctor:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonDoctor alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeTeacher:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonTypeTeacher alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeStudent:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonTypeStudent alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="context">context</h2><p>类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.</p>
+<p>一个例子: UIButton<br><figure class="highlight objectivec"><]]>
+    </summary>
+    
+      <category term="高效OC编程" scheme="http://yoursite.com/tags/%E9%AB%98%E6%95%88OC%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="高效OC编程" scheme="http://yoursite.com/categories/%E9%AB%98%E6%95%88OC%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Currying]]></title>
@@ -2232,47 +2260,6 @@ perspective = CATra<span class="label">nsform3</span>DRotate<span class="comment
       <category term="Core Aniamtion深入探讨" scheme="http://yoursite.com/tags/Core-Aniamtion%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8/"/>
     
       <category term="iOS&amp;OC" scheme="http://yoursite.com/categories/iOS-OC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[博客成长记]]></title>
-    <link href="http://yoursite.com/2015/04/15/%E4%B8%BB%E9%A1%B5%E7%BB%B4%E6%8A%A4%E8%AE%B0%E5%BD%95/%E5%8D%9A%E5%AE%A2%E6%88%90%E9%95%BF%E8%AE%B0/"/>
-    <id>http://yoursite.com/2015/04/15/主页维护记录/博客成长记/</id>
-    <published>2015-04-15T04:58:58.000Z</published>
-    <updated>2015-06-01T23:45:12.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="加入评论功能">加入评论功能</h2><p><em>2015-04-15 12:59:49</em>   </p>
-<ol>
-<li><p>使用微博或者其他帐号登录<a href="http://duoshuo.com" target="_blank" rel="external">多说</a>,建立自己的一个帐号,同时拿到通用代码.    </p>
-</li>
-<li><p>取消HEXO博客根目录中的 <code>_config.yml</code> 中 <code>disqus_shortname:</code> ，暂时不用这个功能，直接永久开启多说评论。</p>
-</li>
-<li><p>修改主题目录下面的(我的是 <code>/themes/jacman/_config.ym</code> ) <code>_config.yml</code> 中的 </p>
-</li>
-</ol>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#### Comment</span></span><br><span class="line"><span class="label">duoshuo_shortname:</span> guiqingblog    <span class="preprocessor">## e.g. wuchong   your duoshuo short name.</span></span><br></pre></td></tr></table></figure>
-<p>如果没有请添加.   </p>
-<ol>
-<li>修改 <code>themes\XXX\layout_partial\article.ejs</code><br>在最后加上下面的代码:</li>
-</ol>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="preprocessor">%</span> <span class="keyword">if</span><span class="comment">(!index)</span>&#123; <span class="preprocessor">%</span>&gt;</span><br><span class="line">&lt;<span class="preprocessor">%</span>- partial<span class="comment">('comment')</span> <span class="preprocessor">%</span>&gt;</span><br><span class="line">&lt;<span class="preprocessor">%</span> &#125; <span class="preprocessor">%</span>&gt;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>修改 <code>themes/jacman/layout/_partial/post/comment.ejs</code> 为你通用代码的 js 部分,如果没有这个文件请新建.</li>
-</ol>
-<p>最终效果:  </p>
-<p><img src="http://ww3.sinaimg.cn/large/9e446dffjw1er66il80t3j20mp09ujs8.jpg"></p>
-<p>参考网址:  </p>
-<p><a href="http://gpio.me/hexo-duoshuo.html" target="_blank" rel="external">http://gpio.me/hexo-duoshuo.html</a><br><a href="http://duoshuo.com" target="_blank" rel="external">http://duoshuo.com</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="加入评论功能">加入评论功能</h2><p><em>2015-04-15 12:59:49</em>   </p>
-<ol>
-<li><p>使用微博或者其他帐号登录<a href="http://duoshuo.com" target="_blank" rel="]]>
-    </summary>
-    
-      <category term="问题解决和思考" scheme="http://yoursite.com/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%92%8C%E6%80%9D%E8%80%83/"/>
-    
-      <category term="主页维护记录" scheme="http://yoursite.com/categories/%E4%B8%BB%E9%A1%B5%E7%BB%B4%E6%8A%A4%E8%AE%B0%E5%BD%95/"/>
     
   </entry>
   
