@@ -1,116 +1,64 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
   <meta charset="utf-8">
   
-  <title>6-专有图层 - 桂庆的个人主页</title>
+  <title>6-专有图层 | 桂庆的个人主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
+  
+  
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="专用图层
-复杂的组织都是专门化的
-Catharine R. Stimpson
 
-到目前为止，我们已经探讨过CALayer类了，同时我们也了解到了一些非常有用的绘图和动画功能。但是Core Animation图层不仅仅能作用于图片和颜色而已。本章就会学习其他的一些图层类，进一步扩展使用Core Animation绘图的能力。
-CAShapeLayer在第四章『视觉效果』我们学习到了不使用图片的情况下">
-<meta property="og:type" content="article">
-<meta property="og:title" content="6-专有图层">
-<meta property="og:url" content="http://yoursite.com/2015/04/23/Core Aniamtion深入探讨/6-专有图层/6-专有图层/index.html">
-<meta property="og:site_name" content="桂庆的个人主页">
-<meta property="og:description" content="专用图层
-复杂的组织都是专门化的
-Catharine R. Stimpson
+  <meta property="og:title" content="6-专有图层"/>
+  <meta property="og:site_name" content="桂庆的个人主页"/>
 
-到目前为止，我们已经探讨过CALayer类了，同时我们也了解到了一些非常有用的绘图和动画功能。但是Core Animation图层不仅仅能作用于图片和颜色而已。本章就会学习其他的一些图层类，进一步扩展使用Core Animation绘图的能力。
-CAShapeLayer在第四章『视觉效果』我们学习到了不使用图片的情况下">
-<meta property="og:image" content="http://i1.tietuku.com/0c3ef267d5bc7abc.png">
-<meta property="og:image" content="http://i1.tietuku.com/5bd6fcd0d8296dd3.png">
-<meta property="og:image" content="http://i1.tietuku.com/54374edb2978ba15.png">
-<meta property="og:image" content="http://i1.tietuku.com/53df3d778dad5b5f.png">
-<meta property="og:image" content="http://i1.tietuku.com/8703bb7ac0577e6e.png">
-<meta property="og:image" content="http://i1.tietuku.com/fa8d98e6fe4ec176.png">
-<meta property="og:image" content="http://i1.tietuku.com/907e567fadbcbdff.png">
-<meta property="og:image" content="http://i1.tietuku.com/62203e36ef12a3ab.png">
-<meta property="og:image" content="http://i1.tietuku.com/92bf63d0527089d5.png">
-<meta property="og:image" content="http://i1.tietuku.com/de61cf27aa1ee3e8.png">
-<meta property="og:image" content="http://i1.tietuku.com/c15a280edf622629.png">
-<meta property="og:image" content="http://i1.tietuku.com/355ae23084f66f77.png">
-<meta property="og:image" content="http://i1.tietuku.com/bb2edec984c774ed.png">
-<meta property="og:image" content="http://i1.tietuku.com/8e9d15b78b5df4cb.png">
-<meta property="og:image" content="http://i1.tietuku.com/264b2ca4bb1b89ad.png">
-<meta property="og:image" content="http://i1.tietuku.com/767cd84146a9f06d.png">
-<meta property="og:image" content="http://i1.tietuku.com/6cfda2774a727a93.png">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="6-专有图层">
-<meta name="twitter:description" content="专用图层
-复杂的组织都是专门化的
-Catharine R. Stimpson
+  
+    <meta property="og:image" content="undefined"/>
+  
 
-到目前为止，我们已经探讨过CALayer类了，同时我们也了解到了一些非常有用的绘图和动画功能。但是Core Animation图层不仅仅能作用于图片和颜色而已。本章就会学习其他的一些图层类，进一步扩展使用Core Animation绘图的能力。
-CAShapeLayer在第四章『视觉效果』我们学习到了不使用图片的情况下">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
-  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="桂庆的个人主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
 
 </head>
 
+
 <body>
-  <div id="container">
-    <header id="header">
-  <div id="header-outer" class="outer">
-    <div id="header-inner" class="inner">
-      <a id="main-nav-toggle" class="nav-icon"></a>
-      <a id="logo" class="logo" href="/"></a>
-      <nav id="main-nav">
-        
-          <a class="main-nav-link" href="/">主页</a>
-        
-          <a class="main-nav-link" href="/archives">归档</a>
-        
-          <a class="main-nav-link" href="/categories">分类</a>
-        
-          <a class="main-nav-link" href="/tags">标签</a>
-        
-          <a class="main-nav-link" href="/about">关于我</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="q" value="site:http://yoursite.com"></form>
-        </div>
-      </nav>
-    </div>
-  </div>
-</header>
-    <section id="main" class="outer"><article id="post-Core Aniamtion深入探讨/6-专有图层/6-专有图层" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">桂庆的个人主页</a></h1>
+  <h2><a href="/">记录自己的学习 工作 感悟</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
     
+      <li><a href="/">主页</a></li>
     
-      <header class="article-header">
-        
+      <li><a href="/archives">分类</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
-    <h1 class="article-title" itemprop="name">
-      6-专有图层
-    </h1>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-04-23T01:32:52.000Z"><a href="/2015/04/23/Core Aniamtion深入探讨/6-专有图层/6-专有图层/">2015-04-23</a></time>
+      
+      
+  
+    <h1 class="title">6-专有图层</h1>
   
 
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/04/23/Core Aniamtion深入探讨/6-专有图层/6-专有图层/" class="article-date">
-  <time datetime="2015-04-23T01:32:52.000Z" itemprop="datePublished">2015-04-23</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/iOS-OC/">iOS&OC</a>
-  </div>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <h2 id="专用图层">专用图层</h2><blockquote>
 <p>复杂的组织都是专门化的</p>
@@ -297,56 +245,146 @@ CAShapeLayer在第四章『视觉效果』我们学习到了不使用图片的�
 
       
     </div>
-  
-    <footer class="article-footer">
+    <footer>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a></li></ul>
-
-    </footer>
+        
   
+  <div class="categories">
+    <a href="/categories/iOS-OC/">iOS&OC</a>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2015/04/24/Core Aniamtion深入探讨/7-隐式动画/隐式动画/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-title"><span>&lt;</span>&nbsp;
-        
-          7-隐式动画
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2015/04/21/Core Aniamtion深入探讨/5-变换/变换/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">5-变换&nbsp;<span>&gt;</span></div>
-    </a>
-  
-</nav>
 
+        
   
+  <div class="tags">
+    <a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
 </article>
 
-</section>
-    <footer id="footer">
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
   
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2015 桂庆&nbsp;
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
-    </div>
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-comments" data-href="http://yoursite.com/2015/04/23/Core Aniamtion深入探讨/6-专有图层/6-专有图层/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+      
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>25</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+  
+    <li><a href="/categories/应用架构/">应用架构</a><small>2</small></li>
+  
+    <li><a href="/categories/每日知识总结/">每日知识总结</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>5</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
   </div>
-</footer>
-    
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2015 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
 
-<script src="/js/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
 
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
 
-<script src="/js/script.js" type="text/javascript"></script>
-  </div>
 </body>
 </html>
