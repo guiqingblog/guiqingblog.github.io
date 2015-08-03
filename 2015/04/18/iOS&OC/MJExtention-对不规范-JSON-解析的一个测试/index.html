@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MJExtention 对不规范 JSON 解析的一个测试 | 桂庆的个人主页</title>
+  <title>MJExtention 对不规范 JSON 解析的一个测试 - 桂庆的个人主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Context今天受 MJ 老师吩咐,测试 MJExtension 对于不规范的 JSON 的解析情况.特记录于此 
 说明几点何为不规范我说的不规则指的是有一定容错能力,但是前提还是 JSON,弄些乱七八糟的字符串就没有意义了哈.比如说,这次我想测试的是前一段事件遇到的一个小问题:服务端返回的是类似这样的一个结果:  
@@ -36,99 +36,68 @@
   
     <link rel="icon" href="/favicon.png">
   
-
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/css/style.css" type="text/css">
-  
-    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  
-  
-    <link rel="stylesheet" href="/scrollLoading/style.css" type="text/css">
-  
-  
-
-
-  
-    <style type="text/css">
-      .logo { background-image:url(http://i1.tietuku.com/1ce81a2815795772.png); }
-    </style>
-  
-
-  
-    <link href='//fonts.useso.com/css?family=Titillium+Web:300,400,600' rel='stylesheet' type='text/css'>
-    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
 
 </head>
 
 <body>
-  <div id="wrap">
+  <div id="container">
     <header id="header">
   <div id="header-outer" class="outer">
-    <div class="container">
-      <div class="container-inner">
-        <div id="header-title">
-          <h1 class="logo-wrap">
-            <a href="/" class="logo"></a>
-          </h1>
-          
-            <h2 class="subtitle-wrap">
-              <p class="subtitle">记录自己的学习 工作 感悟</p>
-            </h2>
-          
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="q" value="site:http://yoursite.com"></form>
         </div>
-        <div id="header-inner" class="nav-container">
-          <a id="main-nav-toggle" class="nav-icon"></a>
-          <div class="nav-container-inner">
-            <ul id="main-nav">
-              
-                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/">主页</a></li>
-              
-                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Swift进阶/">Swift进阶</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/iOS-OC/">iOS&OC</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/主页维护记录/">主页维护记录</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/应用架构/">应用架构</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/每日知识总结/">每日知识总结</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/辅助编程技能/">辅助编程技能</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/高效OC编程/">高效OC编程</a></li></ul>
-                  
-                <li class="main-nav-list-item" ><a class="main-nav-list-link" href="/about/index.html">关于我</a></li>
-              
-            </ul>
-            <nav id="sub-nav">
-              <div id="search-form-wrap">
-                <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
-              </div>
-            </nav>
-          </div>
-        </div>
-      </div>
+      </nav>
     </div>
   </div>
 </header>
-    <div class="container">
-      <div class="main-body container-inner">
-        <div class="main-body-inner">
-          <section id="main">
-            <div class="main-body-header">
-
-              <h1 class="header"><a class="page-title-link" href="/categories/iOS-OC/">iOS&OC</a></h1>
-            </div>
-            <div class="main-body-content">
-              
-  <article id="post-iOS&amp;OC/MJExtention-对不规范-JSON-解析的一个测试" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-      <!--  -->
-      
-        <header class="article-header">
-          
+    <section id="main" class="outer"><article id="post-iOS&amp;OC/MJExtention-对不规范-JSON-解析的一个测试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
     <h1 class="article-title" itemprop="name">
       MJExtention 对不规范 JSON 解析的一个测试
     </h1>
   
 
-        </header>
-      
-      <p class="article-byline">
-        <a href="/2015/04/18/iOS&OC/MJExtention-对不规范-JSON-解析的一个测试/" class="article-date">
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/04/18/iOS&OC/MJExtention-对不规范-JSON-解析的一个测试/" class="article-date">
   <time datetime="2015-04-18T07:33:48.000Z" itemprop="datePublished">2015-04-18</time>
 </a>
-      </p>
-      <div class="article-entry" itemprop="articleBody">
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/iOS-OC/">iOS&OC</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
         <h2 id="Context">Context</h2><p>今天受 MJ 老师吩咐,测试 MJExtension 对于不规范的 JSON 的解析情况.特记录于此 </p>
 <h2 id="说明几点">说明几点</h2><h3 id="何为不规范">何为不规范</h3><p>我说的不规则指的是有一定容错能力,但是前提还是 JSON,弄些乱七八糟的字符串就没有意义了哈.比如说,这次我想测试的是前一段事件遇到的一个小问题:服务端返回的是类似这样的一个结果:  </p>
 <p><img src="http://ww1.sinaimg.cn/large/9e446dffjw1er9qrf2g2hj206608vaad.jpg"></p>
@@ -164,276 +133,58 @@
 </li>
 </ol>
 
-      </div>
-      <footer class="article-footer">
-        <a data-url="http://yoursite.com/2015/04/18/iOS&OC/MJExtention-对不规范-JSON-解析的一个测试/" data-id="ciaiy5dx0001vy0fyrss7c4bz" class="article-share-link">分享到</a>
-        
-        
+      
+    </div>
+  
+    <footer class="article-footer">
+      
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试小样/">测试小样</a></li></ul>
 
-      </footer>
-    </div>
-  </article>
+    </footer>
   
-
-
-
-<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2015/04/18/iOS&amp;OC/MJExtention-对不规范-JSON-解析的一个测试/" data-title="MJExtention 对不规范 JSON 解析的一个测试" data-url="http://yoursite.com/2015/04/18/iOS&amp;OC/MJExtention-对不规范-JSON-解析的一个测试/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- 多说公共JS代码 end -->
-
-
-            </div>
-          </section>
-          <aside id="sidebar">
-  <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
-  <div class="sidebar-top">
-    <p>关注我 :</p>
-    <ul class="social-links">
-      
-        <li><a class="social-tooltip" title="github" href="https://github.com/QuentinGui" target="_blank"><i id="icon-github" class="icon"></i></a></li>
-      
-        <li><a class="social-tooltip" title="weibo" href="http://weibo.com/2655284735/profile?rightmod=1&wvr=6&mod=personinfo" target="_blank"><i id="icon-weibo" class="icon"></i></a></li>
-      
-    </ul>
   </div>
   
     
 <nav id="article-nav">
   
     <a href="/2015/04/21/Core Aniamtion深入探讨/5-变换/变换/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <p class="article-nav-title">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
         
           5-变换
         
-      </p>
-      <i class="icon" id="icon-chevron-right"></i>
+      </div>
     </a>
   
   
     <a href="/2015/04/17/Core Aniamtion深入探讨/4-视觉效果/4-视觉效果/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <p class="article-nav-title">4-视觉效果</p>
-      <i class="icon" id="icon-chevron-left"></i>
+      <div class="article-nav-title">4-视觉效果&nbsp;<span>&gt;</span></div>
     </a>
   
 </nav>
 
   
-  <div class="widgets-container">
-    
-      
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul id="recent-post" class="">
-        
-          <li>
-            
-            <div class="item-thumbnail">
-              
-<a href="/2015/06/04/高效OC编程读书心得/Tip9 以类族模式隐藏实现细节/" class="thumbnail">
-  
-    <span class="thumbnail-image thumbnail-none"></span>
-  
-</a>
+</article>
 
-            </div>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/高效OC编程/">高效OC编程</a></p>
-              <p class="item-title"><a href="/2015/06/04/高效OC编程读书心得/Tip9 以类族模式隐藏实现细节/" class="title">Tip9 以类族模式隐藏实现细节</a></p>
-              <p class="item-date"><time datetime="2015-06-04T06:10:47.000Z" itemprop="datePublished">2015-06-04</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-thumbnail">
-              
-<a href="/2015/06/03/Swift进阶/Currying/" class="thumbnail">
-  
-    <span class="thumbnail-image thumbnail-none"></span>
-  
-</a>
-
-            </div>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Swift进阶/">Swift进阶</a></p>
-              <p class="item-title"><a href="/2015/06/03/Swift进阶/Currying/" class="title">Currying</a></p>
-              <p class="item-date"><time datetime="2015-06-03T09:06:06.000Z" itemprop="datePublished">2015-06-03</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-thumbnail">
-              
-<a href="/2015/06/03/主页维护记录/新版多说的配置/" class="thumbnail">
-  
-    <span class="thumbnail-image thumbnail-none"></span>
-  
-</a>
-
-            </div>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/主页维护记录/">主页维护记录</a></p>
-              <p class="item-title"><a href="/2015/06/03/主页维护记录/新版多说的配置/" class="title">新版多说的配置</a></p>
-              <p class="item-date"><time datetime="2015-06-03T01:23:59.000Z" itemprop="datePublished">2015-06-03</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-thumbnail">
-              
-<a href="/2015/06/03/辅助编程技能/定位程序崩溃点的方法探究/" class="thumbnail">
-  
-    <span style="background-image:url(http://i1.tietuku.com/e8b80841e86eb86a.png
-)" alt="定位程序崩溃点的方法探究" class="thumbnail-image"></span>
-  
-</a>
-
-            </div>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/iOS-OC/">iOS&OC</a></p>
-              <p class="item-title"><a href="/2015/06/03/辅助编程技能/定位程序崩溃点的方法探究/" class="title">定位程序崩溃点的方法探究</a></p>
-              <p class="item-date"><time datetime="2015-06-02T23:34:58.000Z" itemprop="datePublished">2015-06-03</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-thumbnail">
-              
-<a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="thumbnail">
-  
-    <span style="background-image:url(http://ww4.sinaimg.cn/large/9e446dffjw1esorix0zrej20hs06qq3q.jpg
-)" alt="2015-06-01滚动监听 触摸点获取 Tranform RecealApp" class="thumbnail-image"></span>
-  
-</a>
-
-            </div>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/每日知识总结/">每日知识总结</a></p>
-              <p class="item-title"><a href="/2015/06/01/每日知识总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" class="title">2015-06-01滚动监听 触摸点获取 Tranform RecealApp</a></p>
-              <p class="item-date"><time datetime="2015-06-01T09:57:26.000Z" itemprop="datePublished">2015-06-01</time></p>
-            </div>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-    
-      
-  <div class="widget-wrap widget-list">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Swift进阶/">Swift进阶</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS-OC/">iOS&OC</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/主页维护记录/">主页维护记录</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/应用架构/">应用架构</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/每日知识总结/">每日知识总结</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/辅助编程技能/">辅助编程技能</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高效OC编程/">高效OC编程</a><span class="category-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget-wrap widget-list">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">四月 2014</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget-wrap widget-list">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift-进阶/">Swift 进阶</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主页维护记录/">主页维护记录</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小脚本大智慧/">小脚本大智慧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则表达式/">正则表达式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试小样/">测试小样</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/辅助编程技能/">辅助编程技能</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题解决和思考/">问题解决和思考</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高效OC编程/">高效OC编程</a><span class="tag-list-count">4</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget-wrap widget-float">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Core-Aniamtion深入探讨/" style="font-size: 20px;">Core Aniamtion深入探讨</a><a href="/tags/Swift-进阶/" style="font-size: 10px;">Swift 进阶</a><a href="/tags/主页维护记录/" style="font-size: 10px;">主页维护记录</a><a href="/tags/小脚本大智慧/" style="font-size: 10px;">小脚本大智慧</a><a href="/tags/正则表达式/" style="font-size: 13.33px;">正则表达式</a><a href="/tags/测试小样/" style="font-size: 10px;">测试小样</a><a href="/tags/辅助编程技能/" style="font-size: 13.33px;">辅助编程技能</a><a href="/tags/问题解决和思考/" style="font-size: 16.67px;">问题解决和思考</a><a href="/tags/高效OC编程/" style="font-size: 16.67px;">高效OC编程</a>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget-wrap widget-list">
-    <h3 class="widget-title">链接</h3>
-    <div class="widget">
-      <ul>
-        
-      </ul>
-    </div>
-  </div>
-
-
-    
-  </div>
-</aside>
-        </div>
-      </div>
-    </div>
+</section>
     <footer id="footer">
   
-  <div class="container">
-    <div class="container-inner">
-      <a id="back-to-top" href="javascript:;"><i class="icon" id="icon-angle-up"></i></a>
-      <div class="credit">
-        <h1 class="logo-wrap">
-          <a href="/" class="logo"></a>
-        </h1>
-        <p>&copy; 2015 桂庆</p>
-        <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
-      </div>
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 桂庆&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
     </div>
   </div>
 </footer>
     
 
-
-  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-
+<script src="/js/jquery.min.js"></script>
 
 
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
   <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
 
 
-
-  <script src="/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
-  <script src="/scrollLoading/main.js" type="text/javascript"></script>
-
-
-<script src="/js/html-patch.js" type="text/javascript"></script>
 <script src="/js/script.js" type="text/javascript"></script>
-
   </div>
 </body>
 </html>
