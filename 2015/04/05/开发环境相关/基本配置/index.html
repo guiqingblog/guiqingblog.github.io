@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>常见问题之过度设计和设计不足 | 桂庆的个人主页</title>
+  <title>基本配置 | 桂庆的个人主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="常见问题之过度设计和设计不足"/>
+  <meta property="og:title" content="基本配置"/>
   <meta property="og:site_name" content="桂庆的个人主页"/>
 
   
@@ -50,28 +50,40 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-08-05T07:28:17.000Z"><a href="/2015/08/05/重构、模式、架构/常见问题之过度设计和设计不足/">2015-08-05</a></time>
+        <time datetime="2015-04-05T00:44:28.000Z"><a href="/2015/04/05/开发环境相关/基本配置/">2015-04-05</a></time>
       
       
   
-    <h1 class="title">常见问题之过度设计和设计不足</h1>
+    <h1 class="title">基本配置</h1>
   
 
     </header>
     <div class="entry">
       
-        <p><strong>每个从事软件开发的人 , 都会强调设计模式的重要性.</strong></p>
-<h2 id="过度设计">过度设计</h2><p>软件模式的伟大之处 ,在于它们传递了了许多有用的思想 . 那么我们在学习了大量的设计模式之后,就理当成为一个优秀的软件设计和开发者 ,对吧 ? 模式帮助我们开发灵活的框架 ,帮助我们构建健壮 , 拓展性强的软件系统 . 但是现在的现状是 ,非常熟知设计模式的开发者 ,在工作中, 经常会犯过度设计的错误 .</p>
-<p>所谓的过度设计 ,就是”杀鸡用了牛刀” .有些程序员这么做, 是因为它们认为自己正确地估计了软件系统的未来需求 . 他们急于这种未来的需求,应用各种设计模式 , 让软件系统能够更加灵活, 可拓展 . 但是能做到这种未卜先知的人又有几个呢 ? 如果估计错误 ,就要对繁冗的代码进行调整 .相应地 ,开发新功能和解决缺陷的时间就被减少了 .</p>
-<p>说到对软件设计模式的偏执 , 这个还是非常容易理解的 . 小时候 ,我们得了一件新玩具 ,总是特别希望在小伙伴面前好好显摆显摆 .</p>
-<h2 id="设计不足">设计不足</h2><p>相对于过度设计 , 设计不足要常见的多 (过度设计起码需要你掌握一些设计模式) . 设计不足是指开发的软件设计不良 . 其产生的原因有如下几个:</p>
-<ul>
-<li>程序员没有时间进行重构</li>
-<li>程序员在何为好的软件设计方面知识不足</li>
-<li>程序员呗要求在既有的系统中快速地添加功能</li>
-<li>程序员被迫同时进行太多项目.</li>
+        <h3 id="mac_配置">mac 配置</h3><ul>
+<li>显示隐藏文件</li>
 </ul>
-<p>随着时间的推移 , 设计不足的软件将变成昂贵的,难以维护甚至无法维护的大麻烦.</p>
+<p><code>defaults write com.apple.finder AppleShowAllFiles -bool true</code></p>
+<ul>
+<li>重启Finder</li>
+</ul>
+<p><code>killall -KILL Finder</code></p>
+<h3 id="Xcode">Xcode</h3><ul>
+<li>插件目录 (需要运行任意一个插件工程,此目录才会出现)</li>
+</ul>
+<p><code>~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins</code></p>
+<ul>
+<li>工程模板目录</li>
+</ul>
+<p><code>/Applications/Xcode-Beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application</code></p>
+<ul>
+<li>模拟器路径</li>
+</ul>
+<p><code>/Users/yourUserName/ Library/Developer/CoreSimulator</code></p>
+<ul>
+<li>显示行号</li>
+</ul>
+<p><code>xcode-&gt;preferences-&gt;text editing-&gt;editing</code><br>选中 <code>show line numbers</code></p>
 
       
     </div>
@@ -80,15 +92,10 @@
         
   
   <div class="categories">
-    <a href="/categories/重构、模式、架构/">重构、模式、架构</a>
+    <a href="/categories/开发环境相关/">开发环境相关</a>
   </div>
 
         
-  
-  <div class="tags">
-    <a href="/tags/设计模式/">设计模式</a>
-  </div>
-
         
       
       <div class="clearfix"></div>
@@ -97,7 +104,7 @@
 </article>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/08/05/重构、模式、架构/常见问题之过度设计和设计不足/" data-title="常见问题之过度设计和设计不足" data-url="http://yoursite.com/2015/08/05/重构、模式、架构/常见问题之过度设计和设计不足/"></div>
+  <div class="ds-thread" data-thread-key="2015/04/05/开发环境相关/基本配置/" data-title="基本配置" data-url="http://yoursite.com/2015/04/05/开发环境相关/基本配置/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -135,9 +142,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
   
-    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>1</small></li>
-  
-    <li><a href="/categories/开发环境配置/">开发环境配置</a><small>1</small></li>
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>2</small></li>
   
     <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
   
