@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>第 2 页 | Core Aniamtion深入探讨 | 桂庆的个人主页</title>
+  <title>UIWebView执行JS的几个注意点 | 桂庆的个人主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="UIWebView执行JS的几个注意点"/>
   <meta property="og:site_name" content="桂庆的个人主页"/>
 
   
@@ -44,73 +44,59 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">Core Aniamtion深入探讨</h2>
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-04T00:22:09.000Z"><a href="/2015/08/04/iOS&OC/UIWebView执行JS的几个注意点/">2015-08-04</a></time>
+      
+      
+  
+    <h1 class="title">UIWebView执行JS的几个注意点</h1>
+  
 
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>这是一个给培训的同学写的Demo,概括起来的几个特点是:</p>
+<ul>
+<li>无法和服务器沟通,只能在iOS端这里更改网页</li>
+<li>需要隐藏两个html组件</li>
+</ul>
+<p>这是没有修改的网页的<a href="http://m.shijieyou.com/mdetail-3445464-0-%5BLjava.lang.String;@6625086c" target="_blank" rel="external">地址</a> ,可以看到,顶部和底部有网页原来的两个条,需要隐藏,来实现如下的效果:<br><img src="UIWebView执行JS的几个注意点_images/1.jpg" alt=""></p>
 
-  <div class="archive">
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2015-04-21T01:32:52.000Z"><a href="/2015/04/21/Core Aniamtion深入探讨/5-变换/变换/">2015-04-21</a></time>
-            
-              <h1 class="title"><a href="/2015/04/21/Core Aniamtion深入探讨/5-变换/变换/">5-变换</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2015-04-17T01:32:52.000Z"><a href="/2015/04/17/Core Aniamtion深入探讨/4-视觉效果/4-视觉效果/">2015-04-17</a></time>
-            
-              <h1 class="title"><a href="/2015/04/17/Core Aniamtion深入探讨/4-视觉效果/4-视觉效果/">4-视觉效果</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2015-04-15T01:32:52.000Z"><a href="/2015/04/15/Core Aniamtion深入探讨/3-图层几何学/图层几何学/">2015-04-15</a></time>
-            
-              <h1 class="title"><a href="/2015/04/15/Core Aniamtion深入探讨/3-图层几何学/图层几何学/">3-图层几何学</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2015-04-13T01:32:52.000Z"><a href="/2015/04/13/Core Aniamtion深入探讨/2-寄宿图/寄宿图/">2015-04-13</a></time>
-            
-              <h1 class="title"><a href="/2015/04/13/Core Aniamtion深入探讨/2-寄宿图/寄宿图/">2-寄宿图</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2015-04-10T01:32:52.000Z"><a href="/2015/04/10/Core Aniamtion深入探讨/1-图层树/图层树/">2015-04-10</a></time>
-            
-              <h1 class="title"><a href="/2015/04/10/Core Aniamtion深入探讨/1-图层树/图层树/">1-图层树</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/iOS-OC/">iOS&OC</a>
   </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/问题解决和思考/">问题解决和思考</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+</section>
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
