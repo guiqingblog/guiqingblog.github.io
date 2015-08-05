@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Swift进阶 | 桂庆的个人主页</title>
+  <title>管理代码片段 | 桂庆的个人主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="管理代码片段"/>
   <meta property="og:site_name" content="桂庆的个人主页"/>
 
   
@@ -44,25 +44,69 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title category">Swift进阶</h2>
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-05T06:15:50.000Z"><a href="/2015/08/05/辅助编程技能/管理代码片段/">2015-08-05</a></time>
+      
+      
+  
+    <h1 class="title">管理代码片段</h1>
+  
 
+    </header>
+    <div class="entry">
+      
+        <h2 id="介绍">介绍</h2><p> Xcode 界面的右下角 , 可以通过快捷键 Cmd+Ctrl+Opt+2 调出来, 代码片段是一些代码的模板, 对一些常见的编程模式 ,Xcode 都将这些代码抽象成模板放到代码片段中,使用的时候,只需要按快捷键,就可以把模板的内容填到代码中.</p>
+<p>例如苹果引入两 GCD 之后,我们需要一个延时的操作,只需要在 Xcode 中键入 dispatch ,就可以看到 Xcode 中弹出一个上下文菜单, 第一个选项就是相应的代码片段.</p>
+<h2 id="Xcode代码片段的管理">Xcode代码片段的管理</h2><p>那么如何自定义代码片段呢? 相当简单,当你觉得某段代码很有用,可以当做模板的时候,将其整体选中,拖动到 Xcode 右下角的代码片段区域中即可. Xcode 会自动帮你创建的代码片段. 之后可以单机该代码片段,在弹出的界面中选择 “Edit”,即可为此代码片段设置快捷键等信息.</p>
+<p>可以直接敲代码,然后拖到右下角</p>
+<p>如果有些地方想让用户替换掉,可以用 &lt;#被替换的内容#&gt;的格式 .这样在代码片段被使用后,焦点会自动移动到该处,你只需要连贯的键入替换后的内容即可.</p>
+<p>可以使用git管理代码片段.</p>
+<p>代码片段默认目录是:</p>
+<p><code>cd ~/Library/Developer/Xcode/UserData/CodeSnippets/</code></p>
+<p>可以对该目录使用 git ,那么就能随时使用自己的代码片段了. </p>
+<h2 id="其他管理工具">其他管理工具</h2><p>其他类似功能的还有 Dash 和 SnippetsLib ,它们两者的优势是支持任意语言.</p>
+<p>但是如果针对iOS开发 ,Xcode默认的代码片段还是首选 .</p>
 
-  <div class="archive">
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2015-06-03T09:06:06.000Z"><a href="/2015/06/03/Swift进阶/Currying/">2015-06-03</a></time>
-            
-              <h1 class="title"><a href="/2015/06/03/Swift进阶/Currying/">Currying</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/辅助编程技能/">辅助编程技能</a>
   </div>
+
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2015/08/05/辅助编程技能/管理代码片段/" data-title="管理代码片段" data-url="http://yoursite.com/2015/08/05/辅助编程技能/管理代码片段/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
