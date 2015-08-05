@@ -51,6 +51,66 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-05T07:28:17.000Z"><a href="/2015/08/05/重构、模式、架构/常见问题之过度设计和设计不足/">2015-08-05</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/05/重构、模式、架构/常见问题之过度设计和设计不足/">常见问题之过度设计和设计不足</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><strong>每个从事软件开发的人 , 都会强调设计模式的重要性.</strong></p>
+<h2 id="过度设计">过度设计</h2><p>软件模式的伟大之处 ,在于它们传递了了许多有用的思想 . 那么我们在学习了大量的设计模式之后,就理当成为一个优秀的软件设计和开发者 ,对吧 ? 模式帮助我们开发灵活的框架 ,帮助我们构建健壮 , 拓展性强的软件系统 . 但是现在的现状是 ,非常熟知设计模式的开发者 ,在工作中, 经常会犯过度设计的错误 .</p>
+<p>所谓的过度设计 ,就是”杀鸡用了牛刀” .有些程序员这么做, 是因为它们认为自己正确地估计了软件系统的未来需求 . 他们急于这种未来的需求,应用各种设计模式 , 让软件系统能够更加灵活, 可拓展 . 但是能做到这种未卜先知的人又有几个呢 ? 如果估计错误 ,就要对繁冗的代码进行调整 .相应地 ,开发新功能和解决缺陷的时间就被减少了 .</p>
+<p>说到对软件设计模式的偏执 , 这个还是非常容易理解的 . 小时候 ,我们得了一件新玩具 ,总是特别希望在小伙伴面前好好显摆显摆 .</p>
+<h2 id="设计不足">设计不足</h2><p>相对于过度设计 , 设计不足要常见的多 (过度设计起码需要你掌握一些设计模式) . 设计不足是指开发的软件设计不良 . 其产生的原因有如下几个:</p>
+<ul>
+<li>程序员没有时间进行重构</li>
+<li>程序员在何为好的软件设计方面知识不足</li>
+<li>程序员呗要求在既有的系统中快速地添加功能</li>
+<li>程序员被迫同时进行太多项目.</li>
+</ul>
+<p>随着时间的推移 , 设计不足的软件将变成昂贵的,难以维护甚至无法维护的大麻烦.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-08-05T07:14:47.000Z"><a href="/2015/08/05/Swift进阶/func的参数修饰符/">2015-08-05</a></time>
       
       
@@ -582,70 +642,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-06-03T01:23:59.000Z"><a href="/2015/06/03/主页维护记录/新版多说的配置/">2015-06-03</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/06/03/主页维护记录/新版多说的配置/">新版多说的配置</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>最近给博客更换了一款主题,但是发现多说评论失效了,用一期的配置方法进行配置,还报错.现在重新整理</p>
-<h2 id="前提">前提</h2><p>已经注册多说开发者帐号,并且创建了应用.</p>
-<h2 id="步骤">步骤</h2><ol>
-<li><p>取消HEXO博客根目录中的 _config.yml 中 disqus_shortname: ，暂时不用这个功能，直接永久开启多说评论。(如果没有此参数,可以忽略)</p>
-</li>
-<li><p>打开 <code>themes\light\layout_partial\comment.ejs</code> (如果没有,请创建)将你的通用代码粘贴进来,并修改三处地方:</p>
-</li>
-</ol>
-<p><code>data-thread-key=&quot;&lt;%= page.path %&gt;</code><br><code>data-title=&quot;&lt;%= page.title %&gt;&quot;</code><br><code>data-url=&quot;&lt;%= page.permalink %&gt;&quot;</code></p>
-<p>最终我的完整代码:</p>
-<figure class="highlight erb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- 多说评论框 start --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ds-thread"</span> <span class="attribute">data-thread-key</span>=<span class="value">"</span></span></span>&lt;%=<span class="ruby"> page.path </span>%&gt;<span class="xml"><span class="tag"><span class="value">"</span> <span class="attribute">data-title</span>=<span class="value">"</span></span></span>&lt;%=<span class="ruby"> page.title </span>%&gt;<span class="xml"><span class="tag"><span class="value">"</span> <span class="attribute">data-url</span>=<span class="value">"</span></span></span>&lt;%=<span class="ruby"> page.permalink </span>%&gt;<span class="xml"><span class="tag"><span class="value">"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 多说评论框 end --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="keyword">var</span> duoshuoQuery = &#123;short_name:<span class="string">"guiqingblog"</span>&#125;;</span><br><span class="line">	(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> ds = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">		ds.type = <span class="string">'text/javascript'</span>;ds.async = <span class="literal">true</span>;</span><br><span class="line">		ds.src = (<span class="built_in">document</span>.location.protocol == <span class="string">'https:'</span> ? <span class="string">'https:'</span> : <span class="string">'http:'</span>) + <span class="string">'//static.duoshuo.com/embed.js'</span>;</span><br><span class="line">		ds.charset = <span class="string">'UTF-8'</span>;</span><br><span class="line">		(<span class="built_in">document</span>.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>] </span><br><span class="line">		 || <span class="built_in">document</span>.getElementsByTagName(<span class="string">'body'</span>)[<span class="number">0</span>]).appendChild(ds);</span><br><span class="line">	&#125;)();</span><br><span class="line">	</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 多说公共JS代码 end --&gt;</span></span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>打开<code>themes\light\layout_partial\article.ejs</code><br>在最后一行加上如下代码</li>
-</ol>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="preprocessor">%</span> <span class="keyword">if</span><span class="comment">(!index)</span>&#123; <span class="preprocessor">%</span>&gt;</span><br><span class="line">&lt;<span class="preprocessor">%</span>- partial<span class="comment">('comment')</span> <span class="preprocessor">%</span>&gt;</span><br><span class="line">&lt;<span class="preprocessor">%</span> &#125; <span class="preprocessor">%</span>&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="后记">后记</h2><p>在早期版本,第二步骤中的三个文章参数不是必须的,但是新版中,如果不配置,会报错.样式也不能正常显示 .</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -675,17 +671,15 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
   
-    <li><a href="/categories/应用架构/">应用架构</a><small>2</small></li>
-  
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>1</small></li>
   
     <li><a href="/categories/开发环境配置/">开发环境配置</a><small>1</small></li>
   
     <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
   
-    <li><a href="/categories/编程辅助技能/">编程辅助技能</a><small>1</small></li>
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
   
-    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>6</small></li>
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>3</small></li>
   
     <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
   
@@ -709,6 +703,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
   
     <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
   
     <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
   
