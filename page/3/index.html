@@ -51,6 +51,307 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-05-01T01:32:52.000Z"><a href="/2015/05/01/Core Aniamtion深入探讨/11-基于定时器的动画/基于定时器的动画/">2015-05-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/05/01/Core Aniamtion深入探讨/11-基于定时器的动画/基于定时器的动画/">11-基于定时器的动画</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="基于定时器的动画">基于定时器的动画</h1><blockquote>
+<p><em>我可以指导你，但是你必须按照我说的做。</em> — 骇客帝国</p>
+</blockquote>
+<p>在第10章“缓冲”中，我们研究了<code>CAMediaTimingFunction</code>，它是一个通过控制动画缓冲来模拟物理效果例如加速或者减速来增强现实感的东西，那么如果想更加真实地模拟物理交互或者实时根据用户输入修改动画改怎么办呢？在这一章中，我们将继续探索一种能够允许我们精确地控制一帧一帧展示的基于定时器的动画。</p>
+<h2 id="定时帧">定时帧</h2><p>动画看起来是用来显示一段连续的运动过程，但实际上当在固定位置上展示像素的时候并不能做到这一点。一般来说这种显示都无法做到连续的移动，能做的仅仅是足够快地展示一系列静态图片，只是看起来像是做了运动。</p>
+<p>我们之前提到过iOS按照每秒60次刷新屏幕，然后<code>CAAnimation</code>计算出需要展示的新的帧，然后在每次屏幕更新的时候同步绘制上去，<code>CAAnimation</code>最机智的地方在于每次刷新需要展示的时候去计算插值和缓冲。</p>
+<p>在第10章中，我们解决了如何自定义缓冲函数，然后根据需要展示的帧的数组来告诉<code>CAKeyframeAnimation</code>的实例如何去绘制。所有的Core Animation实际上都是按照一定的序列来显示这些帧，那么我们可以自己做到这些么？</p>
+<h3 id="NSTimer"><code>NSTimer</code></h3><p>实际上，我们在第三章“图层几何学”中已经做过类似的东西，就是时钟那个例子，我们用了<code>NSTimer</code>来对钟表的指针做定时动画，一秒钟更新一次，但是如果我们把频率调整成一秒钟更新60次的话，原理是完全相同的。</p>
+<p>我们来试着用<code>NSTimer</code>来修改第十章中弹性球的例子。由于现在我们在定时器启动之后连续计算动画帧，我们需要在类中添加一些额外的属性来存储动画的<code>fromValue</code>，<code>toValue</code>，<code>duration</code>和当前的<code>timeOffset</code>（见清单11.1）。</p>
+<p>清单11.1 使用<code>NSTimer</code>实现弹性球动画</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#13;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, strong) UIImageView *ballView;&#10;@property (nonatomic, strong) NSTimer *timer;&#13;@property (nonatomic, assign) NSTimeInterval duration;&#10;@property (nonatomic, assign) NSTimeInterval timeOffset;&#10;@property (nonatomic, strong) id fromValue;&#13;@property (nonatomic, strong) id toValue;&#10;&#10;@end&#10;&#13;@implementation ViewController&#10;&#13;- (void)viewDidLoad&#10;&#123;&#13;    [super viewDidLoad];&#13;    //add ball image view&#13;    UIImage *ballImage = [UIImage imageNamed:@&#34;Ball.png&#34;];&#10;    self.ballView = [[UIImageView alloc] initWithImage:ballImage];&#10;    [self.containerView addSubview:self.ballView];&#13;    //animate&#13;    [self animate];&#10;&#125;&#10;&#13;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#13;    //replay animation on tap&#13;    [self animate];&#10;&#125;&#10;&#13;float interpolate(float from, float to, float time)&#10;&#123;&#13;    return (to - from) * time + from;&#10;&#125;&#10;&#13;- (id)interpolateFromValue:(id)fromValue toValue:(id)toValue time:(float)time&#13;&#123;&#13;    if ([fromValue isKindOfClass:[NSValue class]]) &#123;&#13;        //get type&#13;        const char *type = [(NSValue *)fromValue objCType];&#10;        if (strcmp(type, @encode(CGPoint)) == 0) &#123;&#13;            CGPoint from = [fromValue CGPointValue];&#13;            CGPoint to = [toValue CGPointValue];&#13;            CGPoint result = CGPointMake(interpolate(from.x, to.x, time), interpolate(from.y, to.y, time));&#10;            return [NSValue valueWithCGPoint:result];&#13;        &#125;&#10;    &#125;&#13;    //provide safe default implementation&#13;    return (time &#60; 0.5)? fromValue: toValue;&#10;&#125;&#10;&#13;float bounceEaseOut(float t)&#10;&#123;&#13;    if (t &#60; 4/11.0) &#123;&#13;        return (121 * t * t)/16.0;&#10;    &#125; else if (t &#60; 8/11.0) &#123;&#13;        return (363/40.0 * t * t) - (99/10.0 * t) + 17/5.0;&#10;    &#125; else if (t &#60; 9/10.0) &#123;&#13;        return (4356/361.0 * t * t) - (35442/1805.0 * t) + 16061/1805.0;&#10;    &#125;&#13;    return (54/5.0 * t * t) - (513/25.0 * t) + 268/25.0;&#10;&#125;&#10;&#10;- (void)animate&#10;&#123;&#13;    //reset ball to top of screen&#13;    self.ballView.center = CGPointMake(150, 32);&#13;    //configure the animation&#13;    self.duration = 1.0;&#13;    self.timeOffset = 0.0;&#13;    self.fromValue = [NSValue valueWithCGPoint:CGPointMake(150, 32)];&#10;    self.toValue = [NSValue valueWithCGPoint:CGPointMake(150, 268)];&#13;    //stop the timer if it&#39;s already running&#13;    [self.timer invalidate];&#13;    //start the timer&#13;    self.timer = [NSTimer scheduledTimerWithTimeInterval:1/60.0&#10;                                                  target:self&#10;                                                selector:@selector(step:)&#10;                                                userInfo:nil&#13;                                                 repeats:YES];&#10;&#125;&#10;&#13;- (void)step:(NSTimer *)step&#10;&#123;&#13;    //update time offset&#13;    self.timeOffset = MIN(self.timeOffset + 1/60.0, self.duration);&#10;    //get normalized time offset (in range 0 - 1)&#13;    float time = self.timeOffset / self.duration;&#10;    //apply easing&#13;    time = bounceEaseOut(time);&#13;    //interpolate position&#13;    id position = [self interpolateFromValue:self.fromValue&#10;                                     toValue:self.toValue&#13;                                  time:time];&#10;    //move ball view to new position&#10;    self.ballView.center = [position CGPointValue];&#13;    //stop the timer if we&#39;ve reached the end of the animation&#13;    if (self.timeOffset &#62;= self.duration) &#123;&#13;        [self.timer invalidate];&#10;        self.timer = nil;&#10;    &#125;&#13;&#125;&#10;&#13;@end</span><br></pre></td></tr></table></figure>
+<p>很赞，而且和基于关键帧例子的代码一样很多，但是如果想一次性在屏幕上对很多东西做动画，很明显就会有很多问题。</p>
+<p><code>NSTimer</code>并不是最佳方案，为了理解这点，我们需要确切地知道<code>NSTimer</code>是如何工作的。iOS上的每个线程都管理了一个<code>NSRunloop</code>，字面上看就是通过一个循环来完成一些任务列表。但是对主线程，这些任务包含如下几项：</p>
+<ul>
+<li>处理触摸事件</li>
+<li>发送和接受网络数据包</li>
+<li>执行使用gcd的代码</li>
+<li>处理计时器行为</li>
+<li>屏幕重绘</li>
+</ul>
+<p>当你设置一个<code>NSTimer</code>，他会被插入到当前任务列表中，然后直到指定时间过去之后才会被执行。但是何时启动定时器并没有一个时间上限，而且它只会在列表中上一个任务完成之后开始执行。这通常会导致有几毫秒的延迟，但是如果上一个任务过了很久才完成就会导致延迟很长一段时间。</p>
+<p>屏幕重绘的频率是一秒钟六十次，但是和定时器行为一样，如果列表中上一个执行了很长时间，它也会延迟。这些延迟都是一个随机值，于是就不能保证定时器精准地一秒钟执行六十次。有时候发生在屏幕重绘之后，这就会使得更新屏幕会有个延迟，看起来就是动画卡壳了。有时候定时器会在屏幕更新的时候执行两次，于是动画看起来就跳动了。</p>
+<p>我们可以通过一些途径来优化：</p>
+<ul>
+<li>我们可以用<code>CADisplayLink</code>让更新频率严格控制在每次屏幕刷新之后。</li>
+<li>基于真实帧的持续时间而不是假设的更新频率来做动画。</li>
+<li>调整动画计时器的<code>run loop</code>模式，这样就不会被别的事件干扰。</li>
+</ul>
+<h3 id="CADisplayLink"><code>CADisplayLink</code></h3><p><code>CADisplayLink</code>是CoreAnimation提供的另一个类似于<code>NSTimer</code>的类，它总是在屏幕完成一次更新之前启动，它的接口设计的和<code>NSTimer</code>很类似，所以它实际上就是一个内置实现的替代，但是和<code>timeInterval</code>以秒为单位不同，<code>CADisplayLink</code>有一个整型的<code>frameInterval</code>属性，指定了间隔多少帧之后才执行。默认值是1，意味着每次屏幕更新之前都会执行一次。但是如果动画的代码执行起来超过了六十分之一秒，你可以指定<code>frameInterval</code>为2，就是说动画每隔一帧执行一次（一秒钟30帧）或者3，也就是一秒钟20次，等等。</p>
+<p>用<code>CADisplayLink</code>而不是<code>NSTimer</code>，会保证帧率足够连续，使得动画看起来更加平滑，但即使<code>CADisplayLink</code>也不能<em>保证</em>每一帧都按计划执行，一些失去控制的离散的任务或者事件（例如资源紧张的后台程序）可能会导致动画偶尔地丢帧。当使用<code>NSTimer</code>的时候，一旦有机会计时器就会开启，但是<code>CADisplayLink</code>却不一样：如果它丢失了帧，就会直接忽略它们，然后在下一次更新的时候接着运行。</p>
+<h3 id="计算帧的持续时间">计算帧的持续时间</h3><p>无论是使用<code>NSTimer</code>还是<code>CADisplayLink</code>，我们仍然需要处理一帧的时间超出了预期的六十分之一秒。由于我们不能够计算出一帧真实的持续时间，所以需要手动测量。我们可以在每帧开始刷新的时候用<code>CACurrentMediaTime()</code>记录当前时间，然后和上一帧记录的时间去比较。</p>
+<p>通过比较这些时间，我们就可以得到真实的每帧持续的时间，然后代替硬编码的六十分之一秒。我们来更新一下上个例子（见清单11.2）。</p>
+<p>清单11.2 通过测量没帧持续的时间来使得动画更加平滑</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#13;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, strong) UIImageView *ballView;&#10;@property (nonatomic, strong) CADisplayLink *timer;&#10;@property (nonatomic, assign) CFTimeInterval duration;&#10;@property (nonatomic, assign) CFTimeInterval timeOffset;&#10;@property (nonatomic, assign) CFTimeInterval lastStep;&#10;@property (nonatomic, strong) id fromValue;&#13;@property (nonatomic, strong) id toValue;&#10;&#13;@end&#10;&#13;@implementation ViewController&#10;&#10;...&#10;&#13;- (void)animate&#10;&#123;&#13;    //reset ball to top of screen&#13;    self.ballView.center = CGPointMake(150, 32);&#13;    //configure the animation&#13;    self.duration = 1.0;&#13;    self.timeOffset = 0.0;&#13;    self.fromValue = [NSValue valueWithCGPoint:CGPointMake(150, 32)];&#10;    self.toValue = [NSValue valueWithCGPoint:CGPointMake(150, 268)];&#13;    //stop the timer if it&#39;s already running&#13;    [self.timer invalidate];&#13;    //start the timer&#13;    self.lastStep = CACurrentMediaTime();&#13;    self.timer = [CADisplayLink displayLinkWithTarget:self&#13;                                             selector:@selector(step:)];&#10;    [self.timer addToRunLoop:[NSRunLoop mainRunLoop]&#10;                     forMode:NSDefaultRunLoopMode];&#13;&#125;&#10;&#13;- (void)step:(CADisplayLink *)timer&#10;&#123;&#13;    //calculate time delta&#13;    CFTimeInterval thisStep = CACurrentMediaTime();&#10;    CFTimeInterval stepDuration = thisStep - self.lastStep;&#10;    self.lastStep = thisStep;&#13;    //update time offset&#13;    self.timeOffset = MIN(self.timeOffset + stepDuration, self.duration);&#13;    //get normalized time offset (in range 0 - 1)&#13;    float time = self.timeOffset / self.duration;&#10;    //apply easing&#13;    time = bounceEaseOut(time);&#13;    //interpolate position&#13;    id position = [self interpolateFromValue:self.fromValue toValue:self.toValue&#13;                                        time:time];&#10;    //move ball view to new position&#10;    self.ballView.center = [position CGPointValue];&#13;    //stop the timer if we&#39;ve reached the end of the animation&#13;    if (self.timeOffset &#62;= self.duration) &#123;&#13;        [self.timer invalidate];&#13;        self.timer = nil;&#10;    &#125;&#13;&#125;&#10;&#13;@end</span><br></pre></td></tr></table></figure>
+<h3 id="Run_Loop_模式">Run Loop 模式</h3><p>注意到当创建<code>CADisplayLink</code>的时候，我们需要指定一个<code>run loop</code>和<code>run loop mode</code>，对于run loop来说，我们就使用了主线程的run loop，因为任何用户界面的更新都需要在主线程执行，但是模式的选择就并不那么清楚了，每个添加到run loop的任务都有一个指定了优先级的模式，为了保证用户界面保持平滑，iOS会提供和用户界面相关任务的优先级，而且当UI很活跃的时候的确会暂停一些别的任务。</p>
+<p>一个典型的例子就是当是用<code>UIScrollview</code>滑动的时候，重绘滚动视图的内容会比别的任务优先级更高，所以标准的<code>NSTimer</code>和网络请求就不会启动，一些常见的run loop模式如下：</p>
+<ul>
+<li><code>NSDefaultRunLoopMode</code> - 标准优先级</li>
+<li><code>NSRunLoopCommonModes</code> - 高优先级</li>
+<li><code>UITrackingRunLoopMode</code> - 用于<code>UIScrollView</code>和别的控件的动画</li>
+</ul>
+<p>在我们的例子中，我们是用了<code>NSDefaultRunLoopMode</code>，但是不能保证动画平滑的运行，所以就可以用<code>NSRunLoopCommonModes</code>来替代。但是要小心，因为如果动画在一个高帧率情况下运行，你会发现一些别的类似于定时器的任务或者类似于滑动的其他iOS动画会暂停，直到动画结束。</p>
+<p>同样可以同时对<code>CADisplayLink</code>指定多个run loop模式，于是我们可以同时加入<code>NSDefaultRunLoopMode</code>和<code>UITrackingRunLoopMode</code>来保证它不会被滑动打断，也不会被其他UIKit控件动画影响性能，像这样：</p>
+<pre><code><span class="keyword">self</span><span class="variable">.timer</span> = [<span class="built_in">CADisplayLink</span> displayLinkWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(step:)];
+[<span class="keyword">self</span><span class="variable">.timer</span> addToRunLoop:[<span class="built_in">NSRunLoop</span> mainRunLoop] forMode:<span class="built_in">NSDefaultRunLoopMode</span>];
+[<span class="keyword">self</span><span class="variable">.timer</span> addToRunLoop:[<span class="built_in">NSRunLoop</span> mainRunLoop] forMode:<span class="built_in">UITrackingRunLoopMode</span>];
+</code></pre><p>和<code>CADisplayLink</code>类似，<code>NSTimer</code>同样也可以使用不同的run loop模式配置，通过别的函数，而不是<code>+scheduledTimerWithTimeInterval:</code>构造器</p>
+<pre><code><span class="keyword">self</span><span class="variable">.timer</span> = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">1</span>/<span class="number">60.0</span>
+                                 target:<span class="keyword">self</span>
+                               selector:<span class="keyword">@selector</span>(step:)
+                               userInfo:<span class="literal">nil</span>
+                                repeats:<span class="literal">YES</span>];
+[[<span class="built_in">NSRunLoop</span> mainRunLoop] addTimer:<span class="keyword">self</span><span class="variable">.timer</span>
+                          forMode:<span class="built_in">NSRunLoopCommonModes</span>];
+</code></pre><h2 id="物理模拟">物理模拟</h2><p>即使使用了基于定时器的动画来复制第10章中关键帧的行为，但还是会有一些本质上的区别：在关键帧的实现中，我们提前计算了所有帧，但是在新的解决方案中，我们实际上实在按需要在计算。意义在于我们可以根据用户输入实时修改动画的逻辑，或者和别的实时动画系统例如物理引擎进行整合。</p>
+<h3 id="Chipmunk">Chipmunk</h3><p>我们来基于物理学创建一个真实的重力模拟效果来取代当前基于缓冲的弹性动画，但即使模拟2D的物理效果就已近极其复杂了，所以就不要尝试去实现它了，直接用开源的物理引擎库好了。</p>
+<p>我们将要使用的物理引擎叫做Chipmunk。另外的2D物理引擎也同样可以（例如Box2D），但是Chipmunk使用纯C写的，而不是C++，好处在于更容易和Objective-C项目整合。Chipmunk有很多版本，包括一个和Objective-C绑定的“indie”版本。C语言的版本是免费的，所以我们就用它好了。在本书写作的时候6.1.4是最新的版本；你可以从<a href="http://chipmunk-physics.net下载它。" target="_blank" rel="external">http://chipmunk-physics.net下载它。</a></p>
+<p>Chipmunk完整的物理引擎相当巨大复杂，但是我们只会使用如下几个类：</p>
+<ul>
+<li><code>cpSpace</code> - 这是所有的物理结构体的容器。它有一个大小和一个可选的重力矢量</li>
+<li><code>cpBody</code> - 它是一个固态无弹力的刚体。它有一个坐标，以及其他物理属性，例如质量，运动和摩擦系数等等。</li>
+<li><code>cpShape</code> - 它是一个抽象的几何形状，用来检测碰撞。可以给结构体添加一个多边形，而且<code>cpShape</code>有各种子类来代表不同形状的类型。</li>
+</ul>
+<p>在例子中，我们来对一个木箱建模，然后在重力的影响下下落。我们来创建一个<code>Crate</code>类，包含屏幕上的可视效果（一个<code>UIImageView</code>）和一个物理模型（一个<code>cpBody</code>和一个<code>cpPolyShape</code>，一个<code>cpShape</code>的多边形子类来代表矩形木箱）。</p>
+<p>用C版本的Chipmunk会带来一些挑战，因为它现在并不支持Objective-C的引用计数模型，所以我们需要准确的创建和释放对象。为了简化，我们把<code>cpShape</code>和<code>cpBody</code>的生命周期和<code>Crate</code>类进行绑定，然后在木箱的<code>-init</code>方法中创建，在<code>-dealloc</code>中释放。木箱物理属性的配置很复杂，所以阅读了Chipmunk文档会很有意义。</p>
+<p>视图控制器用来管理<code>cpSpace</code>，还有和之前一样的计时器逻辑。在每一步中，我们更新<code>cpSpace</code>（用来进行物理计算和所有结构体的重新摆放）然后迭代对象，然后再更新我们的木箱视图的位置来匹配木箱的模型（在这里，实际上只有一个结构体，但是之后我们将要添加更多）。</p>
+<p>Chipmunk使用了一个和UIKit颠倒的坐标系（Y轴向上为正方向）。为了使得物理模型和视图之间的同步更简单，我们需要通过使用<code>geometryFlipped</code>属性翻转容器视图的集合坐标（第3章中有提到），于是模型和视图都共享一个相同的坐标系。</p>
+<p>具体的代码见清单11.3。注意到我们并没有在任何地方释放<code>cpSpace</code>对象。在这个例子中，内存空间将会在整个app的生命周期中一直存在，所以这没有问题。但是在现实世界的场景中，我们需要像创建木箱结构体和形状一样去管理我们的空间，封装在标准的Cocoa对象中，然后来管理Chipmunk对象的生命周期。图11.1展示了掉落的木箱。</p>
+<p>清单11.3 使用物理学来对掉落的木箱建模</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;ViewController.h&#34; &#10;#import &#60;QuartzCore/QuartzCore.h&#62;&#10;#import &#34;chipmunk.h&#34;&#10;&#13;@interface Crate : UIImageView&#10;&#13;@property (nonatomic, assign) cpBody *body;&#13;@property (nonatomic, assign) cpShape *shape;&#10;&#10;@end&#10;&#13;@implementation Crate&#10;&#13;#define MASS 100&#10;&#13;- (id)initWithFrame:(CGRect)frame&#10;&#123;&#13;    if ((self = [super initWithFrame:frame])) &#123;&#13;        //set image&#13;        self.image = [UIImage imageNamed:@&#34;Crate.png&#34;];&#10;        self.contentMode = UIViewContentModeScaleAspectFill;&#13;        //create the body&#13;        self.body = cpBodyNew(MASS, cpMomentForBox(MASS, frame.size.width, frame.size.height));&#13;        //create the shape&#13;        cpVect corners[] = &#123;&#10;            cpv(0, 0),&#13;            cpv(0, frame.size.height),&#10;            cpv(frame.size.width, frame.size.height),&#10;            cpv(frame.size.width, 0),&#13;        &#125;;&#13;        self.shape = cpPolyShapeNew(self.body, 4, corners, cpv(-frame.size.width/2, -frame.size.height/2));&#13;        //set shape friction &#38; elasticity&#13;        cpShapeSetFriction(self.shape, 0.5);&#10;        cpShapeSetElasticity(self.shape, 0.8);&#13;        //link the crate to the shape&#13;        //so we can refer to crate from callback later on&#10;        self.shape-&#62;data = (__bridge void *)self;&#13;        //set the body position to match view&#13;        cpBodySetPos(self.body, cpv(frame.origin.x + frame.size.width/2, 300 - frame.origin.y - frame.size.height/2));&#13;    &#125;&#13;    return self;&#10;&#125;&#10;&#13;- (void)dealloc&#10;&#123;&#13;    //release shape and body&#13;    cpShapeFree(_shape);&#13;    cpBodyFree(_body);&#10;&#125;&#10;&#13;@end&#10;&#13;@interface ViewController ()&#10;&#13;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, assign) cpSpace *space;&#13;@property (nonatomic, strong) CADisplayLink *timer;&#10;@property (nonatomic, assign) CFTimeInterval lastStep;&#10;&#13;@end&#10;&#13;@implementation ViewController&#10;&#10;#define GRAVITY 1000&#10;&#13;- (void)viewDidLoad&#10;&#123;&#13;    //invert view coordinate system to match physics&#13;    self.containerView.layer.geometryFlipped = YES;&#13;    //set up physics space&#13;    self.space = cpSpaceNew();&#10;    cpSpaceSetGravity(self.space, cpv(0, -GRAVITY));&#13;    //add a crate&#13;    Crate *crate = [[Crate alloc] initWithFrame:CGRectMake(100, 0, 100, 100)];&#10;    [self.containerView addSubview:crate];&#13;    cpSpaceAddBody(self.space, crate.body);&#13;    cpSpaceAddShape(self.space, crate.shape);&#10;    //start the timer&#13;    self.lastStep = CACurrentMediaTime();&#13;    self.timer = [CADisplayLink displayLinkWithTarget:self&#13;                                             selector:@selector(step:)];&#10;    [self.timer addToRunLoop:[NSRunLoop mainRunLoop]&#10;                     forMode:NSDefaultRunLoopMode];&#10;&#125;&#10;&#13;void updateShape(cpShape *shape, void *unused)&#10;&#123;&#13;    //get the crate object associated with the shape&#13;    Crate *crate = (__bridge Crate *)shape-&#62;data;&#13;    //update crate view position and angle to match physics shape&#13;    cpBody *body = shape-&#62;body;&#13;    crate.center = cpBodyGetPos(body);&#13;    crate.transform = CGAffineTransformMakeRotation(cpBodyGetAngle(body));&#13;&#125;&#10;&#13;- (void)step:(CADisplayLink *)timer&#10;&#123;&#13;    //calculate step duration&#13;    CFTimeInterval thisStep = CACurrentMediaTime();&#10;    CFTimeInterval stepDuration = thisStep - self.lastStep;&#10;    self.lastStep = thisStep;&#13;    //update physics&#13;    cpSpaceStep(self.space, stepDuration);&#13;    //update all the shapes&#13;    cpSpaceEachShape(self.space, &#38;updateShape, NULL);&#10;&#125;&#10;&#13;@end</span><br></pre></td></tr></table></figure>
+<p><img src="http://i1.tietuku.com/2f702cbbb66d60ea.jpg" alt="图11.1" title="图11.1" width="700"></p>
+<p>图11.1 一个木箱图片，根据模拟的重力掉落</p>
+<h3 id="添加用户交互">添加用户交互</h3><p>下一步就是在视图周围添加一道不可见的墙，这样木箱就不会掉落出屏幕之外。或许你会用另一个矩形的<code>cpPolyShape</code>来实现，就和之前创建木箱那样，但是我们需要检测的是木箱何时离开视图，而不是何时碰撞，所以我们需要一个空心而不是固体矩形。</p>
+<p>我们可以通过给<code>cpSpace</code>添加四个<code>cpSegmentShape</code>对象（<code>cpSegmentShape</code>代表一条直线，所以四个拼起来就是一个矩形）。然后赋给空间的<code>staticBody</code>属性（一个不被重力影响的结构体）而不是像木箱那样一个新的<code>cpBody</code>实例，因为我们不想让这个边框矩形滑出屏幕或者被一个下落的木箱击中而消失。</p>
+<p>同样可以再添加一些木箱来做一些交互。最后再添加一个加速器，这样可以通过倾斜手机来调整重力矢量（为了测试需要在一台真实的设备上运行程序，因为模拟器不支持加速器事件，即使旋转屏幕）。清单11.4展示了更新后的代码，运行结果见图11.2。</p>
+<p>由于示例只支持横屏模式，所以交换加速计矢量的x和y值。如果在竖屏下运行程序，请把他们换回来，不然重力方向就错乱了。试一下就知道了，木箱会沿着横向移动。</p>
+<p>清单11.4 使用围墙和多个木箱的更新后的代码</p>
+<pre><code class="objetive-c">- (void)addCrateWithFrame:(CGRect)frame&#10;{&#10;    Crate *crate = [[Crate alloc] initWithFrame:frame];&#10;    [self.containerView addSubview:crate];&#10;    cpSpaceAddBody(self.space, crate.body);&#10;    cpSpaceAddShape(self.space, crate.shape);&#10;}&#10;&#10;- (void)addWallShapeWithStart:(cpVect)start end:(cpVect)end&#10;{&#10;    cpShape *wall = cpSegmentShapeNew(self.space-&#62;staticBody, start, end, 1);&#10;    cpShapeSetCollisionType(wall, 2);&#10;    cpShapeSetFriction(wall, 0.5);&#10;    cpShapeSetElasticity(wall, 0.8);&#10;    cpSpaceAddStaticShape(self.space, wall);&#10;}&#10;&#10;- (void)viewDidLoad&#10;{&#10;    //invert view coordinate system to match physics&#10;    self.containerView.layer.geometryFlipped = YES;&#10;    //set up physics space&#10;    self.space = cpSpaceNew();&#10;    cpSpaceSetGravity(self.space, cpv(0, -GRAVITY));&#10;    //add wall around edge of view&#10;    [self addWallShapeWithStart:cpv(0, 0) end:cpv(300, 0)];&#10;    [self addWallShapeWithStart:cpv(300, 0) end:cpv(300, 300)];&#10;    [self addWallShapeWithStart:cpv(300, 300) end:cpv(0, 300)];&#10;    [self addWallShapeWithStart:cpv(0, 300) end:cpv(0, 0)];&#10;    //add a crates&#10;    [self addCrateWithFrame:CGRectMake(0, 0, 32, 32)];&#10;    [self addCrateWithFrame:CGRectMake(32, 0, 32, 32)];&#10;    [self addCrateWithFrame:CGRectMake(64, 0, 64, 64)];&#10;    [self addCrateWithFrame:CGRectMake(128, 0, 32, 32)];&#10;    [self addCrateWithFrame:CGRectMake(0, 32, 64, 64)];&#10;    //start the timer&#10;    self.lastStep = CACurrentMediaTime();&#10;    self.timer = [CADisplayLink displayLinkWithTarget:self&#10;                                             selector:@selector(step:)];&#10;    [self.timer addToRunLoop:[NSRunLoop mainRunLoop]&#10;                     forMode:NSDefaultRunLoopMode];&#10;    //update gravity using accelerometer&#10;    [UIAccelerometer sharedAccelerometer].delegate = self;&#10;    [UIAccelerometer sharedAccelerometer].updateInterval = 1/60.0;&#10;}&#10;&#10;- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration&#10;{&#10;    //update gravity&#10;    cpSpaceSetGravity(self.space, cpv(acceleration.y * GRAVITY, -acceleration.x * GRAVITY));&#10;}
+</code></pre>
+<p><img src="http://i1.tietuku.com/190ae60feaa25e3c.jpg" alt="图11.2" title="图11.2" width="700"></p>
+<p>图11.1 真实引力场下的木箱交互</p>
+<h3 id="模拟时间以及固定的时间步长">模拟时间以及固定的时间步长</h3><p>对于实现动画的缓冲效果来说，计算每帧持续的时间是一个很好的解决方案，但是对模拟物理效果并不理想。通过一个可变的时间步长来实现有着两个弊端：</p>
+<ul>
+<li><p>如果时间步长不是固定的，精确的值，物理效果的模拟也就随之不确定。这意味着即使是传入相同的输入值，也可能在不同场合下有着不同的效果。有时候没多大影响，但是在基于物理引擎的游戏下，玩家就会由于相同的操作行为导致不同的结果而感到困惑。同样也会让测试变得麻烦。</p>
+</li>
+<li><p>由于性能故常造成的丢帧或者像电话呼入的中断都可能会造成不正确的结果。考虑一个像子弹那样快速移动物体，每一帧的更新都需要移动子弹，检测碰撞。如果两帧之间的时间加长了，子弹就会在这一步移动更远的距离，穿过围墙或者是别的障碍，这样就丢失了碰撞。</p>
+</li>
+</ul>
+<p>我们想得到的理想的效果就是通过固定的时间步长来计算物理效果，但是在屏幕发生重绘的时候仍然能够同步更新视图（可能会由于在我们控制范围之外造成不可预知的效果）。</p>
+<p>幸运的是，由于我们的模型（在这个例子中就是Chipmunk的<code>cpSpace</code>中的<code>cpBody</code>）被视图（就是屏幕上代表木箱的<code>UIView</code>对象）分离，于是就很简单了。我们只需要根据屏幕刷新的时间跟踪时间步长，然后根据每帧去计算一个或者多个模拟出来的效果。</p>
+<p>我们可以通过一个简单的循环来实现。通过每次<code>CADisplayLink</code>的启动来通知屏幕将要刷新，然后记录下当前的<code>CACurrentMediaTime()</code>。我们需要在一个小增量中提前重复物理模拟（这里用120分之一秒）直到赶上显示的时间。然后更新我们的视图，在屏幕刷新的时候匹配当前物理结构体的显示位置。</p>
+<p>清单11.5展示了固定时间步长版本的代码</p>
+<p>清单11.5 固定时间步长的木箱模拟</p>
+<pre><code class="objective-c">#define SIMULATION_STEP (1/120.0)&#10;&#10;- (void)step:(CADisplayLink *)timer&#10;{&#10;    //calculate frame step duration&#10;    CFTimeInterval frameTime = CACurrentMediaTime();&#10;    //update simulation&#10;    while (self.lastStep &#60; frameTime) {&#10;        cpSpaceStep(self.space, SIMULATION_STEP);&#10;        self.lastStep += SIMULATION_STEP;&#10;    }&#10;    &#65532;&#10;    //update all the shapes&#10;    cpSpaceEachShape(self.space, &#38;updateShape, NULL);&#10;}
+</code></pre>
+<h3 id="避免死亡螺旋">避免死亡螺旋</h3><p>当使用固定的模拟时间步长时候，有一件事情一定要注意，就是用来计算物理效果的现实世界的时间并不会加速模拟时间步长。在我们的例子中，我们随意选择了120分之一秒来模拟物理效果。Chipmunk很快，我们的例子也很简单，所以<code>cpSpaceStep()</code>会完成的很好，不会延迟帧的更新。<br>但是如果场景很复杂，比如有上百个物体之间的交互，物理计算就会很复杂，<code>cpSpaceStep()</code>的计算也可能会超出1/120秒。我们没有测量出物理步长的时间，因为我们假设了相对于帧刷新来说并不重要，但是如果模拟步长更久的话，就会延迟帧率。<br>如果帧刷新的时间延迟的话会变得很糟糕，我们的模拟需要执行更多的次数来同步真实的时间。这些额外的步骤就会继续延迟帧的更新，等等。这就是所谓的死亡螺旋，因为最后的结果就是帧率变得越来越慢，直到最后应用程序卡死了。</p>
+<p>我们可以通过添加一些代码在设备上来对物理步骤计算真实世界的时间，然后自动调整固定时间步长，但是实际上它不可行。其实只要保证你给容错留下足够的边长，然后在期望支持的最慢的设备上进行测试就可以了。如果物理计算超过了模拟时间的50%，就需要考虑增加模拟时间步长（或者简化场景）。如果模拟时间步长增加到超过1/60秒（一个完整的屏幕更新时间），你就需要减少动画帧率到一秒30帧或者增加<code>CADisplayLink</code>的<code>frameInterval</code>来保证不会随机丢帧，不然你的动画将会看起来不平滑。</p>
+<h2 id="总结">总结</h2><p>在这一章中，我们了解了如何通过一个计时器创建一帧帧的实时动画，包括缓冲，物理模拟等等一系列动画技术，以及用户输入（通过加速计）。</p>
+<p>在第三部分中，我们将研究动画性能是如何被被设备限制所影响的，以及如何调整我们的代码来活的足够好的帧率。</p>
+<p><strong>来源网址:[<a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques](" target="_blank" rel="external">https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques](</a></strong>来源网址:<a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques__)__" target="_blank" rel="external">https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques__)__</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-04-30T01:32:52.000Z"><a href="/2015/04/30/Core Aniamtion深入探讨/10-缓冲/缓冲/">2015-04-30</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/04/30/Core Aniamtion深入探讨/10-缓冲/缓冲/">10-缓冲</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="缓冲">缓冲</h1><blockquote>
+<p>生活和艺术一样，最美的永远是曲线。 — 爱德华布尔沃 - 利顿</p>
+</blockquote>
+<p>在第九章“图层时间”中，我们讨论了动画时间和<code>CAMediaTiming</code>协议。现在我们来看一下另一个和时间相关的机制—所谓的<em>缓冲</em>。Core Animation使用缓冲来使动画移动更平滑更自然，而不是看起来的那种机械和人工，在这一章我们将要研究如何对你的动画控制和自定义缓冲曲线。</p>
+<h2 id="动画速度">动画速度</h2><p>动画实际上就是一段时间内的变化，这就暗示了变化一定是随着某个特定的速率进行。速率由以下公式计算而来：</p>
+<pre><code>velocity = <span class="operator"><span class="keyword">change</span> / <span class="keyword">time</span></span>
+</code></pre><p>这里的<em>变化</em>可以指的是一个物体移动的距离，<em>时间</em>指动画持续的时长，用这样的一个移动可以更加形象的描述（比如<code>position</code>和<code>bounds</code>属性的动画），但实际上它应用于任意可以做动画的属性（比如<code>color</code>和<code>opacity</code>）。</p>
+<p>上面的等式假设了速度在整个动画过程中都是恒定不变的（就如同第八章“显式动画”的情况），对于这种恒定速度的动画我们称之为“线性步调”，而且从技术的角度而言这也是实现动画最简单的方式，但也是<em>完全不真实</em>的一种效果。</p>
+<p>考虑一个场景，一辆车行驶在一定距离内，它并不会一开始就以60mph的速度行驶，然后到达终点后突然变成0mph。一是因为需要无限大的加速度（即使是最好的车也不会在0秒内从0跑到60），另外不然的话会干死所有乘客。在现实中，它会慢慢地加速到全速，然后当它接近终点的时候，它会慢慢地减速，直到最后停下来。</p>
+<p>那么对于一个掉落到地上的物体又会怎样呢？它会首先停在空中，然后一直加速到落到地面，然后突然停止（然后由于积累的动能转换伴随着一声巨响，砰！）。</p>
+<p>现实生活中的任何一个物体都会在运动中加速或者减速。那么我们如何在动画中实现这种加速度呢？一种方法是使用<em>物理引擎</em>来对运动物体的摩擦和动量来建模，然而这会使得计算过于复杂。我们称这种类型的方程为<em>缓冲函数</em>，幸运的是，Core Animation内嵌了一系列标准函数提供给我们使用。</p>
+<h3 id="CAMediaTimingFunction"><code>CAMediaTimingFunction</code></h3><p>那么该如何使用缓冲方程式呢？首先需要设置<code>CAAnimation</code>的<code>timingFunction</code>属性，是<code>CAMediaTimingFunction</code>类的一个对象。如果想改变隐式动画的计时函数，同样也可以使用<code>CATransaction</code>的<code>+setAnimationTimingFunction:</code>方法。</p>
+<p>这里有一些方式来创建<code>CAMediaTimingFunction</code>，最简单的方式是调用<code>+timingFunctionWithName:</code>的构造方法。这里传入如下几个常量之一：</p>
+<pre><code>k<span class="built_in">CAMediaTimingFunctionLinear</span> 
+k<span class="built_in">CAMediaTimingFunctionEaseIn</span> 
+k<span class="built_in">CAMediaTimingFunctionEaseOut</span> 
+k<span class="built_in">CAMediaTimingFunctionEaseInEaseOut</span>
+k<span class="built_in">CAMediaTimingFunctionDefault</span>
+</code></pre><p><code>kCAMediaTimingFunctionLinear</code>选项创建了一个线性的计时函数，同样也是<code>CAAnimation</code>的<code>timingFunction</code>属性为空时候的默认函数。线性步调对于那些立即加速并且保持匀速到达终点的场景会有意义（例如射出枪膛的子弹），但是默认来说它看起来很奇怪，因为对大多数的动画来说确实很少用到。</p>
+<p><code>kCAMediaTimingFunctionEaseIn</code>常量创建了一个慢慢加速然后突然停止的方法。对于之前提到的自由落体的例子来说很适合，或者比如对准一个目标的导弹的发射。</p>
+<p><code>kCAMediaTimingFunctionEaseOut</code>则恰恰相反，它以一个全速开始，然后慢慢减速停止。它有一个削弱的效果，应用的场景比如一扇门慢慢地关上，而不是砰地一声。</p>
+<p><code>kCAMediaTimingFunctionEaseInEaseOut</code>创建了一个慢慢加速然后再慢慢减速的过程。这是现实世界大多数物体移动的方式，也是大多数动画来说最好的选择。如果只可以用一种缓冲函数的话，那就必须是它了。那么你会疑惑为什么这不是默认的选择，实际上当使用<code>UIView</code>的动画方法时，他的确是默认的，但当创建<code>CAAnimation</code>的时候，就需要手动设置它了。</p>
+<p>最后还有一个<code>kCAMediaTimingFunctionDefault</code>，它和<code>kCAMediaTimingFunctionEaseInEaseOut</code>很类似，但是加速和减速的过程都稍微有些慢。它和<code>kCAMediaTimingFunctionEaseInEaseOut</code>的区别很难察觉，可能是苹果觉得它对于隐式动画来说更适合（然后对UIKit就改变了想法，而是使用<code>kCAMediaTimingFunctionEaseInEaseOut</code>作为默认效果），虽然它的名字说是默认的，但还是要记住当创建<em>显式</em>的<code>CAAnimation</code>它并不是默认选项（换句话说，默认的图层行为动画用<code>kCAMediaTimingFunctionDefault</code>作为它们的计时方法）。</p>
+<p>你可以使用一个简单的测试工程来实验一下（清单10.1），在运行之前改变缓冲函数的代码，然后点击任何地方来观察图层是如何通过指定的缓冲移动的。</p>
+<p>清单10.1 缓冲函数的简单测试</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, strong) CALayer *colorLayer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create a red layer&#10;    self.colorLayer = [CALayer layer];&#10;    self.colorLayer.frame = CGRectMake(0, 0, 100, 100);&#10;    self.colorLayer.position = CGPointMake(self.view.bounds.size.width/2.0, self.view.bounds.size.height/2.0);&#10;    self.colorLayer.backgroundColor = [UIColor redColor].CGColor;&#10;    [self.view.layer addSublayer:self.colorLayer];&#10;&#125;&#10;&#10;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#10;    //configure the transaction&#10;    [CATransaction begin];&#10;    [CATransaction setAnimationDuration:1.0];&#10;    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];&#10;    //set the position&#10;    self.colorLayer.position = [[touches anyObject] locationInView:self.view];&#10;    //commit transaction&#10;    [CATransaction commit];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<h3 id="UIView的动画缓冲"><code>UIView</code>的动画缓冲</h3><p>UIKit的动画也同样支持这些缓冲方法的使用，尽管语法和常量有些不同，为了改变<code>UIView</code>动画的缓冲选项，给<code>options</code>参数添加如下常量之一：</p>
+<pre><code><span class="built_in">UIViewAnimationOptionCurveEaseInOut</span> 
+<span class="built_in">UIViewAnimationOptionCurveEaseIn</span> 
+<span class="built_in">UIViewAnimationOptionCurveEaseOut</span> 
+<span class="built_in">UIViewAnimationOptionCurveLinear</span>
+</code></pre><p>它们和<code>CAMediaTimingFunction</code>紧密关联，<code>UIViewAnimationOptionCurveEaseInOut</code>是默认值（这里没有<code>kCAMediaTimingFunctionDefault</code>相对应的值了）。</p>
+<p>具体使用方法见清单10.2（注意到这里不再使用<code>UIView</code>额外添加的图层，因为UIKit的动画并不支持这类图层）。</p>
+<p>清单10.2 使用UIKit动画的缓冲测试工程</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, strong) UIView *colorView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create a red layer&#10;    self.colorView = [[UIView alloc] init];&#10;    self.colorView.bounds = CGRectMake(0, 0, 100, 100);&#10;    self.colorView.center = CGPointMake(self.view.bounds.size.width / 2, self.view.bounds.size.height / 2);&#10;    self.colorView.backgroundColor = [UIColor redColor];&#10;    [self.view addSubview:self.colorView];&#10;&#125;&#10;&#10;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#10;    //perform the animation&#10;    [UIView animateWithDuration:1.0 delay:0.0&#10;                        options:UIViewAnimationOptionCurveEaseOut&#10;                     animations:^&#123;&#10;                            //set the position&#10;                            self.colorView.center = [[touches anyObject] locationInView:self.view];&#10;                        &#125;&#10;                     completion:NULL];&#10;    &#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<h3 id="缓冲和关键帧动画">缓冲和关键帧动画</h3><p>或许你会回想起第八章里面颜色切换的关键帧动画由于线性变换的原因（见清单8.5）看起来有些奇怪，使得颜色变换非常不自然。为了纠正这点，我们来用更加合适的缓冲方法，例如<code>kCAMediaTimingFunctionEaseIn</code>，给图层的颜色变化添加一点<em>脉冲</em>效果，让它更像现实中的一个彩色灯泡。</p>
+<p>我们不想给整个动画过程应用这个效果，我们希望对每个动画的过程重复这样的缓冲，于是每次颜色的变换都会有脉冲效果。</p>
+<p><code>CAKeyframeAnimation</code>有一个<code>NSArray</code>类型的<code>timingFunctions</code>属性，我们可以用它来对每次动画的步骤指定不同的计时函数。但是指定函数的个数一定要等于<code>keyframes</code>数组的元素个数<em>减一</em>，因为它是描述每一帧之间动画速度的函数。</p>
+<p>在这个例子中，我们自始至终想使用同一个缓冲函数，但我们同样需要一个函数的数组来告诉动画不停地重复每个步骤，而不是在整个动画序列只做一次缓冲，我们简单地使用包含多个相同函数拷贝的数组就可以了（见清单10.3）。</p>
+<p>运行更新后的代码，你会发现动画看起来更加自然了。</p>
+<p>清单10.3 对<code>CAKeyframeAnimation</code>使用<code>CAMediaTimingFunction</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView;&#10;@property (nonatomic, weak) IBOutlet CALayer *colorLayer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create sublayer&#10;    self.colorLayer = [CALayer layer];&#10;    self.colorLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);&#10;    self.colorLayer.backgroundColor = [UIColor blueColor].CGColor;&#10;    //add it to our view&#10;    [self.layerView.layer addSublayer:self.colorLayer];&#10;&#125;&#10;&#10;- (IBAction)changeColor&#10;&#123;&#10;    //create a keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;backgroundColor&#34;;&#10;    animation.duration = 2.0;&#10;    animation.values = @[&#10;                         (__bridge id)[UIColor blueColor].CGColor,&#10;                         (__bridge id)[UIColor redColor].CGColor,&#10;                         (__bridge id)[UIColor greenColor].CGColor,&#10;                         (__bridge id)[UIColor blueColor].CGColor ];&#10;    //add timing function&#10;    CAMediaTimingFunction *fn = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn];&#10;    animation.timingFunctions = @[fn, fn, fn];&#10;    //apply animation to layer&#10;    [self.colorLayer addAnimation:animation forKey:nil];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<h2 id="自定义缓冲函数">自定义缓冲函数</h2><p>在第八章中，我们给时钟项目添加了动画。看起来很赞，但是如果有合适的缓冲函数就更好了。在显示世界中，钟表指针转动的时候，通常起步很慢，然后迅速啪地一声，最后缓冲到终点。但是标准的缓冲函数在这里每一个适合它，那该如何创建一个新的呢？</p>
+<p>除了<code>+functionWithName:</code>之外，<code>CAMediaTimingFunction</code>同样有另一个构造函数，一个有四个浮点参数的<code>+functionWithControlPoints::::</code>（注意这里奇怪的语法，并没有包含具体每个参数的名称，这在objective-C中是合法的，但是却违反了苹果对方法命名的指导方针，而且看起来是一个奇怪的设计）。</p>
+<p>使用这个方法，我们可以创建一个自定义的缓冲函数，来匹配我们的时钟动画，为了理解如何使用这个方法，我们要了解一些<code>CAMediaTimingFunction</code>是如何工作的。</p>
+<h3 id="三次贝塞尔曲线">三次贝塞尔曲线</h3><p><code>CAMediaTimingFunction</code>函数的主要原则在于它把输入的时间转换成起点和终点之间成比例的改变。我们可以用一个简单的图标来解释，横轴代表时间，纵轴代表改变的量，于是线性的缓冲就是一条从起点开始的简单的斜线（图10.1）。</p>
+<p><img src="http://i1.tietuku.com/a8f3e8543a3762ee.jpg" alt="图10.1" title="图10.1" width="700"></p>
+<p>图10.1 线性缓冲函数的图像</p>
+<p>这条曲线的斜率代表了速度，斜率的改变代表了加速度，原则上来说，任何加速的曲线都可以用这种图像来表示，但是<code>CAMediaTimingFunction</code>使用了一个叫做<em>三次贝塞尔曲线</em>的函数，它只可以产出指定缓冲函数的子集（我们之前在第八章中创建<code>CAKeyframeAnimation</code>路径的时候提到过三次贝塞尔曲线）。</p>
+<p>你或许会回想起，一个三次贝塞尔曲线通过四个点来定义，第一个和最后一个点代表了曲线的起点和终点，剩下中间两个点叫做<em>控制点</em>，因为它们控制了曲线的形状，贝塞尔曲线的控制点其实是位于曲线之外的点，也就是说曲线并不一定要穿过它们。你可以把它们想象成吸引经过它们曲线的磁铁。</p>
+<p>图10.2展示了一个三次贝塞尔缓冲函数的例子</p>
+<p><img src="http://i1.tietuku.com/39b12c63e37567a2.jpg" alt="图10.2" title="图10.2" width="700"></p>
+<p>图10.2 三次贝塞尔缓冲函数</p>
+<p>实际上它是一个很奇怪的函数，先加速，然后减速，最后快到达终点的时候又加速，那么标准的缓冲函数又该如何用图像来表示呢？</p>
+<p><code>CAMediaTimingFunction</code>有一个叫做<code>-getControlPointAtIndex:values:</code>的方法，可以用来检索曲线的点，这个方法的设计的确有点奇怪（或许也就只有苹果能回答为什么不简单返回一个<code>CGPoint</code>），但是使用它我们可以找到标准缓冲函数的点，然后用<code>UIBezierPath</code>和<code>CAShapeLayer</code>来把它画出来。</p>
+<p>曲线的起始和终点始终是{0, 0}和{1, 1}，于是我们只需要检索曲线的第二个和第三个点（控制点）。具体代码见清单10.4。所有的标准缓冲函数的图像见图10.3。</p>
+<p>清单10.4 使用<code>UIBezierPath</code>绘制<code>CAMediaTimingFunction</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create timing function&#10;    CAMediaTimingFunction *function = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut];&#10;    //get control points&#10;    CGPoint controlPoint1, controlPoint2;&#10;    [function getControlPointAtIndex:1 values:(float *)&#38;controlPoint1];&#10;    [function getControlPointAtIndex:2 values:(float *)&#38;controlPoint2];&#10;    //create curve&#10;    UIBezierPath *path = [[UIBezierPath alloc] init];&#10;    [path moveToPoint:CGPointZero];&#10;    [path addCurveToPoint:CGPointMake(1, 1)&#10;            controlPoint1:controlPoint1 controlPoint2:controlPoint2];&#10;    //scale the path up to a reasonable size for display&#10;    [path applyTransform:CGAffineTransformMakeScale(200, 200)];&#10;    //create shape layer&#10;    CAShapeLayer *shapeLayer = [CAShapeLayer layer];&#10;    shapeLayer.strokeColor = [UIColor redColor].CGColor;&#10;    shapeLayer.fillColor = [UIColor clearColor].CGColor;&#10;    shapeLayer.lineWidth = 4.0f;&#10;    shapeLayer.path = path.CGPath;&#10;    [self.layerView.layer addSublayer:shapeLayer];&#10;    //flip geometry so that 0,0 is in the bottom-left&#10;    self.layerView.layer.geometryFlipped = YES;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p><img src="http://i1.tietuku.com/36a1595533faa918.jpg" alt="图10.3" title="图10.3" width="700"></p>
+<p>图10.3 标准<code>CAMediaTimingFunction</code>缓冲曲线</p>
+<p>那么对于我们自定义时钟指针的缓冲函数来说，我们需要初始微弱，然后迅速上升，最后缓冲到终点的曲线，通过一些实验之后，最终结果如下：</p>
+<pre><code><span class="title">[CAMediaTimingFunction functionWithControlPoints:1 :0 :0.75 :1]</span><span class="comment">;</span>
+</code></pre><p>如果把它转换成缓冲函数的图像，最后如图10.4所示，如果把它添加到时钟的程序，就形成了之前一直期待的非常赞的效果（见代清单10.5）。</p>
+<p><img src="http://i1.tietuku.com/d7c51f50e07bd65d.jpg" alt="图10.4" title="图10.4" width="700"></p>
+<p>图10.4 自定义适合时钟的缓冲函数</p>
+<p>清单10.5 添加了自定义缓冲函数的时钟程序</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)setAngle:(CGFloat)angle forHand:(UIView *)handView &#65532;animated:(BOOL)animated&#10;&#123;&#10;    //generate transform&#10;    CATransform3D transform = CATransform3DMakeRotation(angle, 0, 0, 1);&#10;    if (animated) &#123;&#10;        //create transform animation&#10;        CABasicAnimation *animation = [CABasicAnimation animation];&#10;        animation.keyPath = @&#34;transform&#34;;&#10;        animation.fromValue = [handView.layer.presentationLayer valueForKey:@&#34;transform&#34;];&#10;        animation.toValue = [NSValue valueWithCATransform3D:transform];&#10;        animation.duration = 0.5;&#10;        animation.delegate = self;&#10;        animation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:1 :0 :0.75 :1];&#10;        //apply animation&#10;        handView.layer.transform = transform;&#10;        [handView.layer addAnimation:animation forKey:nil];&#10;    &#125; else &#123;&#10;        //set transform directly&#10;        handView.layer.transform = transform;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="更加复杂的动画曲线">更加复杂的动画曲线</h3><p>考虑一个橡胶球掉落到坚硬的地面的场景，当开始下落的时候，它会持续加速知道落到地面，然后经过几次反弹，最后停下来。如果用一张图来说明，它会如图10.5所示。</p>
+<p><img src="http://i1.tietuku.com/c25b0fe1ffab4f70.jpg" alt="图10.5" title="图10.5" width="700"></p>
+<p>图10.5 一个没法用三次贝塞尔曲线描述的反弹的动画</p>
+<p>这种效果没法用一个简单的三次贝塞尔曲线表示，于是不能用<code>CAMediaTimingFunction</code>来完成。但如果想要实现这样的效果，可以用如下几种方法：</p>
+<ul>
+<li>用<code>CAKeyframeAnimation</code>创建一个动画，然后分割成几个步骤，每个小步骤使用自己的计时函数（具体下节介绍）。</li>
+<li>使用定时器逐帧更新实现动画（见第11章，“基于定时器的动画”）。</li>
+</ul>
+<h3 id="基于关键帧的缓冲">基于关键帧的缓冲</h3><p>为了使用关键帧实现反弹动画，我们需要在缓冲曲线中对每一个显著的点创建一个关键帧（在这个情况下，关键点也就是每次反弹的峰值），然后应用缓冲函数把每段曲线连接起来。同时，我们也需要通过<code>keyTimes</code>来指定每个关键帧的时间偏移，由于每次反弹的时间都会减少，于是关键帧并不会均匀分布。</p>
+<p>清单10.6展示了实现反弹球动画的代码（见图10.6）</p>
+<p>清单10.6 使用关键帧实现反弹球的动画</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *containerView;&#10;@property (nonatomic, strong) UIImageView *ballView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //add ball image view&#10;    UIImage *ballImage = [UIImage imageNamed:@&#34;Ball.png&#34;];&#10;    self.ballView = [[UIImageView alloc] initWithImage:ballImage];&#10;    [self.containerView addSubview:self.ballView];&#10;    //animate&#10;    [self animate];&#10;&#125;&#10;&#10;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#10;    //replay animation on tap&#10;    [self animate];&#10;&#125;&#10;&#10;- (void)animate&#10;&#123;&#10;    //reset ball to top of screen&#10;    self.ballView.center = CGPointMake(150, 32);&#10;    //create keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;position&#34;;&#10;    animation.duration = 1.0;&#10;    animation.delegate = self;&#10;    animation.values = @[&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 32)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 140)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 220)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 250)],&#10;                         [NSValue valueWithCGPoint:CGPointMake(150, 268)]&#10;                         ];&#10;    &#10;    animation.timingFunctions = @[&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseOut],&#10;                                  [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseIn]&#10;                                  ];&#10;    &#10;    animation.keyTimes = @[@0.0, @0.3, @0.5, @0.7, @0.8, @0.9, @0.95, @1.0];&#10;    //apply animation&#10;    self.ballView.layer.position = CGPointMake(150, 268);&#10;    [self.ballView.layer addAnimation:animation forKey:nil];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p><img src="http://i1.tietuku.com/c5ecf790479e24ed.jpg" alt="图10.6" title="图10.6" width="700"></p>
+<p>图10.6 使用关键帧实现的反弹球动画</p>
+<p>这种方式还算不错，但是实现起来略显笨重（因为要不停地尝试计算各种关键帧和时间偏移）并且和动画强绑定了（因为如果要改变动画的一个属性，那就意味着要重新计算所有的关键帧）。那该如何写一个方法，用缓冲函数来把任何简单的属性动画转换成关键帧动画呢，下面我们来实现它。</p>
+<h3 id="流程自动化">流程自动化</h3><p>在清单10.6中，我们把动画分割成相当大的几块，然后用Core Animation的缓冲进入和缓冲退出函数来大约形成我们想要的曲线。但如果我们把动画分割成更小的几部分，那么我们就可以用直线来拼接这些曲线（也就是线性缓冲）。为了实现自动化，我们需要知道如何做如下两件事情：</p>
+<ul>
+<li>自动把任意属性动画分割成多个关键帧</li>
+<li>用一个数学函数表示弹性动画，使得可以对帧做便宜</li>
+</ul>
+<p>为了解决第一个问题，我们需要复制Core Animation的插值机制。这是一个传入起点和终点，然后在这两个点之间指定时间点产出一个新点的机制。对于简单的浮点起始值，公式如下（假设时间从0到1）：</p>
+<pre><code>value = (endValue – startValue) × <span class="property">time</span> + startValue;
+</code></pre><p>那么如果要插入一个类似于<code>CGPoint</code>，<code>CGColorRef</code>或者<code>CATransform3D</code>这种更加复杂类型的值，我们可以简单地对每个独立的元素应用这个方法（也就<code>CGPoint</code>中的x和y值，<code>CGColorRef</code>中的红，蓝，绿，透明值，或者是<code>CATransform3D</code>中独立矩阵的坐标）。我们同样需要一些逻辑在插值之前对对象拆解值，然后在插值之后在重新封装成对象，也就是说需要实时地检查类型。</p>
+<p>一旦我们可以用代码获取属性动画的起始值之间的任意插值，我们就可以把动画分割成许多独立的关键帧，然后产出一个线性的关键帧动画。清单10.7展示了相关代码。</p>
+<p>注意到我们用了60 x 动画时间（秒做单位）作为关键帧的个数，这时因为Core Animation按照每秒60帧去渲染屏幕更新，所以如果我们每秒生成60个关键帧，就可以保证动画足够的平滑（尽管实际上很可能用更少的帧率就可以达到很好的效果）。</p>
+<p>我们在示例中仅仅引入了对<code>CGPoint</code>类型的插值代码。但是，从代码中很清楚能看出如何扩展成支持别的类型。作为不能识别类型的备选方案，我们仅仅在前一半返回了<code>fromValue</code>，在后一半返回了<code>toValue</code>。</p>
+<p>清单10.7 使用插入的值创建一个关键帧动画</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float interpolate(float from, float to, float time)&#10;&#123;&#10;    return (to - from) * time + from;&#10;&#125;&#10;&#10;- (id)interpolateFromValue:(id)fromValue toValue:(id)toValue time:(float)time&#10;&#123;&#10;    if ([fromValue isKindOfClass:[NSValue class]]) &#123;&#10;        //get type&#10;        const char *type = [fromValue objCType];&#10;        if (strcmp(type, @encode(CGPoint)) == 0) &#123;&#10;            CGPoint from = [fromValue CGPointValue];&#10;            CGPoint to = [toValue CGPointValue];&#10;            CGPoint result = CGPointMake(interpolate(from.x, to.x, time), interpolate(from.y, to.y, time));&#10;            return [NSValue valueWithCGPoint:result];&#10;        &#125;&#10;    &#125;&#10;    //provide safe default implementation&#10;    return (time &#60; 0.5)? fromValue: toValue;&#10;&#125;&#10;&#10;- (void)animate&#10;&#123;&#10;    //reset ball to top of screen&#10;    self.ballView.center = CGPointMake(150, 32);&#10;    //set up animation parameters&#10;    NSValue *fromValue = [NSValue valueWithCGPoint:CGPointMake(150, 32)];&#10;    NSValue *toValue = [NSValue valueWithCGPoint:CGPointMake(150, 268)];&#10;    CFTimeInterval duration = 1.0;&#10;    //generate keyframes&#10;    NSInteger numFrames = duration * 60;&#10;    NSMutableArray *frames = [NSMutableArray array];&#10;    for (int i = 0; i &#60; numFrames; i++) &#123;&#10;        float time = 1 / (float)numFrames * i;&#10;        [frames addObject:[self interpolateFromValue:fromValue toValue:toValue time:time]];&#10;    &#125;&#10;    //create keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;position&#34;;&#10;    animation.duration = 1.0;&#10;    animation.delegate = self;&#10;    animation.values = frames;&#10;    //apply animation&#10;    [self.ballView.layer addAnimation:animation forKey:nil];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这可以起到作用，但效果并不是很好，到目前为止我们所完成的只是一个非常复杂的方式来使用线性缓冲复制<code>CABasicAnimation</code>的行为。这种方式的好处在于我们可以更加精确地控制缓冲，这也意味着我们可以应用一个完全定制的缓冲函数。那么该如何做呢？</p>
+<p>缓冲背后的数学并不很简单，但是幸运的是我们不需要一一实现它。罗伯特·彭纳有一个网页关于缓冲函数（<a href="http://www.robertpenner.com/easing" target="_blank" rel="external">http://www.robertpenner.com/easing</a>），包含了大多数普遍的缓冲函数的多种编程语言的实现的链接，包括C。这里是一个缓冲进入缓冲退出函数的示例（实际上有很多不同的方式去实现它）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">quadraticEaseInOut</span><span class="params">(<span class="keyword">float</span> t)</span> </span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (t &lt; <span class="number">0.5</span>)? (<span class="number">2</span> * t * t): (-<span class="number">2</span> * t * t) + (<span class="number">4</span> * t) - <span class="number">1</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对我们的弹性球来说，我们可以使用<code>bounceEaseOut</code>函数：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">bounceEaseOut</span><span class="params">(<span class="keyword">float</span> t)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (t &lt; <span class="number">4</span>/<span class="number">11.0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="number">121</span> * t * t)/<span class="number">16.0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (t &lt; <span class="number">8</span>/<span class="number">11.0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="number">363</span>/<span class="number">40.0</span> * t * t) - (<span class="number">99</span>/<span class="number">10.0</span> * t) + <span class="number">17</span>/<span class="number">5.0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (t &lt; <span class="number">9</span>/<span class="number">10.0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="number">4356</span>/<span class="number">361.0</span> * t * t) - (<span class="number">35442</span>/<span class="number">1805.0</span> * t) + <span class="number">16061</span>/<span class="number">1805.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">54</span>/<span class="number">5.0</span> * t * t) - (<span class="number">513</span>/<span class="number">25.0</span> * t) + <span class="number">268</span>/<span class="number">25.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果修改清单10.7的代码来引入<code>bounceEaseOut</code>方法，我们的任务就是仅仅交换缓冲函数，现在就可以选择任意的缓冲类型创建动画了（见清单10.8）。</p>
+<p>清单10.8 用关键帧实现自定义的缓冲函数</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)animate&#10;&#123;&#10;    //reset ball to top of screen&#10;    self.ballView.center = CGPointMake(150, 32);&#10;    //set up animation parameters&#10;    NSValue *fromValue = [NSValue valueWithCGPoint:CGPointMake(150, 32)];&#10;    NSValue *toValue = [NSValue valueWithCGPoint:CGPointMake(150, 268)];&#10;    CFTimeInterval duration = 1.0;&#10;    //generate keyframes&#10;    NSInteger numFrames = duration * 60;&#10;    NSMutableArray *frames = [NSMutableArray array];&#10;    for (int i = 0; i &#60; numFrames; i++) &#123;&#10;        float time = 1/(float)numFrames * i;&#10;        //apply easing&#10;        time = bounceEaseOut(time);&#10;        //add keyframe&#10;        [frames addObject:[self interpolateFromValue:fromValue toValue:toValue time:time]];&#10;    &#125;&#10;    //create keyframe animation&#10;    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];&#10;    animation.keyPath = @&#34;position&#34;;&#10;    animation.duration = 1.0;&#10;    animation.delegate = self;&#10;    animation.values = frames;&#10;    //apply animation&#10;    [self.ballView.layer addAnimation:animation forKey:nil];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2><p>在这一章中，我们了解了有关缓冲和<code>CAMediaTimingFunction</code>类，它可以允许我们创建自定义的缓冲函数来完善我们的动画，同样了解了如何用<code>CAKeyframeAnimation</code>来避开<code>CAMediaTimingFunction</code>的限制，创建完全自定义的缓冲函数。</p>
+<p>在下一章中，我们将要研究基于定时器的动画—另一个给我们对动画更多控制的选择，并且实现对动画的实时操纵。</p>
+<p><strong>来源网址:[<a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques](" target="_blank" rel="external">https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques](</a></strong>来源网址:<a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques__)__" target="_blank" rel="external">https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques__)__</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-04-29T01:32:52.000Z"><a href="/2015/04/29/Core Aniamtion深入探讨/9-图层时间/图层时间/">2015-04-29</a></time>
       
       
@@ -1416,189 +1717,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-04-15T04:47:38.000Z"><a href="/2015/04/15/iOS&OC/在类的头文件中尽量少引入其他头文件/">2015-04-15</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/04/15/iOS&OC/在类的头文件中尽量少引入其他头文件/">高效OC编程-在类的头文件中尽量少引入其他头文件</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>与C 和C++ 一样，Objective-C 也使用“头文件”（header file） 与“实现文件”（implementation file）来区隔代码。用Objective-C 语言编写“类”（class）的标准方式为：以类名做文件名，分别创建两个文件，头文件后缀用.h，实现文件后缀用.m。创建好一个类之后，其代码看上去如下所示:   </p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EOCPerson.h</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">EOCPerson</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *firstName;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *lastName;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EOCPerson.m</span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"EOCPerson.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">EOCPerson</span></span></span><br><span class="line"><span class="comment">// Implementation of methods</span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/04/15/iOS&OC/在类的头文件中尽量少引入其他头文件/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-04-15T01:32:52.000Z"><a href="/2015/04/15/Core Aniamtion深入探讨/3-图层几何学/图层几何学/">2015-04-15</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/04/15/Core Aniamtion深入探讨/3-图层几何学/图层几何学/">3-图层几何学</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="图层几何学">图层几何学</h1><blockquote>
-<p><em>不熟悉几何学的人就不要来这里了</em> —柏拉图学院入口的签名</p>
-</blockquote>
-<p>在第二章里面，我们介绍了图层背后的图片，和一些控制图层坐标和旋转的属性。在这一章中，我们将要看一看图层内部是如何根据父图层和兄弟图层来控制位置和尺寸的。另外我们也会涉及如何管理图层的几何结构，以及它是如何被自动调整和自动布局影响的。</p>
-<h2 id="布局">布局</h2><p><code>UIView</code>有三个比较重要的布局属性：<code>frame</code>，<code>bounds</code>和<code>center</code>，<code>CALayer</code>对应地叫做<code>frame</code>，<code>bounds</code>和<code>position</code>。为了能清楚区分，图层用了“position”，视图用了“center”，但是他们都代表同样的值。</p>
-<p><code>frame</code>代表了图层的外部坐标（也就是在父图层上占据的空间），<code>bounds</code>是内部坐标（{0, 0}通常是图层的左上角），<code>center</code>和<code>position</code>都代表了相对于父图层<code>anchorPoint</code>所在的位置。<code>anchorPoint</code>的属性将会在后续介绍到，现在把它想成图层的中心点就好了。图3.1显示了这些属性是如何相互依赖的。</p>
-<p><img src="http://i1.tietuku.com/71af11930be4457f.jpg" alt="图3.1" title="图3.1" width="700"></p>
-<p>图3.1 <code>UIView</code>和<code>CALayer</code>的坐标系</p>
-<p>视图的<code>frame</code>，<code>bounds</code>和<code>center</code>属性仅仅是<em>存取方法</em>，当操纵视图的<code>frame</code>，实际上是在改变位于视图下方<code>CALayer</code>的<code>frame</code>，不能够独立于图层之外改变视图的<code>frame</code>。</p>
-<p>对于视图或者图层来说，<code>frame</code>并不是一个非常清晰的属性，它其实是一个虚拟属性，是根据<code>bounds</code>，<code>position</code>和<code>transform</code>计算而来，所以当其中任何一个值发生改变，frame都会变化。相反，改变frame的值同样会影响到他们当中的值</p>
-<p>记住当对图层做变换的时候，比如旋转或者缩放，<code>frame</code>实际上代表了覆盖在图层旋转之后的整个轴对齐的矩形区域，也就是说<code>frame</code>的宽高可能和<code>bounds</code>的宽高不再一致了（图3.2）</p>
-<p><img src="http://i1.tietuku.com/b3cc087d8701c6c4.jpg"></p>
-<p>图3.2 旋转一个视图或者图层之后的<code>frame</code>属性</p>
-<h2 id="锚点">锚点</h2><p>之前提到过，视图的<code>center</code>属性和图层的<code>position</code>属性都指定了<code>anchorPoint</code>相对于父图层的位置。图层的<code>anchorPoint</code>通过<code>position</code>来控制它的<code>frame</code>的位置，你可以认为<code>anchorPoint</code>是用来移动图层的<em>把柄</em>。</p>
-<p>默认来说，<code>anchorPoint</code>位于图层的中点，所以图层的将会以这个点为中心放置。<code>anchorPoint</code>属性并没有被<code>UIView</code>接口暴露出来，这也是视图的position属性被叫做“center”的原因。但是图层的<code>anchorPoint</code>可以被移动，比如你可以把它置于图层<code>frame</code>的左上角，于是图层的内容将会向右下角的<code>position</code>方向移动（图3.3），而不是居中了。</p>
-<p><img src="http://i1.tietuku.com/cd0b18512266f4e8.jpg"></p>
-<p>图3.3 改变<code>anchorPoint</code>的效果</p>
-<p>和第二章提到的<code>contentsRect</code>和<code>contentsCenter</code>属性类似，<code>anchorPoint</code>用<em>单位坐标</em>来描述，也就是图层的相对坐标，图层左上角是{0, 0}，右下角是{1, 1}，因此默认坐标是{0.5, 0.5}。<code>anchorPoint</code>可以通过指定x和y值小于0或者大于1，使它放置在图层范围之外。</p>
-<p>注意在图3.3中，当改变了<code>anchorPoint</code>，<code>position</code>属性保持固定的值并没有发生改变，但是<code>frame</code>却移动了。</p>
-<p>那在什么场合需要改变<code>anchorPoint</code>呢？既然我们可以随意改变图层位置，那改变<code>anchorPoint</code>不会造成困惑么？为了举例说明，我们来举一个实用的例子，创建一个模拟闹钟的项目。</p>
-<p>钟面和钟表由四张图片组成（图3.4），为了简单说明，我们还是用传统的方式来装载和加载图片，使用四个<code>UIImageView</code>实例（当然你也可以用正常的视图，设置他们图层的<code>contents</code>图片）。</p>
-<p><img src="http://i1.tietuku.com/4cf92548d6313258.jpg"></p>
-<p>图3.4 组成钟面和钟表的四张图片</p>
-<p>闹钟的组件通过IB来排列（图3.5），这些图片视图嵌套在一个容器视图之内，并且自动调整和自动布局都被禁用了。这是因为自动调整会影响到视图的<code>frame</code>，而根据图3.2的演示，当视图旋转的时候，<code>frame</code>是会发生改变的，这将会导致一些布局上的失灵。</p>
-<p>我们用<code>NSTimer</code>来更新闹钟，使用视图的<code>transform</code>属性来旋转钟表（如果你对这个属性不太熟悉，不要着急，我们将会在第5章“变换”当中详细说明），具体代码见清单3.1</p>
-<p><img src="http://i1.tietuku.com/2eb6826a87ecce6b.jpg"></p>
-<p>图3.5 在Interface Builder中布局闹钟视图</p>
-<p>清单3.1 <strong>Clock</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIImageView *hourHand;&#10;@property (nonatomic, weak) IBOutlet UIImageView *minuteHand;&#10;@property (nonatomic, weak) IBOutlet UIImageView *secondHand;&#10;@property (nonatomic, weak) NSTimer *timer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //start timer&#10;    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(tick) userInfo:nil repeats:YES];&#10;                  &#65532;&#10;    //set initial hand positions&#10;    [self tick];&#10;&#125;&#10;&#10;- (void)tick&#10;&#123;&#10;    //convert time to hours, minutes and seconds&#10;    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];&#10;    NSUInteger units = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;&#10;    NSDateComponents *components = [calendar components:units fromDate:[NSDate date]];&#10;    CGFloat hoursAngle = (components.hour / 12.0) * M_PI * 2.0;&#10;    //calculate hour hand angle //calculate minute hand angle&#10;    CGFloat minsAngle = (components.minute / 60.0) * M_PI * 2.0;&#10;    //calculate second hand angle&#10;    CGFloat secsAngle = (components.second / 60.0) * M_PI * 2.0;&#10;    //rotate hands&#10;    self.hourHand.transform = CGAffineTransformMakeRotation(hoursAngle);&#10;    self.minuteHand.transform = CGAffineTransformMakeRotation(minsAngle);&#10;    self.secondHand.transform = CGAffineTransformMakeRotation(secsAngle);&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure></p>
-<p>运行项目，看起来有点奇怪（图3.6），因为钟表的图片在围绕着中心旋转，这并不是我们期待的一个支点。</p>
-<p><img src="http://i1.tietuku.com/8718ca04ee738767.jpg"></p>
-<p>图3.6 钟面，和不对齐的钟指针</p>
-<p>你也许会认为可以在Interface Builder当中调整指针图片的位置来解决，但其实并不能达到目的，因为如果不放在钟面中间的话，同样不能正确的旋转。</p>
-<p>也许在图片末尾添加一个透明空间也是个解决方案，但这样会让图片变大，也会消耗更多的内存，这样并不优雅。</p>
-<p>更好的方案是使用<code>anchorPoint</code>属性，我们来在<code>-viewDidLoad</code>方法中添加几行代码来给每个钟指针的<code>anchorPoint</code>做一些平移（清单3.2），图3.7显示了正确的结果。</p>
-<p>清单3.2<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#10;&#123;&#10;    [super viewDidLoad];&#10;    // adjust anchor points&#10;&#10;    self.secondHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f); &#10;    self.minuteHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f); &#10;    self.hourHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f);&#10;&#10;&#10;    // start timer&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://i1.tietuku.com/e93155e73f1094dd.jpg"></p>
-<p>图3.7 钟面，和正确对齐的钟指针</p>
-<h2 id="坐标系">坐标系</h2><p>和视图一样，图层在图层树当中也是相对于父图层按层级关系放置，一个图层的<code>position</code>依赖于它父图层的<code>bounds</code>，如果父图层发生了移动，它的所有子图层也会跟着移动。</p>
-<p>这样对于放置图层会更加方便，因为你可以通过移动根图层来将它的子图层作为一个整体来移动，但是有时候你需要知道一个图层的<em>绝对</em>位置，或者是相对于另一个图层的位置，而不是它当前父图层的位置。</p>
-<p><code>CALayer</code>给不同坐标系之间的图层转换提供了一些工具类方法：</p>
-<pre><code><span class="tag">-</span> (<span class="tag">CGPoint</span>)<span class="rule"><span class="attribute">convertPoint</span>:<span class="value">(CGPoint)point fromLayer:(CALayer *)layer</span></span>; 
-<span class="tag">-</span> (<span class="tag">CGPoint</span>)<span class="rule"><span class="attribute">convertPoint</span>:<span class="value">(CGPoint)point toLayer:(CALayer *)layer</span></span>; 
-<span class="tag">-</span> (<span class="tag">CGRect</span>)<span class="rule"><span class="attribute">convertRect</span>:<span class="value">(CGRect)rect fromLayer:(CALayer *)layer</span></span>;
-<span class="tag">-</span> (<span class="tag">CGRect</span>)<span class="rule"><span class="attribute">convertRect</span>:<span class="value">(CGRect)rect toLayer:(CALayer *)layer</span></span>;
-</code></pre><p>这些方法可以把定义在一个图层坐标系下的点或者矩形转换成另一个图层坐标系下的点或者矩形</p>
-<h3 id="翻转的几何结构">翻转的几何结构</h3><p>常规说来，在iOS上，一个图层的<code>position</code>位于父图层的左上角，但是在Mac OS上，通常是位于左下角。Core Animation可以通过<code>geometryFlipped</code>属性来适配这两种情况，它决定了一个图层的坐标是否相对于父图层垂直翻转，是一个<code>BOOL</code>类型。在iOS上通过设置它为<code>YES</code>意味着它的子图层将会被垂直翻转，也就是将会沿着底部排版而不是通常的顶部（它的所有子图层也同理，除非把它们的<code>geometryFlipped</code>属性也设为<code>YES</code>）。</p>
-<h3 id="Z坐标轴">Z坐标轴</h3><p>和<code>UIView</code>严格的二维坐标系不同，<code>CALayer</code>存在于一个三维空间当中。除了我们已经讨论过的<code>position</code>和<code>anchorPoint</code>属性之外，<code>CALayer</code>还有另外两个属性，<code>zPosition</code>和<code>anchorPointZ</code>，二者都是在Z轴上描述图层位置的浮点类型。</p>
-<p>注意这里并没有更<em>深</em>的属性来描述由宽和高做成的<code>bounds</code>了，图层是一个完全扁平的对象，你可以把它们想象成类似于一页二维的坚硬的纸片，用胶水粘成一个空洞，就像三维结构的折纸一样。</p>
-<p><code>zPosition</code>属性在大多数情况下其实并不常用。在第五章，我们将会涉及<code>CATransform3D</code>，你会知道如何在三维空间移动和旋转图层，除了做变换之外，<code>zPosition</code>最实用的功能就是改变图层的<em>显示顺序</em>了。</p>
-<p>通常，图层是根据它们子图层的<code>sublayers</code>出现的顺序来类绘制的，这就是所谓的<em>画家的算法</em>—就像一个画家在墙上作画—后被绘制上的图层将会遮盖住之前的图层，但是通过增加图层的<code>zPosition</code>，就可以把图层向相机方向<em>前置</em>，于是它就在所有其他图层的<em>前面</em>了（或者至少是小于它的<code>zPosition</code>值的图层的前面）。</p>
-<p>这里所谓的“相机”实际上是相对于用户是视角，这里和iPhone背后的内置相机没任何关系。</p>
-<p>图3.8显示了在Interface Builder内的一对视图，正如你所见，首先出现在视图层级绿色的视图被绘制在红色视图的后面。</p>
-<p><img src="http://i1.tietuku.com/f648365a2b676b41.jpg"></p>
-<p>图3.8 在视图层级中绿色视图被绘制在红色视图的后面</p>
-<p>我们希望在真实的应用中也能显示出绘图的顺序，同样地，如果我们提高绿色视图的<code>zPosition</code>（清单3.3），我们会发现顺序就反了（图3.9）。其实并不需要增加太多，视图都非常地薄，所以给<code>zPosition</code>提高一个像素就可以让绿色视图前置，当然0.1或者0.0001也能够做到，但是最好不要这样，因为浮点类型四舍五入的计算可能会造成一些不便的麻烦。</p>
-<p>清单3.3</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *greenView;&#10;@property (nonatomic, weak) IBOutlet UIView *redView;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    &#65532;&#10;    //move the green view zPosition nearer to the camera&#10;    self.greenView.layer.zPosition = 1.0f;&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="http://i1.tietuku.com/5bc7eba82db3b159.jpg"></p>
-<p>图3.9 绿色视图被绘制在红色视图的前面</p>
-<h2 id="Hit_Testing">Hit Testing</h2><p>第一章“图层树”证实了最好使用图层相关视图，而不是创建独立的图层关系。其中一个原因就是要处理额外复杂的触摸事件。</p>
-<p><code>CALayer</code>并不关心任何响应链事件，所以不能直接处理触摸事件或者手势。但是它有一系列的方法帮你处理事件：<code>-containsPoint:</code>和<code>-hitTest:</code>。</p>
-<p><code>-containsPoint:</code>接受一个在本图层坐标系下的<code>CGPoint</code>，如果这个点在图层<code>frame</code>范围内就返回<code>YES</code>。如清单3.4所示第一章的项目的另一个合适的版本，也就是使用<code>-containsPoint:</code>方法来判断到底是白色还是蓝色的图层被触摸了<br>（图3.10）。这需要把触摸坐标转换成每个图层坐标系下的坐标，结果很不方便。</p>
-<p>清单3.4 使用containsPoint判断被点击的图层</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController ()&#10;&#10;@property (nonatomic, weak) IBOutlet UIView *layerView;&#10;@property (nonatomic, weak) CALayer *blueLayer;&#10;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    //create sublayer&#10;    self.blueLayer = [CALayer layer];&#10;    self.blueLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);&#10;    self.blueLayer.backgroundColor = [UIColor blueColor].CGColor;&#10;    //add it to our view&#10;    [self.layerView.layer addSublayer:self.blueLayer];&#10;&#125;&#10;&#10;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#10;    //get touch position relative to main view&#10;    CGPoint point = [[touches anyObject] locationInView:self.view];&#10;    //convert point to the white layer&#39;s coordinates&#10;    point = [self.layerView.layer convertPoint:point fromLayer:self.view.layer];&#10;    //get layer using containsPoint:&#10;    if ([self.layerView.layer containsPoint:point]) &#123;&#10;        //convert point to blueLayer&#8217;s coordinates&#10;        point = [self.blueLayer convertPoint:point fromLayer:self.layerView.layer];&#10;        if ([self.blueLayer containsPoint:point]) &#123;&#10;            [[[UIAlertView alloc] initWithTitle:@&#34;Inside Blue Layer&#34; &#10;                                        message:nil&#10;                                       delegate:nil &#10;                              cancelButtonTitle:@&#34;OK&#34;&#10;                              otherButtonTitles:nil] show];&#10;        &#125; else &#123;&#10;            [[[UIAlertView alloc] initWithTitle:@&#34;Inside White Layer&#34;&#10;                                        message:nil &#10;                                       delegate:nil&#10;                              cancelButtonTitle:@&#34;OK&#34;&#10;                              otherButtonTitles:nil] show];&#10;        &#125;&#10;    &#125;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p><img src="http://i1.tietuku.com/163d32eb250cae4f.jpg"></p>
-<p>图3.10 点击图层被正确标识</p>
-<p><code>-hitTest:</code>方法同样接受一个<code>CGPoint</code>类型参数，而不是<code>BOOL</code>类型，它返回图层本身，或者包含这个坐标点的叶子节点图层。这意味着不再需要像使用<code>-containsPoint:</code>那样，人工地在每个子图层变换或者测试点击的坐标。如果这个点在最外面图层的范围之外，则返回nil。具体使用<code>-hitTest:</code>方法被点击图层的代码如清单3.5所示。</p>
-<p>清单3.5 使用hitTest判断被点击的图层</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#10;&#123;&#10;    //get touch position&#10;    CGPoint point = [[touches anyObject] locationInView:self.view];&#10;    //get touched layer&#10;    CALayer *layer = [self.layerView.layer hitTest:point];&#10;    //get layer using hitTest&#10;    if (layer == self.blueLayer) &#123;&#10;        [[[UIAlertView alloc] initWithTitle:@&#34;Inside Blue Layer&#34;&#10;                                    message:nil&#10;                                   delegate:nil&#10;                          cancelButtonTitle:@&#34;OK&#34;&#10;                          otherButtonTitles:nil] show];&#10;    &#125; else if (layer == self.layerView.layer) &#123;&#10;        [[[UIAlertView alloc] initWithTitle:@&#34;Inside White Layer&#34;&#10;                                    message:nil&#10;                                   delegate:nil&#10;                          cancelButtonTitle:@&#34;OK&#34;&#10;                          otherButtonTitles:nil] show];&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>注意当调用图层的<code>-hitTest:</code>方法时，测算的顺序严格依赖于图层树当中的图层顺序（和UIView处理事件类似）。之前提到的<code>zPosition</code>属性可以明显改变屏幕上图层的顺序，但不能改变事件传递的顺序。</p>
-<p>这意味着如果改变了图层的z轴顺序，你会发现将不能够检测到最前方的视图点击事件，这是因为被另一个图层遮盖住了，虽然它的<code>zPosition</code>值较小，但是在图层树中的顺序靠前。我们将在第五章详细讨论这个问题。</p>
-<h2 id="自动布局">自动布局</h2><p>你可能用过<code>UIViewAutoresizingMask</code>类型的一些常量，应用于当父视图改变尺寸的时候，相应<code>UIView</code>的<code>frame</code>也跟着更新的场景（通常用于横竖屏切换）。</p>
-<p>在iOS6中，苹果介绍了<em>自动排版</em>机制，它和自动调整不同，并且更加复杂。</p>
-<p>在Mac OS平台，<code>CALayer</code>有一个叫做<code>layoutManager</code>的属性可以通过<code>CALayoutManager</code>协议和<code>CAConstraintLayoutManager</code>类来实现自动排版的机制。但由于某些原因，这在iOS上并不适用。</p>
-<p>当使用视图的时候，可以充分利用<code>UIView</code>类接口暴露出来的<code>UIViewAutoresizingMask</code>和<code>NSLayoutConstraint</code>API，但如果想随意控制<code>CALayer</code>的布局，就需要手工操作。最简单的方法就是使用<code>CALayerDelegate</code>如下函数：</p>
-<pre><code><span class="tag">-</span> (<span class="tag">void</span>)<span class="rule"><span class="attribute">layoutSublayersOfLayer</span>:<span class="value">(CALayer *)layer</span></span>;
-</code></pre><p>当图层的<code>bounds</code>发生改变，或者图层的<code>-setNeedsLayout</code>方法被调用的时候，这个函数将会被执行。这使得你可以手动地重新摆放或者重新调整子图层的大小，但是不能像<code>UIView</code>的<code>autoresizingMask</code>和<code>constraints</code>属性做到自适应屏幕旋转。</p>
-<p>这也是为什么最好使用视图而不是单独的图层来构建应用程序的另一个重要原因之一。</p>
-<h2 id="总结">总结</h2><p>本章涉及了<code>CALayer</code>的集合结构，包括它的<code>frame</code>，<code>position</code>和<code>bounds</code>，介绍了三维空间内图层的概念，以及如何在独立的图层内响应事件，最后简单说明了在iOS平台，Core Animation对自动调整和自动布局支持的缺乏。</p>
-<p>在第四章“视觉效果”当中，我们接着介绍一些图层外表的特性。</p>
-<p><strong>来源网址:[<a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques](" target="_blank" rel="external">https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques](</a></strong>来源网址:<a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques__)__" target="_blank" rel="external">https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques__)__</a></p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -1636,7 +1754,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
   
-    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>3</small></li>
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>4</small></li>
   
     <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
   

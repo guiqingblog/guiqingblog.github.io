@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>tags | 桂庆的个人主页</title>
+  <title>对网络服务使用外观模式 | 桂庆的个人主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="tags"/>
+  <meta property="og:title" content="对网络服务使用外观模式"/>
   <meta property="og:site_name" content="桂庆的个人主页"/>
 
   
@@ -44,20 +44,37 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="page">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
+        <div class="icon"></div>
+        <time datetime="2015-08-06T00:07:00.000Z"><a href="/2015/08/06/重构、模式、架构/对网络服务使用外观模式/">2015-08-06</a></time>
+      
       
   
-    <h1 class="title">tags</h1>
+    <h1 class="title">对网络服务使用外观模式</h1>
   
 
     </header>
     <div class="entry">
       
-        
+        <h2 id="何为外观模式">何为外观模式</h2><blockquote>
+<p>“外观模式（Facade），为子系统中的一组接口提供一个一致的界面，定义一个高层接口，这个接口使得这一子系统更加容易使用。”  </p>
+<blockquote>
+<p>— 我百度的</p>
+</blockquote>
+</blockquote>
+<h2 id="并不是新东西">并不是新东西</h2><p>任何有经验的上进开发者,都必定在自己的编码工作中大量应用了外观模式 ,只是或许自己不知道它应该这么叫.</p>
+<p>其实严格来说,任何方法都能理解为外观模式.方法的调用者只需要知道方法完成的功能和需要的参数等,就可以直接调用方法. 不用关心甚至不用了解方法的内部实现.</p>
+<h2 id="图示">图示</h2><p>简单描述外观模式 ,其实就是实现了以下图:</p>
+<p>这样的好处概括起来就是:</p>
+<ul>
+<li><strong>屏蔽了复杂的子系统</strong><br>客户端(使用者)不必要知道内部的细节,只需要通过统一的</li>
+<li><strong>解除耦合关系</strong><br>客户端(使用者)依赖的是接口,而不是子系统的实现,这样当我们更换子系统(比如三方的框架)的时候,不会对客户端造成什么影响.只需要新的子系统能满足接口中定义的方法即可.</li>
+</ul>
+
       
     </div>
     <footer>
@@ -72,7 +89,7 @@
 </article>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="tags/index.html" data-title="tags" data-url="http://yoursite.com/tags/index.html"></div>
+  <div class="ds-thread" data-thread-key="2015/08/06/重构、模式、架构/对网络服务使用外观模式/" data-title="对网络服务使用外观模式" data-url="http://yoursite.com/2015/08/06/重构、模式、架构/对网络服务使用外观模式/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
