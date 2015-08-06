@@ -51,6 +51,58 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-06T03:26:58.000Z"><a href="/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/">2015-08-06</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/">通过重构实现模板方法模式（Template Method ) 模式篇</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="书接上文">书接上文</h2><p>上次使用了一些简单地重构方法,得到的最终代码如下:<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-08-05T02:00:35.000Z"><a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/">2015-08-05</a></time>
       
       
@@ -566,70 +618,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-06-03T01:23:59.000Z"><a href="/2015/06/03/主页维护记录/新版多说的配置/">2015-06-03</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/06/03/主页维护记录/新版多说的配置/">新版多说的配置</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>最近给博客更换了一款主题,但是发现多说评论失效了,用一期的配置方法进行配置,还报错.现在重新整理</p>
-<h2 id="前提">前提</h2><p>已经注册多说开发者帐号,并且创建了应用.</p>
-<h2 id="步骤">步骤</h2><ol>
-<li><p>取消HEXO博客根目录中的 _config.yml 中 disqus_shortname: ，暂时不用这个功能，直接永久开启多说评论。(如果没有此参数,可以忽略)</p>
-</li>
-<li><p>打开 <code>themes\light\layout_partial\comment.ejs</code> (如果没有,请创建)将你的通用代码粘贴进来,并修改三处地方:</p>
-</li>
-</ol>
-<p><code>data-thread-key=&quot;&lt;%= page.path %&gt;</code><br><code>data-title=&quot;&lt;%= page.title %&gt;&quot;</code><br><code>data-url=&quot;&lt;%= page.permalink %&gt;&quot;</code></p>
-<p>最终我的完整代码:</p>
-<figure class="highlight erb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- 多说评论框 start --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ds-thread"</span> <span class="attribute">data-thread-key</span>=<span class="value">"</span></span></span>&lt;%=<span class="ruby"> page.path </span>%&gt;<span class="xml"><span class="tag"><span class="value">"</span> <span class="attribute">data-title</span>=<span class="value">"</span></span></span>&lt;%=<span class="ruby"> page.title </span>%&gt;<span class="xml"><span class="tag"><span class="value">"</span> <span class="attribute">data-url</span>=<span class="value">"</span></span></span>&lt;%=<span class="ruby"> page.permalink </span>%&gt;<span class="xml"><span class="tag"><span class="value">"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 多说评论框 end --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="keyword">var</span> duoshuoQuery = &#123;short_name:<span class="string">"guiqingblog"</span>&#125;;</span><br><span class="line">	(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> ds = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">		ds.type = <span class="string">'text/javascript'</span>;ds.async = <span class="literal">true</span>;</span><br><span class="line">		ds.src = (<span class="built_in">document</span>.location.protocol == <span class="string">'https:'</span> ? <span class="string">'https:'</span> : <span class="string">'http:'</span>) + <span class="string">'//static.duoshuo.com/embed.js'</span>;</span><br><span class="line">		ds.charset = <span class="string">'UTF-8'</span>;</span><br><span class="line">		(<span class="built_in">document</span>.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>] </span><br><span class="line">		 || <span class="built_in">document</span>.getElementsByTagName(<span class="string">'body'</span>)[<span class="number">0</span>]).appendChild(ds);</span><br><span class="line">	&#125;)();</span><br><span class="line">	</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 多说公共JS代码 end --&gt;</span></span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>打开<code>themes\light\layout_partial\article.ejs</code><br>在最后一行加上如下代码</li>
-</ol>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="preprocessor">%</span> <span class="keyword">if</span><span class="comment">(!index)</span>&#123; <span class="preprocessor">%</span>&gt;</span><br><span class="line">&lt;<span class="preprocessor">%</span>- partial<span class="comment">('comment')</span> <span class="preprocessor">%</span>&gt;</span><br><span class="line">&lt;<span class="preprocessor">%</span> &#125; <span class="preprocessor">%</span>&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="后记">后记</h2><p>在早期版本,第二步骤中的三个文章参数不是必须的,但是新版中,如果不配置,会报错.样式也不能正常显示 .</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -665,7 +653,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
   
-    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>4</small></li>
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
   
     <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
   
