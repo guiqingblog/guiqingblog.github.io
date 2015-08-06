@@ -50,7 +50,7 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-08-06T02:00:35.000Z"><a href="/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method）/">2015-08-06</a></time>
+        <time datetime="2015-08-05T02:00:35.000Z"><a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/">2015-08-05</a></time>
       
       
   
@@ -64,6 +64,7 @@
 <p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-2@2x.png" alt=""><br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-3@2x.png" alt=""></p>
 <p>但是两者的行为是部分有差别的,当时编码过程中,遵循了<code>极限编程</code>的原则,尽快的写出可以实现功能的代码. 重构和使用模式的工作放在以后进行 . 以防止<code>过度设计</code>带来的问题.<br>写好一个界面之后,直接复制代码,修改了部分.这在什么时候来看,都是编写的最快方式,但是却不是好的设计和可维护方案.</p>
 <p>所以现在要开始进行重构了.</p>
+<a id="more"></a>
 <h2 id="初始代码">初始代码</h2><p>下面是两个类之一的完整代码 .您不用完整阅读,因为在后面,我会逐一分解之:</p>
 <p><code>GUIResetPasswordController.h</code>文件</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUIResetPasswordController</span> : <span class="title">UIViewController</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
@@ -123,7 +124,7 @@
 </article>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method）/" data-title="通过重构实现模板方法模式（Template Method）: 重构篇" data-url="http://yoursite.com/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method）/"></div>
+  <div class="ds-thread" data-thread-key="2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/" data-title="通过重构实现模板方法模式（Template Method）: 重构篇" data-url="http://yoursite.com/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
