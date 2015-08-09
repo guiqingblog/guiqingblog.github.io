@@ -1,0 +1,217 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>当遇到严格要求的UI-实现 | 桂庆的个人主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="当遇到严格要求的UI-实现"/>
+  <meta property="og:site_name" content="桂庆的个人主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="桂庆的个人主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">桂庆的个人主页</a></h1>
+  <h2><a href="/">记录自己的学习 工作 感悟</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-09T04:02:36.000Z"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/">2015-08-09</a></time>
+      
+      
+  
+    <h1 class="title">当遇到严格要求的UI-实现</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="说明">说明</h2><p>因为公司项目负责,所以这个代码将用Demo的形式建立,然后引入到项目中.然后对项目的调用进行重构.</p>
+<h2 id="创建项目文件">创建项目文件</h2><p>文件清单:</p>
+<ul>
+<li>产品父类 <code>GUILayout</code> 包含各种属性</li>
+<li>iPhone4s/4 布局类 <code>GUIIP4SLayout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone5s/5 布局类 <code>GUIIP5Layout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone6 布局类  <code>GUIIP6Layout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone6 plus 布局类 <code>GUIIP6PLayout</code> 继承 <code>GUILayout</code></li>
+<li>工厂类 <code>GUILayoutFactory</code></li>
+</ul>
+<h2 id="代码详解">代码详解</h2><p>首先是     <code>GUILayout</code>,它定义了所有需要的属性.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUILayout</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="built_in">CGFloat</span> textFieldHeight;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="built_in">CGFloat</span> textFieldWidth;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="built_in">CGFloat</span> loginButtonWidth;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="built_in">CGFloat</span> loginButtonHeight;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUILayout.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUILayout</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>它的布局子类,在 <code>init</code>方法中,对布局属性进行了初始化,因为代码几乎一样,所以拿一个类说明:(为了以后区分,我给不同的布局类不同的值:<br>4/4s 值都是 4 ,5/5s 值都是5 ,6 值都是6 ,6 plus值都是 60)</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">"GUILayout.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUIIP4SLayout</span> : <span class="title">GUILayout</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIIP4SLayout.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUIIP4SLayout</span></span></span><br><span class="line"></span><br><span class="line">- (instancetype)init &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">self</span><span class="variable">.textFieldHeight</span>   = <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.textFieldWidth</span>    = <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.loginButtonHeight</span> = <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.loginButtonWidth</span>  = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>然后是工厂类:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">@class</span> <span class="title">GUILayout</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUILayoutFactory</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UILayout</span>*)createLayout;</span><br><span class="line">+(G<span class="built_in">UILayout</span>*)createLayout;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUILayoutFactory.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIIP4SLayout.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIIP6Layout.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIIP6PLayout.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIIP5Layout.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSUInteger</span>, G<span class="built_in">UIDeviceType</span>) &#123;</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UIDeviceType4S</span> = <span class="number">1</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType5</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType6</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType6P</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceTypeNotFound</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUILayoutFactory</span></span></span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UILayout</span>*)createLayout&#123;</span><br><span class="line">    </span><br><span class="line">   <span class="keyword">switch</span> ([<span class="keyword">self</span> deviceType]) &#123;</span><br><span class="line">        <span class="keyword">case</span> G<span class="built_in">UIDeviceType4S</span>:</span><br><span class="line">            <span class="keyword">return</span> [G<span class="built_in">UIIP4SLayout</span> new];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> G<span class="built_in">UIDeviceType6</span>:</span><br><span class="line">            <span class="keyword">return</span> [G<span class="built_in">UIIP6Layout</span> new];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> G<span class="built_in">UIDeviceType6P</span>:</span><br><span class="line">            <span class="keyword">return</span> [G<span class="built_in">UIIP6PLayout</span> new];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> G<span class="built_in">UIDeviceType5</span>:</span><br><span class="line">            <span class="keyword">return</span> [G<span class="built_in">UIIP5Layout</span> new];</span><br><span class="line">        <span class="keyword">case</span> G<span class="built_in">UIDeviceTypeNotFound</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+(G<span class="built_in">UILayout</span>*)createLayout&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>  [[G<span class="built_in">UILayoutFactory</span> new] createLayout];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UIDeviceType</span>)deviceType&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (kisiPhone4) &#123;</span><br><span class="line">        <span class="keyword">return</span> G<span class="built_in">UIDeviceType4S</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(kisiPhone5)&#123;</span><br><span class="line">        <span class="keyword">return</span> G<span class="built_in">UIDeviceType5</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(kisiPhone6)&#123;</span><br><span class="line">        <span class="keyword">return</span> G<span class="built_in">UIDeviceType6</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(kisiPhone6Plus)&#123;</span><br><span class="line">        <span class="keyword">return</span> G<span class="built_in">UIDeviceType6P</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> G<span class="built_in">UIDeviceTypeNotFound</span>;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>将判断逻辑下放到工厂类中,简化了控制器的调用</li>
+<li>定义根据屏幕尺寸判断设备类型的宏</li>
+<li>根据枚举类型决定返回的<code>layout</code>类型</li>
+</ul>
+<h2 id="结语">结语</h2><p>好了,这就是完整的代码了.根据自己的需求,修改参数名,可以方便的用到自己的系统中.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/重构、模式、架构/">重构、模式、架构</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/重构、模式、架构/">重构、模式、架构</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/" data-title="当遇到严格要求的UI-实现" data-url="http://yoursite.com/2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>2</small></li>
+  
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>11</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>2</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>7</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>2</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2015 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
