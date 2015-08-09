@@ -51,6 +51,75 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-09T03:16:28.000Z"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/">2015-08-09</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/">当遇到严格要求的UI-模式选择</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>公司最近的一个项目,在UI上有比较严格的要求: <strong>每种屏幕下地控件的尺寸要求绝对的精确</strong>  </p>
+<h2 id="实现方案">实现方案</h2><p>使用的纯代码 ,加上要适配 iOS 7 ,所以 <code>Size-Class</code> 就不用考虑了. </p>
+<p>分析情况,其实控件的相对位置是固定的.开始也是用了 <code>Masonry</code>,只是需要提供不同屏幕下地控件尺寸,间距等内容.</p>
+<h2 id="如何更优雅可拓展的实现">如何更优雅可拓展的实现</h2><p>当然,你可以在布局的时候,写<code>if-else</code> 和 <code>switch-case</code>来对不同屏幕的尺寸参数赋不同的值. 可是如果以后要修改呢,苹果要抽风推出了新尺寸的iPhone,而你被要求去适配呢? 你岂不是要找遍整个项目修改原来的分支判断.<br>    就是说,以上的实现方式:</p>
+<ul>
+<li>维护性差 人工维护成本高,也破坏了<code>开闭原则</code></li>
+<li>扩展性差 如果有新的要求,需要逐个重写.</li>
+</ul>
+<h2 id="设计模式">设计模式</h2><p>对于这种情况,一开始首先是想到了<code>策略模式</code>,因为我考虑每种屏幕都可以算作是一种方案.而至于<code>策略模式</code>是行为模式,也当然可以通过重构技巧把属性替换为方法,完成策略的行为需求.我兴冲冲的绘制了草稿(OC没有合适的UML类图工具,所以用了普通的绘图工具,线条种类不足以完全表示UML类图中得关系)</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/当遇到严格要求的UIQQ20150809-5@2x.png" alt="策略模式"></p>
+<p>为了规避策略模式需要让客户端(调用者)知道具体策略的缺点(我认为是缺点),我采用重构手法将逻辑下放到<code>context</code>,<code>DeviceType</code>能决定具体的策略,算是<code>简单工厂</code>和<code>策略模式</code>的结合.</p>
+<p>但是在绘图的过程中,想到,这有点算过度设计了, <strong>其实我只是需要一个能够保持属性的对象,然后在布局的时候,使用它</strong> ,使用策略模式,意味着我需要把所有的属性的 <code>getter</code>实现,才算符合<code>策略</code>的本意.<br>这次是一次失败的案例:</p>
+<ul>
+<li>对这种级别的方法使用策略,大材小用,无缘故的增加复杂度而已</li>
+<li>一开始就不应该偏执的考虑将属性重构为方法,这里只是简单地赋值,不需要拦截其 <code>get</code> 过程</li>
+</ul>
+<p>然后想到了,建造者模式: 创建型的模式,很符合我要个布局对象的需求,也给他弄上了个简单工厂:</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/当遇到严格要求的UIQQ20150809-3@2x.png" alt=""></p>
+<p>没画出具体的产品(布局),请见谅.</p>
+<h2 id="总结">总结</h2><p>策略和创建者模式实在是太像了,很容易混淆. 今天就走了一个弯路,好在及时发现了.如果用策略模式是编码,将来的维护成本肯定要上升.</p>
+<p>下一篇中,将用代码实现创建者模式.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-08-06T03:26:58.000Z"><a href="/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/">2015-08-06</a></time>
       
       
@@ -545,79 +614,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-06-03T09:06:06.000Z"><a href="/2015/06/03/Swift进阶/Currying/">2015-06-03</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/06/03/Swift进阶/Currying/">Currying</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>最近开始读喵神的书,书是好书,就是非常概略,不利于 Swift 基础薄弱的童鞋,所以,借着自己阅读的理解和查阅的资料,把每个知识点扩充一下.</p>
-<h2 id="Currying">Currying</h2><p><strong>Currying就是把一个多参数的方法，拆解为只有第一个参数的方法，这个方法的返回值不是一个具体的值，而是一个新的方法，这个方法的参数是原先的方法刨去第一个参数后的“剩下的方法的片段”，可以理解为，把一个多参数方法只作为某一种模板</strong></p>
-<h2 id="基本写法">基本写法</h2><p>基本结构:</p>
-<p>func <code>function name</code> (<code>parameters</code>)(<code>parameters</code>)-&gt;<code>return type</code>{<br>    <code>statements</code><br>}</p>
-<p>一个 Currying<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func add<span class="function"><span class="params">(originValue: Int)(inputValue: Int)</span> -&gt;</span> Int &#123;</span><br><span class="line">        <span class="keyword">return</span> originValue + inputVlue</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个写法就是 <code>currying</code> 函数的基本写法,<code>originValue</code> 是他的固定的基数(或者说基础参数). <code>inputValue</code>是以后调用的不同的输入值.基础参数构建了一个类似模板的东西,而输入值构建了我们想要的最终结果.</p>
-<p>使用:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let addWith10 = <span class="function"><span class="title">add</span><span class="params">(<span class="number">10</span>)</span></span></span><br><span class="line">let addWith100 = <span class="function"><span class="title">add</span><span class="params">(<span class="number">100</span>)</span></span></span><br></pre></td></tr></table></figure>
-<p>以上,分别构建了一个以 10 和100 为基数的方法.它们都是新的方法,但是是我们最开始方法的一部分,如果要使用:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let result1 = <span class="function"><span class="title">addWith10</span><span class="params">(inputValue: <span class="number">1</span>)</span></span></span><br><span class="line">let result2 = <span class="function"><span class="title">addWith100</span><span class="params">(inputValue: <span class="number">1</span>)</span></span></span><br></pre></td></tr></table></figure>
-<p>result1的结果是  11<br>result2的结果是  101</p>
-<p>以上就是 Currying 的一个小剖析,下面我们从一般函数入手,看看Currying到底是怎么演化的.</p>
-<h2 id="从函数开始">从函数开始</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int,b: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">sum(<span class="number">1</span>, <span class="number">2</span>)   <span class="comment">//输出3</span></span><br></pre></td></tr></table></figure>
-<p>这是一个非常简单的函数,如果用 Currying 的写法,会变成:</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: <span class="typename">Int</span>)(b: <span class="typename">Int</span>) -&gt; <span class="typename">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable"><span class="keyword">var</span> sumByFirst</span> = sum(<span class="number">1</span>)</span><br><span class="line">sumByFirst(b: <span class="number">4</span>) <span class="comment">//输出5</span></span><br></pre></td></tr></table></figure>
-<p>只需要传入第一个参数，返回的sumByFirst是一个函数，它包含剩余的其他参数，以及刚刚传入进去的那个1，接着以它自己作为方法传入第二个参数b就行了。<br>如果是三个参数就像这样： </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int)</span></span>(b: <span class="type">Int</span>)(<span class="built_in">c</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + <span class="built_in">c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">var</span> sumBySecond = sumByFirst(b: <span class="number">4</span>)</span><br><span class="line">sumBySecond(<span class="built_in">c</span>: <span class="number">10</span>)  <span class="comment">//输出15</span></span><br></pre></td></tr></table></figure>
-<p>除了第一个参数以外，其他的参数都要显式地写上参数标签，并且要按参数排列的顺序调用。<br>一个括号中放两个参数也可以： </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int)</span></span>(b: <span class="type">Int</span>, <span class="built_in">c</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + <span class="built_in">c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line">sumByFirst(b: <span class="number">4</span>,<span class="built_in">c</span>: <span class="number">10</span>)  <span class="comment">//输出15</span></span><br></pre></td></tr></table></figure>
-<p>在某些情况下，你可能会用某个相同的参数重复调用某个方法，那么利用柯里化会使代码更易于维护：</p>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func <span class="built_in">sum</span>(a: <span class="built_in">Int</span>)(b: <span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">var sumWithFive = <span class="built_in">sum</span>(<span class="number">5</span>)</span><br><span class="line">sumWithFive(b: <span class="number">5</span>)</span><br><span class="line">sumWithFive(b: <span class="number">10</span>)</span><br><span class="line">sumWithFive(b: <span class="number">15</span>)</span><br></pre></td></tr></table></figure>
-<p>因为 Swift 的 Selector  只能通过字符串生成,这会面临一个很严重的问题,就是难以重构,并且无法在编译期间进行检查,这是非常危险的行为.但是利用方法的 Currying ,我们可以解决这个问题.</p>
-<p>参考网址:</p>
-<p><a href="http://blog.csdn.net/zhangao0086/article/details/38851759" target="_blank" rel="external">http://blog.csdn.net/zhangao0086/article/details/38851759</a></p>
-<p><a href="http://www.tuicool.com/articles/bMBjUfn" target="_blank" rel="external">http://www.tuicool.com/articles/bMBjUfn</a></p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -653,7 +649,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
   
-    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>6</small></li>
   
     <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
   
@@ -681,6 +677,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
   
     <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>1</small></li>
   
     <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
   

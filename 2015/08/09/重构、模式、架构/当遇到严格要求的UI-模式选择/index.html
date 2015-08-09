@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>分类 | 桂庆的个人主页</title>
+  <title>当遇到严格要求的UI-模式选择 | 桂庆的个人主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="分类"/>
+  <meta property="og:title" content="当遇到严格要求的UI-模式选择"/>
   <meta property="og:site_name" content="桂庆的个人主页"/>
 
   
@@ -44,26 +44,60 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="page">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
+        <div class="icon"></div>
+        <time datetime="2015-08-09T03:16:28.000Z"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/">2015-08-09</a></time>
+      
       
   
-    <h1 class="title">分类</h1>
+    <h1 class="title">当遇到严格要求的UI-模式选择</h1>
   
 
     </header>
     <div class="entry">
       
-        
+        <h2 id="context">context</h2><p>公司最近的一个项目,在UI上有比较严格的要求: <strong>每种屏幕下地控件的尺寸要求绝对的精确</strong>  </p>
+<h2 id="实现方案">实现方案</h2><p>使用的纯代码 ,加上要适配 iOS 7 ,所以 <code>Size-Class</code> 就不用考虑了. </p>
+<p>分析情况,其实控件的相对位置是固定的.开始也是用了 <code>Masonry</code>,只是需要提供不同屏幕下地控件尺寸,间距等内容.</p>
+<h2 id="如何更优雅可拓展的实现">如何更优雅可拓展的实现</h2><p>当然,你可以在布局的时候,写<code>if-else</code> 和 <code>switch-case</code>来对不同屏幕的尺寸参数赋不同的值. 可是如果以后要修改呢,苹果要抽风推出了新尺寸的iPhone,而你被要求去适配呢? 你岂不是要找遍整个项目修改原来的分支判断.<br>    就是说,以上的实现方式:</p>
+<ul>
+<li>维护性差 人工维护成本高,也破坏了<code>开闭原则</code></li>
+<li>扩展性差 如果有新的要求,需要逐个重写.</li>
+</ul>
+<h2 id="设计模式">设计模式</h2><p>对于这种情况,一开始首先是想到了<code>策略模式</code>,因为我考虑每种屏幕都可以算作是一种方案.而至于<code>策略模式</code>是行为模式,也当然可以通过重构技巧把属性替换为方法,完成策略的行为需求.我兴冲冲的绘制了草稿(OC没有合适的UML类图工具,所以用了普通的绘图工具,线条种类不足以完全表示UML类图中得关系)</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/当遇到严格要求的UIQQ20150809-5@2x.png" alt="策略模式"></p>
+<p>为了规避策略模式需要让客户端(调用者)知道具体策略的缺点(我认为是缺点),我采用重构手法将逻辑下放到<code>context</code>,<code>DeviceType</code>能决定具体的策略,算是<code>简单工厂</code>和<code>策略模式</code>的结合.</p>
+<p>但是在绘图的过程中,想到,这有点算过度设计了, <strong>其实我只是需要一个能够保持属性的对象,然后在布局的时候,使用它</strong> ,使用策略模式,意味着我需要把所有的属性的 <code>getter</code>实现,才算符合<code>策略</code>的本意.<br>这次是一次失败的案例:</p>
+<ul>
+<li>对这种级别的方法使用策略,大材小用,无缘故的增加复杂度而已</li>
+<li>一开始就不应该偏执的考虑将属性重构为方法,这里只是简单地赋值,不需要拦截其 <code>get</code> 过程</li>
+</ul>
+<p>然后想到了,建造者模式: 创建型的模式,很符合我要个布局对象的需求,也给他弄上了个简单工厂:</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/当遇到严格要求的UIQQ20150809-3@2x.png" alt=""></p>
+<p>没画出具体的产品(布局),请见谅.</p>
+<h2 id="总结">总结</h2><p>策略和创建者模式实在是太像了,很容易混淆. 今天就走了一个弯路,好在及时发现了.如果用策略模式是编码,将来的维护成本肯定要上升.</p>
+<p>下一篇中,将用代码实现创建者模式.</p>
+
       
     </div>
     <footer>
       
         
+  
+  <div class="categories">
+    <a href="/categories/重构、模式、架构/">重构、模式、架构</a>
+  </div>
+
         
+  
+  <div class="tags">
+    <a href="/tags/重构、模式、架构/">重构、模式、架构</a>
+  </div>
+
         
       
       <div class="clearfix"></div>
@@ -72,7 +106,7 @@
 </article>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="categories/index.html" data-title="分类" data-url="http://yoursite.com/categories/index.html"></div>
+  <div class="ds-thread" data-thread-key="2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/" data-title="当遇到严格要求的UI-模式选择" data-url="http://yoursite.com/2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
