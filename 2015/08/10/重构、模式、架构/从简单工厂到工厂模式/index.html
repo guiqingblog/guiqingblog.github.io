@@ -1,0 +1,239 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>从简单工厂到工厂模式 | 桂庆的个人主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="从简单工厂到工厂模式"/>
+  <meta property="og:site_name" content="桂庆的个人主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="桂庆的个人主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">桂庆的个人主页</a></h1>
+  <h2><a href="/">记录自己的学习 工作 感悟</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-10T00:48:58.000Z"><a href="/2015/08/10/重构、模式、架构/从简单工厂到工厂模式/">2015-08-10</a></time>
+      
+      
+  
+    <h1 class="title">从简单工厂到工厂模式</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>上次的文章,用简单工厂,解决了生产布局类的问题. 但是,上次的方式针对一个模块是可以的,当模块多了,每个类负责的属性就太多了.这是一个需要重构的点.</p>
+<h2 id="准备工作">准备工作</h2><p>首先,将类重命名, 比如 原来的: </p>
+<p>GUILayoutFactory -&gt; GUILoginLayoutFactory</p>
+<p>原来的布局产品名称也是应该修改的,但是就不贴出来了,一个原则就是:不要让类名把你自己弄迷糊了即可.</p>
+<h2 id="重构">重构</h2><p>下面是我工厂模式的结构图,目前工厂只有 Login这一个,项目中有更多,但是没必要都在此列举.</p>
+<p><img src="" alt=""></p>
+<p>文件说明图</p>
+<p><img src="" alt=""></p>
+<p>当把图画出来, 很容易看出来, 需要进行重构了. 因为在 <code>GUILoginLayoutFactory</code> 存在着逻辑判断代码,如下:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="id">#define</span> kisiPhone4 (<span class="attr_selector">[UIScreen instancesRespondToSelector:@selector(currentMode)]</span> ? <span class="function">CGSizeEqualToSize</span>(<span class="function">CGSizeMake</span>(640, 960), <span class="attr_selector">[[UIScreen mainScreen]</span> currentMode]<span class="class">.size</span>) <span class="value">: NO)</span><br><span class="line"></span><br><span class="line"><span class="hexcolor">#def</span>ine kisiPhone5 ([UIScreen instancesRespondToSelector:@<span class="function">selector</span>(currentMode)] ? <span class="function">CGSizeEqualToSize</span>(<span class="function">CGSizeMake</span>(<span class="number">640</span>, <span class="number">1136</span>), [[UIScreen mainScreen] currentMode].size) : NO)</span><br><span class="line"></span><br><span class="line"><span class="hexcolor">#def</span>ine kisiPhone6 ([UIScreen instancesRespondToSelector:@<span class="function">selector</span>(currentMode)] ? <span class="function">CGSizeEqualToSize</span>(<span class="function">CGSizeMake</span>(<span class="number">750</span>, <span class="number">1334</span>), [[UIScreen mainScreen] currentMode].size) : NO)</span><br><span class="line"></span><br><span class="line"><span class="hexcolor">#def</span>ine kisiPhone6Plus ([UIScreen instancesRespondToSelector:@<span class="function">selector</span>(currentMode)] ? <span class="function">CGSizeEqualToSize</span>(<span class="function">CGSizeMake</span>(<span class="number">1242</span>,<span class="number">2208</span>), [[UIScreen mainScreen] currentMode].size) : NO)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">typedef <span class="function">NS_ENUM</span>(NSUInteger, GUIDeviceType) &#123;</span><br><span class="line">    </span><br><span class="line">    GUIDeviceType4S = <span class="number">1</span>,</span><br><span class="line">    GUIDeviceType5,</span><br><span class="line">    GUIDeviceType6,</span><br><span class="line">    GUIDeviceType6P,</span><br><span class="line">    GUIDeviceTypeNotFound</span><br><span class="line"></span><br><span class="line">&#125;;</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码是当时在应用简单工厂的时候,将逻辑下放到工厂中得.现在它存在于我们的 <code>GUILoginLayoutFactory</code>中,这个工厂还会有同级的兄弟工厂.它们也需要这种判断来生产具体的 layou产品,比如<code>GUIDiaryLayoutFactory</code>,那么,现在应该采用将这些代码提升到父类的重构手法.  <code>GUILoginLayoutFactory</code> 的父类是我们的 “ 总工厂 “ 也就是 <code>GUILayoutFactory</code></p>
+<p>现在 <code>GUILayoutFactory</code>的头文件代码是:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">@class</span> <span class="title">GUILayout</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSUInteger</span>, G<span class="built_in">UIDeviceType</span>) &#123;</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UIDeviceType4S</span> = <span class="number">1</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType5</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType6</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType6P</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceTypeNotFound</span></span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUILayoutFactory</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UILayout</span> *)layout;</span><br><span class="line">+(G<span class="built_in">UILayout</span> *)layout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>养成好习惯,每次小重构后都进行编译.</p>
+<p>客户端调用代码:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UILayoutFactory</span> * layoutFactory = [G<span class="built_in">UILoginLayoutFactory</span> new];</span><br><span class="line">    G<span class="built_in">UILayout</span> * layout = [layoutFactory layout];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"\n %f \n %f \n %f \n %f"</span>,layout<span class="variable">.textFieldWidth</span>,layout<span class="variable">.textFieldHeight</span>,layout<span class="variable">.loginButtonWidth</span>,layout<span class="variable">.loginButtonHeight</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>是的, 调用端需要知晓具体的工厂.比如这里的 <code>GUILoginFactory</code>才能拿到具体的产品.</p>
+<h2 id="对比简单工厂">对比简单工厂</h2><p>原来使用简单工厂实现的时候,如果要增加新产品.那么需要:</p>
+<ol>
+<li>添加具体的产品(Layout类)</li>
+<li>在工厂类中增加一个分支语句</li>
+</ol>
+<p>客户端是无需修改和知道工厂内部的细节的.</p>
+<p>现在使用工厂模式,如果要增加新产品:</p>
+<ol>
+<li>添加具体的产品(Layout类)</li>
+<li>添加具体产品的工厂类(LayoutFactory类)</li>
+<li>客户端进行判断和需要知晓新的工厂类</li>
+</ol>
+<p>加重了客户端的负担.</p>
+<p>总结来说: </p>
+<ul>
+<li><p>简单工厂最大的优点在于工厂类中包含了必要的逻辑判断,根据客户端的选择(或者是其他条件)动态实例化相关的类,对于客户端来说,去除了与具体产品的依赖 .</p>
+</li>
+<li><p>但是如果添加新产品,要修改工厂类,违背了”开放-封闭原则”</p>
+</li>
+<li><p>工厂模式让子类工厂决定实例化哪个类.让产品类的实例化延迟到了子工厂.</p>
+</li>
+<li><p>新增加产品的时候, 整个工厂的体系是没有修改的,只是扩展出一个子类.</p>
+</li>
+<li><p>工厂模式,客户端需要知晓具体的工厂子类</p>
+</li>
+</ul>
+<p>两者没有好坏, 我们需要根据自己的实际情景来选择模式进行应用.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/重构、模式、架构/">重构、模式、架构</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/重构、模式、架构/">重构、模式、架构</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2015/08/10/重构、模式、架构/从简单工厂到工厂模式/" data-title="从简单工厂到工厂模式" data-url="http://yoursite.com/2015/08/10/重构、模式、架构/从简单工厂到工厂模式/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>2</small></li>
+  
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>11</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>2</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>9</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>4</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2015 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
