@@ -51,6 +51,60 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-01-15T04:21:05.000Z"><a href="/2015/01/15/iOS Tips/用枚举表示状态、选项、状态码/">2015-01-15</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/01/15/iOS Tips/用枚举表示状态、选项、状态码/">高效OC编程-用枚举表示状态、选项、状态码 </a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>由于Objective-C 基于C 语言，所以C 语言有的功能它都有。其中之一就是枚举类型：</p>
+<p>enum 系统框架中频繁用到此类型，然而开发者容易忽视它。在以一系列常量来表示错误状态码或可组合的选项时，极宜使用枚举为其命名。由于C++11 标准扩充了枚举的特性所以最新版系统框架使用了“强类型”（strong type）的枚举。没错，Objective-C 也能得益于<br>C++11 标准。<br>枚举只是一种常量命名方式。某个对象所经历的各种状态就可以定义为一个简单的枚举集（enumeration set）。比如说，可以用下列枚举表示“套接字连接”（socket connection）的状态:  </p>
+<figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EOCConnectionState</span> </span>&#123;</span><br><span class="line">EOCConnectionStateDisconnected,  </span><br><span class="line"></span><br><span class="line">EOCConnectionStateConnecting,  </span><br><span class="line"></span><br><span class="line">EOCConnectionStateConnected,  </span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/01/15/iOS Tips/用枚举表示状态、选项、状态码/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/6/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2014-11-10T09:53:41.000Z"><a href="/2014/11/10/重构、模式、架构/ iOS平台(移动平台)架构问题 /">2014-11-10</a></time>
       
       
@@ -184,11 +238,11 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-04-14T02:31:12.000Z"><a href="/2014/04/14/iOS&OC/解决TableView重用机制带来的数据混乱问题/">2014-04-14</a></time>
+        <time datetime="2014-04-14T02:31:12.000Z"><a href="/2014/04/14/iOS Tips/解决TableView重用机制带来的数据混乱问题/">2014-04-14</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/04/14/iOS&OC/解决TableView重用机制带来的数据混乱问题/">解决TableView重用机制带来的数据混乱问题</a></h1>
+    <h1 class="title"><a href="/2014/04/14/iOS Tips/解决TableView重用机制带来的数据混乱问题/">解决TableView重用机制带来的数据混乱问题</a></h1>
   
 
     </header>
@@ -202,7 +256,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
       
         
           <div class="alignleft">
-            <a href="/2014/04/14/iOS&OC/解决TableView重用机制带来的数据混乱问题/#more" class="more-link">Read More</a>
+            <a href="/2014/04/14/iOS Tips/解决TableView重用机制带来的数据混乱问题/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -256,7 +310,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>2</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+  
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
   
@@ -282,6 +338,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
     <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
   

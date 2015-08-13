@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>UIWebView执行JS的几个注意点 | 桂庆的个人主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="UIWebView执行JS的几个注意点"/>
+  <meta property="og:site_name" content="桂庆的个人主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="桂庆的个人主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">桂庆的个人主页</a></h1>
+  <h2><a href="/">记录自己的学习 工作 感悟</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-04T00:22:09.000Z"><a href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/">2015-08-04</a></time>
+      
+      
+  
+    <h1 class="title">UIWebView执行JS的几个注意点</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>这是一个给培训的同学写的Demo,概括起来的几个特点是:</p>
+<ul>
+<li>无法和服务器沟通,只能在iOS端这里更改网页</li>
+<li>需要隐藏两个html组件</li>
+</ul>
+<p>这是没有修改的网页的<a href="http://m.shijieyou.com/mdetail-3445464-0-%5BLjava.lang.String;@6625086c" target="_blank" rel="external">地址</a> ,可以看到,顶部和底部有网页原来的两个条,需要隐藏,来实现如下的效果:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/UIWebViewGVS9U@{[OH%25D9%257D$5DARPT.jpg" alt=""></p>
+<a id="more"></a>
+<h2 id="执行JS的坑">执行JS的坑</h2><p>首先, 在电脑端利用浏览器进行调试 , 得到可正确执行的 JS代码,如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getElementsClass</span><span class="params">(classnames)</span></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> classobj = <span class="keyword">new</span> <span class="built_in">Array</span>();       <span class="comment">//定义数组</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> classint = <span class="number">0</span>;      <span class="comment">//定义数组的下标</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> tags = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"*"</span>);      <span class="comment">//获取HTML的所有标签</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> tags) &#123;      <span class="comment">//对标签进行遍历</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (tags[i].nodeType == <span class="number">1</span>) &#123;<span class="comment">//判断节点类型</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (tags[i].getAttribute(<span class="string">"class"</span>) == classnames) &#123;<span class="comment">//判断和需要CLASS名字相同的，并组成一个数组</span></span><br><span class="line"></span><br><span class="line">                classobj[classint] = tags[i];</span><br><span class="line"></span><br><span class="line">                classint++;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> classobj;<span class="comment">//返回组成的数组</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> topBar = getElementsClass(<span class="string">"navbar"</span>);</span><br><span class="line">    topBar[<span class="number">0</span>].style.display = <span class="string">"none"</span>;</span><br><span class="line">    topBar[<span class="number">1</span>].style.display = <span class="string">"none"</span>;</span><br><span class="line">    <span class="keyword">var</span> bottomBar = getElementsClass(<span class="string">"toolbar"</span>);</span><br><span class="line">    bottomBar[<span class="number">0</span>].style.display = <span class="string">"none"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="执行JS">执行JS</h2><p>重点来了 ,由于在公司开发的 ,都有服务器端作为配合,所以用UIWebView执行JS来修改html代码这种需求 ,对工作中的开发者并不常见. 所以在使用的时候, 遇到了一些问题:</p>
+<p>进入头文件:</p>
+<p>找到了可以直接拼接 JS 的方法:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">-</span> (<span class="tag">nullable</span> <span class="tag">NSString</span> *)<span class="rule"><span class="attribute">stringByEvaluatingJavaScriptFromString</span>:<span class="value">(NSString *)script</span></span>;</span><br></pre></td></tr></table></figure>
+<p>然后就是拼接了,看到这么多行, 肯定不能用手写了 .于是 ,我很得意的利用正则表达式工具,给每行拼接了成了 <code>[string appendString:@&quot;blablabla...&quot;];</code> 这样的形式</p>
+<p>发现不执行,重点是修改JS代码也变得十分困难了.后来才愚蠢的想到可以将JS放到文件中… ,使用如下代码加载:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *filePath = [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@"disappear"</span> ofType:<span class="string">@"js"</span>];</span><br><span class="line">  <span class="built_in">NSString</span> *jsString = [[<span class="built_in">NSString</span> alloc] initWithContentsOfFile:filePath];</span><br></pre></td></tr></table></figure>
+<p>再一个关键的问题, 就是何时让 UIWebView执行这段代码 ,首先想到的,是代理方法 . </p>
+<p>一共有四个代理方法 ,根据名字可以非常容易知道其调用的时机 .</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> 将要开始加载请求</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line">- (BOOL)webView:(UIWebView <span class="keyword">*</span>)webView shouldStartLoadWithRequest:(NSURLRequest <span class="keyword">*</span>)request navigationType:(UIWebViewNavigationType)navigationType;</span><br><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> 已经开始加载请求</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line">- (void)webViewDidStartLoad:(UIWebView <span class="keyword">*</span>)webView;</span><br><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> 请求加载完毕</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line">- (void)webViewDidFinishLoad:(UIWebView <span class="keyword">*</span>)webView;</span><br><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> 请求加载失败</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line">- (void)webView:(UIWebView <span class="keyword">*</span>)webView didFailLoadWithError:(nullable NSError <span class="keyword">*</span>)error;</span><br></pre></td></tr></table></figure>
+<p>一开始想到的是 , 加载完毕 , 然后执行 JS .于是在加载完毕代理方法中拼接JS ,结果不执行.</p>
+<p>后来尝试了开始加载的两个方法.</p>
+<p>经过多方尝试. 写出如下代码:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.mainWebView</span><span class="variable">.delegate</span>        = <span class="keyword">self</span>;</span><br><span class="line"></span><br><span class="line">   <span class="built_in">NSString</span> *filePath = [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@"disappear"</span> ofType:<span class="string">@"js"</span>];</span><br><span class="line">   <span class="built_in">NSString</span> *jsString = [[<span class="built_in">NSString</span> alloc] initWithContentsOfFile:filePath];</span><br><span class="line">   [<span class="keyword">self</span><span class="variable">.mainWebView</span> stringByEvaluatingJavaScriptFromString:jsString];</span><br><span class="line"></span><br><span class="line">   <span class="built_in">NSURL</span>        *url     = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://m.shijieyou.com/mdetail-3445464-0-%5BLjava.lang.String;@6625086c"</span>];</span><br><span class="line">   <span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</span><br><span class="line">   [<span class="keyword">self</span><span class="variable">.mainWebView</span> loadRequest:request];</span><br></pre></td></tr></table></figure>
+<p>成功实现功能 </p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/iOS-Tips/">iOS Tips</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/问题解决和思考/">问题解决和思考</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/" data-title="UIWebView执行JS的几个注意点" data-url="http://yoursite.com/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>2</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+  
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>9</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>4</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2015 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
