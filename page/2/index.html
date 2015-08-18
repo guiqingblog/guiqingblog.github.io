@@ -51,6 +51,66 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-01T07:28:17.000Z"><a href="/2015/08/01/重构、模式、架构/常见问题之过度设计和设计不足/">2015-08-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/01/重构、模式、架构/常见问题之过度设计和设计不足/">常见问题之过度设计和设计不足</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><strong>每个从事软件开发的人 , 都会强调设计模式的重要性.</strong></p>
+<h2 id="过度设计">过度设计</h2><p>软件模式的伟大之处 ,在于它们传递了了许多有用的思想 . 那么我们在学习了大量的设计模式之后,就理当成为一个优秀的软件设计和开发者 ,对吧 ? 模式帮助我们开发灵活的框架 ,帮助我们构建健壮 , 拓展性强的软件系统 . 但是现在的现状是 ,非常熟知设计模式的开发者 ,在工作中, 经常会犯过度设计的错误 .</p>
+<p>所谓的过度设计 ,就是”杀鸡用了牛刀” .有些程序员这么做, 是因为它们认为自己正确地估计了软件系统的未来需求 . 他们急于这种未来的需求,应用各种设计模式 , 让软件系统能够更加灵活, 可拓展 . 但是能做到这种未卜先知的人又有几个呢 ? 如果估计错误 ,就要对繁冗的代码进行调整 .相应地 ,开发新功能和解决缺陷的时间就被减少了 .</p>
+<p>说到对软件设计模式的偏执 , 这个还是非常容易理解的 . 小时候 ,我们得了一件新玩具 ,总是特别希望在小伙伴面前好好显摆显摆 .</p>
+<h2 id="设计不足">设计不足</h2><p>相对于过度设计 , 设计不足要常见的多 (过度设计起码需要你掌握一些设计模式) . 设计不足是指开发的软件设计不良 . 其产生的原因有如下几个:</p>
+<ul>
+<li>程序员没有时间进行重构</li>
+<li>程序员在何为好的软件设计方面知识不足</li>
+<li>程序员呗要求在既有的系统中快速地添加功能</li>
+<li>程序员被迫同时进行太多项目.</li>
+</ul>
+<p>随着时间的推移 , 设计不足的软件将变成昂贵的,难以维护甚至无法维护的大麻烦.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-07-30T07:14:47.000Z"><a href="/2015/07/30/Swift进阶/func的参数修饰符/">2015-07-30</a></time>
       
       
@@ -597,83 +657,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-05-20T02:01:14.000Z"><a href="/2015/05/20/iOS Tips/关于-property中NSString的copy/">2015-05-20</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/05/20/iOS Tips/关于-property中NSString的copy/">关于@property中NSString的copy-深入细节</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>前几天和东盟君讨论关于在 <code>@property(nonatomic,copy)NSString * string;</code>中 <code>copy</code>的使用问题. 虽然自己很明白,见到<code>NSString</code>,果断用 <code>copy</code>,但是却说不出个道道.</p>
-<p>今天偶尔在一片国外论坛的文章上看到了关于这个的内容(因为在pad上看的,具体地址没法引用了).所以简单记录一下.</p>
-<p><strong>因为类似 NSString这样的不可变父类,它们有可变的子类(比如 NSMutableString),那么就可能造成修改指针指向的结果,而这是我们不愿意看到的</strong></p>
-<p>是比较抽象的描述,要弄明白这段话,需要明确 <code>copy</code> 做了什么 ?</p>
-<p>在官方的描述中: <code>copy</code>是复制一个对象,并强引用它.</p>
-<p>那么开始解释一开始的话:</p>
-<p>假设我有一个 <code>Person</code> 类,他有一个 <code>name</code>属性,它是<code>NSString</code>类型的.不可变对象对吧.</p>
-<p>那么问题来了,下面的语法是成立的:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">NSMutableString</span> * mutableString = [[<span class="built_in">NSMutableString</span> alloc]initWithString:<span class="string">@"gg"</span>];</span><br><span class="line"> <span class="comment">//1</span></span><br><span class="line">per<span class="variable">.name</span> = mutableString;</span><br></pre></td></tr></table></figure>
-<p>上面1处首先语法没有问题, NSString是 NSMutableString的父类.<br>然后这个时候,如果 <code>name</code>属性是 <code>@property</code> 是 <code>strong</code>的,<br>那么 <code>per.name</code> 和 <code>mutableString</code> 指向的是同一块内存区域,<br>那么,我就可以通过修改 <code>mutableString</code>来修改<code>per.name</code>了,而当初我们既然选择了 <code>NSString</code>,那么就是考虑到不会对其进行修改的.所以,这样违背了我们的初衷.</p>
-<p>如果是<code>copy</code>,<code>per.name</code>在使用前会复制一份出来,这样使用的其实是它的副本,即使修改了<code>mutableString</code>也不会对<code>per.name</code>的本尊造成影响.</p>
-<h3 id="关于_copy_和_mutableCopy">关于 copy 和 mutableCopy</h3><p>现在我说的这两者是在代码中使用的时候,就是对象创建和赋值时候的.<br>苹果的设计是:</p>
-<ul>
-<li>copy        拿到的永远是不可变对象</li>
-<li>mutableCopy 拿到的是可变对象</li>
-</ul>
-<p>为什么这样设计呢?</p>
-<p>以上两者的调用者可能是 可变的或者不可变的,那么就会有四种组合,对于开发者去记忆四种组合是比较蹩脚的.所以干脆 </p>
-<ul>
-<li>不管调用者类型是可变与否,copy到得就不可变</li>
-<li>不管调用者类型是可变与否,mutableCopy到得就是可变对象</li>
-</ul>
-<h3 id="关于创建可变类型">关于创建可变类型</h3><p>以前都是用类似 <code>NSMutableString * string = [ NSMutableString string ];</code>这样的方式创建,但是在和东盟君讨论的时候,打印了一下,发现 <code>string</code>的class是:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> * string = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"string"</span>];</span><br><span class="line"> <span class="built_in">NSLog</span>(<span class="string">@"string is %@"</span>,[string class]);</span><br><span class="line"> </span><br><span class="line"> <span class="built_in">NSMutableString</span> * mutableString = [<span class="built_in">NSMutableString</span> string];</span><br><span class="line"> <span class="built_in">NSLog</span>(<span class="string">@"mutable string is %@"</span>,[mutableString class]);</span><br></pre></td></tr></table></figure>
-<p>打印结果:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2015<span class="tag">-05-20</span> 10<span class="pseudo">:36</span><span class="pseudo">:43</span><span class="class">.549</span> <span class="tag">TestNsstring</span><span class="attr_selector">[10993:1874316]</span> <span class="tag">string</span> <span class="tag">is</span> __<span class="tag">NSCFString</span></span><br><span class="line">2015<span class="tag">-05-20</span> 10<span class="pseudo">:36</span><span class="pseudo">:43</span><span class="class">.550</span> <span class="tag">TestNsstring</span><span class="attr_selector">[10993:1874316]</span> <span class="tag">mutable</span> <span class="tag">string</span> <span class="tag">is</span> __<span class="tag">NSCFString</span></span><br></pre></td></tr></table></figure>
-<p>究其原因, NSString是一个类簇,具体的实现都会找到合适的类,这个不用纠结了.</p>
-<p>不久之后,在 <strong>iOS6 by Tutorial</strong>中一书中看到关于 <code>[@[] mutableCopy]</code> 和 <code>[@{} mutableCopy]</code> 这样的用法.</p>
-<p>也符合 copy 和 mutableCopy 的准则</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -699,7 +682,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
-    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>2</small></li>
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
     <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
   
@@ -729,6 +712,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   

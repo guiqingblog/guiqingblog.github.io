@@ -1,0 +1,221 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Swift的编译标记 | 桂庆的个人主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Swift的编译标记"/>
+  <meta property="og:site_name" content="桂庆的个人主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="桂庆的个人主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">桂庆的个人主页</a></h1>
+  <h2><a href="/">记录自己的学习 工作 感悟</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-18T09:45:17.000Z"><a href="/2015/08/18/Swift进阶/Swift的编译标记/">2015-08-18</a></time>
+      
+      
+  
+    <h1 class="title">Swift的编译标记</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Context">Context</h2><p>在OC 中, 我经常使用 <code>#Param</code>来给控制器划分代码结构 , 比如 ,一个控制器,我经常分为如下的结构:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -life cycle</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> - &lt;#name#&gt; delegate</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -event response</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -private methods</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -getters and setters</span><br></pre></td></tr></table></figure>
+<p>这样的好处是, 每个控制器的结构都是规范的. 如图, 方法都分类了(对于我这样的Vim控 ,还能实现在标签之间的跳转)<br><a id="more"></a></p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-7@2x.png" alt="代码结构"></p>
+<p>在协作开发中 , 阅读代码的成本大大降低.</p>
+<h2 id="Swift_的编译标记">Swift 的编译标记</h2><p>在Swift 中也有类似的方式, 我们可以使用 <code>// MARK:</code> 这样的标记,并且在后面写上描述, 这样Xcode 将在导航栏的中用标签的形式区分出这些标记.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line"><span class="comment">// MARK: life cycle</span></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// MARK: Warning</span></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.didReceiveMemoryWarning()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样,在Swift中得表现如图:</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-1@2x.png" alt=""></p>
+<p>我们还能在 <code>:</code>的后面加一个 ‘-‘,这样导航中会再多一条横线,隔开各个部分</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line"><span class="comment">// MARK:- life cycle</span></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// MARK:- Warning</span></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.didReceiveMemoryWarning()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果如图:</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-2@2x.png" alt=""></p>
+<p>还有 todo 和 fixme ,我们可以用来表示要坐得事情 和需要改正的地方.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TODO: this is to do</span></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">todo</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// FIXME: you need fix me</span></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">fixMe</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>效果如图:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-3@2x.png" alt=""></p>
+<p>可以看到, 与 MARK 相比 , TODO 和 FIXME 的本身也被显示出来了, 能更好地表明用意.</p>
+<h2 id="一个Warning">一个Warning</h2><p>在OC 中,我们用的更多的是 #Warning ,来提示自己这里需要更改或者有问题需要修改, 但是 Swift中暂时没有类似的关键字. 算是比较遗憾的.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/Swift进阶/">Swift进阶</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/Swift进阶/">Swift进阶</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2015/08/18/Swift进阶/Swift的编译标记/" data-title="Swift的编译标记" data-url="http://yoursite.com/2015/08/18/Swift进阶/Swift的编译标记/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+  
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>9</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>4</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2015 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

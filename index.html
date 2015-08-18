@@ -51,6 +51,60 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-18T09:45:17.000Z"><a href="/2015/08/18/Swift进阶/Swift的编译标记/">2015-08-18</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/18/Swift进阶/Swift的编译标记/">Swift的编译标记</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Context">Context</h2><p>在OC 中, 我经常使用 <code>#Param</code>来给控制器划分代码结构 , 比如 ,一个控制器,我经常分为如下的结构:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -life cycle</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> - &lt;#name#&gt; delegate</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -event response</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -private methods</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -getters and setters</span><br></pre></td></tr></table></figure>
+<p>这样的好处是, 每个控制器的结构都是规范的. 如图, 方法都分类了(对于我这样的Vim控 ,还能实现在标签之间的跳转)<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/18/Swift进阶/Swift的编译标记/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-08-13T09:58:35.000Z"><a href="/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/">2015-08-13</a></time>
       
       
@@ -623,66 +677,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-01T07:28:17.000Z"><a href="/2015/08/01/重构、模式、架构/常见问题之过度设计和设计不足/">2015-08-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/01/重构、模式、架构/常见问题之过度设计和设计不足/">常见问题之过度设计和设计不足</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p><strong>每个从事软件开发的人 , 都会强调设计模式的重要性.</strong></p>
-<h2 id="过度设计">过度设计</h2><p>软件模式的伟大之处 ,在于它们传递了了许多有用的思想 . 那么我们在学习了大量的设计模式之后,就理当成为一个优秀的软件设计和开发者 ,对吧 ? 模式帮助我们开发灵活的框架 ,帮助我们构建健壮 , 拓展性强的软件系统 . 但是现在的现状是 ,非常熟知设计模式的开发者 ,在工作中, 经常会犯过度设计的错误 .</p>
-<p>所谓的过度设计 ,就是”杀鸡用了牛刀” .有些程序员这么做, 是因为它们认为自己正确地估计了软件系统的未来需求 . 他们急于这种未来的需求,应用各种设计模式 , 让软件系统能够更加灵活, 可拓展 . 但是能做到这种未卜先知的人又有几个呢 ? 如果估计错误 ,就要对繁冗的代码进行调整 .相应地 ,开发新功能和解决缺陷的时间就被减少了 .</p>
-<p>说到对软件设计模式的偏执 , 这个还是非常容易理解的 . 小时候 ,我们得了一件新玩具 ,总是特别希望在小伙伴面前好好显摆显摆 .</p>
-<h2 id="设计不足">设计不足</h2><p>相对于过度设计 , 设计不足要常见的多 (过度设计起码需要你掌握一些设计模式) . 设计不足是指开发的软件设计不良 . 其产生的原因有如下几个:</p>
-<ul>
-<li>程序员没有时间进行重构</li>
-<li>程序员在何为好的软件设计方面知识不足</li>
-<li>程序员呗要求在既有的系统中快速地添加功能</li>
-<li>程序员被迫同时进行太多项目.</li>
-</ul>
-<p>随着时间的推移 , 设计不足的软件将变成昂贵的,难以维护甚至无法维护的大麻烦.</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -706,7 +700,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
-    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>2</small></li>
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
     <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
   
@@ -736,6 +730,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
