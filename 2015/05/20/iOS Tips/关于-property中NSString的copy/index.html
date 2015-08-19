@@ -68,7 +68,7 @@
 <p>那么开始解释一开始的话:</p>
 <p>假设我有一个 <code>Person</code> 类,他有一个 <code>name</code>属性,它是<code>NSString</code>类型的.不可变对象对吧.</p>
 <p>那么问题来了,下面的语法是成立的:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">NSMutableString</span> * mutableString = [[<span class="built_in">NSMutableString</span> alloc]initWithString:<span class="string">@"gg"</span>];</span><br><span class="line"> <span class="comment">//1</span></span><br><span class="line">per<span class="variable">.name</span> = mutableString;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> NSMutableString * mutableString = [[NSMutableString alloc]initWithString:@&#34;gg&#34;];&#10; //1&#10;per.name = mutableString;</span><br></pre></td></tr></table></figure>
 <p>上面1处首先语法没有问题, NSString是 NSMutableString的父类.<br>然后这个时候,如果 <code>name</code>属性是 <code>@property</code> 是 <code>strong</code>的,<br>那么 <code>per.name</code> 和 <code>mutableString</code> 指向的是同一块内存区域,<br>那么,我就可以通过修改 <code>mutableString</code>来修改<code>per.name</code>了,而当初我们既然选择了 <code>NSString</code>,那么就是考虑到不会对其进行修改的.所以,这样违背了我们的初衷.</p>
 <p>如果是<code>copy</code>,<code>per.name</code>在使用前会复制一份出来,这样使用的其实是它的副本,即使修改了<code>mutableString</code>也不会对<code>per.name</code>的本尊造成影响.</p>
 <h3 id="关于_copy_和_mutableCopy">关于 copy 和 mutableCopy</h3><p>现在我说的这两者是在代码中使用的时候,就是对象创建和赋值时候的.<br>苹果的设计是:</p>
@@ -83,9 +83,9 @@
 <li>不管调用者类型是可变与否,mutableCopy到得就是可变对象</li>
 </ul>
 <h3 id="关于创建可变类型">关于创建可变类型</h3><p>以前都是用类似 <code>NSMutableString * string = [ NSMutableString string ];</code>这样的方式创建,但是在和东盟君讨论的时候,打印了一下,发现 <code>string</code>的class是:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> * string = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"string"</span>];</span><br><span class="line"> <span class="built_in">NSLog</span>(<span class="string">@"string is %@"</span>,[string class]);</span><br><span class="line"> </span><br><span class="line"> <span class="built_in">NSMutableString</span> * mutableString = [<span class="built_in">NSMutableString</span> string];</span><br><span class="line"> <span class="built_in">NSLog</span>(<span class="string">@"mutable string is %@"</span>,[mutableString class]);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString * string = [NSString stringWithFormat:@&#34;string&#34;];&#10; NSLog(@&#34;string is %@&#34;,[string class]);&#10; &#10; NSMutableString * mutableString = [NSMutableString string];&#10; NSLog(@&#34;mutable string is %@&#34;,[mutableString class]);</span><br></pre></td></tr></table></figure>
 <p>打印结果:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2015<span class="tag">-05-20</span> 10<span class="pseudo">:36</span><span class="pseudo">:43</span><span class="class">.549</span> <span class="tag">TestNsstring</span><span class="attr_selector">[10993:1874316]</span> <span class="tag">string</span> <span class="tag">is</span> __<span class="tag">NSCFString</span></span><br><span class="line">2015<span class="tag">-05-20</span> 10<span class="pseudo">:36</span><span class="pseudo">:43</span><span class="class">.550</span> <span class="tag">TestNsstring</span><span class="attr_selector">[10993:1874316]</span> <span class="tag">mutable</span> <span class="tag">string</span> <span class="tag">is</span> __<span class="tag">NSCFString</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2015-05-20 10:36:43.549 TestNsstring[10993:1874316] string is __NSCFString&#10;2015-05-20 10:36:43.550 TestNsstring[10993:1874316] mutable string is __NSCFString</span><br></pre></td></tr></table></figure>
 <p>究其原因, NSString是一个类簇,具体的实现都会找到合适的类,这个不用纠结了.</p>
 <p>不久之后,在 <strong>iOS6 by Tutorial</strong>中一书中看到关于 <code>[@[] mutableCopy]</code> 和 <code>[@{} mutableCopy]</code> 这样的用法.</p>
 <p>也符合 copy 和 mutableCopy 的准则</p>
@@ -143,11 +143,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>0</small></li>
   
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
@@ -176,7 +178,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   

@@ -64,23 +64,23 @@
 <h2 id="Currying">Currying</h2><p><strong>Currying就是把一个多参数的方法，拆解为只有第一个参数的方法，这个方法的返回值不是一个具体的值，而是一个新的方法，这个方法的参数是原先的方法刨去第一个参数后的“剩下的方法的片段”，可以理解为，把一个多参数方法只作为某一种模板</strong></p>
 <h2 id="基本写法">基本写法</h2><p>基本结构:</p>
 <p>func <code>function name</code> (<code>parameters</code>)(<code>parameters</code>)-&gt;<code>return type</code>{<br>    <code>statements</code><br>}</p>
-<p>一个 Currying<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func add<span class="function"><span class="params">(originValue: Int)(inputValue: Int)</span> -&gt;</span> Int &#123;</span><br><span class="line">        <span class="keyword">return</span> originValue + inputVlue</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>一个 Currying<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func add(originValue: Int)(inputValue: Int) -&#62; Int &#123;&#10;        return originValue + inputVlue&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>这个写法就是 <code>currying</code> 函数的基本写法,<code>originValue</code> 是他的固定的基数(或者说基础参数). <code>inputValue</code>是以后调用的不同的输入值.基础参数构建了一个类似模板的东西,而输入值构建了我们想要的最终结果.</p>
 <p>使用:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let addWith10 = <span class="function"><span class="title">add</span><span class="params">(<span class="number">10</span>)</span></span></span><br><span class="line">let addWith100 = <span class="function"><span class="title">add</span><span class="params">(<span class="number">100</span>)</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let addWith10 = add(10)&#10;let addWith100 = add(100)</span><br></pre></td></tr></table></figure>
 <p>以上,分别构建了一个以 10 和100 为基数的方法.它们都是新的方法,但是是我们最开始方法的一部分,如果要使用:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let result1 = <span class="function"><span class="title">addWith10</span><span class="params">(inputValue: <span class="number">1</span>)</span></span></span><br><span class="line">let result2 = <span class="function"><span class="title">addWith100</span><span class="params">(inputValue: <span class="number">1</span>)</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let result1 = addWith10(inputValue: 1)&#10;let result2 = addWith100(inputValue: 1)</span><br></pre></td></tr></table></figure>
 <p>result1的结果是  11<br>result2的结果是  101</p>
 <p>以上就是 Currying 的一个小剖析,下面我们从一般函数入手,看看Currying到底是怎么演化的.</p>
-<h2 id="从函数开始">从函数开始</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int,b: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">sum(<span class="number">1</span>, <span class="number">2</span>)   <span class="comment">//输出3</span></span><br></pre></td></tr></table></figure>
+<h2 id="从函数开始">从函数开始</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int,b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;sum(1, 2)   //&#36755;&#20986;3</span><br></pre></td></tr></table></figure>
 <p>这是一个非常简单的函数,如果用 Currying 的写法,会变成:</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: <span class="typename">Int</span>)(b: <span class="typename">Int</span>) -&gt; <span class="typename">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable"><span class="keyword">var</span> sumByFirst</span> = sum(<span class="number">1</span>)</span><br><span class="line">sumByFirst(b: <span class="number">4</span>) <span class="comment">//输出5</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;var sumByFirst = sum(1)&#10;sumByFirst(b: 4) //&#36755;&#20986;5</span><br></pre></td></tr></table></figure>
 <p>只需要传入第一个参数，返回的sumByFirst是一个函数，它包含剩余的其他参数，以及刚刚传入进去的那个1，接着以它自己作为方法传入第二个参数b就行了。<br>如果是三个参数就像这样： </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int)</span></span>(b: <span class="type">Int</span>)(<span class="built_in">c</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + <span class="built_in">c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">var</span> sumBySecond = sumByFirst(b: <span class="number">4</span>)</span><br><span class="line">sumBySecond(<span class="built_in">c</span>: <span class="number">10</span>)  <span class="comment">//输出15</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int)(c: Int) -&#62; Int &#123;&#10;    return a + b + c&#10;&#125;&#10;var sumByFirst = sum(1)&#10;var sumBySecond = sumByFirst(b: 4)&#10;sumBySecond(c: 10)  //&#36755;&#20986;15</span><br></pre></td></tr></table></figure>
 <p>除了第一个参数以外，其他的参数都要显式地写上参数标签，并且要按参数排列的顺序调用。<br>一个括号中放两个参数也可以： </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int)</span></span>(b: <span class="type">Int</span>, <span class="built_in">c</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + <span class="built_in">c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line">sumByFirst(b: <span class="number">4</span>,<span class="built_in">c</span>: <span class="number">10</span>)  <span class="comment">//输出15</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int, c: Int) -&#62; Int &#123;&#10;    return a + b + c&#10;&#125;&#10;var sumByFirst = sum(1)&#10;sumByFirst(b: 4,c: 10)  //&#36755;&#20986;15</span><br></pre></td></tr></table></figure>
 <p>在某些情况下，你可能会用某个相同的参数重复调用某个方法，那么利用柯里化会使代码更易于维护：</p>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func <span class="built_in">sum</span>(a: <span class="built_in">Int</span>)(b: <span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">var sumWithFive = <span class="built_in">sum</span>(<span class="number">5</span>)</span><br><span class="line">sumWithFive(b: <span class="number">5</span>)</span><br><span class="line">sumWithFive(b: <span class="number">10</span>)</span><br><span class="line">sumWithFive(b: <span class="number">15</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;var sumWithFive = sum(5)&#10;sumWithFive(b: 5)&#10;sumWithFive(b: 10)&#10;sumWithFive(b: 15)</span><br></pre></td></tr></table></figure>
 <p>因为 Swift 的 Selector  只能通过字符串生成,这会面临一个很严重的问题,就是难以重构,并且无法在编译期间进行检查,这是非常危险的行为.但是利用方法的 Currying ,我们可以解决这个问题.</p>
 <p>参考网址:</p>
 <p><a href="http://blog.csdn.net/zhangao0086/article/details/38851759" target="_blank" rel="external">http://blog.csdn.net/zhangao0086/article/details/38851759</a></p>
@@ -144,11 +144,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>0</small></li>
   
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
@@ -177,7 +179,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   

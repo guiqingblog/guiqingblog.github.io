@@ -61,20 +61,20 @@
     <div class="entry">
       
         <h2 id="Context">Context</h2><p>在OC 中, 我经常使用 <code>#Param</code>来给控制器划分代码结构 , 比如 ,一个控制器,我经常分为如下的结构:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -life cycle</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> - &lt;#name#&gt; delegate</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -event response</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -private methods</span><br><span class="line"></span><br><span class="line"><span class="id">#pragma</span> <span class="tag">mark</span> -getters and setters</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark -life cycle&#10;&#10;#pragma mark - &#60;#name#&#62; delegate&#10;&#10;#pragma mark -event response&#10;&#10;#pragma mark -private methods&#10;&#10;#pragma mark -getters and setters</span><br></pre></td></tr></table></figure>
 <p>这样的好处是, 每个控制器的结构都是规范的. 如图, 方法都分类了(对于我这样的Vim控 ,还能实现在标签之间的跳转)<br><a id="more"></a></p>
 <p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-7@2x.png" alt="代码结构"></p>
 <p>在协作开发中 , 阅读代码的成本大大降低.</p>
 <h2 id="Swift_的编译标记">Swift 的编译标记</h2><p>在Swift 中也有类似的方式, 我们可以使用 <code>// MARK:</code> 这样的标记,并且在后面写上描述, 这样Xcode 将在导航栏的中用标签的形式区分出这些标记.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line"><span class="comment">// MARK: life cycle</span></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// MARK: Warning</span></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.didReceiveMemoryWarning()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class ViewController: UIViewController &#123;&#10;    &#10;// MARK: life cycle&#10;    override func viewDidLoad() &#123;&#10;        super.viewDidLoad()&#10;    &#125;&#10;// MARK: Warning&#10;    override func didReceiveMemoryWarning() &#123;&#10;        super.didReceiveMemoryWarning()&#10;    &#125;&#10;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>这样,在Swift中得表现如图:</p>
 <p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-1@2x.png" alt=""></p>
 <p>我们还能在 <code>:</code>的后面加一个 ‘-‘,这样导航中会再多一条横线,隔开各个部分</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line"><span class="comment">// MARK:- life cycle</span></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// MARK:- Warning</span></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.didReceiveMemoryWarning()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;class ViewController: UIViewController &#123;&#10;    &#10;// MARK:- life cycle&#10;    override func viewDidLoad() &#123;&#10;        super.viewDidLoad()&#10;    &#125;&#10;// MARK:- Warning&#10;    override func didReceiveMemoryWarning() &#123;&#10;        super.didReceiveMemoryWarning()&#10;    &#125;&#10;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>效果如图:</p>
 <p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-2@2x.png" alt=""></p>
 <p>还有 todo 和 fixme ,我们可以用来表示要坐得事情 和需要改正的地方.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TODO: this is to do</span></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">todo</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// FIXME: you need fix me</span></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">fixMe</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// TODO: this is to do&#10;    func todo()&#123;&#10;    &#10;    &#125;&#10;// FIXME: you need fix me&#10;    func fixMe()&#123;&#10;    &#10;    &#125;</span><br></pre></td></tr></table></figure>
 <p>效果如图:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-3@2x.png" alt=""></p>
 <p>可以看到, 与 MARK 相比 , TODO 和 FIXME 的本身也被显示出来了, 能更好地表明用意.</p>
 <h2 id="一个Warning">一个Warning</h2><p>在OC 中,我们用的更多的是 #Warning ,来提示自己这里需要更改或者有问题需要修改, 但是 Swift中暂时没有类似的关键字. 算是比较遗憾的.</p>
@@ -137,11 +137,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>0</small></li>
   
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
@@ -170,7 +172,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   

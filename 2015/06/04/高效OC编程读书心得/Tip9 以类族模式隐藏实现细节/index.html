@@ -61,15 +61,15 @@
     <div class="entry">
       
         <h2 id="context">context</h2><p>类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.</p>
-<p>一个例子: UIButton<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIButton</span> * button = [<span class="built_in">UIButton</span> buttonWithType];</span><br></pre></td></tr></table></figure></p>
+<p>一个例子: UIButton<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIButton * button = [UIButton buttonWithType];</span><br></pre></td></tr></table></figure></p>
 <p>该方法返回的对象类型取决于传入的 <code>type</code> ,不同的<code>type</code>决定了这个 button 将来的一些属性的不同(或者说可供设置的属性的不同)</p>
 <p>要实现类似的功能,如果不用类族,那么还可能是一个类中的枚举.比如:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (void) drawRect:(CGRect)rect&#123;</span><br><span class="line">	<span class="keyword">if</span>(_<span class="built_in">type</span> == <span class="built_in">type</span>A)&#123;</span><br><span class="line">		//绘制一个 <span class="built_in">type</span>A 类型的 Button</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> (_<span class="built_in">type</span> == <span class="built_in">type</span>B)&#123;</span><br><span class="line">		//绘制一个 <span class="built_in">type</span>B 类型的 Button</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void) drawRect:(CGRect)rect&#123;&#10;&#9;if(_type == typeA)&#123;&#10;&#9;&#9;//&#32472;&#21046;&#19968;&#20010; typeA &#31867;&#22411;&#30340; Button&#10;&#9;&#125;else if (_type == typeB)&#123;&#10;&#9;&#9;//&#32472;&#21046;&#19968;&#20010; typeB &#31867;&#22411;&#30340; Button&#10;&#9;&#125;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>这是一个简单的类型,这么看来没有问题,但是如果类型太多,这样就显得非常笨拙了.</p>
 <p>稍微聪明一点的程序员,会把这样的代码重构.不同的实现放到子类中,父类中存放公共代码.但是这样也有一个缺点,就是开发者需要知道所有的子类.</p>
 <p>现在类族的好处就显而易见了.</p>
 <h2 id="一个自定义的类族">一个自定义的类族</h2><p>假设我们有一个 Person 类,Person 分为不同的职业.有老师,学生,医生.那么类族的实现应该是:</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger,PersonType) &#123;</span><br><span class="line">    PersonTypeDoctor,</span><br><span class="line">    PersonTypeTeacher,</span><br><span class="line">    PersonTypeStudent</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">+ (Person *) <span class="string">personWithType:</span>(PersonType)type&#123;</span><br><span class="line">    <span class="keyword">switch</span>(type)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeDoctor:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonDoctor alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeTeacher:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonTypeTeacher alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeStudent:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonTypeStudent alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger,PersonType) &#123;&#10;    PersonTypeDoctor,&#10;    PersonTypeTeacher,&#10;    PersonTypeStudent&#10;&#125;;&#10;&#10;+ (Person *) personWithType:(PersonType)type&#123;&#10;    switch(type)&#123;&#10;        case PersonTypeDoctor:&#10;            return [[PersonDoctor alloc]init];&#10;            break;&#10;        case PersonTypeTeacher:&#10;            return [[PersonTypeTeacher alloc]init];&#10;            break;&#10;        case PersonTypeStudent:&#10;            return [[PersonTypeStudent alloc]init];&#10;            break;&#10;            &#10;    &#125;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -129,11 +129,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>0</small></li>
   
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
@@ -162,7 +164,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   

@@ -51,6 +51,118 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-05T02:00:35.000Z"><a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/">2015-08-05</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/">通过重构实现模板方法模式（Template Method）: 重构篇</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>现在公司的项目中,有两个界面表现几乎完全一样的控制器.如图:</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-2@2x.png" alt=""><br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-3@2x.png" alt=""></p>
+<p>但是两者的行为是部分有差别的,当时编码过程中,遵循了<code>极限编程</code>的原则,尽快的写出可以实现功能的代码. 重构和使用模式的工作放在以后进行 . 以防止<code>过度设计</code>带来的问题.<br>写好一个界面之后,直接复制代码,修改了部分.这在什么时候来看,都是编写的最快方式,但是却不是好的设计和可维护方案.</p>
+<p>所以现在要开始进行重构了.</p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-04T00:22:09.000Z"><a href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/">2015-08-04</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/">UIWebView执行JS的几个注意点</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>这是一个给培训的同学写的Demo,概括起来的几个特点是:</p>
+<ul>
+<li>无法和服务器沟通,只能在iOS端这里更改网页</li>
+<li>需要隐藏两个html组件</li>
+</ul>
+<p>这是没有修改的网页的<a href="http://m.shijieyou.com/mdetail-3445464-0-%5BLjava.lang.String;@6625086c">地址</a> ,可以看到,顶部和底部有网页原来的两个条,需要隐藏,来实现如下的效果:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/UIWebViewGVS9U@{[OH%25D9%257D$5DARPT.jpg" alt=""></p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-08-01T07:28:17.000Z"><a href="/2015/08/01/重构、模式、架构/常见问题之过度设计和设计不足/">2015-08-01</a></time>
       
       
@@ -122,22 +234,22 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <div class="entry">
       
         <h3 id="参数默认是_let_类型的">参数默认是 let 类型的</h3><p>一般省略函数参数的修饰符 ,我们并没有指定它是什么类型</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(variable: Int)</span></span> -&gt;<span class="type">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> variable + <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(variable: Int) -&#62;Int&#123;&#10;    return variable + 1&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>默认是  let ,比如下面的是错误代码 , 因为 let 不可变</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(variable: Int)</span></span> -&gt;<span class="type">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>仔细看错误提示:<br><code>Mark parameter with &#39;var&#39; to make it mutable</code></p>
 <p>需要显式写 var </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(<span class="keyword">var</span> variable: Int)</span></span> -&gt;<span class="type">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(var variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="inout">inout</h3><p>函数参数是值传递,就是说,不会改变外部参数的值,比如:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">var</span> number = <span class="number">7</span></span><br><span class="line">let newNumber =  <span class="function"><span class="title">incrementor</span><span class="params">(number)</span></span></span><br><span class="line">number</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var number = 7&#10;let newNumber =  incrementor(number)&#10;number</span><br></pre></td></tr></table></figure>
 <p>newNumber是 8 , number 还是 7 .</p>
 <p>如果想要修改,那么就应该加上 inout修饰参数</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(<span class="keyword">inout</span> variable: Int)</span></span> -&gt;<span class="type">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(inout variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>现在是引用传递, 那么 ,我们在传递的时候,应该传递的是引用(地址)而不是参数.用法如下:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newNumber =  <span class="function"><span class="title">incrementor</span><span class="params">(&amp;number)</span></span></span><br></pre></td></tr></table></figure>
-<p>一般的,这样的函数,是不用返回值的.因为已经直接修改了参数<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(<span class="keyword">inout</span> variable: Int)</span></span>&#123;</span><br><span class="line">   ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newNumber =  incrementor(&#38;number)</span><br></pre></td></tr></table></figure>
+<p>一般的,这样的函数,是不用返回值的.因为已经直接修改了参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(inout variable: Int)&#123;&#10;   ++variable&#10;&#125;</span><br></pre></td></tr></table></figure></p>
 <p>函数的参数修饰是有传递限制的,就是说对于跨越层级的调用,需要保证同一参数的修饰符是统一的,比如我们基于上一个方法进行拓展,实现 +N 的方法.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">makeIncrementor</span><span class="params">(addNumber: Int)</span></span> -&gt;((<span class="keyword">inout</span> <span class="type">Int</span>)-&gt;())&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(<span class="keyword">inout</span> variable: Int)</span></span>&#123;</span><br><span class="line">        variable += addNumber</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> incrementor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func makeIncrementor(addNumber: Int) -&#62;((inout Int)-&#62;())&#123;&#10;    func incrementor(inout variable: Int)&#123;&#10;        variable += addNumber&#10;    &#125;&#10;    return incrementor;&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>外层 makeIncrementor 的返回里也需要在参数的类型前面明确指出修饰词,让它和内部的定义一致,否则编译不通过.</p>
 
       
@@ -340,15 +452,15 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <div class="entry">
       
         <h2 id="context">context</h2><p>类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.</p>
-<p>一个例子: UIButton<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIButton</span> * button = [<span class="built_in">UIButton</span> buttonWithType];</span><br></pre></td></tr></table></figure></p>
+<p>一个例子: UIButton<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIButton * button = [UIButton buttonWithType];</span><br></pre></td></tr></table></figure></p>
 <p>该方法返回的对象类型取决于传入的 <code>type</code> ,不同的<code>type</code>决定了这个 button 将来的一些属性的不同(或者说可供设置的属性的不同)</p>
 <p>要实现类似的功能,如果不用类族,那么还可能是一个类中的枚举.比如:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (void) drawRect:(CGRect)rect&#123;</span><br><span class="line">	<span class="keyword">if</span>(_<span class="built_in">type</span> == <span class="built_in">type</span>A)&#123;</span><br><span class="line">		//绘制一个 <span class="built_in">type</span>A 类型的 Button</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> (_<span class="built_in">type</span> == <span class="built_in">type</span>B)&#123;</span><br><span class="line">		//绘制一个 <span class="built_in">type</span>B 类型的 Button</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void) drawRect:(CGRect)rect&#123;&#10;&#9;if(_type == typeA)&#123;&#10;&#9;&#9;//&#32472;&#21046;&#19968;&#20010; typeA &#31867;&#22411;&#30340; Button&#10;&#9;&#125;else if (_type == typeB)&#123;&#10;&#9;&#9;//&#32472;&#21046;&#19968;&#20010; typeB &#31867;&#22411;&#30340; Button&#10;&#9;&#125;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>这是一个简单的类型,这么看来没有问题,但是如果类型太多,这样就显得非常笨拙了.</p>
 <p>稍微聪明一点的程序员,会把这样的代码重构.不同的实现放到子类中,父类中存放公共代码.但是这样也有一个缺点,就是开发者需要知道所有的子类.</p>
 <p>现在类族的好处就显而易见了.</p>
 <h2 id="一个自定义的类族">一个自定义的类族</h2><p>假设我们有一个 Person 类,Person 分为不同的职业.有老师,学生,医生.那么类族的实现应该是:</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger,PersonType) &#123;</span><br><span class="line">    PersonTypeDoctor,</span><br><span class="line">    PersonTypeTeacher,</span><br><span class="line">    PersonTypeStudent</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">+ (Person *) <span class="string">personWithType:</span>(PersonType)type&#123;</span><br><span class="line">    <span class="keyword">switch</span>(type)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeDoctor:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonDoctor alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeTeacher:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonTypeTeacher alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">PersonTypeStudent:</span></span><br><span class="line">            <span class="keyword">return</span> [[PersonTypeStudent alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger,PersonType) &#123;&#10;    PersonTypeDoctor,&#10;    PersonTypeTeacher,&#10;    PersonTypeStudent&#10;&#125;;&#10;&#10;+ (Person *) personWithType:(PersonType)type&#123;&#10;    switch(type)&#123;&#10;        case PersonTypeDoctor:&#10;            return [[PersonDoctor alloc]init];&#10;            break;&#10;        case PersonTypeTeacher:&#10;            return [[PersonTypeTeacher alloc]init];&#10;            break;&#10;        case PersonTypeStudent:&#10;            return [[PersonTypeStudent alloc]init];&#10;            break;&#10;            &#10;    &#125;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -401,23 +513,23 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 <h2 id="Currying">Currying</h2><p><strong>Currying就是把一个多参数的方法，拆解为只有第一个参数的方法，这个方法的返回值不是一个具体的值，而是一个新的方法，这个方法的参数是原先的方法刨去第一个参数后的“剩下的方法的片段”，可以理解为，把一个多参数方法只作为某一种模板</strong></p>
 <h2 id="基本写法">基本写法</h2><p>基本结构:</p>
 <p>func <code>function name</code> (<code>parameters</code>)(<code>parameters</code>)-&gt;<code>return type</code>{<br>    <code>statements</code><br>}</p>
-<p>一个 Currying<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func add<span class="function"><span class="params">(originValue: Int)(inputValue: Int)</span> -&gt;</span> Int &#123;</span><br><span class="line">        <span class="keyword">return</span> originValue + inputVlue</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>一个 Currying<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func add(originValue: Int)(inputValue: Int) -&#62; Int &#123;&#10;        return originValue + inputVlue&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>这个写法就是 <code>currying</code> 函数的基本写法,<code>originValue</code> 是他的固定的基数(或者说基础参数). <code>inputValue</code>是以后调用的不同的输入值.基础参数构建了一个类似模板的东西,而输入值构建了我们想要的最终结果.</p>
 <p>使用:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let addWith10 = <span class="function"><span class="title">add</span><span class="params">(<span class="number">10</span>)</span></span></span><br><span class="line">let addWith100 = <span class="function"><span class="title">add</span><span class="params">(<span class="number">100</span>)</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let addWith10 = add(10)&#10;let addWith100 = add(100)</span><br></pre></td></tr></table></figure>
 <p>以上,分别构建了一个以 10 和100 为基数的方法.它们都是新的方法,但是是我们最开始方法的一部分,如果要使用:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let result1 = <span class="function"><span class="title">addWith10</span><span class="params">(inputValue: <span class="number">1</span>)</span></span></span><br><span class="line">let result2 = <span class="function"><span class="title">addWith100</span><span class="params">(inputValue: <span class="number">1</span>)</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let result1 = addWith10(inputValue: 1)&#10;let result2 = addWith100(inputValue: 1)</span><br></pre></td></tr></table></figure>
 <p>result1的结果是  11<br>result2的结果是  101</p>
 <p>以上就是 Currying 的一个小剖析,下面我们从一般函数入手,看看Currying到底是怎么演化的.</p>
-<h2 id="从函数开始">从函数开始</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int,b: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">sum(<span class="number">1</span>, <span class="number">2</span>)   <span class="comment">//输出3</span></span><br></pre></td></tr></table></figure>
+<h2 id="从函数开始">从函数开始</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int,b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;sum(1, 2)   //&#36755;&#20986;3</span><br></pre></td></tr></table></figure>
 <p>这是一个非常简单的函数,如果用 Currying 的写法,会变成:</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: <span class="typename">Int</span>)(b: <span class="typename">Int</span>) -&gt; <span class="typename">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable"><span class="keyword">var</span> sumByFirst</span> = sum(<span class="number">1</span>)</span><br><span class="line">sumByFirst(b: <span class="number">4</span>) <span class="comment">//输出5</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;var sumByFirst = sum(1)&#10;sumByFirst(b: 4) //&#36755;&#20986;5</span><br></pre></td></tr></table></figure>
 <p>只需要传入第一个参数，返回的sumByFirst是一个函数，它包含剩余的其他参数，以及刚刚传入进去的那个1，接着以它自己作为方法传入第二个参数b就行了。<br>如果是三个参数就像这样： </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int)</span></span>(b: <span class="type">Int</span>)(<span class="built_in">c</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + <span class="built_in">c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">var</span> sumBySecond = sumByFirst(b: <span class="number">4</span>)</span><br><span class="line">sumBySecond(<span class="built_in">c</span>: <span class="number">10</span>)  <span class="comment">//输出15</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int)(c: Int) -&#62; Int &#123;&#10;    return a + b + c&#10;&#125;&#10;var sumByFirst = sum(1)&#10;var sumBySecond = sumByFirst(b: 4)&#10;sumBySecond(c: 10)  //&#36755;&#20986;15</span><br></pre></td></tr></table></figure>
 <p>除了第一个参数以外，其他的参数都要显式地写上参数标签，并且要按参数排列的顺序调用。<br>一个括号中放两个参数也可以： </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int)</span></span>(b: <span class="type">Int</span>, <span class="built_in">c</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + <span class="built_in">c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line">sumByFirst(b: <span class="number">4</span>,<span class="built_in">c</span>: <span class="number">10</span>)  <span class="comment">//输出15</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int, c: Int) -&#62; Int &#123;&#10;    return a + b + c&#10;&#125;&#10;var sumByFirst = sum(1)&#10;sumByFirst(b: 4,c: 10)  //&#36755;&#20986;15</span><br></pre></td></tr></table></figure>
 <p>在某些情况下，你可能会用某个相同的参数重复调用某个方法，那么利用柯里化会使代码更易于维护：</p>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func <span class="built_in">sum</span>(a: <span class="built_in">Int</span>)(b: <span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">var sumWithFive = <span class="built_in">sum</span>(<span class="number">5</span>)</span><br><span class="line">sumWithFive(b: <span class="number">5</span>)</span><br><span class="line">sumWithFive(b: <span class="number">10</span>)</span><br><span class="line">sumWithFive(b: <span class="number">15</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;var sumWithFive = sum(5)&#10;sumWithFive(b: 5)&#10;sumWithFive(b: 10)&#10;sumWithFive(b: 15)</span><br></pre></td></tr></table></figure>
 <p>因为 Swift 的 Selector  只能通过字符串生成,这会面临一个很严重的问题,就是难以重构,并且无法在编译期间进行检查,这是非常危险的行为.但是利用方法的 Currying ,我们可以解决这个问题.</p>
 <p>参考网址:</p>
 <p><a href="http://blog.csdn.net/zhangao0086/article/details/38851759" target="_blank" rel="external">http://blog.csdn.net/zhangao0086/article/details/38851759</a></p>
@@ -480,156 +592,17 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 </ol>
 <p><code>data-thread-key=&quot;&lt;%= page.path %&gt;</code><br><code>data-title=&quot;&lt;%= page.title %&gt;&quot;</code><br><code>data-url=&quot;&lt;%= page.permalink %&gt;&quot;</code></p>
 <p>最终我的完整代码:</p>
-<figure class="highlight erb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="comment">&lt;!-- 多说评论框 start --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"ds-thread"</span> <span class="attribute">data-thread-key</span>=<span class="value">"</span></span></span>&lt;%=<span class="ruby"> page.path </span>%&gt;<span class="xml"><span class="tag"><span class="value">"</span> <span class="attribute">data-title</span>=<span class="value">"</span></span></span>&lt;%=<span class="ruby"> page.title </span>%&gt;<span class="xml"><span class="tag"><span class="value">"</span> <span class="attribute">data-url</span>=<span class="value">"</span></span></span>&lt;%=<span class="ruby"> page.permalink </span>%&gt;<span class="xml"><span class="tag"><span class="value">"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 多说评论框 end --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="keyword">var</span> duoshuoQuery = &#123;short_name:<span class="string">"guiqingblog"</span>&#125;;</span><br><span class="line">	(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> ds = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">		ds.type = <span class="string">'text/javascript'</span>;ds.async = <span class="literal">true</span>;</span><br><span class="line">		ds.src = (<span class="built_in">document</span>.location.protocol == <span class="string">'https:'</span> ? <span class="string">'https:'</span> : <span class="string">'http:'</span>) + <span class="string">'//static.duoshuo.com/embed.js'</span>;</span><br><span class="line">		ds.charset = <span class="string">'UTF-8'</span>;</span><br><span class="line">		(<span class="built_in">document</span>.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>] </span><br><span class="line">		 || <span class="built_in">document</span>.getElementsByTagName(<span class="string">'body'</span>)[<span class="number">0</span>]).appendChild(ds);</span><br><span class="line">	&#125;)();</span><br><span class="line">	</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 多说公共JS代码 end --&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;!-- &#22810;&#35828;&#35780;&#35770;&#26694; start --&#62;&#10;&#9;&#60;div class=&#34;ds-thread&#34; data-thread-key=&#34;&#60;%= page.path %&#62;&#34; data-title=&#34;&#60;%= page.title %&#62;&#34; data-url=&#34;&#60;%= page.permalink %&#62;&#34;&#62;&#60;/div&#62;&#10;&#60;!-- &#22810;&#35828;&#35780;&#35770;&#26694; end --&#62;&#10;&#60;!-- &#22810;&#35828;&#20844;&#20849;JS&#20195;&#30721; start (&#19968;&#20010;&#32593;&#39029;&#21482;&#38656;&#25554;&#20837;&#19968;&#27425;) --&#62;&#10;&#60;script type=&#34;text/javascript&#34;&#62;&#10;var duoshuoQuery = &#123;short_name:&#34;guiqingblog&#34;&#125;;&#10;&#9;(function() &#123;&#10;&#9;&#9;var ds = document.createElement(&#39;script&#39;);&#10;&#9;&#9;ds.type = &#39;text/javascript&#39;;ds.async = true;&#10;&#9;&#9;ds.src = (document.location.protocol == &#39;https:&#39; ? &#39;https:&#39; : &#39;http:&#39;) + &#39;//static.duoshuo.com/embed.js&#39;;&#10;&#9;&#9;ds.charset = &#39;UTF-8&#39;;&#10;&#9;&#9;(document.getElementsByTagName(&#39;head&#39;)[0] &#10;&#9;&#9; || document.getElementsByTagName(&#39;body&#39;)[0]).appendChild(ds);&#10;&#9;&#125;)();&#10;&#9;&#60;/script&#62;&#10;&#60;!-- &#22810;&#35828;&#20844;&#20849;JS&#20195;&#30721; end --&#62;</span><br></pre></td></tr></table></figure>
 <ol>
 <li>打开<code>themes\light\layout_partial\article.ejs</code><br>在最后一行加上如下代码</li>
 </ol>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="preprocessor">%</span> <span class="keyword">if</span><span class="comment">(!index)</span>&#123; <span class="preprocessor">%</span>&gt;</span><br><span class="line">&lt;<span class="preprocessor">%</span>- partial<span class="comment">('comment')</span> <span class="preprocessor">%</span>&gt;</span><br><span class="line">&lt;<span class="preprocessor">%</span> &#125; <span class="preprocessor">%</span>&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;% if(!index)&#123; %&#62;&#10;&#60;%- partial(&#39;comment&#39;) %&#62;&#10;&#60;% &#125; %&#62;</span><br></pre></td></tr></table></figure>
 <h2 id="后记">后记</h2><p>在早期版本,第二步骤中的三个文章参数不是必须的,但是新版中,如果不配置,会报错.样式也不能正常显示 .</p>
 
       
     </div>
     <footer>
       
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-06-02T23:34:58.000Z"><a href="/2015/06/03/辅助编程技能/定位程序崩溃点的方法探究/">2015-06-03</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/06/03/辅助编程技能/定位程序崩溃点的方法探究/">定位程序崩溃点的方法探究</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>昨天遇到问题,当我的 NavitgationController back 的时候,程序崩溃,诡异的地方是: 控制台完全没有任何打印,崩溃的断点直接回到了 main 函数中.</p>
-<h2 id="几个尝试">几个尝试</h2><p>想到之前曾经读过一篇出现在这样情景崩溃的文章:有对象依赖被 pop 的控制器,结果导致了崩溃,但是经过仔细排查,发现并没有这样的情况.</p>
-<h2 id="查找资料">查找资料</h2><p>网上对崩溃问题的定位常规方法总结起来有:</p>
-<h3 id="1-添加通用断点">1.添加通用断点</h3><ol>
-<li>选择 BreakPoint Navigator,点击右下角的 ‘+’ ,然后在弹窗中选择 ‘Add Exception BreakPoint’<br><img src="http://i1.tietuku.com/e8b80841e86eb86a.png"></li>
-</ol>
-<p><img src="http://i1.tietuku.com/de970099a16ad135.png"></p>
-<ol>
-<li>右键断点,选择 ‘Edit BreakPoint’,检查设置如下<br><img src="http://i1.tietuku.com/d135fc352fd61583.png"></li>
-</ol>
-<p>然后运行程序,程序就能定位到出现崩溃的代码.</p>
-<p>但是很遗憾的是,这种方式只能解决大部分的问题(比如不识别的selector 等),有很多类型的崩溃它是不能定位的 </p>
-<p>比如出现 <code>EXEC_BAD_ACCESS</code>这种错误,以上的方法是不能定位的.</p>
-<h3 id="2-重写object的respondsToSelector方法">2.重写object的respondsToSelector方法</h3><p>1.重写object的respondsToSelector方法，现实出现EXEC_BAD_ACCESS前访问的最后一个object.因为有时候程序崩溃根本不知错误发生在什么地方。</p>
-<p>在可能出现问题的 .m 或者.mm 文件中加入以下代码</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="id">#ifdef</span> _<span class="tag">FOR_DEBUG_</span>  </span><br><span class="line"><span class="tag">-</span>(<span class="tag">BOOL</span>) <span class="rule"><span class="attribute">respondsToSelector</span>:<span class="value">(SEL)aSelector &#123;  </span><br><span class="line">    <span class="function">printf</span>(<span class="string">"SELECTOR: %s\n"</span>, [<span class="function">NSStringFromSelector</span>(aSelector) UTF8String])</span></span>;  </span><br><span class="line">    <span class="tag">return</span> <span class="attr_selector">[super respondsToSelector:aSelector]</span>;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="id">#endif</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>在 <code>other c flags</code>中加入<code>-D _FOR_DEBUG_</code>（记住请只在<code>Debug Configuration</code>下加入此标记）,这样当你程序崩溃时，Xcode的console上就会准确地记录了最后运行的object的方法。</li>
-</ol>
-<p><img src="http://i1.tietuku.com/4399070fa7215690.png"><br>很不幸,这样还是没有定位我出现问题的代码.</p>
-<h2 id="最终方案">最终方案</h2><p>首先说一下 EXC_BAD_ACCESS 这个错误，可以这么说，90%的错误来源在于对一个已经释放的对象进行release操作.那么我们应该启用 僵尸对象.方法如下:</p>
-<p><code>Product-&gt;Scheme-&gt;Edit Scheme-&gt;Arguments 的 Environment Variables 中，增加标计位NSZombieEnabled设为YES)</code><br><img src="http://i1.tietuku.com/d7c5ed9195b06916.png"></p>
-<p>这样,就能看到崩溃的具体原因了.但是如果想知道代码,这个<a href="http://www.jb51.net/article/38948.htm" target="_blank" rel="external">原文</a>说需要借助 Xcode 控制台的 GDB,很不幸的是,高版本的 Xcode 中,已经没有切换到 GDB 的功能了.网上也有帖子介绍 GDB 对应 lldb 的指令是什么,很不幸,都不能正常工作,所以这里不在罗列.</p>
-<p>后来,我想到是否可以借助终端来完成任务?</p>
-<p>那么问题来了,终端怎么知道这个内存地址是属于谁的?<br>后来想到,可以通过活动监视器,拿到我们程序进程的 pid<br><img src="http://i1.tietuku.com/623a316bb0e053be.png"><br>我的是 <code>1175</code></p>
-<p>然后参考刚刚<a href="http://www.jb51.net/article/38948.htm" target="_blank" rel="external">原文</a>中的指令, <code>sudo malloc_history 1175 0x7a692620</code><br>后面一个参数是崩溃的地址.</p>
-<p>此时终端提示,没有打印 <code>MallocStackLogging</code> .<br><img src="http://i1.tietuku.com/c13979bcb1add8c6.png"></p>
-<p>其实这里是需要在 Xocde 中配置的.按照刚刚配置 <code>NSZombieEnabled</code>的位置和方式,添加一个参数:</p>
-<p><code>MallocStackLoggingNoCompact</code> 值设置为 <code>YES</code></p>
-<p>然后继续重新编译运行,查看 pid ,查看崩溃的内存地址.</p>
-<p><img src="http://i1.tietuku.com/e197b876e9fa3a52.png"></p>
-<p>见到终端打印出了调用顺序,一般来说,是最后一个你自定义的方法导致的崩溃.</p>
-<p>然后就是解决 bug 了,祝好运 ~</p>
-<p>参考网址:<br><a href="http://blog.csdn.net/totogo2010/article/details/8949440" target="_blank" rel="external">http://blog.csdn.net/totogo2010/article/details/8949440</a><br><a href="http://mobile.51cto.com/iphone-279455.htm" target="_blank" rel="external">http://mobile.51cto.com/iphone-279455.htm</a></p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-06-01T09:57:26.000Z"><a href="/2015/06/01/知识技巧总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/">2015-06-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/06/01/知识技巧总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/">2015-06-01滚动监听 触摸点获取 Tranform RecealApp</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="概要">概要</h2><ul>
-<li>UITableView 滚动行为的监听,触摸点的获取</li>
-<li>CGAffineTransformMakeTranslation和CGAffineTransformTranslate</li>
-<li>reveal app 的项目集成</li>
-<li>inputAccessoryView 遇到的几个问题</li>
-</ul>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/06/01/知识技巧总结/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/#more" class="more-link">Read More</a>
-          </div>
         
         
       
@@ -684,11 +657,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>0</small></li>
   
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
@@ -717,7 +692,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   

@@ -61,22 +61,22 @@
     <div class="entry">
       
         <h3 id="参数默认是_let_类型的">参数默认是 let 类型的</h3><p>一般省略函数参数的修饰符 ,我们并没有指定它是什么类型</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(variable: Int)</span></span> -&gt;<span class="type">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> variable + <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(variable: Int) -&#62;Int&#123;&#10;    return variable + 1&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>默认是  let ,比如下面的是错误代码 , 因为 let 不可变</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(variable: Int)</span></span> -&gt;<span class="type">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>仔细看错误提示:<br><code>Mark parameter with &#39;var&#39; to make it mutable</code></p>
 <p>需要显式写 var </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(<span class="keyword">var</span> variable: Int)</span></span> -&gt;<span class="type">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(var variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="inout">inout</h3><p>函数参数是值传递,就是说,不会改变外部参数的值,比如:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">var</span> number = <span class="number">7</span></span><br><span class="line">let newNumber =  <span class="function"><span class="title">incrementor</span><span class="params">(number)</span></span></span><br><span class="line">number</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var number = 7&#10;let newNumber =  incrementor(number)&#10;number</span><br></pre></td></tr></table></figure>
 <p>newNumber是 8 , number 还是 7 .</p>
 <p>如果想要修改,那么就应该加上 inout修饰参数</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(<span class="keyword">inout</span> variable: Int)</span></span> -&gt;<span class="type">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(inout variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>现在是引用传递, 那么 ,我们在传递的时候,应该传递的是引用(地址)而不是参数.用法如下:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newNumber =  <span class="function"><span class="title">incrementor</span><span class="params">(&amp;number)</span></span></span><br></pre></td></tr></table></figure>
-<p>一般的,这样的函数,是不用返回值的.因为已经直接修改了参数<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(<span class="keyword">inout</span> variable: Int)</span></span>&#123;</span><br><span class="line">   ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newNumber =  incrementor(&#38;number)</span><br></pre></td></tr></table></figure>
+<p>一般的,这样的函数,是不用返回值的.因为已经直接修改了参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(inout variable: Int)&#123;&#10;   ++variable&#10;&#125;</span><br></pre></td></tr></table></figure></p>
 <p>函数的参数修饰是有传递限制的,就是说对于跨越层级的调用,需要保证同一参数的修饰符是统一的,比如我们基于上一个方法进行拓展,实现 +N 的方法.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">makeIncrementor</span><span class="params">(addNumber: Int)</span></span> -&gt;((<span class="keyword">inout</span> <span class="type">Int</span>)-&gt;())&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">incrementor</span><span class="params">(<span class="keyword">inout</span> variable: Int)</span></span>&#123;</span><br><span class="line">        variable += addNumber</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> incrementor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func makeIncrementor(addNumber: Int) -&#62;((inout Int)-&#62;())&#123;&#10;    func incrementor(inout variable: Int)&#123;&#10;        variable += addNumber&#10;    &#125;&#10;    return incrementor;&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>外层 makeIncrementor 的返回里也需要在参数的类型前面明确指出修饰词,让它和内部的定义一致,否则编译不通过.</p>
 
       
@@ -132,11 +132,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>0</small></li>
   
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
@@ -165,7 +167,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   

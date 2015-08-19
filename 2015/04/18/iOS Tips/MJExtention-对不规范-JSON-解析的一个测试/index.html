@@ -73,7 +73,7 @@
 </ul>
 <p>链接: <a href="http://pan.baidu.com/s/1qWA1Na8" target="_blank" rel="external">http://pan.baidu.com/s/1qWA1Na8</a> 密码: dvwb</p>
 <p>大家也可以使用自己的数据进行测试,毕竟就是加两个英文引号.</p>
-<h2 id="测试">测试</h2><h3 id="无引号版本(规范的_JSON_)">无引号版本(规范的 JSON )</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSArray</span> *paths=<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>); </span><br><span class="line"></span><br><span class="line"><span class="built_in">NSString</span> *path=[paths objectAtIndex:<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSString</span> *Json_path=[path stringByAppendingPathComponent:<span class="string">@"JsonFile.json"</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSData</span> *data=[<span class="built_in">NSData</span> dataWithContentsOfFile:Json_path];</span><br><span class="line"><span class="comment">//自带解析方式</span></span><br><span class="line"><span class="keyword">id</span> JsonObject=[<span class="built_in">NSJSONSerialization</span> JSONObjectWithData:data options:<span class="built_in">NSJSONReadingAllowFragments</span> error:<span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//MJ Extension</span></span><br><span class="line">GQResponeseStatusModel* statusModel = [GQResponeseStatusModel objectWithJSONData:data];</span><br></pre></td></tr></table></figure>
+<h2 id="测试">测试</h2><h3 id="无引号版本(规范的_JSON_)">无引号版本(规范的 JSON )</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); &#10;&#10;NSString *path=[paths objectAtIndex:0];&#10;&#10;NSString *Json_path=[path stringByAppendingPathComponent:@&#34;JsonFile.json&#34;];&#10;&#10;NSData *data=[NSData dataWithContentsOfFile:Json_path];&#10;//&#33258;&#24102;&#35299;&#26512;&#26041;&#24335;&#10;id JsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];&#10;&#10;//MJ Extension&#10;GQResponeseStatusModel* statusModel = [GQResponeseStatusModel objectWithJSONData:data];</span><br></pre></td></tr></table></figure>
 <p>lldb 看到 data 有数据,说明读取正常,一路断点的也都有值,最后数据正常读取显示.<br><img src="http://ww3.sinaimg.cn/large/9e446dffjw1er9rf6gidrj20bf013t8r.jpg"></p>
 <h3 id="2-有引号版本">2.有引号版本</h3><p>在我的文件中的:这两个位置,用引号括起来.即 json 这个 key,对应的有 “ 的 value .</p>
 <p><img src="http://ww3.sinaimg.cn/large/9e446dffjw1er9r0w0gjmj205e03gaa3.jpg"></p>
@@ -153,11 +153,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>0</small></li>
   
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
@@ -186,7 +188,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   

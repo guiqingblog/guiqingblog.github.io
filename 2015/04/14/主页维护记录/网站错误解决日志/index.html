@@ -61,14 +61,14 @@
     <div class="entry">
       
         <h2 id="时间">时间</h2><h3 id=""> </h3><h2 id="时间_2015-04-14_11:10:43">时间 2015-04-14 11:10:43</h2><h3 id="问题描述">问题描述</h3><p>今天使用 hexo 部署到 git 的时候,报错:  </p>
-<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Error: <span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span>@</span><br><span class="line">@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @</span><br><span class="line"><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span><span class="variable">@@</span>@</span><br><span class="line">Permissions <span class="number">0777</span> <span class="keyword">for</span> <span class="string">'/Users/katsura/.ssh/id_rsa'</span> are too open.</span><br><span class="line">It is required that your private key files are NOT accessible by others.</span><br><span class="line">This private key will be ignored.</span><br><span class="line">bad permissions: ignore key: /Users/katsura/.ssh/id_rsa</span><br><span class="line">Permission denied (publickey).</span><br><span class="line">fatal: Could not read from remote repository.</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br><span class="line">and the repository <span class="keyword">exists</span>.</span><br><span class="line"></span><br><span class="line">    at ChildProcess.&lt;anonymous&gt; (/Users/katsura/Git/guiqingblog.github.io/node_modules/hexo-deployer-git/node_modules/hexo-util/lib/spawn.js:<span class="number">42</span>:<span class="number">17</span>)</span><br><span class="line">    at ChildProcess.<span class="keyword">emit</span> (events.js:<span class="number">98</span>:<span class="number">17</span>)</span><br><span class="line">    at maybeClose (child_process.js:<span class="number">766</span>:<span class="number">16</span>)</span><br><span class="line">    at Socket.&lt;anonymous&gt; (child_process.js:<span class="number">979</span>:<span class="number">11</span>)</span><br><span class="line">    at Socket.<span class="keyword">emit</span> (events.js:<span class="number">95</span>:<span class="number">17</span>)</span><br><span class="line">    at Pipe.close (net.js:<span class="number">466</span>:<span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&#10;@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @&#10;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&#10;Permissions 0777 for &#39;/Users/katsura/.ssh/id_rsa&#39; are too open.&#10;It is required that your private key files are NOT accessible by others.&#10;This private key will be ignored.&#10;bad permissions: ignore key: /Users/katsura/.ssh/id_rsa&#10;Permission denied (publickey).&#10;fatal: Could not read from remote repository.&#10;&#10;Please make sure you have the correct access rights&#10;and the repository exists.&#10;&#10;    at ChildProcess.&#60;anonymous&#62; (/Users/katsura/Git/guiqingblog.github.io/node_modules/hexo-deployer-git/node_modules/hexo-util/lib/spawn.js:42:17)&#10;    at ChildProcess.emit (events.js:98:17)&#10;    at maybeClose (child_process.js:766:16)&#10;    at Socket.&#60;anonymous&#62; (child_process.js:979:11)&#10;    at Socket.emit (events.js:95:17)&#10;    at Pipe.close (net.js:466:12)</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <h3 id="几个尝试">几个尝试</h3><p>有印象关于 id_rsa 这个 key 的,就是昨天把它加到了 key chain 当中.于是尝试删除,仍然报错.  </p>
 <h3 id="问题解决">问题解决</h3><p>仔细查看报错的信息  </p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Permissions <span class="number">0777</span> <span class="keyword">for</span> <span class="string">'/Users/katsura/.ssh/id_rsa'</span> are too <span class="built_in">open</span>.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Permissions 0777 for &#39;/Users/katsura/.ssh/id_rsa&#39; are too open.</span><br></pre></td></tr></table></figure>
 <p>想到今天早上曾经为了模拟器的原因,把整个 User目录的权限改成了 777 …</p>
 <p>于是,终端输入:  </p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Permissions <span class="number">0777</span> <span class="keyword">for</span> <span class="string">'/Users/katsura/.ssh/id_rsa'</span> are too <span class="built_in">open</span>.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Permissions 0777 for &#39;/Users/katsura/.ssh/id_rsa&#39; are too open.</span><br></pre></td></tr></table></figure>
 <p>问题解决</p>
 <h3 id="思考">思考</h3><p>以后切不可为了省事做一些大面积的修改工作.对哪个文件就是对哪个文件!</p>
 
@@ -130,11 +130,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>0</small></li>
   
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
@@ -163,7 +165,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   

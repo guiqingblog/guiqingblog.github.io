@@ -75,7 +75,7 @@
 <p>比如出现 <code>EXEC_BAD_ACCESS</code>这种错误,以上的方法是不能定位的.</p>
 <h3 id="2-重写object的respondsToSelector方法">2.重写object的respondsToSelector方法</h3><p>1.重写object的respondsToSelector方法，现实出现EXEC_BAD_ACCESS前访问的最后一个object.因为有时候程序崩溃根本不知错误发生在什么地方。</p>
 <p>在可能出现问题的 .m 或者.mm 文件中加入以下代码</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="id">#ifdef</span> _<span class="tag">FOR_DEBUG_</span>  </span><br><span class="line"><span class="tag">-</span>(<span class="tag">BOOL</span>) <span class="rule"><span class="attribute">respondsToSelector</span>:<span class="value">(SEL)aSelector &#123;  </span><br><span class="line">    <span class="function">printf</span>(<span class="string">"SELECTOR: %s\n"</span>, [<span class="function">NSStringFromSelector</span>(aSelector) UTF8String])</span></span>;  </span><br><span class="line">    <span class="tag">return</span> <span class="attr_selector">[super respondsToSelector:aSelector]</span>;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="id">#endif</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#ifdef _FOR_DEBUG_  &#10;-(BOOL) respondsToSelector:(SEL)aSelector &#123;  &#10;    printf(&#34;SELECTOR: %s\n&#34;, [NSStringFromSelector(aSelector) UTF8String]);  &#10;    return [super respondsToSelector:aSelector];  &#10;&#125;  &#10;#endif</span><br></pre></td></tr></table></figure>
 <ol>
 <li>在 <code>other c flags</code>中加入<code>-D _FOR_DEBUG_</code>（记住请只在<code>Debug Configuration</code>下加入此标记）,这样当你程序崩溃时，Xcode的console上就会准确地记录了最后运行的object的方法。</li>
 </ol>
@@ -102,7 +102,7 @@
         
   
   <div class="categories">
-    <a href="/categories/iOS-OC/">iOS&OC</a>
+    <a href="/categories/iOS-Tips/">iOS Tips</a>
   </div>
 
         
@@ -153,11 +153,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>0</small></li>
   
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
@@ -186,7 +188,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   

@@ -182,7 +182,7 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#62; path/to/TileCutterApp path/to/Snowman.jpg</span><br></pre></td></tr></table></figure>
 <p>The app is very basic, but could easily be extended to support additional arguments such as tile size, or to export images in formats other than JPEG. The result of running it is a sequence of 64 new images, named as follows:</p>
 <p>这个程序相当基础，但是能够轻易地扩展支持额外的参数比如小图大小，或者导出格式等等。运行结果是64个新图的序列，如下面命名：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Snowman_00_00<span class="class">.jpg</span></span><br><span class="line">Snowman_00_01<span class="class">.jpg</span></span><br><span class="line">Snowman_00_02<span class="class">.jpg</span></span><br><span class="line">...</span><br><span class="line">Snowman_07_07.jpg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Snowman_00_00.jpg&#10;Snowman_00_01.jpg&#10;Snowman_00_02.jpg&#10;...&#10;Snowman_07_07.jpg</span><br></pre></td></tr></table></figure>
 <p>既然我们有了裁切后的小图，我们就要让iOS程序用到他们。<code>CATiledLayer</code>很好地和<code>UIScrollView</code>集成在一起。除了设置图层和滑动视图边界以适配整个图片大小，我们真正要做的就是实现<code>-drawLayer:inContext:</code>方法，当需要载入新的小图时，<code>CATiledLayer</code>就会调用到这个方法。</p>
 <p>清单6.12演示了代码。图6.12是代码运行结果。</p>
 <p>清单6.12 一个简单的滚动<code>CATiledLayer</code>实现</p>
@@ -301,11 +301,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>11</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
   
-    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>1</small></li>
+    <li><a href="/categories/iOS-OC/">iOS&amp;OC</a><small>0</small></li>
   
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>3</small></li>
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
@@ -334,7 +336,9 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
   
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>1</small></li>
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   
