@@ -51,6 +51,69 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-04-04T03:03:06.000Z"><a href="/2015/04/04/辅助编程技能/提升效率的脚本/">2015-04-04</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/04/04/辅助编程技能/提升效率的脚本/">iOS开发中,用脚本实现给文件添加@xx后缀-小脚本大智慧</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><em>脚本是用于执行一些重复性的操作,非常小巧方便.不需要创建工程</em></p>
+<h1 id="context">context</h1><p>自己最近手头有个项目,对方的美工是个完全的新手.所以,给的图片,虽然按照分辨率处理妥当(只有<code>@2x</code>版本),但是命名统一没有添加<code>@2x</code>,已经发过来了,让她去每个文件重新命名也是有点不近人情,自己去手动重命名更是傻瓜行为.  </p>
+<p>这种情况,脚本要粉末登场了.<br>\&lt;!—more—>  </p>
+<h2 id="shell">shell</h2><p>首先想到的是类<code>unix</code>系统的<code>shell</code>,这种强大于<code>windows</code>下<code>cmd</code>的存在.以前,自己仅仅会一些简单地命令行命令.写这种相对具有一定功能的脚本还是第一次,好在,经过各种查找资料,终于写了出来.  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`# !/bin/bash&#10;append=&#34;@2x&#34;&#10;ext=&#34;png&#34;&#10;dir=$(eval pwd)&#10;&#10;for file in $(ls $dir | grep .$oldext)&#10;do&#10;name=$(ls $file | cut -d. -f1)$append&#10;mv $file $&#123;name&#125;.$ext&#10;done</span><br></pre></td></tr></table></figure>
+<p>`<br>可以看出,即使没有可以精简,只需要不到10行代码即可完成任务.</p>
+<h2 id="python">python</h2><p>既然想到了脚本,自己难以抑制的就取想<code>python</code>了,于是有了下面的代码  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`import os&#10;&#10;path = &#39;.&#39;&#10;&#10;for file in os.listdir(os.curdir):&#10;f,ext=os.path.splitext(file)&#10;if &#39;.png&#39;==ext :&#10;newfile = f+&#39;@2x&#39;+ext&#10;print newfile&#10;os.renames(file,newfile)</span><br></pre></td></tr></table></figure>
+<p>`  </p>
+<p>不出所料,也是非常简单的.  </p>
+<h2 id="更进一步">更进一步</h2><p>现在两者实现的功能都是非常简单地,而且只能命名当前目录的<code>png</code>后缀的文件.最终,我选择用<code>python</code>代码更进一步.  </p>
+<p>定义两个函数,一个递归增加后缀,一个递归删除后缀(python版本是2.7.9),具体什么操作,只要后面调用一下即可.  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`__author__ = &#39;katsura&#39;  &#10;  &#10;import os  &#10;  &#10;def add_suffix(suffix) :  &#10;    for file in os.listdir(os.path.curdir) :  &#10;        print file  &#10;        if file[0:1]() == &#39;.&#39; :  &#10;            continue  &#10;        filename,ext = os.path.splitext(file)  &#10;        if &#39;.png&#39; == ext :  &#10;            newfilename =  filename+suffix+ext  &#10;            os.renames(file,newfilename)  &#10;        if os.path.isdir(file) :  &#10;            origindir = os.getcwd()  &#10;            newdir = file  &#10;            os.chdir(newdir)  &#10;            add_suffix(suffix)  &#10;            os.chdir(origindir)  &#10;  &#10;def remove_suffix(suffix) :  &#10;    for file in os.listdir(os.path.curdir) :  &#10;        #print file  &#10;        if file[0:1]() == &#39;.&#39; :  &#10;            continue  &#10;        filename,ext = os.path.splitext(file)  &#10;        if &#39;.png&#39; == ext :  &#10;            newfilename =  filename.rstrip(suffix)+ext  &#10;            os.renames(file,newfilename)  &#10;        if os.path.isdir(file) :  &#10;            origindir = os.getcwd()  &#10;            newdir = file  &#10;            os.chdir(newdir)  &#10;            remove_suffix(suffix)  &#10;            os.chdir(origindir)  &#10;  &#10;  &#10;add_suffix(&#39;@2x&#39;)</span><br></pre></td></tr></table></figure>
+<p>`  </p>
+<h2 id="感想">感想</h2><p>语言就应该仅仅是工具,不应该执迷于语言的学习.因为当你有一定的经验之后,你会发现,什么语言都很简单… 难点是深入下去  </p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/6/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-03-17T03:05:40.000Z"><a href="/2015/03/17/辅助编程技能/开始使用正则表达式/">2015-03-17</a></time>
       
       
@@ -513,6 +576,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
   
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
     <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
   
     <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
@@ -545,6 +610,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   
     <li><a href="/tags/开发环境相关/">开发环境相关</a><small>1</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
   
     <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
   
