@@ -51,6 +51,111 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-28T23:37:53.000Z"><a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/">2015-08-29</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/">简单实现控制器过渡动画</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>自己实现控制器动画的方法,还是比较常见的. 这个是    <code>UINavigationController</code>的 <code>Push</code> 和 <code>Dismiss</code> 动画.<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-26T06:55:16.000Z"><a href="/2015/08/26/iOS Tips/关于代码控制屏幕方向/">2015-08-26</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/26/iOS Tips/关于代码控制屏幕方向/">关于代码控制屏幕方向</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>今天同学提了一个需求,希望在 <code>NavigationController</code>管理的控制器中,实现 <code>Push</code>出的控制器是横屏,然后前一个控制器是竖屏的.</p>
+<p>听到这么说, 很简单的想到使用代码控制器屏幕方向,(当然,需要首先在项目的 plist中允许屏幕的多个方向)<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/26/iOS Tips/关于代码控制屏幕方向/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-08-22T14:06:25.000Z"><a href="/2015/08/22/悟/谁让APP工程师产生了泡沫？/">2015-08-22</a></time>
       
       
@@ -535,147 +640,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-09T04:02:36.000Z"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/">2015-08-09</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/">当遇到严格要求的UI-实现</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="说明">说明</h2><p>因为公司项目负责,所以这个代码将用Demo的形式建立,然后引入到项目中.然后对项目的调用进行重构.</p>
-<h2 id="创建项目文件">创建项目文件</h2><p>文件清单:</p>
-<ul>
-<li>产品父类 <code>GUILayout</code> 包含各种属性</li>
-<li>iPhone4s/4 布局类 <code>GUIIP4SLayout</code> 继承 <code>GUILayout</code></li>
-<li>iPhone5s/5 布局类 <code>GUIIP5Layout</code> 继承 <code>GUILayout</code></li>
-<li>iPhone6 布局类  <code>GUIIP6Layout</code> 继承 <code>GUILayout</code></li>
-<li>iPhone6 plus 布局类 <code>GUIIP6PLayout</code> 继承 <code>GUILayout</code></li>
-<li>工厂类 <code>GUILayoutFactory</code></li>
-</ul>
-<h2 id="代码详解">代码详解</h2><p>首先是     <code>GUILayout</code>,它定义了所有需要的属性.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;UIKit/UIKit.h&#62;&#10;&#10;@interface GUILayout : NSObject&#10;&#10;@property (assign, nonatomic) CGFloat textFieldHeight;&#10;@property (assign, nonatomic) CGFloat textFieldWidth;&#10;@property (assign, nonatomic) CGFloat loginButtonWidth;&#10;@property (assign, nonatomic) CGFloat loginButtonHeight;&#10;&#10;@end&#10;&#10;#import &#34;GUILayout.h&#34;&#10;&#10;@implementation GUILayout&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p>它的布局子类,在 <code>init</code>方法中,对布局属性进行了初始化,因为代码几乎一样,所以拿一个类说明:(为了以后区分,我给不同的布局类不同的值:<br>4/4s 值都是 4 ,5/5s 值都是5 ,6 值都是6 ,6 plus值都是 60)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;GUILayout.h&#34;&#10;&#10;@interface GUIIP4SLayout : GUILayout&#10;&#10;@end&#10;&#10;#import &#34;GUIIP4SLayout.h&#34;&#10;&#10;@implementation GUIIP4SLayout&#10;&#10;- (instancetype)init &#123;&#10;    if (self = [super init]) &#123;&#10;&#10;        self.textFieldHeight   = 4;&#10;        self.textFieldWidth    = 4;&#10;        self.loginButtonHeight = 4;&#10;        self.loginButtonWidth  = 4;&#10;&#10;    &#125;&#10;    return self;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
-<p>然后是工厂类:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;@class GUILayout;&#10;@interface GUILayoutFactory : NSObject&#10;&#10;-(GUILayout*)createLayout;&#10;+(GUILayout*)createLayout;&#10;&#10;&#10;@end&#10;&#10;&#10;#import &#34;GUILayoutFactory.h&#34;&#10;#import &#34;GUIIP4SLayout.h&#34;&#10;#import &#34;GUIIP6Layout.h&#34;&#10;#import &#34;GUIIP6PLayout.h&#34;&#10;#import &#34;GUIIP5Layout.h&#34;&#10;&#10;#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;&#10;typedef NS_ENUM(NSUInteger, GUIDeviceType) &#123;&#10;    &#10;    GUIDeviceType4S = 1,&#10;    GUIDeviceType5,&#10;    GUIDeviceType6,&#10;    GUIDeviceType6P,&#10;    GUIDeviceTypeNotFound&#10;&#10;&#125;;&#10;&#10;@implementation GUILayoutFactory&#10;&#10;-(GUILayout*)createLayout&#123;&#10;    &#10;   switch ([self deviceType]) &#123;&#10;        case GUIDeviceType4S:&#10;            return [GUIIP4SLayout new];&#10;            break;&#10;        case GUIDeviceType6:&#10;            return [GUIIP6Layout new];&#10;            break;&#10;        case GUIDeviceType6P:&#10;            return [GUIIP6PLayout new];&#10;            break;&#10;        case GUIDeviceType5:&#10;            return [GUIIP5Layout new];&#10;        case GUIDeviceTypeNotFound:&#10;            return nil;&#10; &#10;    &#125;&#10;    &#10;    return nil;&#10;&#10;&#10;&#125;&#10;&#10;+(GUILayout*)createLayout&#123;&#10;&#10;    return  [[GUILayoutFactory new] createLayout];&#10;&#10;&#125;&#10;&#10;-(GUIDeviceType)deviceType&#123;&#10;    &#10;    if (kisiPhone4) &#123;&#10;        return GUIDeviceType4S;&#10;    &#125;else if(kisiPhone5)&#123;&#10;        return GUIDeviceType5;&#10;    &#125;else if(kisiPhone6)&#123;&#10;        return GUIDeviceType6;&#10;    &#125;else if(kisiPhone6Plus)&#123;&#10;        return GUIDeviceType6P;&#10;    &#125;else&#123;&#10;        return GUIDeviceTypeNotFound;&#10;    &#125;&#10;   &#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
-<ul>
-<li>将判断逻辑下放到工厂类中,简化了控制器的调用</li>
-<li>定义根据屏幕尺寸判断设备类型的宏</li>
-<li>根据枚举类型决定返回的<code>layout</code>类型</li>
-</ul>
-<h2 id="结语">结语</h2><p>好了,这就是完整的代码了.根据自己的需求,修改参数名,可以方便的用到自己的系统中.</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-09T03:16:28.000Z"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/">2015-08-09</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/">当遇到严格要求的UI-模式选择</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>公司最近的一个项目,在UI上有比较严格的要求: <strong>每种屏幕下地控件的尺寸要求绝对的精确</strong>  </p>
-<h2 id="实现方案">实现方案</h2><p>使用的纯代码 ,加上要适配 iOS 7 ,所以 <code>Size-Class</code> 就不用考虑了. </p>
-<p>分析情况,其实控件的相对位置是固定的.开始也是用了 <code>Masonry</code>,只是需要提供不同屏幕下地控件尺寸,间距等内容.</p>
-<h2 id="如何更优雅可拓展的实现">如何更优雅可拓展的实现</h2><p>当然,你可以在布局的时候,写<code>if-else</code> 和 <code>switch-case</code>来对不同屏幕的尺寸参数赋不同的值. 可是如果以后要修改呢,苹果要抽风推出了新尺寸的iPhone,而你被要求去适配呢? 你岂不是要找遍整个项目修改原来的分支判断.<br>    就是说,以上的实现方式:</p>
-<ul>
-<li>维护性差 人工维护成本高,也破坏了<code>开闭原则</code></li>
-<li>扩展性差 如果有新的要求,需要逐个重写.</li>
-</ul>
-<h2 id="设计模式选择">设计模式选择</h2><p>对于这种情况,一开始首先是想到了<code>策略模式</code>,因为我考虑每种屏幕都可以算作是一种方案.而至于<code>策略模式</code>是行为模式,也当然可以通过重构技巧把属性替换为方法,完成策略的行为需求.我兴冲冲的绘制了草稿(OC没有合适的UML类图工具,所以用了普通的绘图工具,线条种类不足以完全表示UML类图中得关系)</p>
-<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/当遇到严格要求的UIQQ20150809-5@2x.png" alt="策略模式"></p>
-<p>为了规避策略模式需要让客户端(调用者)知道具体策略的缺点(我认为是缺点),我采用重构手法将逻辑下放到<code>context</code>,<code>DeviceType</code>能决定具体的策略,算是<code>简单工厂</code>和<code>策略模式</code>的结合.</p>
-<p>但是在绘图的过程中,想到,这有点算过度设计了, <strong>其实我只是需要一个能够保持属性的对象,然后在布局的时候,使用它</strong> ,使用策略模式,意味着我需要把所有的属性的 <code>getter</code>实现,才算符合<code>策略</code>的本意.<br>这次是一次失败的案例:</p>
-<ul>
-<li>对这种级别的方法使用策略,大材小用,无缘故的增加复杂度而已</li>
-<li>一开始就不应该偏执的考虑将属性重构为方法,这里只是简单地赋值,不需要拦截其 <code>get</code> 过程</li>
-</ul>
-<p>然后想到了,建造者模式: 创建型的模式,很符合我要个布局对象的需求,也给他弄上了个简单工厂,避免了在控制器中出现分支语句:</p>
-<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/当遇到严格要求的UIQQ20150809-3@2x.png" alt=""></p>
-<p>没画出具体的产品(布局),请见谅.</p>
-<p>但是, 这里又有一个问题: 在我以前的经验中, 建造者模式是用来区分过程固定,但是有需要多样化的建造方式的. 在我的场景中,我最复杂的情况也仅仅是赋值而已, 所以,也是不适合的.</p>
-<h2 id="最终方案">最终方案</h2><p>其实最简单的,往往是最好的.最重要的是弄明白自己需要的. 我仅仅需要几个承载着不同属性的对象.最合适的方案应该是 <code>简单工厂</code>,而且可以把逻辑下放到简单工厂中.这模式太简单了,就不画图了.</p>
-<h2 id="总结">总结</h2><p>在设计模式的选择,甚至是去除设计模式的过程中,需要开发者有足够的经验来做决定. 今天就走了一个弯路,好在及时发现了.如果用策略模式或者建造者编码,将来的维护成本肯定要上升.</p>
-<p>下一篇中,将用代码实现.</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -701,7 +665,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>12</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>13</small></li>
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
   
@@ -734,7 +698,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
   
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>1</small></li>
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>2</small></li>
   
     <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
   

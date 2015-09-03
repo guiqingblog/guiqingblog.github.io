@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>简单实现控制器过渡动画 | 桂庆的个人主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="简单实现控制器过渡动画"/>
+  <meta property="og:site_name" content="桂庆的个人主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="桂庆的个人主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">桂庆的个人主页</a></h1>
+  <h2><a href="/">记录自己的学习 工作 感悟</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-28T23:37:53.000Z"><a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/">2015-08-29</a></time>
+      
+      
+  
+    <h1 class="title">简单实现控制器过渡动画</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>自己实现控制器动画的方法,还是比较常见的. 这个是    <code>UINavigationController</code>的 <code>Push</code> 和 <code>Dismiss</code> 动画.<br><a id="more"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//&#10;//  GUIViewController.m&#10;//  GUIControllerTransitionDemo&#10;//&#10;//  Created by Kenny on 8/29/15.&#10;//  Copyright (c) 2015 Kenny. All rights reserved.&#10;//&#10;&#10;#import &#34;GUIViewController.h&#34;&#10;#import &#34;GUIHeader.h&#34;&#10;#import &#34;GUISubViewController.h&#34;&#10;@interface GUIViewController ()&#10;@property(nonatomic,weak)UIButton * pushButton;&#10;@end&#10;&#10;@implementation GUIViewController&#10;&#10;&#10;#pragma mark -life cycle&#10;- (void)viewDidLoad &#123;&#10;    [super viewDidLoad];&#10;    self.view.backgroundColor = GUIRandomColor;&#10;    &#10;    [self configPushButton];&#10;    &#10;&#125;&#10;&#10;#pragma mark -  delegate&#10;&#10;#pragma mark -event response&#10;-(void)pushNewController:(UIButton*)button&#123;&#10;    &#10;    GUISubViewController * subVC = [GUISubViewController new];&#10;    [self.navigationController pushViewController:subVC animated:YES];&#10;&#125;&#10;#pragma mark -private methods&#10;-(void)configPushButton&#123;&#10;    &#10;    UIButton * pushButton = [UIButton new];&#10;    [pushButton setTitle:@&#34;push new controller button&#34; forState:UIControlStateNormal];&#10;    [pushButton setBackgroundColor:GUIRandomColor];&#10;    [pushButton addTarget:self action:@selector(pushNewController:) forControlEvents:UIControlEventTouchUpInside];&#10;    [self.view addSubview:pushButton];&#10;    self.pushButton = pushButton;&#10;    &#10;&#125;&#10;&#10;#pragma mark -getters and setters&#10;&#10;#pragma mark - layout method&#10;-(void)viewWillLayoutSubviews&#123;&#10;    [super viewWillLayoutSubviews];&#10;    &#10;    WSE(ws);&#10;    [self.pushButton mas_makeConstraints:^(MASConstraintMaker *make) &#123;&#10;        make.size.mas_equalTo(CGSizeMake(GUIScreenWidth, 30));&#10;        make.leading.mas_equalTo(ws.view);&#10;        make.bottom.mas_equalTo(ws.view).with.offset(-100);&#10;    &#125;];&#10;    &#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>然后在 AppDelegate中,为控制器包装一个导航控制器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;&#10;   &#10;    GUIViewController * vc = [GUIViewController new];&#10;    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:vc];&#10;    [application.delegate window].rootViewController = nav;&#10;    &#10;    return YES;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>以上纯碎是简单的布局代码,和主题无关.</p>
+<p>接下来进入正题:</p>
+<p>在Apple的设计中, 实现自定义的切换动画,依赖的是协议中的方法,而不是具体的对象的具体方法,所以我们需要创建一个类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;UIKit/UIKit.h&#62;&#10;&#10;@interface GUINavigationControllerDelegate : NSObject&#60;UINavigationControllerDelegate&#62;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>.m 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;GUINavigationControllerDelegate.h&#34;&#10;&#10;@implementation GUINavigationControllerDelegate&#10;&#10;/**&#10;&#10;    &#24403;&#25511;&#21046;&#22120;&#20999;&#25442;&#30340;&#26102;&#20505;&#34987;&#35843;&#29992;,&#36820;&#22238;&#19968;&#20010;&#27809;&#26377;&#20132;&#20114;&#24615;&#30340;&#21160;&#30011;&#23545;&#35937;&#10; *&#10; *  @param navigationController &#23548;&#33322;&#25511;&#21046;&#22120;&#10; *  @param operation            &#25805;&#20316;&#10; *  @param fromVC               &#24403;&#21069;&#25511;&#21046;&#22120;&#10; *  @param toVC                 &#30446;&#26631;&#25511;&#21046;&#22120;&#10; *&#10; *  @return &#21160;&#30011;&#23545;&#35937;&#10; */&#10;-(id&#60;UIViewControllerAnimatedTransitioning&#62;)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC&#123;&#10;&#10;    &#10;    &#10;    return nil;&#10;&#125;&#10;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>描述的非常明确了, 那么现在我们需要一个动画对象,这个对象需要遵守<code>UIViewControllerAnimatedTransitioning</code>协议</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//&#10;//  GUIAnimator.h&#10;//  GUIControllerTransitionDemo&#10;//&#10;//  Created by Kenny on 8/29/15.&#10;//  Copyright (c) 2015 Kenny. All rights reserved.&#10;//&#10;&#10;#import &#60;UIKit/UIKit.h&#62;&#10;&#10;@interface GUIAnimator : NSObject &#60;UIViewControllerAnimatedTransitioning&#62;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>具体的实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//&#10;//  GUIAnimator.m&#10;//  GUIControllerTransitionDemo&#10;//&#10;//  Created by Kenny on 8/29/15.&#10;//  Copyright (c) 2015 Kenny. All rights reserved.&#10;//&#10;&#10;#import &#34;GUIAnimator.h&#34;&#10;&#10;@implementation GUIAnimator&#10;&#10;&#10;/**&#10; *  &#21160;&#30011;&#25191;&#34892;&#26102;&#38388;&#10; *&#10; *  @param transitionContext &#36807;&#28193;&#21160;&#30011;&#19978;&#19979;&#25991;&#29615;&#22659;&#10; *&#10; *  @return &#21160;&#30011;&#26102;&#38271;&#10; */&#10;- (NSTimeInterval)transitionDuration:(id &#60;UIViewControllerContextTransitioning&#62;)transitionContext&#10;&#123;&#10;    return 1;&#10;&#125;&#10;&#10;/**&#10; *  &#20855;&#20307;&#21160;&#30011;&#34892;&#20026;&#10; *&#10; *  @param transitionContext &#36807;&#28193;&#21160;&#30011;&#19978;&#19979;&#25991;&#29615;&#22659;&#10; */&#10;- (void)animateTransition:(id&#60;UIViewControllerContextTransitioning&#62;)transitionContext&#10;&#123;&#10;    //&#23558;&#35201;&#20999;&#25442;&#21040;&#30340;&#25511;&#21046;&#22120;&#10;    UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];&#10;    //&#24403;&#21069;&#30340;&#25511;&#21046;&#22120;&#10;    UIViewController* fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];&#10;    //container view&#20805;&#24403;&#19968;&#20010;&#34394;&#25311;&#30340;superView&#30340;&#35282;&#33394;&#10;    [[transitionContext containerView] addSubview:toViewController.view];&#10;    &#10;    //&#35774;&#32622;&#21021;&#22987;&#29366;&#24577;&#10;    toViewController.view.alpha = 0;&#10;    &#10;    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^&#123;&#10;        fromViewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);&#10;        toViewController.view.alpha = 1;&#10;    &#125; completion:^(BOOL finished) &#123;&#10;        &#10;         fromViewController.view.transform = CGAffineTransformIdentity;&#10;        &#10;        //&#36890;&#30693;&#31995;&#32479;,&#36807;&#28193;&#24050;&#32463;&#23436;&#25104;&#10;        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];&#10;        &#10;    &#125;];&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>注释已经写的非常清楚,在此不再赘述.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2015/08/29/重构、模式、架构/简单实现控制器过渡动画/" data-title="简单实现控制器过渡动画" data-url="http://yoursite.com/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>13</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>9</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>2</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>1</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>4</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2015 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

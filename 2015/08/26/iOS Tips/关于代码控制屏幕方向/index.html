@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>悟 | 桂庆的个人主页</title>
+  <title>关于代码控制屏幕方向 | 桂庆的个人主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="关于代码控制屏幕方向"/>
   <meta property="og:site_name" content="桂庆的个人主页"/>
 
   
@@ -44,25 +44,82 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title category">悟</h2>
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-26T06:55:16.000Z"><a href="/2015/08/26/iOS Tips/关于代码控制屏幕方向/">2015-08-26</a></time>
+      
+      
+  
+    <h1 class="title">关于代码控制屏幕方向</h1>
+  
 
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>今天同学提了一个需求,希望在 <code>NavigationController</code>管理的控制器中,实现 <code>Push</code>出的控制器是横屏,然后前一个控制器是竖屏的.</p>
+<p>听到这么说, 很简单的想到使用代码控制器屏幕方向,(当然,需要首先在项目的 plist中允许屏幕的多个方向)<br><a id="more"></a></p>
+<h2 id="尝试">尝试</h2><p>经过查找相关资料, 锁定了三个方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(BOOL)shouldAutorotate&#123;&#10;    return NO;&#10;&#125;&#10;&#10;-(NSUInteger)supportedInterfaceOrientations&#123;&#10;    return UIInterfaceOrientationMaskPortrait;&#10;&#125;&#10;&#10;-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation&#123;&#10;    return UIInterfaceOrientationPortrait;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>第一个方法: 允许自动旋转 ,返回 NO </p>
+</li>
+<li><p>第二个方法: 当前屏幕支持的方向,默认是 <code>UIInterfaceOrientationMaskAll</code> ,即支持所有在Xcode工程中标注的方向.在这返回竖屏,意为让其竖屏显示</p>
+</li>
+<li><p>第三个方法: 当控制器推出方法是<code>Present</code>的时候,优先选择的方向,注意,这个只是优先选择的方向, 当显示完毕,用户继续旋转手机的时候,还是会自动根据用户手机方向进行变化的.</p>
+</li>
+</ul>
+<h2 id="坑">坑</h2><p>方法准备完毕, 但是当用在同学的需求上时候,发现根本不起作用 .前一个控制器的状态,会影响后面的控制器. </p>
+<p>后来查找相关资料, 虽然原因没找到, 但是大家都是遇到了这个问题.</p>
+<p>个人猜想是,NavigationController是全局的容器,控制器本身并不能影响它的行为.</p>
+<h2 id="验证">验证</h2><p>继承系统的<code>NavgationController</code> ,添加以下方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(BOOL)shouldAutorotate&#123;&#10;    return NO;&#10;&#125;&#10;&#10;-(NSUInteger)supportedInterfaceOrientations&#123;&#10;    return UIInterfaceOrientationMaskPortrait;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>旋屏屏幕, 发现在 Xcode中设置的屏幕方向没用了,现在只能是竖屏.</p>
+<h2 id="妥协">妥协</h2><p>鉴于上面遇到的坑, 所以更改推出控制器的方式为 Present ,即让控制器脱离<code>NavigationController</code>的管理 ,就像咱播放视频的时候, 视频自动横屏, 但是不是在Navigation的管理下.</p>
 
-  <div class="archive">
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2015-08-22T14:06:25.000Z"><a href="/2015/08/22/悟/谁让APP工程师产生了泡沫？/">2015-08-22</a></time>
-            
-              <h1 class="title"><a href="/2015/08/22/悟/谁让APP工程师产生了泡沫？/">谁让APP工程师产生了泡沫？</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/iOS-Tips/">iOS Tips</a>
   </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/iOS-Tips/">iOS Tips</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2015/08/26/iOS Tips/关于代码控制屏幕方向/" data-title="关于代码控制屏幕方向" data-url="http://yoursite.com/2015/08/26/iOS Tips/关于代码控制屏幕方向/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
