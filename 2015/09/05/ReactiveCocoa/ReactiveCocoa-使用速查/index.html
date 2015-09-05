@@ -61,7 +61,63 @@
     <div class="entry">
       
         <h2 id="Context">Context</h2><p>反复接触 <code>ReactiveCocoa</code> ,这次真的准备把它应用到实际开发中了.为了以后使用方便,这里列出一些常用关键字的使用方法,以备查询.</p>
-<h2 id="常用方法">常用方法</h2>
+<h2 id="常用方法">常用方法</h2><h3 id="简单订阅_subscribeNext">简单订阅 subscribeNext</h3><p>使用场景:<br>“ 如果你改变了,让我知道 “</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.usernameTextField.rac_textSignal subscribeNext:^(id x) &#123;&#10;   NSLog(@&#34;%@&#34;, x);&#10; &#125;];</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="过滤条件_filter">过滤条件 filter</h3><p>使用场景:</p>
+<p>“ 如果你改变了,并且满足x条件, 那么再让我知道 “</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[self.usernameTextField.rac_textSignal&#10;&#10;    filter:^BOOL(id value) &#123;&#10;      NSString* text = value;&#10;      return text.length &#62; 4;&#10;    &#125;] subscribeNext:^(id x) &#123;&#10;  NSLog(@&#34;%@&#34;, x);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<p>还有拆分的写法,因为 block层级太深 ,可读性不好:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RACSignal* usernameSourceSignal = self.usernameTextField.rac_textSignal;&#10;&#10;RACSignal* filteredUsernameSignal =&#10;    [usernameSourceSignal filter:^BOOL(id value) &#123;&#10;      NSString* text = value;&#10;      return text.length &#62; 3;&#10;    &#125;];&#10;&#10;[filteredUsernameSignal subscribeNext:^(id x) &#123;&#10;  NSLog(@&#34;%@&#34;, x);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<h3 id="类型转换_map">类型转换 map</h3><p>使用场景:</p>
+<p>当需要从输入信号中提取不同的信息时(比如这里, 从打印下个字符,到打印长度)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[self.usernameTextField.rac_textSignal&#10;    map:^id(NSString* value) &#123;&#10;   return @(value.length);&#10; &#125;] filter:^BOOL(NSNumber* value) &#123;&#10;   return [value integerValue] &#62; 4;&#10; &#125;] subscribeNext:^(id x) &#123;&#10;   NSLog(@&#34;%@&#34;, x);&#10; &#125;];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意: 可 map 的只能是对象</li>
+</ul>
+<h3 id="RAC_宏">RAC 宏</h3><p>使用场景:  RAC(A,b)<br>利用信号改变 A 的 b 属性值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// &#39564;&#35777;&#20449;&#21495;&#10;RACSignal *validUsernameSignal =&#10; [self.usernameTextField.rac_textSignal&#10; map:^id(NSString *text) &#123;&#10; return @([self isValidUsername:text]);&#10; &#125;]; &#10;&#10;RAC(self.usernameTextField, backgroundColor) =&#10;  [validUsernameSignal&#10;    map:^id(NSNumber *passwordValid)&#123;&#10;     return[passwordValid boolValue] ? [UIColor clearColor]:[UIColor yellowColor];&#10;   &#125;];</span><br></pre></td></tr></table></figure>
+<h3 id="聚合信号_combineLatest">聚合信号 combineLatest</h3><p>使用场景:<br>多个信号条件同时满足, 才能产生有效信号(比如登陆的时候,用户名有效并且密码有效的时候,登陆按钮才应该有效)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RACSignal *signUpActiveSignal =&#10;  [&#10;  RACSignal combineLatest:@[validUsernameSignal, validPasswordSignal]&#10;                    reduce:^id(NSNumber *usernameValid, NSNumber *passwordValid)&#123;&#10;                      return @([usernameValid boolValue]&#38;&#38;[passwordValid boolValue]);&#10;                    &#125;&#10;  ];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用combineLatest:reduce:方法把validUsernameSignal和validPasswordSignal产生的最新的值聚合在一起，并生成一个新的信号。每次这两个源信号的任何一个产生新值时，reduce block都会执行，block的返回值会发给下一个信号。</li>
+</ul>
+<h3 id="事件信号">事件信号</h3><p>使用场景:<br>拿到UIKit控件的事件响应信号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[self.signInButton&#10;   rac_signalForControlEvents:UIControlEventTouchUpInside]&#10;   subscribeNext:^(id x) &#123;&#10;     NSLog(@&#34;button clicked&#34;);&#10;   &#125;];</span><br></pre></td></tr></table></figure>
+<h3 id="封装方法">封装方法</h3><p>使用场景:</p>
+<p>想把一个异步的API 封装成信号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (RACSignal *)signInSignal &#123;&#10;return [RACSignal createSignal:^RACDisposable *(id&#60;RACSubscriber&#62; subscriber)&#123;&#10;   [self.signInService &#10;     signInWithUsername:self.usernameTextField.text&#10;               password:self.passwordTextField.text&#10;               complete:^(BOOL success)&#123;&#10;                    [subscriber sendNext:@(success)];&#10;                    [subscriber sendCompleted];&#10;     &#125;];&#10;   return nil;&#10;&#125;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="拿到信号中的信号_flattenMap">拿到信号中的信号 flattenMap</h3><p>使用场景:</p>
+<p>当需要从包含信号b的信号a中拿取信号b</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[self.signInButton&#10;   rac_signalForControlEvents:UIControlEventTouchUpInside]&#10;   flattenMap:^id(id x)&#123;&#10;     return[self signInSignal];&#10;   &#125;]&#10;   subscribeNext:^(id x)&#123;&#10;     NSLog(@&#34;Sign in result: %@&#34;, x);&#10;   &#125;];</span><br></pre></td></tr></table></figure>
+<h3 id="添加附加操作（Adding_side-effects）">添加附加操作（Adding side-effects）</h3><p>使用场景:<br>需要进行一些准备工作的时候</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[[self.signInButton&#10;   rac_signalForControlEvents:UIControlEventTouchUpInside]&#10;   doNext:^(id x)&#123;&#10;     self.signInButton.enabled =NO;&#10;     self.signInFailureText.hidden =YES;&#10;   &#125;]&#10;   flattenMap:^id(id x)&#123;&#10;     return[self signInSignal];&#10;   &#125;]&#10;   subscribeNext:^(NSNumber*signedIn)&#123;&#10;     self.signInButton.enabled =YES;&#10;     BOOL success =[signedIn boolValue];&#10;     self.signInFailureText.hidden = success;&#10;     if(success)&#123;&#10;       [self performSegueWithIdentifier:@&#34;signInSuccess&#34; sender:self];&#10;     &#125;&#10;   &#125;];</span><br></pre></td></tr></table></figure>
+<h3 id="移除订阅_dispose">移除订阅 dispose</h3><p>使用场景:</p>
+<p>当需要手动释放一个信号(当没有订阅,信号就不复存在),但是使用场景很少,仅供了解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RACSignal *backgroundColorSignal =&#10;    [self.searchText.rac_textSignal &#10;        map:^id(NSString *text) &#123; &#10;            return [self isValidSearchText:text] ? &#10;                [UIColor whiteColor] : [UIColor yellowColor]; &#10;    &#125;]; &#10;    &#10;RACDisposable *subscription = &#10;    [backgroundColorSignal &#10;        subscribeNext:^(UIColor *color) &#123;&#10;            self.searchText.backgroundColor = color; &#10;    &#125;]; &#10;    &#10;// at some point in the future ... &#10;[subscription dispose];&#65279;&#8203;</span><br></pre></td></tr></table></figure>
+<h3 id="防止循环引用">防止循环引用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@weakify(self) &#10;[[self.searchText.rac_textSignal &#10;    map:^id(NSString *text) &#123; &#10;        return [self isValidSearchText:text] ? &#10;            [UIColor whiteColor] : [UIColor yellowColor]; &#10;    &#125;] &#10;    subscribeNext:^(UIColor *color) &#123; &#10;        @strongify(self) &#10;        self.searchText.backgroundColor = color; &#10;    &#125;];&#65279;&#8203;</span><br></pre></td></tr></table></figure>
+<h3 id="next_error_completed">next error completed</h3><p>在signal的生命周期中，它可能不发送事件，发送一个或多个next事<br>件，在这之后还能发送一个completed事件或一个error事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[self requestAccessToTwitterSignal] &#10;    subscribeNext:^(id x) &#123; &#10;        NSLog(@&#34;Access granted&#34;); &#10;    &#125; error:^(NSError *error) &#123; &#10;        NSLog(@&#34;An error occurred: %@&#34;, error); &#10;    &#125;];&#65279;&#8203;</span><br></pre></td></tr></table></figure>
+<h3 id="信号链接_then">信号链接 then</h3><p>使用场景:<br>当后面的信号需要依赖前面的信号时</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[self requestAccessToTwitterSignal] &#10;    then:^RACSignal *&#123; &#10;        @strongify(self) &#10;        return self.searchText.rac_textSignal; &#10;    &#125;] &#10;    subscribeNext:^(id x) &#123; &#10;        NSLog(@&#34;%@&#34;, x); &#10;    &#125; error:^(NSError *error) &#123; &#10;        NSLog(@&#34;An error occurred: %@&#34;, error); &#10;    &#125;];</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>then方法会等待completed事件的发送，然后再订阅由then block返回的signal。这样就高效地把控制权从一个signal传递给下一个。</p>
+</li>
+<li><p>then方法会跳过error事件，因此最终的subscribeNext:error:  block还是会收到获取访问权限那一步发送的error事件。</p>
+</li>
+</ul>
+<h3 id="异步信号">异步信号</h3><p>使用场景:<br>后台加载资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(RACSignal *)signalForLoadingImage:(NSString *)imageUrl &#123; &#10;&#10;    RACScheduler *scheduler = [RACScheduler &#10;        schedulerWithPriority:RACSchedulerPriorityBackground]; &#10;        &#10;    return [[RACSignal createSignal:^RACDisposable *(id subscriber) &#123; &#10;    &#10;        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]; &#10;        UIImage *image = [UIImage imageWithData:data]; &#10;    &#10;    &#10;        [subscriber sendNext:image]; &#10;        [subscriber sendCompleted]; &#10;        return nil; &#10;    &#125;] subscribeOn:scheduler]; &#10;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>subscribeOn：来确保signal在指定的scheduler上执行。</li>
+</ul>
+<h3 id="在主线程上更新UI">在主线程上更新UI</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cell.twitterAvatarView.image = nil; &#10; &#10;[[[self signalForLoadingImage:tweet.profileImageUrl] &#10;    deliverOn:[RACScheduler mainThreadScheduler]] &#10;    subscribeNext:^(UIImage *image) &#123; &#10;        cell.twitterAvatarView.image = image; &#10;    &#125;];</span><br></pre></td></tr></table></figure>
+<p>针对cell的重用问题, 有种更优化的方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[[self signalForLoadingImage:tweet.profileImageUrl] &#10;    takeUntil:cell.rac_prepareForReuseSignal] &#10;    deliverOn:[RACScheduler mainThreadScheduler]] &#10;    subscribeNext:^(UIImage *image) &#123; &#10;        cell.twitterAvatarView.image = image; &#10;    &#125;];</span><br></pre></td></tr></table></figure>
+<h3 id="延时响应_throttle">延时响应 throttle</h3><p>使用场景:   </p>
+<p>当用户输入完毕, 自定进行搜索的时候,不应该用户每次改变输入,都马上搜索,应该当用户停止输入 x 秒之后,再进行搜索</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@weakify(self);&#10;[[self.passwordTextField.rac_textSignal throttle:2] subscribeNext:^(id x) &#123;&#10;  @strongify(self);&#10;  self.hintLabel.text = (NSString*)x;&#10;&#125;];</span><br></pre></td></tr></table></figure>
+
       
     </div>
     <footer>
