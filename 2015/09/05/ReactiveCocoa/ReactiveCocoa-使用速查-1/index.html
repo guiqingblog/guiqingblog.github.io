@@ -50,7 +50,7 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-09-05T01:08:14.000Z"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查/">2015-09-05</a></time>
+        <time datetime="2015-09-05T01:08:14.000Z"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">2015-09-05</a></time>
       
       
   
@@ -117,6 +117,7 @@
 <h3 id="延时响应_throttle">延时响应 throttle</h3><p>使用场景:   </p>
 <p>当用户输入完毕, 自定进行搜索的时候,不应该用户每次改变输入,都马上搜索,应该当用户停止输入 x 秒之后,再进行搜索</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@weakify(self);&#10;[[self.passwordTextField.rac_textSignal throttle:2] subscribeNext:^(id x) &#123;&#10;  @strongify(self);&#10;  self.hintLabel.text = (NSString*)x;&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<p>参考网址:<br><a href="http://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1" target="_blank" rel="external">http://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1</a><br><a href="http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part1" target="_blank" rel="external">http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part1</a></p>
 
       
     </div>
@@ -142,7 +143,7 @@
 </article>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查/" data-title="ReactiveCocoa 使用速查" data-url="http://yoursite.com/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查/"></div>
+  <div class="ds-thread" data-thread-key="2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/" data-title="ReactiveCocoa 使用速查" data-url="http://yoursite.com/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -174,7 +175,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>1</small></li>
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
@@ -207,7 +208,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>1</small></li>
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
   
