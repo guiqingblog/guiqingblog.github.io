@@ -1,0 +1,258 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS正则表达式类 NSRegularExpression 详解 | 桂庆的个人主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="iOS正则表达式类 NSRegularExpression 详解"/>
+  <meta property="og:site_name" content="桂庆的个人主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="桂庆的个人主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">桂庆的个人主页</a></h1>
+  <h2><a href="/">记录自己的学习 工作 感悟</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-11-18T01:32:20.000Z"><a href="/2015/11/18/iOS Tips/iOS正则表达式类/">2015-11-18</a></time>
+      
+      
+  
+    <h1 class="title">iOS正则表达式类 NSRegularExpression 详解</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>因目前手头的项目与不成熟的硬件工作,可能出现两个Json拼接到一起的情况,需要使用到正则表达式进行拆分.</p>
+<h2 id="现状">现状</h2><p>提到 iOS中的正则表达式 ,大家容易想到的有三种方式:</p>
+<h3 id="RangeOfString:_option:">RangeOfString: option:</h3><p>这种是最简单粗暴的方式,使用方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString *testString = @&#34;&#123;this is regex&#125;&#34;;&#10;&#10;NSRange range = [testString rangeOfString:@&#34;[a-z]&#34; options:NSRegularExpressionSearch];&#10;&#10;if (range.location != NSNotFound) &#123;&#10;    NSLog(@&#34;%@&#34;, [testString substringWithRange:range]);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>这种方式,简单并且容易理解. 但是对于我的案例, 我可能会有多个结果. 所以这个方式,不适合</p>
+<h3 id="NSPredicate">NSPredicate</h3><p>谓词匹配<br>Cocoa框架中的NSPredicate用于查询，原理和用法都类似于SQL中的where，作用相当于数据库的过滤取。关于谓词的更全面的知识, 在<a href="http://blog.csdn.net/ztp800201/article/details/8116081" target="_blank" rel="external">这里</a></p>
+<p>在这里只讨论其作为正则表达式的用法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString *emailString = @&#34;guiqing1990@163.com&#34;;&#10;    NSString *regex = @&#34;[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]&#123;2,4&#125;&#34;;&#10;    NSPredicate *predicate = [NSPredicate predicateWithFormat:@&#34;SELF MATCHES %@&#34;, regex];&#10;    BOOL isValid = [predicate evaluateWithObject:emailString];</span><br></pre></td></tr></table></figure>
+<p>点击进入 <code>NSPredicate</code> 的头文件,可以看出,  <code>NSPredicate</code> 绝大多数情况是用来做匹配验证的. 可以说,在作为正则表达式使用的情况下,  <code>NSPredicate</code> 的功能是比 <code>RangeOfString: option:</code> 弱的.</p>
+<h3 id="NSRegularExpression">NSRegularExpression</h3><p>这是iOS自带的正则表达式类, 功能强大,几乎可以满足任何iOS开发中的正则需求.</p>
+<h4 id="初始化方法">初始化方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (nullable NSRegularExpression *)regularExpressionWithPattern:(NSString *)pattern options:(NSRegularExpressionOptions)options error:(NSError **)error;&#10;- (nullable instancetype)initWithPattern:(NSString *)pattern options:(NSRegularExpressionOptions)options error:(NSError **)error</span><br></pre></td></tr></table></figure>
+<p>实例初始化方法和对应的类方法 . 需要说明的是 <code>options</code>参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_OPTIONS(NSUInteger, NSRegularExpressionOptions) &#123;&#10;   NSRegularExpressionCaseInsensitive             = 1 &#60;&#60; 0,     /* &#22823;&#23567;&#20889;&#25935;&#24863; */&#10;   NSRegularExpressionAllowCommentsAndWhitespace  = 1 &#60;&#60; 1,     /* &#24573;&#30053;&#31354;&#26684;&#25110;&#32773; # -  */&#10;   NSRegularExpressionIgnoreMetacharacters        = 1 &#60;&#60; 2,     /* &#25226;&#25972;&#20010;&#30475;&#25104;&#19968;&#20010;&#25991;&#26412;&#20018; */&#10;   NSRegularExpressionDotMatchesLineSeparators    = 1 &#60;&#60; 3,     /* &#20801;&#35768; . &#21305;&#37197;&#25152;&#26377;&#23383;&#31526;,&#21253;&#25324;&#34892;&#20998;&#38548;&#31526; */&#10;   NSRegularExpressionAnchorsMatchLines           = 1 &#60;&#60; 4,     /* &#20801;&#35768;^&#21644;$ &#21305;&#37197;&#34892;&#30340;&#24320;&#22987;&#21644;&#32467;&#26463; */&#10;   NSRegularExpressionUseUnixLineSeparators       = 1 &#60;&#60; 5,     /*  &#10;   &#20165;&#20165;&#25226; \n &#24403;&#20570;&#34892;&#20998;&#38548;&#31526;(&#21542;&#21017;,&#25152;&#26377;&#26631;&#20934;&#30340;&#34892;&#20998;&#38548;&#31526;&#37117;&#31639;&#20316;&#34892;&#20998;&#38548;&#31526;),&#26597;&#25214;&#33539;&#22260;&#20026;&#25972;&#20010;&#30340;&#35805;,&#26080;&#25928;&#10;   */&#10;   NSRegularExpressionUseUnicodeWordBoundaries    = 1 &#60;&#60; 6      /* &#10;   &#20351;&#29992;TR#29&#20316;&#20026;&#21333;&#35789;&#36793;&#30028;(&#21542;&#21017;,&#20256;&#32479;&#30340;&#27491;&#21017;&#34920;&#36798;&#24335;&#30340;&#21333;&#35789;&#36793;&#30028;&#20316;&#20026;&#21333;&#35789;&#36793;&#30028;) &#26597;&#25214;&#33539;&#22260;&#20026;&#25972;&#20010;&#30340;&#35805;,&#26080;&#25928;&#10;    */&#10;&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="匹配方法">匹配方法</h4><ol>
+<li>返回所有匹配结果的集合(适合,从一段字符串中提取我们想要匹配的所有数据)</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (NSArray *)matchesInString:(NSString *)string options:(NSMatchingOptions)options range:(NSRange)range;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>返回正确匹配的个数(通过等于0,来验证邮箱,电话什么的,代替NSPredicate)</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(NSUInteger)numberOfMatchesInString:(NSString *)string options:(NSMatchingOptions)options range:(NSRange)range;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>返回第一个匹配的结果。注意，匹配的结果保存在  NSTextCheckingResult 类型中</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(NSTextCheckingResult *)firstMatchInString:(NSString *)string options:(NSMatchingOptions)options range:(NSRange)range;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>返回第一个正确匹配结果字符串的NSRange</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (NSRange)rangeOfFirstMatchInString:(NSString *)string options:(NSMatchingOptions)options range:(NSRange)range;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>block方法</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)enumerateMatchesInString:(NSString *)string options:(NSMatchingOptions)options range:(NSRange)range usingBlock:(void (^)(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop))block;</span><br></pre></td></tr></table></figure>
+<h4 id="在block中用到的枚举">在block中用到的枚举</h4><p>下面的两个枚举用在block,其他地方,写0即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**&#10;   *  enum &#123;&#10;   NSMatchingReportProgress&#9;&#9; = 1 &#60;&#60; 0,&#10;   NSMatchingReportCompletion&#9;   = 1 &#60;&#60; 1,&#10;   NSMatchingAnchored&#9;&#9;&#9;   = 1 &#60;&#60; 2,&#10;   NSMatchingWithTransparentBounds  = 1 &#60;&#60; 3,&#10;   NSMatchingWithoutAnchoringBounds = 1 &#60;&#60; 4&#10;   &#125;;&#10;   typedef NSUInteger NSMatchingOptions;&#10;   */&#10;  &#10;  /** &#27492;&#26522;&#20030;&#20540;&#21482;&#22312;&#26368;&#21518;&#19968;&#20010;block&#26041;&#27861;&#20013;&#29992;&#21040;&#10;   *  enum &#123;&#10;   NSMatchingProgress&#9;&#9;&#9;   = 1 &#60;&#60; 0,&#10;   NSMatchingCompleted&#9;&#9;&#9;  = 1 &#60;&#60; 1,&#10;   NSMatchingHitEnd&#9;&#9;&#9;&#9; = 1 &#60;&#60; 2,&#10;   NSMatchingRequiredEnd&#9;&#9;&#9;= 1 &#60;&#60; 3,&#10;   NSMatchingInternalError&#9;&#9;  = 1 &#60;&#60; 4&#10;   &#125;;&#10;   typedef NSUInteger NSMatchingFlags;&#10;   */</span><br></pre></td></tr></table></figure>
+<p>最后,附上我项目中的例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString * rawString = @&#34;&#123;\&#34;msg_id\&#34;:1793&#125;&#123;\&#34;rval\&#34;:0,\&#34;msg_id\&#34;:257,\&#34;param\&#34;:9&#125;&#34;;&#10; NSError * error;&#10; NSRegularExpression * regex = [NSRegularExpression regularExpressionWithPattern:@&#34;\\&#123;.[^&#123;&#125;]*msg_id.[^&#123;&#125;]*\\&#125;&#34; options:0 error:&#38;error];&#10; &#10; NSArray* array = [regex matchesInString:rawString options:0 range:NSMakeRange(0, [rawString length])];&#10;&#10; NSMutableArray * resultArray = [NSMutableArray new];&#10; &#10; [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) &#123;&#10;     NSTextCheckingResult * result = (NSTextCheckingResult*)obj;&#10;     NSString* string = [rawString substringWithRange:result.range];&#10;     [resultArray addObject:string];&#10; &#125;];&#10; &#10; return [resultArray copy];</span><br></pre></td></tr></table></figure>
+<h3 id="注意点">注意点</h3><p><strong>最好在网页或者其他正则工具中,写好正则表达式,然后加入到代码中.可以省去反复调试的麻烦.</strong></p>
+<p><strong>另外,记得要给特殊字符添加转义字符,否则会和正则本身的符号混淆,导致匹配不出结果</strong></p>
+<h3 id="结语">结语</h3><p>学好正则表达式语法是非常值得的, 因为它在任何语言下都能发挥强大的作用 !</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/iOS-Tips/">iOS Tips</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/iOS-Tips/">iOS Tips</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2015/11/18/iOS Tips/iOS正则表达式类/" data-title="iOS正则表达式类 NSRegularExpression 详解" data-url="http://yoursite.com/2015/11/18/iOS Tips/iOS正则表达式类/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Git/">Git</a><small>1</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>1</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>1</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2015 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
