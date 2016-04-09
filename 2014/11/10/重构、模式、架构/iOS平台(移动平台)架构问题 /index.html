@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title> iOS平台(移动平台)架构问题  | 桂庆的个人主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content=" iOS平台(移动平台)架构问题 "/>
+  <meta property="og:site_name" content="桂庆的个人主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="桂庆的个人主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">桂庆的个人主页</a></h1>
+  <h2><a href="/">记录自己的学习 工作 感悟</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-11-10T09:53:41.000Z"><a href="/2014/11/10/重构、模式、架构/iOS平台(移动平台)架构问题 /">2014-11-10</a></time>
+      
+      
+  
+    <h1 class="title"> iOS平台(移动平台)架构问题 </h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="尴尬的遭遇">尴尬的遭遇</h2><p>自己从内心觉得对项目分层是一种非常好的思想,于是便在网络中寻找有关iOS项目分层的资料. 无奈,网络中关于iOS的项目架构资料非常少(最后证明我大方向走错了了,架构应该是独立于平台的,所以”iOS”的架构资料是找不到的),就算有几篇博文,也是自己琢磨出来的野路子.(个人思想比较保守,不够权威的东西不能让我信服,而事实上,每个人都能看到那些博文是有过度设计的问题的)</p>
+<p>后来尝试在 code4app群里讨论这个问题,结果群里几个发言活跃的群友对这个架构问题”免讨论”</p>
+<p>然后在 “跟MJ完虐iOS3.0”这个群中,更是遭到了红果果的嘲笑:MVC就够了,还分什么层?</p>
+<p>并无刻意谈论群友,只是想拿事实举例:现在相当一部分开发者,对架构和分层这个东西认知不足.然后, 自己深知分层的好处,虽然有些灰心,但不至于放弃.最终,发现了Martin Fowler写的 &lt;&lt;企业应用架构模式&gt;&gt;一书,顿觉豁然开朗.</p>
+<h2 id="对于移动设备来说,分层是否有必要?">对于移动设备来说,分层是否有必要?</h2><p>我最早是做java的,接触到的项目比较大,会有架构设计. 那么转到移动,就会考虑,移动是否也真的需要架构设计</p>
+<p>只要是软件,就会有需求的变更,那么分层就显得非常有必要了. 即,我们需要为自己的软件留一条”后路”,解耦合,让其可扩展.<br>低耦合企业级系统架构涉及及移动平台的分层架构设计</p>
+<p>从大方面来讲,架构是必要的,关键是怎么去执行.</p>
+<p>一个系统,采用什么样子的结构,有哪些组件,组件之间什么关系,和环境之间有什么关系,这都是设计架构(或者分层)需要考虑的问题.</p>
+<p>目的都是为了建立低耦合的企业级应用系统,低耦合的系统的好处是细化开发较色,提高开发效率,提高扩展性</p>
+<p>需求是经常变化的,导致了系统不能满足需求变化的需求,因为是强耦合的,模块与模块之间,类和类之间.</p>
+<p>低耦合的好处太多了</p>
+<ul>
+<li>可扩展性强</li>
+<li>效率高</li>
+<li>适应用户需求的变化</li>
+</ul>
+<p>这样我们系统维护工作就少,就是比较灵活<br>什么是企业级系统</p>
+<p>这个问题在我的架构的基本概念和演化-博客园(或者csdn的架构的概念和最基本的三层架构-iOS企业应用架构设计 )一文中讨论过,但是这里还是有必要再提一下:</p>
+<p>系统比较庞大,涉及到前端,后台(数据库,中间件,实际的设备)</p>
+<p>现在的 java .net 都是可以构建企业级系统的.<br>设计的注意点</p>
+<p>设计一定要考虑的非常周到,这样就存在一个文件,需要降低耦合度.分层,每层里面合理的运用设计模式 这就是:架构设计和设计模式</p>
+<p>每层之间的东西必须是具有类似功能的类和子系统的集合.</p>
+<p>可以分四层,五层,甚至一层,二层. 每种分法必须要有自己的道理.</p>
+<p>比如你的房子,要开个窗户,结果就塌了,就这说明是不合理的设计</p>
+<blockquote>
+<p>此文中很多想法和灵感源自关东升老师的一节视频,视频在 51cto可以搜索到,但是付费的,本人只是学习了免费的第一节的内容,便觉得受益匪浅,更是在尝试寻求老师分层不合理性的时候,发现了Martin的&lt;&lt;企业应用架构设计&gt;&gt;一书,开始了更远的探究.在此感谢老师. —-我</p>
+</blockquote>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/重构、模式、架构/">重构、模式、架构</a>
+  </div>
+
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2014/11/10/重构、模式、架构/iOS平台(移动平台)架构问题 /" data-title=" iOS平台(移动平台)架构问题 " data-url="http://yoursite.com/2014/11/10/重构、模式、架构/iOS平台(移动平台)架构问题 /"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Git/">Git</a><small>1</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>1</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2016 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

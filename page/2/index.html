@@ -51,6 +51,114 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-19T11:17:13.000Z"><a href="/2015/08/19/iOS Tips/利用Runtime实现自依赖按钮/">2015-08-19</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/19/iOS Tips/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>我在开发中遇到一个问题, 就是传统的<code>Target-Action</code>没法满足我的要求. 因为当按钮触发的瞬间, 控制器可能已经被销毁了. <code>Target</code>没有了. 暂且不说这个设计的优劣, 单纯从技术方面,剖析一下是否可以实现一个按钮 ,这个按钮不依赖外部 <code>Target</code> ,而是依赖自己.</p>
+<h2 id="几个想法">几个想法</h2><p>首先想到的是继承<code>UIButton</code>,然后给<code>Button</code>增加一个<code>block</code>属性 ,然后内部执行<code>block</code>代码.</p>
+<p>但是这样要求我项目中所有使用UIButton的地方都需要修改 ,成本太高,遂放弃.</p>
+<p>然后想到通过给<code>UIButton</code>添加<code>Category</code>的方式,完成需求. 之前曾经做个一个分类,就是让<code>NSObject</code>携带一个字典,字典内部可以带上用户自定义的一些参数.解决了一些<code>seletor</code>不能传递任意参数的问题. 所以,这次给<code>Button</code>分类增加个属性,也没有什么问题:</p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/19/iOS Tips/利用Runtime实现自依赖按钮/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-18T11:20:34.000Z"><a href="/2015/08/18/主页维护记录/更换电脑引发的MODULE-NOT-FOUND/">2015-08-18</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/18/主页维护记录/更换电脑引发的MODULE-NOT-FOUND/">更换电脑引发的MODULE_NOT_FOUND</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>今天把原来放在公司电脑上的博客拷贝回来 , 但是使用<code>hexo n</code>命令的时候,提示如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KennydeMacBook-Pro:guiqingblog.github.io kenny$ hexo n &#34;&#21033;&#29992;Runtime&#23454;&#29616;&#33258;&#20381;&#36182;&#25353;&#38062;&#34;&#10;[Error: Module did not self-register.]&#10;&#123; [Error: Cannot find module &#39;./build/default/DTraceProviderBindings&#39;] code: &#39;MODULE_NOT_FOUND&#39; &#125;&#10;&#123; [Error: Cannot find module &#39;./build/Debug/DTraceProviderBindings&#39;] code: &#39;MODULE_NOT_FOUND&#39; &#125;&#10;INFO  Created: ~/Portable/guiqingblog.github.io/source/_posts/&#21033;&#29992;Runtime&#23454;&#29616;&#33258;&#20381;&#36182;&#25353;&#38062;.md</span><br></pre></td></tr></table></figure>
+<p>打开 <code>_post</code> 目录,发现文件是创建了 .但是无缘故报错, 总觉的心理不舒服. 其实, 上次遇到过这个问题 ,经过很长时间的搜索, 终于在一个台湾同胞的博客上找到了方案,但是时间太久了,没找到 . 更可气的是 ,对这样的问题, 自己居然没有在 wiznote 或者博客上记录 !</p>
+<p>无奈,只能重新搜索, 但是这次好运多了, 第一条就是相关内容, 是简书上一个书友写的,<a href="http://www.jianshu.com/p/98e993305653" target="_blank" rel="external">这里是原文</a>,而且他也注明了来源,我进去一看,和之前的一样…</p>
+<h2 id="反思">反思</h2><p>本身这个问题这次没有浪费时间,一分钟就解决了 . 但是反应出一个问题: 自己懒惰的问题 . 如果没有简书作者, 那自己岂不是又要花费半个小时,一个小时去找这个资料 ? 这样的时间成本谁来负责 ? 所以以后要求自己 ,觉得好的东西就要立刻记下来 ,决不能偷懒 !</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-08-18T09:45:17.000Z"><a href="/2015/08/18/Swift进阶/Swift的编译标记/">2015-08-18</a></time>
       
       
@@ -565,118 +673,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-05T02:00:35.000Z"><a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/">2015-08-05</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/">通过重构实现模板方法模式（Template Method）: 重构篇</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>现在公司的项目中,有两个界面表现几乎完全一样的控制器.如图:</p>
-<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-2@2x.png" alt=""><br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-3@2x.png" alt=""></p>
-<p>但是两者的行为是部分有差别的,当时编码过程中,遵循了<code>极限编程</code>的原则,尽快的写出可以实现功能的代码. 重构和使用模式的工作放在以后进行 . 以防止<code>过度设计</code>带来的问题.<br>写好一个界面之后,直接复制代码,修改了部分.这在什么时候来看,都是编写的最快方式,但是却不是好的设计和可维护方案.</p>
-<p>所以现在要开始进行重构了.</p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-04T00:22:09.000Z"><a href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/">2015-08-04</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/">UIWebView执行JS的几个注意点</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>这是一个给培训的同学写的Demo,概括起来的几个特点是:</p>
-<ul>
-<li>无法和服务器沟通,只能在iOS端这里更改网页</li>
-<li>需要隐藏两个html组件</li>
-</ul>
-<p>这是没有修改的网页的<a href="http://m.shijieyou.com/mdetail-3445464-0-%5BLjava.lang.String;@6625086c">地址</a> ,可以看到,顶部和底部有网页原来的两个条,需要隐藏,来实现如下的效果:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/UIWebViewGVS9U@{[OH%25D9%257D$5DARPT.jpg" alt=""></p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -700,11 +696,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   <h3 class="title">分类</h3>
   <ul class="entry">
   
+    <li><a href="/categories/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
     <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
     <li><a href="/categories/Git/">Git</a><small>1</small></li>
   
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>1</small></li>
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
@@ -735,11 +733,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   <h3 class="title">标签</h3>
   <ul class="entry">
   
+    <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
     <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
     <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
   
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>1</small></li>
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
   

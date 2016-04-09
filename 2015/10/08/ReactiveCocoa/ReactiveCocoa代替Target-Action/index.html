@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title> iOS平台(移动平台)架构问题  | 桂庆的个人主页</title>
+  <title>ReactiveCocoa代替Target-Action | 桂庆的个人主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="桂庆的个人主页 记录自己的学习 工作 感悟">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content=" iOS平台(移动平台)架构问题 "/>
+  <meta property="og:title" content="ReactiveCocoa代替Target-Action"/>
   <meta property="og:site_name" content="桂庆的个人主页"/>
 
   
@@ -50,43 +50,41 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-11-10T09:53:41.000Z"><a href="/2014/11/10/重构、模式、架构/ iOS平台(移动平台)架构问题 /">2014-11-10</a></time>
+        <time datetime="2015-10-08T11:07:48.000Z"><a href="/2015/10/08/ReactiveCocoa/ReactiveCocoa代替Target-Action/">2015-10-08</a></time>
       
       
   
-    <h1 class="title"> iOS平台(移动平台)架构问题 </h1>
+    <h1 class="title">ReactiveCocoa代替Target-Action</h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="尴尬的遭遇">尴尬的遭遇</h2><p>自己从内心觉得对项目分层是一种非常好的思想,于是便在网络中寻找有关iOS项目分层的资料. 无奈,网络中关于iOS的项目架构资料非常少(最后证明我大方向走错了了,架构应该是独立于平台的,所以”iOS”的架构资料是找不到的),就算有几篇博文,也是自己琢磨出来的野路子.(个人思想比较保守,不够权威的东西不能让我信服,而事实上,每个人都能看到那些博文是有过度设计的问题的)</p>
-<p>后来尝试在 code4app群里讨论这个问题,结果群里几个发言活跃的群友对这个架构问题”免讨论”</p>
-<p>然后在 “跟MJ完虐iOS3.0”这个群中,更是遭到了红果果的嘲笑:MVC就够了,还分什么层?</p>
-<p>并无刻意谈论群友,只是想拿事实举例:现在相当一部分开发者,对架构和分层这个东西认知不足.然后, 自己深知分层的好处,虽然有些灰心,但不至于放弃.最终,发现了Martin Fowler写的 &lt;&lt;企业应用架构模式&gt;&gt;一书,顿觉豁然开朗.</p>
-<h2 id="对于移动设备来说,分层是否有必要?">对于移动设备来说,分层是否有必要?</h2><p>我最早是做java的,接触到的项目比较大,会有架构设计. 那么转到移动,就会考虑,移动是否也真的需要架构设计</p>
-<p>只要是软件,就会有需求的变更,那么分层就显得非常有必要了. 即,我们需要为自己的软件留一条”后路”,解耦合,让其可扩展.<br>低耦合企业级系统架构涉及及移动平台的分层架构设计</p>
-<p>从大方面来讲,架构是必要的,关键是怎么去执行.</p>
-<p>一个系统,采用什么样子的结构,有哪些组件,组件之间什么关系,和环境之间有什么关系,这都是设计架构(或者分层)需要考虑的问题.</p>
-<p>目的都是为了建立低耦合的企业级应用系统,低耦合的系统的好处是细化开发较色,提高开发效率,提高扩展性</p>
-<p>需求是经常变化的,导致了系统不能满足需求变化的需求,因为是强耦合的,模块与模块之间,类和类之间.</p>
-<p>低耦合的好处太多了</p>
-<ul>
-<li>可扩展性强</li>
-<li>效率高</li>
-<li>适应用户需求的变化</li>
-</ul>
-<p>这样我们系统维护工作就少,就是比较灵活<br>什么是企业级系统</p>
-<p>这个问题在我的架构的基本概念和演化-博客园(或者csdn的架构的概念和最基本的三层架构-iOS企业应用架构设计 )一文中讨论过,但是这里还是有必要再提一下:</p>
-<p>系统比较庞大,涉及到前端,后台(数据库,中间件,实际的设备)</p>
-<p>现在的 java .net 都是可以构建企业级系统的.<br>设计的注意点</p>
-<p>设计一定要考虑的非常周到,这样就存在一个文件,需要降低耦合度.分层,每层里面合理的运用设计模式 这就是:架构设计和设计模式</p>
-<p>每层之间的东西必须是具有类似功能的类和子系统的集合.</p>
-<p>可以分四层,五层,甚至一层,二层. 每种分法必须要有自己的道理.</p>
-<p>比如你的房子,要开个窗户,结果就塌了,就这说明是不合理的设计</p>
-<blockquote>
-<p>此文中很多想法和灵感源自关东升老师的一节视频,视频在 51cto可以搜索到,但是付费的,本人只是学习了免费的第一节的内容,便觉得受益匪浅,更是在尝试寻求老师分层不合理性的时候,发现了Martin的&lt;&lt;企业应用架构设计&gt;&gt;一书,开始了更远的探究.在此感谢老师. —-我</p>
-</blockquote>
+        <p>从入职新公司到现在, 都在给”友商”的硬件填坑 .什么RTSP,H264… 我和安卓小伙伴都快忘记自己是应用开发的了… 好在最近回过神来了. 继续可爱的 <code>ReactiveCocoa</code></p>
+<h2 id="context">context</h2><p>我们传统的使用 <code>UIButton</code>的方式,都是 <code>Target-Action</code>的方式. 但是有几个问题:</p>
+<ol>
+<li><p>局部变量共享 </p>
+<a id="more"></a>
+<p> 有个变量,我们需要在Action中使用,由于在 <code>Target-Action</code>的机制中,<code>Action</code>的参数撑死只能是<code>sender</code>, 所以,导致共享的方式,只能靠通过定义Property来实现 .这就需要程序员打断现有的思路,去定义Property . 对于一份有良好代码组织的代码(对不同种类的方法进行了种类划分的)就需要反复跳转去实现方法 .</p>
+</li>
+<li><p>代码阅读</p>
+<p> 如第一条中所说, 编写代码的时候,尚且需要跳来跳去, 对新同事去接手代码,阅读成本更加高.</p>
+</li>
+</ol>
+<h2 id="解决方案_without_ReactiveCocoa">解决方案 without ReactiveCocoa</h2><ol>
+<li><p>局部变量共享<br> 可以采用<code>Runtime</code>的方法,给NSObject添加一个属性,让Button带着内容进去Action</p>
+</li>
+<li><p>给Button添加自依赖,参考 <a href="http://guiqingblog.com/2015/08/19/iOS%20Tips/利用Runtime实现自依赖按钮/" target="_blank" rel="external">我之前的博客</a></p>
+</li>
+</ol>
+<p>开发者都声称 <code>Runtime</code>是黑魔法 . 所以 … </p>
+<h2 id="ReactiveCocoa的解决">ReactiveCocoa的解决</h2><h3 id="RACSignal_方式">RACSignal 方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[self.button&#10;&#160;&#160;&#160;rac_signalForControlEvents:UIControlEventTouchUpInside]&#10;&#160;&#160;&#160;subscribeNext:^(id&#160;x)&#160;&#123;&#10;&#160;&#160;&#160;&#160;&#160;NSLog(@&#34;button&#160;clicked&#34;);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<p>以上是利用UI事件创建信号</p>
+<h3 id="RACCommand方式">RACCommand方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RACCommand* aCommand =&#10;       [[RACCommand alloc] initWithSignalBlock:^RACSignal*(id input) &#123;&#10;&#10;           return [RACSignal&#10;               createSignal:^RACDisposable*(id&#60;RACSubscriber&#62; subscriber) &#123;&#10;                   NSLog(@&#34;----&#34;);&#10;                   [subscriber sendCompleted];&#10;                   return nil;&#10;               &#125;];&#10;       &#125;];&#10;&#10;   self.testButton.rac_command = aCommand;</span><br></pre></td></tr></table></figure>
+<p>根据官方文档来说, <code>RACCommand</code> 是对事件响应更官方的做法 ,而且,还可以通过 <code>execute</code> 手动执行.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[aCommand execute:nil]</span><br></pre></td></tr></table></figure>
+<p><code>RACSignal</code> 的方式是简单易读.</p>
+<p>两种方式可以根据实际需要选择 .</p>
 
       
     </div>
@@ -95,10 +93,15 @@
         
   
   <div class="categories">
-    <a href="/categories/重构、模式、架构/">重构、模式、架构</a>
+    <a href="/categories/ReactiveCocoa/">ReactiveCocoa</a>
   </div>
 
         
+  
+  <div class="tags">
+    <a href="/tags/ReactiveCocoa/">ReactiveCocoa</a>
+  </div>
+
         
       
       <div class="clearfix"></div>
@@ -107,7 +110,7 @@
 </article>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2014/11/10/重构、模式、架构/ iOS平台(移动平台)架构问题 /" data-title=" iOS平台(移动平台)架构问题 " data-url="http://yoursite.com/2014/11/10/重构、模式、架构/ iOS平台(移动平台)架构问题 /"></div>
+  <div class="ds-thread" data-thread-key="2015/10/08/ReactiveCocoa/ReactiveCocoa代替Target-Action/" data-title="ReactiveCocoa代替Target-Action" data-url="http://yoursite.com/2015/10/08/ReactiveCocoa/ReactiveCocoa代替Target-Action/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -137,11 +140,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   <h3 class="title">分类</h3>
   <ul class="entry">
   
+    <li><a href="/categories/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
     <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
     <li><a href="/categories/Git/">Git</a><small>1</small></li>
   
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>1</small></li>
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
   
@@ -172,11 +177,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   <h3 class="title">标签</h3>
   <ul class="entry">
   
+    <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
     <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
   
     <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
   
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>1</small></li>
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
   
