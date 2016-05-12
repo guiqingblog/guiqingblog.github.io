@@ -51,6 +51,77 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-05-12T03:06:35.000Z"><a href="/2016/05/12/开发环境相关/升级-Chisel-遇到的问题和解决记录/">2016-05-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/05/12/开发环境相关/升级-Chisel-遇到的问题和解决记录/">升级 Chisel 遇到的问题和解决记录</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>升级了 Xcode7.3后，发现 Chisel 突然不好使了，于是再度打开<a href="https://github.com/facebook/chisel" target="_blank" rel="external">主页</a>，想升级一下应该能解决问题. </p>
+<p>安装官方说明，需要首先升级 homebrew ，其实知道 ，这一步不是必须的。但是为了后面不出现问题,还是顺手一并升级吧!</p>
+<p>然后,开始了问题之旅:</p>
+<p>使用 <code>brew update</code>,结果得到了以下提示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">warning: unable to unlink CONTRIBUTING.md: Permission denied&#10;warning: unable to unlink SUPPORTERS.md: Permission denied&#10;fatal: cannot create directory at &#39;.github&#39;: Permission denied</span><br></pre></td></tr></table></figure>
+<p>不难看出,是权限问题,修改权限</p>
+<p><code>sudo chmod -R 777 /usr/local</code></p>
+<p>相关知识：<br>可以不必修改为 777 的, 关于权限的更多,感兴趣的可以自行 google<br>r表示读权限，4 , w表示写权限，2 , x表示执行权限， 1</p>
+<p>可是修改之后,仍然不好用.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/core_ext/kernel_require.rb:55:in `require&#39;: cannot load such file -- mach (LoadError)</span><br></pre></td></tr></table></figure></p>
+<p>一不做,二不休,干脆尝试重新安装 homebrew</p>
+<p>在终端输入<br><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</code><br>然后得到了下面的提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kenny@kenny:~|&#8658;  /usr/bin/ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&#34;&#10;-e:77: warning: Insecure world writable dir /usr/local/bin in PATH, mode 040777&#10;It appears Homebrew is already installed. If your intent is to reinstall you&#10;should do the following before running this installer again:&#10;    ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)&#34;&#10;The current contents of /usr/local are bin Cellar CODEOFCONDUCT.md CONTRIBUTING.md etc include lib Library LICENSE.txt opt README.md sbin share SUPPORTERS.md var .git .gitignore</span><br></pre></td></tr></table></figure>
+<p>提示的是 git 的错误<br>尝试 cd 到<code>/usr/local</code>目录下，<br><code>git status</code><br>果然有一堆修改内容,这些应该是之前各种操作没有成功完成,导致修改没有被妥善处理<br>然后：<br><code>git reset --hard</code></p>
+<p><code>kenny@kenny:/usr/local|master⇒  git status
+On branch master
+nothing to commit, working directory clean</code></p>
+<p>可能还需要执行：<br><code>git clean -df</code></p>
+<p>第一个是放弃已经 stage 的文件的更改<br>第二个是对没有 stage 的文件进行放弃</p>
+<p>执行安装<br><figure class="highlight"><figcaption><span>brew install chisel</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: chisel-1.2.0 already installed&#10;To install this version, first `brew unlink chisel`</span><br></pre></td></tr></table></figure></p>
+<p>卸载旧版<br><figure class="highlight"><figcaption><span>brew unlink chisel</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unlinking /usr/local/Cellar/chisel/1.2.0... 0 symlinks removed</span><br></pre></td></tr></table></figure></p>
+<p>重新安装<br><figure class="highlight"><figcaption><span>brew install chisel</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">==&#62; Downloading https://github.com/facebook/chisel/archive/1.4.0.tar.gz&#10;==&#62; Downloading from https://codeload.github.com/facebook/chisel/tar.gz/1.4.0</span><br></pre></td></tr></table></figure></p>
+<p>可以看到,现在升级到了1.4了.</p>
+<p>到 Xcode 中测试,发现也欢乐的好用了 !</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-04-27T08:49:05.000Z"><a href="/2016/04/27/算法专题/变形字符串问题/">2016-04-27</a></time>
       
       
@@ -557,59 +628,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-26T06:55:16.000Z"><a href="/2015/08/26/iOS Tips/关于代码控制屏幕方向/">2015-08-26</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/26/iOS Tips/关于代码控制屏幕方向/">关于代码控制屏幕方向</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>今天同学提了一个需求,希望在 <code>NavigationController</code>管理的控制器中,实现 <code>Push</code>出的控制器是横屏,然后前一个控制器是竖屏的.</p>
-<p>听到这么说, 很简单的想到使用代码控制器屏幕方向,(当然,需要首先在项目的 plist中允许屏幕的多个方向)<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/26/iOS Tips/关于代码控制屏幕方向/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -647,7 +665,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
-    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>3</small></li>
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>4</small></li>
   
     <li><a href="/categories/悟/">悟</a><small>1</small></li>
   
@@ -690,7 +708,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
   
-    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>1</small></li>
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>2</small></li>
   
     <li><a href="/tags/悟/">悟</a><small>1</small></li>
   

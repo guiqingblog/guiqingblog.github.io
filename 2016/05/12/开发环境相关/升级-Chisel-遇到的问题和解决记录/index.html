@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>升级 Chisel 遇到的问题和解决记录 | Kenny 肉桂的主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="升级 Chisel 遇到的问题和解决记录"/>
+  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Kenny 肉桂的主页</a></h1>
+  <h2><a href="/">记录自己的进步</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-05-12T03:06:35.000Z"><a href="/2016/05/12/开发环境相关/升级-Chisel-遇到的问题和解决记录/">2016-05-12</a></time>
+      
+      
+  
+    <h1 class="title">升级 Chisel 遇到的问题和解决记录</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>升级了 Xcode7.3后，发现 Chisel 突然不好使了，于是再度打开<a href="https://github.com/facebook/chisel" target="_blank" rel="external">主页</a>，想升级一下应该能解决问题. </p>
+<p>安装官方说明，需要首先升级 homebrew ，其实知道 ，这一步不是必须的。但是为了后面不出现问题,还是顺手一并升级吧!</p>
+<p>然后,开始了问题之旅:</p>
+<p>使用 <code>brew update</code>,结果得到了以下提示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">warning: unable to unlink CONTRIBUTING.md: Permission denied&#10;warning: unable to unlink SUPPORTERS.md: Permission denied&#10;fatal: cannot create directory at &#39;.github&#39;: Permission denied</span><br></pre></td></tr></table></figure>
+<p>不难看出,是权限问题,修改权限</p>
+<p><code>sudo chmod -R 777 /usr/local</code></p>
+<p>相关知识：<br>可以不必修改为 777 的, 关于权限的更多,感兴趣的可以自行 google<br>r表示读权限，4 , w表示写权限，2 , x表示执行权限， 1</p>
+<p>可是修改之后,仍然不好用.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/core_ext/kernel_require.rb:55:in `require&#39;: cannot load such file -- mach (LoadError)</span><br></pre></td></tr></table></figure></p>
+<p>一不做,二不休,干脆尝试重新安装 homebrew</p>
+<p>在终端输入<br><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</code><br>然后得到了下面的提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kenny@kenny:~|&#8658;  /usr/bin/ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&#34;&#10;-e:77: warning: Insecure world writable dir /usr/local/bin in PATH, mode 040777&#10;It appears Homebrew is already installed. If your intent is to reinstall you&#10;should do the following before running this installer again:&#10;    ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)&#34;&#10;The current contents of /usr/local are bin Cellar CODEOFCONDUCT.md CONTRIBUTING.md etc include lib Library LICENSE.txt opt README.md sbin share SUPPORTERS.md var .git .gitignore</span><br></pre></td></tr></table></figure>
+<p>提示的是 git 的错误<br>尝试 cd 到<code>/usr/local</code>目录下，<br><code>git status</code><br>果然有一堆修改内容,这些应该是之前各种操作没有成功完成,导致修改没有被妥善处理<br>然后：<br><code>git reset --hard</code></p>
+<p><code>kenny@kenny:/usr/local|master⇒  git status
+On branch master
+nothing to commit, working directory clean</code></p>
+<p>可能还需要执行：<br><code>git clean -df</code></p>
+<p>第一个是放弃已经 stage 的文件的更改<br>第二个是对没有 stage 的文件进行放弃</p>
+<p>执行安装<br><figure class="highlight"><figcaption><span>brew install chisel</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: chisel-1.2.0 already installed&#10;To install this version, first `brew unlink chisel`</span><br></pre></td></tr></table></figure></p>
+<p>卸载旧版<br><figure class="highlight"><figcaption><span>brew unlink chisel</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unlinking /usr/local/Cellar/chisel/1.2.0... 0 symlinks removed</span><br></pre></td></tr></table></figure></p>
+<p>重新安装<br><figure class="highlight"><figcaption><span>brew install chisel</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">==&#62; Downloading https://github.com/facebook/chisel/archive/1.4.0.tar.gz&#10;==&#62; Downloading from https://codeload.github.com/facebook/chisel/tar.gz/1.4.0</span><br></pre></td></tr></table></figure></p>
+<p>可以看到,现在升级到了1.4了.</p>
+<p>到 Xcode 中测试,发现也欢乐的好用了 !</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/开发环境相关/">开发环境相关</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/开发环境相关/">开发环境相关</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2016/05/12/开发环境相关/升级-Chisel-遇到的问题和解决记录/" data-title="升级 Chisel 遇到的问题和解决记录" data-url="http://yoursite.com/2016/05/12/开发环境相关/升级-Chisel-遇到的问题和解决记录/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Git/">Git</a><small>1</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>4</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/算法专题/">算法专题</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>2</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/算法专题-字符串/">算法专题 字符串</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2016 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
