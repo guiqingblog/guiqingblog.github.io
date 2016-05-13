@@ -51,6 +51,72 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-05-06T07:53:04.000Z"><a href="/2015/05/06/iOS Tips/Tableview相关/">2015-05-06</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/05/06/iOS Tips/Tableview相关/">Tableview相关-iOS开发 Tips</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li>在使用Tableview的时候,即使只是设置了几条数据,但是多余的部分还是会出现<code>cell</code>,就是出现了多余的分割线.</li>
+</ul>
+<p>解决方案:  </p>
+<p>在<code>TableViewController</code>中添加一行代码即可  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.tableView.tableFooterView = [UIView alloc initWithFrame:CGRectZero];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>有时候用Tableview做布局的时候,我们并不希望它是可以滚动的.所以,可以使用如下代码禁止滚动</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.tableView.scrollEnabled = NO ;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>设置不让cell选中时高亮</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.selectionStyle = UITableViewCellSelectionStyleNone;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>去掉表格之间的分割线</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataTableview.separatorStyle = UITableViewCellSeparatorStyleNone;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/5/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-05-05T06:15:50.000Z"><a href="/2015/05/05/辅助编程技能/管理代码片段/">2015-05-05</a></time>
       
       
@@ -1687,63 +1753,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-04-18T07:33:48.000Z"><a href="/2015/04/18/iOS Tips/MJExtention-对不规范-JSON-解析的一个测试/">2015-04-18</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/04/18/iOS Tips/MJExtention-对不规范-JSON-解析的一个测试/">MJExtention 对不规范 JSON 解析的一个测试</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="Context">Context</h2><p>今天受 MJ 老师吩咐,测试 MJExtension 对于不规范的 JSON 的解析情况.特记录于此 </p>
-<h2 id="说明几点">说明几点</h2><h3 id="何为不规范">何为不规范</h3><p>我说的不规则指的是有一定容错能力,但是前提还是 JSON,弄些乱七八糟的字符串就没有意义了哈.比如说,这次我想测试的是前一段事件遇到的一个小问题:服务端返回的是类似这样的一个结果:  </p>
-<p><img src="http://ww1.sinaimg.cn/large/9e446dffjw1er9qrf2g2hj206608vaad.jpg"></p>
-<p>为了展现,截图是规范的 JSON,服务端给我的实际数据是:<br>两个箭头指向处还有 <code>&quot;</code>  .</p>
-<p><img src="http://ww2.sinaimg.cn/large/9e446dffjw1er9ql5uocrj206k08sq3c.jpg">  </p>
-<p>换句话说,他是严格执行的: <code>&quot;键&quot;:&quot;无论啥类型&quot;</code> . 网上大多数的所谓的 JSON 格式校验工具认为这种格式是 okay 的,但是它的问题是,没法继续”钻下去” ,这里就是我所说的 “不规范”.<br>说到这里,推荐个地址 <a href="http://tool.oschina.net/codeformat/json">在线校验</a>,这个不仅仅是校验,还有格式化功能.支持按层级折叠和展开.</p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/04/18/iOS Tips/MJExtention-对不规范-JSON-解析的一个测试/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/5/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -1775,7 +1784,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
   
-    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
     <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
   
@@ -1817,6 +1826,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
   
     <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
   

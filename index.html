@@ -51,6 +51,75 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-05-13T05:59:26.000Z"><a href="/2016/05/13/Swift进阶/从-variable-with-a-setter-must-also-have-a-getter-引发的思考/">2016-05-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/05/13/Swift进阶/从-variable-with-a-setter-must-also-have-a-getter-引发的思考/">从 variable with a setter must also have a getter 引发的思考</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>今天一哥们在群里问:”为什么我不能只重写 setter ,还要多写个 getter ?”<br>我一听也是懵了,后来在 playgroud 里面写,果然得到了一个错误:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;&#10;    &#10;    var labelText:String&#10;        &#123;&#10;        set(newValue)&#123;&#10;            self.labelText = newValue&#10;        &#125;&#10;   &#10;    &#125;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Variable With a setter must also have a getter</code></p>
+<p>后来,查找 stackflow, 找到了答案:</p>
+<p>一旦你给一个属性添加了 <code>getter</code> 或者 <code>setter</code> ,这个属性将变成 <code>计算属性</code>.</p>
+<p>后来,我在<code>The Swift Programming Language 2.2</code> 的 Properties 一章中,找到这样一段描述:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#8220;In addition to stored properties, classes, structures, and enumerations can define computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.&#8221;</span><br></pre></td></tr></table></figure>
+<p>除了存储属性之外,类,结构体和枚举还可以定义计算属性,计算属性 <strong>不存储值</strong> ,它们提供一个 <code>getter</code> 和一个 <strong>可选的</strong> <code>setter</code>,借此来读取和<strong>间接地</strong>设置<strong>其他属性和值</strong>.</p>
+<p>我在文档中没有找到更多的说明,下面来说说我自己的思考:</p>
+<ol>
+<li><p>计算属性不存储值,那么也就是说,只能我显式地告诉程序,这个值是怎么来的.所以,需要有一个 <code>getter</code> ,它是必须的,否则这个属性就不是计算属性.而是存储属性.</p>
+</li>
+<li><p><code>setter</code>是可选的,可以不写 (不写 <code>setter</code> 不写 <code>getter</code>,那么这个属性还是存储属性).但是一旦写了<code>setter</code>(这个属性变成了计算属性),那么<code>getter</code>也是必须的</p>
+</li>
+</ol>
+<h3 id="willSet_和_didSet">willSet 和 didSet</h3><p>刚刚说明了关于计算属性的一些特点,但是问题来了,我们经常有拦截<code>setter</code>来做一些自定义处理的需求. 在 OC 中,这个很简单,重写 <code>setter</code>方法就好了,但是, Swift 中, 添加<code>setter</code>会让属性变味.</p>
+<p>Swift 的设计者肯定也是考虑到了这一点,所以提供了 <code>willSet</code> 和 <code>didSet</code>这两个属性观察方法.用法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;&#10;    &#10;    var labelText:String = &#34;great&#34;&#10;        &#123;&#10;        willSet&#123;&#10;            print(&#34;labeltext will change!&#34;)&#10;            &#10;        &#125;&#10;        didSet&#123;&#10;            print(&#34;labeltext did change!&#34;)&#10;//            labelText = &#34;defalut&#34;&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">labeltext will change!&#10;labeltext did change!&#10;11</span><br></pre></td></tr></table></figure>
+<p>这样,我们可以过滤值,可以自己处理一些事情,也不会误把存储属性转换成计算属性.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-05-12T07:05:37.000Z"><a href="/2016/05/12/开发环境相关/手把手教你创建自己的Cocoapods库/">2016-05-12</a></time>
       
       
@@ -607,60 +676,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-09-05T01:08:14.000Z"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">2015-09-05</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">ReactiveCocoa 使用速查</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="Context">Context</h2><p>反复接触 <code>ReactiveCocoa</code> ,这次真的准备把它应用到实际开发中了.为了以后使用方便,这里列出一些常用关键字的使用方法,以备查询.</p>
-<h2 id="常用方法">常用方法</h2><h3 id="简单订阅_subscribeNext">简单订阅 subscribeNext</h3><p>使用场景:<br>“ 如果你改变了,让我知道 “</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.usernameTextField.rac_textSignal subscribeNext:^(id x) &#123;&#10;   NSLog(@&#34;%@&#34;, x);&#10; &#125;];</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -690,7 +705,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
   
-    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>3</small></li>
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
     <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
   
@@ -732,6 +747,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
   
     <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
   
