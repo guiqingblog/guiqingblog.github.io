@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>func的参数修饰符 | Kenny 肉桂的主页</title>
+  <title>归档：2016/6 | Kenny 肉桂的主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="func的参数修饰符"/>
+  
   <meta property="og:site_name" content="Kenny 肉桂的主页"/>
 
   
@@ -44,76 +44,25 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-07-30T07:14:47.000Z"><a href="/2015/07/30/Swift进阶/func的参数修饰符/">2015-07-30</a></time>
-      
-      
-  
-    <h1 class="title">func的参数修饰符</h1>
-  
+    <div id="main-col" class="alignleft"><div id="wrapper">
+<h2 class="archive-title">2016/6</h2>
 
-    </header>
-    <div class="entry">
-      
-        <h3 id="参数默认是_let_类型的">参数默认是 let 类型的</h3><p>一般省略函数参数的修饰符 ,我们并没有指定它是什么类型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(variable: Int) -&#62;Int&#123;&#10;    return variable + 1&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>默认是  let ,比如下面的是错误代码 , 因为 let 不可变</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>仔细看错误提示:<br><code>Mark parameter with &#39;var&#39; to make it mutable</code></p>
-<p>需要显式写 var </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(var variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="inout">inout</h3><p>函数参数是值传递,就是说,不会改变外部参数的值,比如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var number = 7&#10;let newNumber =  incrementor(number)&#10;number</span><br></pre></td></tr></table></figure>
-<p>newNumber是 8 , number 还是 7 .</p>
-<p>如果想要修改,那么就应该加上 inout修饰参数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(inout variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>现在是引用传递, 那么 ,我们在传递的时候,应该传递的是引用(地址)而不是参数.用法如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newNumber =  incrementor(&#38;number)</span><br></pre></td></tr></table></figure>
-<p>一般的,这样的函数,是不用返回值的.因为已经直接修改了参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(inout variable: Int)&#123;&#10;   ++variable&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>函数的参数修饰是有传递限制的,就是说对于跨越层级的调用,需要保证同一参数的修饰符是统一的,比如我们基于上一个方法进行拓展,实现 +N 的方法.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func makeIncrementor(addNumber: Int) -&#62;((inout Int)-&#62;())&#123;&#10;    func incrementor(inout variable: Int)&#123;&#10;        variable += addNumber&#10;    &#125;&#10;    return incrementor;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>外层 makeIncrementor 的返回里也需要在参数的类型前面明确指出修饰词,让它和内部的定义一致,否则编译不通过.</p>
 
-      
-    </div>
-    <footer>
-      
-        
-  
-  <div class="categories">
-    <a href="/categories/Swift进阶/">Swift进阶</a>
+  <div class="archive">
+    
+      <article class="post">
+        <div class="post-content">
+          <header>
+            <div class="icon"></div>
+            <time datetime="2016-06-14T02:18:56.000Z"><a href="/2016/06/14/Swift/在-Swift-中使用DEBUG标记/">2016-06-14</a></time>
+            
+              <h1 class="title"><a href="/2016/06/14/Swift/在-Swift-中使用DEBUG标记/">在 Swift 中使用DEBUG标记</a></h1>
+            
+          </header>
+        </div>
+      </article>
+    
   </div>
-
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/07/30/Swift进阶/func的参数修饰符/" data-title="func的参数修饰符" data-url="http://yoursite.com/2015/07/30/Swift进阶/func的参数修饰符/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
@@ -135,6 +84,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/categories/Git/">Git</a><small>1</small></li>
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>1</small></li>
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
@@ -174,6 +125,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
   
     <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>1</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
   

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Swift的编译标记 | Kenny 肉桂的主页</title>
+  <title>在 Swift 中使用DEBUG标记 | Kenny 肉桂的主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Swift的编译标记"/>
+  <meta property="og:title" content="在 Swift 中使用DEBUG标记"/>
   <meta property="og:site_name" content="Kenny 肉桂的主页"/>
 
   
@@ -50,34 +50,24 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-08-18T09:45:17.000Z"><a href="/2015/08/18/Swift进阶/Swift的编译标记/">2015-08-18</a></time>
+        <time datetime="2016-06-14T02:18:56.000Z"><a href="/2016/06/14/Swift/在-Swift-中使用DEBUG标记/">2016-06-14</a></time>
       
       
   
-    <h1 class="title">Swift的编译标记</h1>
+    <h1 class="title">在 Swift 中使用DEBUG标记</h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="Context">Context</h2><p>在OC 中, 我经常使用 <code>#Param</code>来给控制器划分代码结构 , 比如 ,一个控制器,我经常分为如下的结构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark -life cycle&#10;&#10;#pragma mark - &#60;#name#&#62; delegate&#10;&#10;#pragma mark -event response&#10;&#10;#pragma mark -private methods&#10;&#10;#pragma mark -getters and setters</span><br></pre></td></tr></table></figure>
-<p>这样的好处是, 每个控制器的结构都是规范的. 如图, 方法都分类了(对于我这样的Vim控 ,还能实现在标签之间的跳转)<br><a id="more"></a></p>
-<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-7@2x.png" alt="代码结构"></p>
-<p>在协作开发中 , 阅读代码的成本大大降低.</p>
-<h2 id="Swift_的编译标记">Swift 的编译标记</h2><p>在Swift 中也有类似的方式, 我们可以使用 <code>// MARK:</code> 这样的标记,并且在后面写上描述, 这样Xcode 将在导航栏的中用标签的形式区分出这些标记.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class ViewController: UIViewController &#123;&#10;    &#10;// MARK: life cycle&#10;    override func viewDidLoad() &#123;&#10;        super.viewDidLoad()&#10;    &#125;&#10;// MARK: Warning&#10;    override func didReceiveMemoryWarning() &#123;&#10;        super.didReceiveMemoryWarning()&#10;    &#125;&#10;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>这样,在Swift中得表现如图:</p>
-<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-1@2x.png" alt=""></p>
-<p>我们还能在 <code>:</code>的后面加一个 ‘-‘,这样导航中会再多一条横线,隔开各个部分</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;class ViewController: UIViewController &#123;&#10;    &#10;// MARK:- life cycle&#10;    override func viewDidLoad() &#123;&#10;        super.viewDidLoad()&#10;    &#125;&#10;// MARK:- Warning&#10;    override func didReceiveMemoryWarning() &#123;&#10;        super.didReceiveMemoryWarning()&#10;    &#125;&#10;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>效果如图:</p>
-<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-2@2x.png" alt=""></p>
-<p>还有 todo 和 fixme ,我们可以用来表示要坐得事情 和需要改正的地方.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// TODO: this is to do&#10;    func todo()&#123;&#10;    &#10;    &#125;&#10;// FIXME: you need fix me&#10;    func fixMe()&#123;&#10;    &#10;    &#125;</span><br></pre></td></tr></table></figure>
-<p>效果如图:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-3@2x.png" alt=""></p>
-<p>可以看到, 与 MARK 相比 , TODO 和 FIXME 的本身也被显示出来了, 能更好地表明用意.</p>
-<h2 id="一个Warning">一个Warning</h2><p>在OC 中,我们用的更多的是 #Warning ,来提示自己这里需要更改或者有问题需要修改, 但是 Swift中暂时没有类似的关键字. 算是比较遗憾的.</p>
+        <p>在 OC 中,我们经常会使用 <code>DEBUG</code> 标记来区分开发版本和发行版本,例如,控制调试信息的打印.</p>
+<p>但是在使用 Swift 之后,我们发现<code>DEBUG</code> 不能正常工作.原因是 Swift 中没有<code>DEBUG</code>这个标记.例如下面的代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func GUILog&#60;T&#62;(_ message: T, fileName: String = #function, methodName: String = #function, lineNumber: Int = #line) &#123;&#10;    #if DEBUG&#10;    print(&#34;\(methodName)[\(lineNumber)]:\(message)&#34;)&#10;    #endif&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然并不会报错,但是始终不会有打印.</p>
+<h3 id="解决方案">解决方案</h3><p>在 <code>Build Settings</code> 中搜索 <code>other swift flags</code><br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658688864325.jpg" alt=""><br>点击图中红色框内部(注意不是直接点击<code>+</code>),会出现一个这样的对话框.(可能已经有其他标记,如果你使用了 <code>cocoapods</code> 的话,不过不用在意),点击左下角的+ ,或者双击任意空白行,输入<code>-DDEBUG</code>.<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658689870706.jpg" alt=""><br>点击其它任意区域.结果如图<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658693876738.jpg" alt=""></p>
+<p>现在,<code>DEBUG</code>就能正常工作了!<br>可以通过调整模式来进行测试:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658692067377.jpg" alt=""></p>
+<p>把图中的地方改成<code>Release</code>,即可进行测试.</p>
+<h3 id="Tips">Tips</h3><p>这个编译标记可以随便定义,并不是只能是<code>DEBUG</code>,只要标记能够对应,即可正常工作.编译器只是会看,在<code>Debug</code>模式下,有哪些标记.(或者在 <code>Release</code> 模式下有哪些标记.)例如:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658693876738.jpg" alt=""><br>代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func GUILog&#60;T&#62;(_ message: T, fileName: String = #function, methodName: String = #function, lineNumber: Int = #line) &#123;&#10;    #if DEFAULT&#10;    print(&#34;\(methodName)[\(lineNumber)]:\(message)&#34;)&#10;    #endif&#10;&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -86,13 +76,13 @@
         
   
   <div class="categories">
-    <a href="/categories/Swift进阶/">Swift进阶</a>
+    <a href="/categories/Swift/">Swift</a>
   </div>
 
         
   
   <div class="tags">
-    <a href="/tags/Swift进阶/">Swift进阶</a>
+    <a href="/tags/Swift/">Swift</a>
   </div>
 
         
@@ -103,7 +93,7 @@
 </article>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/08/18/Swift进阶/Swift的编译标记/" data-title="Swift的编译标记" data-url="http://yoursite.com/2015/08/18/Swift进阶/Swift的编译标记/"></div>
+  <div class="ds-thread" data-thread-key="2016/06/14/Swift/在-Swift-中使用DEBUG标记/" data-title="在 Swift 中使用DEBUG标记" data-url="http://yoursite.com/2016/06/14/Swift/在-Swift-中使用DEBUG标记/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -140,6 +130,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/categories/Git/">Git</a><small>1</small></li>
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>1</small></li>
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
@@ -179,6 +171,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
   
     <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>1</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
   

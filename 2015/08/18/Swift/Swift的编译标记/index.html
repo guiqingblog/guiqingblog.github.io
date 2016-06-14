@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Currying | Kenny 肉桂的主页</title>
+  <title>Swift的编译标记 | Kenny 肉桂的主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Currying"/>
+  <meta property="og:title" content="Swift的编译标记"/>
   <meta property="og:site_name" content="Kenny 肉桂的主页"/>
 
   
@@ -50,41 +50,34 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-06-03T09:06:06.000Z"><a href="/2015/06/03/Swift进阶/Currying/">2015-06-03</a></time>
+        <time datetime="2015-08-18T09:45:17.000Z"><a href="/2015/08/18/Swift/Swift的编译标记/">2015-08-18</a></time>
       
       
   
-    <h1 class="title">Currying</h1>
+    <h1 class="title">Swift的编译标记</h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="context">context</h2><p>最近开始读喵神的书,书是好书,就是非常概略,不利于 Swift 基础薄弱的童鞋,所以,借着自己阅读的理解和查阅的资料,把每个知识点扩充一下.</p>
-<h2 id="Currying">Currying</h2><p><strong>Currying就是把一个多参数的方法，拆解为只有第一个参数的方法，这个方法的返回值不是一个具体的值，而是一个新的方法，这个方法的参数是原先的方法刨去第一个参数后的“剩下的方法的片段”，可以理解为，把一个多参数方法只作为某一种模板</strong></p>
-<h2 id="基本写法">基本写法</h2><p>基本结构:</p>
-<p>func <code>function name</code> (<code>parameters</code>)(<code>parameters</code>)-&gt;<code>return type</code>{<br>    <code>statements</code><br>}</p>
-<p>一个 Currying<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func add(originValue: Int)(inputValue: Int) -&#62; Int &#123;&#10;        return originValue + inputVlue&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个写法就是 <code>currying</code> 函数的基本写法,<code>originValue</code> 是他的固定的基数(或者说基础参数). <code>inputValue</code>是以后调用的不同的输入值.基础参数构建了一个类似模板的东西,而输入值构建了我们想要的最终结果.</p>
-<p>使用:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let addWith10 = add(10)&#10;let addWith100 = add(100)</span><br></pre></td></tr></table></figure>
-<p>以上,分别构建了一个以 10 和100 为基数的方法.它们都是新的方法,但是是我们最开始方法的一部分,如果要使用:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let result1 = addWith10(inputValue: 1)&#10;let result2 = addWith100(inputValue: 1)</span><br></pre></td></tr></table></figure>
-<p>result1的结果是  11<br>result2的结果是  101</p>
-<p>以上就是 Currying 的一个小剖析,下面我们从一般函数入手,看看Currying到底是怎么演化的.</p>
-<h2 id="从函数开始">从函数开始</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int,b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;sum(1, 2)   //&#36755;&#20986;3</span><br></pre></td></tr></table></figure>
-<p>这是一个非常简单的函数,如果用 Currying 的写法,会变成:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;var sumByFirst = sum(1)&#10;sumByFirst(b: 4) //&#36755;&#20986;5</span><br></pre></td></tr></table></figure>
-<p>只需要传入第一个参数，返回的sumByFirst是一个函数，它包含剩余的其他参数，以及刚刚传入进去的那个1，接着以它自己作为方法传入第二个参数b就行了。<br>如果是三个参数就像这样： </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int)(c: Int) -&#62; Int &#123;&#10;    return a + b + c&#10;&#125;&#10;var sumByFirst = sum(1)&#10;var sumBySecond = sumByFirst(b: 4)&#10;sumBySecond(c: 10)  //&#36755;&#20986;15</span><br></pre></td></tr></table></figure>
-<p>除了第一个参数以外，其他的参数都要显式地写上参数标签，并且要按参数排列的顺序调用。<br>一个括号中放两个参数也可以： </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int, c: Int) -&#62; Int &#123;&#10;    return a + b + c&#10;&#125;&#10;var sumByFirst = sum(1)&#10;sumByFirst(b: 4,c: 10)  //&#36755;&#20986;15</span><br></pre></td></tr></table></figure>
-<p>在某些情况下，你可能会用某个相同的参数重复调用某个方法，那么利用柯里化会使代码更易于维护：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;var sumWithFive = sum(5)&#10;sumWithFive(b: 5)&#10;sumWithFive(b: 10)&#10;sumWithFive(b: 15)</span><br></pre></td></tr></table></figure>
-<p>因为 Swift 的 Selector  只能通过字符串生成,这会面临一个很严重的问题,就是难以重构,并且无法在编译期间进行检查,这是非常危险的行为.但是利用方法的 Currying ,我们可以解决这个问题.</p>
-<p>参考网址:</p>
-<p><a href="http://blog.csdn.net/zhangao0086/article/details/38851759" target="_blank" rel="external">http://blog.csdn.net/zhangao0086/article/details/38851759</a></p>
-<p><a href="http://www.tuicool.com/articles/bMBjUfn" target="_blank" rel="external">http://www.tuicool.com/articles/bMBjUfn</a></p>
+        <h2 id="Context">Context</h2><p>在OC 中, 我经常使用 <code>#Param</code>来给控制器划分代码结构 , 比如 ,一个控制器,我经常分为如下的结构:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark -life cycle&#10;&#10;#pragma mark - &#60;#name#&#62; delegate&#10;&#10;#pragma mark -event response&#10;&#10;#pragma mark -private methods&#10;&#10;#pragma mark -getters and setters</span><br></pre></td></tr></table></figure>
+<p>这样的好处是, 每个控制器的结构都是规范的. 如图, 方法都分类了(对于我这样的Vim控 ,还能实现在标签之间的跳转)<br><a id="more"></a></p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-7@2x.png" alt="代码结构"></p>
+<p>在协作开发中 , 阅读代码的成本大大降低.</p>
+<h2 id="Swift_的编译标记">Swift 的编译标记</h2><p>在Swift 中也有类似的方式, 我们可以使用 <code>// MARK:</code> 这样的标记,并且在后面写上描述, 这样Xcode 将在导航栏的中用标签的形式区分出这些标记.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class ViewController: UIViewController &#123;&#10;    &#10;// MARK: life cycle&#10;    override func viewDidLoad() &#123;&#10;        super.viewDidLoad()&#10;    &#125;&#10;// MARK: Warning&#10;    override func didReceiveMemoryWarning() &#123;&#10;        super.didReceiveMemoryWarning()&#10;    &#125;&#10;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这样,在Swift中得表现如图:</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-1@2x.png" alt=""></p>
+<p>我们还能在 <code>:</code>的后面加一个 ‘-‘,这样导航中会再多一条横线,隔开各个部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;class ViewController: UIViewController &#123;&#10;    &#10;// MARK:- life cycle&#10;    override func viewDidLoad() &#123;&#10;        super.viewDidLoad()&#10;    &#125;&#10;// MARK:- Warning&#10;    override func didReceiveMemoryWarning() &#123;&#10;        super.didReceiveMemoryWarning()&#10;    &#125;&#10;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>效果如图:</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-2@2x.png" alt=""></p>
+<p>还有 todo 和 fixme ,我们可以用来表示要坐得事情 和需要改正的地方.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// TODO: this is to do&#10;    func todo()&#123;&#10;    &#10;    &#125;&#10;// FIXME: you need fix me&#10;    func fixMe()&#123;&#10;    &#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>效果如图:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Swift的编译标记QQ20150818-3@2x.png" alt=""></p>
+<p>可以看到, 与 MARK 相比 , TODO 和 FIXME 的本身也被显示出来了, 能更好地表明用意.</p>
+<h2 id="一个Warning">一个Warning</h2><p>在OC 中,我们用的更多的是 #Warning ,来提示自己这里需要更改或者有问题需要修改, 但是 Swift中暂时没有类似的关键字. 算是比较遗憾的.</p>
 
       
     </div>
@@ -99,7 +92,7 @@
         
   
   <div class="tags">
-    <a href="/tags/Swift-进阶/">Swift 进阶</a>
+    <a href="/tags/Swift进阶/">Swift进阶</a>
   </div>
 
         
@@ -110,7 +103,7 @@
 </article>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/06/03/Swift进阶/Currying/" data-title="Currying" data-url="http://yoursite.com/2015/06/03/Swift进阶/Currying/"></div>
+  <div class="ds-thread" data-thread-key="2015/08/18/Swift/Swift的编译标记/" data-title="Swift的编译标记" data-url="http://yoursite.com/2015/08/18/Swift/Swift的编译标记/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -147,6 +140,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/categories/Git/">Git</a><small>1</small></li>
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>1</small></li>
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
@@ -186,6 +181,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
   
     <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>1</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
   

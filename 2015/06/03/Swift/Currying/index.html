@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>从 variable with a setter must also have a getter 引发的思考 | Kenny 肉桂的主页</title>
+  <title>Currying | Kenny 肉桂的主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="从 variable with a setter must also have a getter 引发的思考"/>
+  <meta property="og:title" content="Currying"/>
   <meta property="og:site_name" content="Kenny 肉桂的主页"/>
 
   
@@ -50,37 +50,41 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-05-13T05:59:26.000Z"><a href="/2016/05/13/Swift进阶/从-variable-with-a-setter-must-also-have-a-getter-引发的思考/">2016-05-13</a></time>
+        <time datetime="2015-06-03T09:06:06.000Z"><a href="/2015/06/03/Swift/Currying/">2015-06-03</a></time>
       
       
   
-    <h1 class="title">从 variable with a setter must also have a getter 引发的思考</h1>
+    <h1 class="title">Currying</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>今天一哥们在群里问:”为什么我不能只重写 setter ,还要多写个 getter ?”<br>我一听也是懵了,后来在 playgroud 里面写,果然得到了一个错误:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;&#10;    &#10;    var labelText:String&#10;        &#123;&#10;        set(newValue)&#123;&#10;            self.labelText = newValue&#10;        &#125;&#10;   &#10;    &#125;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
-<p><code>Variable With a setter must also have a getter</code></p>
-<p>后来,查找 stackflow, 找到了答案:</p>
-<p>一旦你给一个属性添加了 <code>getter</code> 或者 <code>setter</code> ,这个属性将变成 <code>计算属性</code>.</p>
-<p>后来,我在<code>The Swift Programming Language 2.2</code> 的 Properties 一章中,找到这样一段描述:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#8220;In addition to stored properties, classes, structures, and enumerations can define computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.&#8221;</span><br></pre></td></tr></table></figure>
-<p>除了存储属性之外,类,结构体和枚举还可以定义计算属性,计算属性 <strong>不存储值</strong> ,它们提供一个 <code>getter</code> 和一个 <strong>可选的</strong> <code>setter</code>,借此来读取和<strong>间接地</strong>设置<strong>其他属性和值</strong>.</p>
-<p>我在文档中没有找到更多的说明,下面来说说我自己的思考:</p>
-<ol>
-<li><p>计算属性不存储值,那么也就是说,只能我显式地告诉程序,这个值是怎么来的.所以,需要有一个 <code>getter</code> ,它是必须的,否则这个属性就不是计算属性.而是存储属性.</p>
-</li>
-<li><p><code>setter</code>是可选的,可以不写 (不写 <code>setter</code> 不写 <code>getter</code>,那么这个属性还是存储属性).但是一旦写了<code>setter</code>(这个属性变成了计算属性),那么<code>getter</code>也是必须的</p>
-</li>
-</ol>
-<h3 id="willSet_和_didSet">willSet 和 didSet</h3><p>刚刚说明了关于计算属性的一些特点,但是问题来了,我们经常有拦截<code>setter</code>来做一些自定义处理的需求. 在 OC 中,这个很简单,重写 <code>setter</code>方法就好了,但是, Swift 中, 添加<code>setter</code>会让属性变味.</p>
-<p>Swift 的设计者肯定也是考虑到了这一点,所以提供了 <code>willSet</code> 和 <code>didSet</code>这两个属性观察方法.用法如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;&#10;    &#10;    var labelText:String = &#34;great&#34;&#10;        &#123;&#10;        willSet&#123;&#10;            print(&#34;labeltext will change!&#34;)&#10;            &#10;        &#125;&#10;        didSet&#123;&#10;            print(&#34;labeltext did change!&#34;)&#10;//            labelText = &#34;defalut&#34;&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>输出结果:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">labeltext will change!&#10;labeltext did change!&#10;11</span><br></pre></td></tr></table></figure>
-<p>这样,我们可以过滤值,可以自己处理一些事情,也不会误把存储属性转换成计算属性.</p>
+        <h2 id="context">context</h2><p>最近开始读喵神的书,书是好书,就是非常概略,不利于 Swift 基础薄弱的童鞋,所以,借着自己阅读的理解和查阅的资料,把每个知识点扩充一下.</p>
+<h2 id="Currying">Currying</h2><p><strong>Currying就是把一个多参数的方法，拆解为只有第一个参数的方法，这个方法的返回值不是一个具体的值，而是一个新的方法，这个方法的参数是原先的方法刨去第一个参数后的“剩下的方法的片段”，可以理解为，把一个多参数方法只作为某一种模板</strong></p>
+<h2 id="基本写法">基本写法</h2><p>基本结构:</p>
+<p>func <code>function name</code> (<code>parameters</code>)(<code>parameters</code>)-&gt;<code>return type</code>{<br>    <code>statements</code><br>}</p>
+<p>一个 Currying<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func add(originValue: Int)(inputValue: Int) -&#62; Int &#123;&#10;        return originValue + inputVlue&#10;    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个写法就是 <code>currying</code> 函数的基本写法,<code>originValue</code> 是他的固定的基数(或者说基础参数). <code>inputValue</code>是以后调用的不同的输入值.基础参数构建了一个类似模板的东西,而输入值构建了我们想要的最终结果.</p>
+<p>使用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let addWith10 = add(10)&#10;let addWith100 = add(100)</span><br></pre></td></tr></table></figure>
+<p>以上,分别构建了一个以 10 和100 为基数的方法.它们都是新的方法,但是是我们最开始方法的一部分,如果要使用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let result1 = addWith10(inputValue: 1)&#10;let result2 = addWith100(inputValue: 1)</span><br></pre></td></tr></table></figure>
+<p>result1的结果是  11<br>result2的结果是  101</p>
+<p>以上就是 Currying 的一个小剖析,下面我们从一般函数入手,看看Currying到底是怎么演化的.</p>
+<h2 id="从函数开始">从函数开始</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int,b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;sum(1, 2)   //&#36755;&#20986;3</span><br></pre></td></tr></table></figure>
+<p>这是一个非常简单的函数,如果用 Currying 的写法,会变成:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;var sumByFirst = sum(1)&#10;sumByFirst(b: 4) //&#36755;&#20986;5</span><br></pre></td></tr></table></figure>
+<p>只需要传入第一个参数，返回的sumByFirst是一个函数，它包含剩余的其他参数，以及刚刚传入进去的那个1，接着以它自己作为方法传入第二个参数b就行了。<br>如果是三个参数就像这样： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int)(c: Int) -&#62; Int &#123;&#10;    return a + b + c&#10;&#125;&#10;var sumByFirst = sum(1)&#10;var sumBySecond = sumByFirst(b: 4)&#10;sumBySecond(c: 10)  //&#36755;&#20986;15</span><br></pre></td></tr></table></figure>
+<p>除了第一个参数以外，其他的参数都要显式地写上参数标签，并且要按参数排列的顺序调用。<br>一个括号中放两个参数也可以： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int, c: Int) -&#62; Int &#123;&#10;    return a + b + c&#10;&#125;&#10;var sumByFirst = sum(1)&#10;sumByFirst(b: 4,c: 10)  //&#36755;&#20986;15</span><br></pre></td></tr></table></figure>
+<p>在某些情况下，你可能会用某个相同的参数重复调用某个方法，那么利用柯里化会使代码更易于维护：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int) -&#62; Int &#123;&#10;    return a + b&#10;&#125;&#10;var sumWithFive = sum(5)&#10;sumWithFive(b: 5)&#10;sumWithFive(b: 10)&#10;sumWithFive(b: 15)</span><br></pre></td></tr></table></figure>
+<p>因为 Swift 的 Selector  只能通过字符串生成,这会面临一个很严重的问题,就是难以重构,并且无法在编译期间进行检查,这是非常危险的行为.但是利用方法的 Currying ,我们可以解决这个问题.</p>
+<p>参考网址:</p>
+<p><a href="http://blog.csdn.net/zhangao0086/article/details/38851759" target="_blank" rel="external">http://blog.csdn.net/zhangao0086/article/details/38851759</a></p>
+<p><a href="http://www.tuicool.com/articles/bMBjUfn" target="_blank" rel="external">http://www.tuicool.com/articles/bMBjUfn</a></p>
 
       
     </div>
@@ -95,7 +99,7 @@
         
   
   <div class="tags">
-    <a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a>
+    <a href="/tags/Swift-进阶/">Swift 进阶</a>
   </div>
 
         
@@ -106,7 +110,7 @@
 </article>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2016/05/13/Swift进阶/从-variable-with-a-setter-must-also-have-a-getter-引发的思考/" data-title="从 variable with a setter must also have a getter 引发的思考" data-url="http://yoursite.com/2016/05/13/Swift进阶/从-variable-with-a-setter-must-also-have-a-getter-引发的思考/"></div>
+  <div class="ds-thread" data-thread-key="2015/06/03/Swift/Currying/" data-title="Currying" data-url="http://yoursite.com/2015/06/03/Swift/Currying/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -143,6 +147,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/categories/Git/">Git</a><small>1</small></li>
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>1</small></li>
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
@@ -182,6 +188,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
   
     <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>1</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
   
