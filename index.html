@@ -51,6 +51,115 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-06-15T06:51:18.000Z"><a href="/2016/06/15/Swift/Swift3-新特性/">2016-06-15</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/06/15/Swift/Swift3-新特性/">Swift3 新特性 </a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Swift3_新特性">Swift3 新特性</h1><p>看了一下刚出的 Session 406,简单记录一下关于 Swift3.0相比2.2的改动. 能力有限,若有谬误,欢迎指正 .</p>
+<h3 id="简化的_API">简化的 API</h3><ul>
+<li>优化将方法名切分,将操作中的动词提取,作为方法名.将其余部分作为参数名.</li>
+<li>在不引起歧义的情况下,去掉了重复性的名词.</li>
+</ul>
+<p>Swift 2.2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var array:Array = [1,2]&#10;&#10;array.appendContentsOf([2,3,4])&#10;array.insert(1, atIndex: 0)&#10;&#10;var url = NSURL(string: &#34;randomLoacation&#34;)!&#10;&#10;if url.fileURL &#123;&#125;&#10;var x = url.URLByAppendingPathComponent(&#34;file.txt&#34;)</span><br></pre></td></tr></table></figure>
+<p>Swift 3.0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//Swift.Array&#10;var array:Array = [1,2]&#10;&#10;array.append(contentsOf: [2,3,4])&#10;array.insert(1, at: 0) //index&#27809;&#26377;&#20160;&#20040;&#29305;&#23450;&#20449;&#24687;,&#21482;&#26159;&#37325;&#22797;&#10;&#10;//Foudation.NSURL&#10;var url = NSURL(string: &#34;randomLoacation&#34;)!&#10;if url.isFileURL &#123;&#125; //&#24847;&#24605;&#26356;&#26126;&#30830;&#10;var x = url.appendingPathComponent(&#34;file.txt&#34;)</span><br></pre></td></tr></table></figure>
+<h3 id="一致的函数参数标签">一致的函数参数标签</h3><p>原来2.2中, 第一个参数标签可以省略.类似这样:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;func myFunction(a: Int , b: Int , c: Int)&#123;&#10;&#10;&#125;&#10;&#10;myFunction(42, b: 57, c: 39)</span><br></pre></td></tr></table></figure>
+<p>在 3.0 中,上面的用法会报错. 需要显式写出标签,类似这样:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;func myFunction(a: Int , b: Int , c: Int)&#123;&#10;    &#10;&#125;&#10;&#10;myFunction(a: 10, b: 10, c: 10)</span><br></pre></td></tr></table></figure>
+<p>当然,如果实在不想写,可以在声明的时候使用 <code>_</code> .</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;func myFunction(_ a: Int , b: Int , c: Int)&#123;&#10;    &#10;&#125;&#10;&#10;myFunction(10, b: 10, c: 10)</span><br></pre></td></tr></table></figure>
+<h3 id="移动_Where_语句到函数声明的结尾">移动 Where 语句到函数声明的结尾</h3><p>在 Swift2.2中,泛型约束语句<code>Where</code>需要放到泛型的<code>&lt;&gt;</code>中.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func anyCommon&#60;T: SequenceType, U: SequenceType&#10;    where T.Generator.Element : Equatable,&#10;    T.Generator.Element == U.Generator.Element&#62;(lhs: T, rhs: U) -&#62; Bool&#123;&#10;    print(&#34;here&#34;)&#10;    return true;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在 Swift3.0中,将其提取到声明之后:<br>代码是参考的 Session 中的代码,但是本人用 Xcode8.0的 Playground 报错.但是主旨不会错,就是将<code>Where</code>语句提取出来.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func anyCommons&#60;T: Sequence, U: Sequence&#62;(lhs: T, rhs: U) -&#62; Bool&#10;    where T.Element: Equatable,T.Element == U.Element&#10;&#123;&#10;    print(&#34;here&#34;)&#10;    return true;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="结果未使用警告的方法">结果未使用警告的方法</h3><p>对于一个没有使用的函数返回值(或者自定义的变量值),编译器都会给你一个警告.因为既然你认为有返回值, 而你却没有使用.这可能就是你忘记了.这种操作可能会造成你编码的 bug</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func plusOne(_ a : Int) -&#62;Int&#123;&#10;         print(a)&#10;         return a+1&#10;     &#125;&#10;     &#10;     plusOne(3) //&#24471;&#21040;&#35686;&#21578; Result of call to &#39;plusOne&#39; is unused</span><br></pre></td></tr></table></figure>
+<p>但是一些情况下.我们确实不需要用到这个返回值,而且仅仅是为了函数的一个副作用( side effect) 而去调用函数. 例如,上面代码中的<code>print(a)</code>.这就是我调用函数的目的.<br>为了消除警告,可以使用如下方式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;func plusOne(_ a : Int) -&#62;Int&#123;&#10;    print(a)&#10;    return a+1&#10;&#125;&#10;&#10;_ =  plusOne(3)</span><br></pre></td></tr></table></figure>
+<p>或者使用标记 <code>@discardableResult</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@discardableResult&#10;func plusOne(_ a : Int) -&#62;Int&#123;&#10;    print(a)&#10;    return a+1&#10;&#125;&#10;&#10;plusOne(3)</span><br></pre></td></tr></table></figure>
+<h3 id="索引集合">索引集合</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let collection = [&#34;a&#34;,&#34;b&#34;,&#34;c&#34;,&#34;d&#34;]&#10;&#10;var i = collection.startIndex</span><br></pre></td></tr></table></figure>
+<p>在 Swift 2.2 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swift 2 : var next = i.successor()</span><br></pre></td></tr></table></figure>
+<p>在 Swift 3.0 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var next = collection.index(after: 2)</span><br></pre></td></tr></table></figure>
+<h3 id="浮点型和数值型">浮点型和数值型</h3><ul>
+<li>Float,Double,Float80 和 CGFloat统一使用新的浮点协议( Floating Point Protocol )</li>
+<li>提供 IEEE-754 相关的属性和方法 (IEEE 754 标准是IEEE二进位浮点数算术标准（IEEE Standard for Floating-Point Arithmetic）的标准编号  ，等同于国际标准ISO/IEC/IEEE 60559[2])</li>
+<li>允许在所有的浮点类型上使用算法泛型(水平有限,原文是:permits algrithms to be gerneric over all floating point types)</li>
+</ul>
+<p>用 PI 来举个例子:<br>Swift 2.2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let v = 2 * Float(M_PI)</span><br></pre></td></tr></table></figure>
+<p>而在 Swift3.0中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let v = 2 * Float.pi</span><br></pre></td></tr></table></figure>
+<p>如果第一个操作数是浮点数,还可以这样写:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let anotherV = 2.0 * .pi / 180</span><br></pre></td></tr></table></figure>
+<h3 id="隐式解包可选">隐式解包可选</h3><p>在 Swift2.2中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func f(value: Int!)&#123;&#10;    let x = value + 1 // x &#26159; Int &#31867;&#22411; - &#24378;&#21046;&#35299;&#21253;&#10;    let y = value     // y &#26159; Int!&#10;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在 Swift 3.0 中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func f(value: Int!)&#123;&#10;    let x = value + 1 // x &#26159; Int &#31867;&#22411; - &#24378;&#21046;&#35299;&#21253;&#10;    let y = value     // y &#26159; Int?&#10;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体参考:<br><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0054-abolish-iuo.md" target="_blank" rel="external">SE-0054</a></p>
+<h3 id="一些细节的增强">一些细节的增强</h3><ul>
+<li>当前文件访问级别,新增的权限控制关键字 <code>fileprivate</code> <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md" target="_blank" rel="external">SE-0025</a></li>
+<li><code>case</code>中的标签可以使用多种模式 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0043-declare-variables-in-case-labels-with-multiple-patterns.md" target="_blank" rel="external">SE-0043</a></li>
+<li>泛型别名 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0048-generic-typealias.md" target="_blank" rel="external">SE-0048</a></li>
+<li>引用Objective-C 的 key-paths <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0062-objc-keypaths.md" target="_blank" rel="external">SE-0062</a></li>
+<li>引用 Objective-C中属性的 getter 和 setter <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0064-property-selectors.md" target="_blank" rel="external">SE-0064</a></li>
+<li>协议和协议拓展的别名 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0092-typealiases-in-protocols.md" target="_blank" rel="external">SE-0092</a><h3 id="移除的功能">移除的功能</h3></li>
+</ul>
+<ol>
+<li>函数柯里化(Currying介绍)[<a href="http://www.cocoachina.com/ios/20141110/10166.html" target="_blank" rel="external">http://www.cocoachina.com/ios/20141110/10166.html</a>]</li>
+<li>函数参数中的 <code>var</code> (详细介绍)[<a href="http://www.swiftcafe.io/2016/05/05/swift3-var/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">http://www.swiftcafe.io/2016/05/05/swift3-var/?utm_source=tuicool&amp;utm_medium=referral</a>]</li>
+<li>去掉 <code>++</code> 和 <code>--</code> 操作符</li>
+<li>C 风格的for循环</li>
+<li>通过元组的形式传递函数参数列表 .<a href="http://www.paulrobinson.net/function-parameters-are-tuples-in-swift/" target="_blank" rel="external">详细介绍</a></li>
+</ol>
+<p>对第5条做一个说明:<br>在 swift 2.2 中,我们可以:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let param = (20,&#34;kenny&#34;,&#34;male&#34;)&#10;&#10;func personInfo(age: Int ,_ name: String ,_ gender: String)&#123;&#10;&#10;&#125;&#10;&#10;personInfo(param)&#10;&#10;//&#20063;&#21487;&#20197;&#19981;&#30465;&#30053;&#26631;&#31614;&#10;&#10;let param = (age:20, name:&#34;kenny&#34;, gender:&#34;male&#34;)&#10;&#10;func personInfo(age age: Int , name: String , gender: String)&#123;&#10;&#10;&#125;&#10;&#10;personInfo(param)</span><br></pre></td></tr></table></figure>
+<p>这个语法在 Swift3.0中被去掉了.原因是这么传递,可能会和有一个元组类型参数的函数混淆.</p>
+<p>参考 : WWDC 2016 Session 402 What’s new in Swift</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-06-14T02:18:56.000Z"><a href="/2016/06/14/Swift/在-Swift-中使用DEBUG标记/">2016-06-14</a></time>
       
       
@@ -606,72 +715,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-09-18T12:04:28.000Z"><a href="/2015/09/18/ClassyLiveLayout/Classy手记/">2015-09-18</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/09/18/ClassyLiveLayout/Classy手记/">Classy手记</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>我一直在寻找一款良好的autolayout框架,这个良好的定义至少要包括:</p>
-<ol>
-<li>能够实现效果,没有深坑<br>如果够优秀,那么最好能够 2. 实时调试</li>
-</ol>
-<p>今天刷博客,偶尔发现了一款 <code>ClassyLiveLayout</code> 它能够结合 <code>Masonry</code> 和 <code>Classy</code> 完成实时调试 (有没有坑待验证)</p>
-<p><code>Mansory</code>自己一直在用 , <code>Classy</code>需要了解 .所以从它入手.</p>
-<h2 id="Selectors">Selectors</h2><p>样式选择器是用来指定某个视图或者视图模型,来应用你的样式表. 有三种指定的方式:</p>
-<ol>
-<li><p>类</p>
-</li>
-<li><p>视图层级</p>
-</li>
-<li><p>样式Class</p>
-</li>
-</ol>
-<p>我们可以三种一起用:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/* &#21305;&#37197;&#35270;&#22270;&#10; *&#10; * &#31867;  UIButton&#25110;&#32773;&#20854;&#23376;&#31867;&#10; * &#26679;&#24335;&#31867;  large&#10; * &#29238;&#35270;&#22270;&#31867; UITabBar&#10; */&#10; &#10;UITabBar &#62; ^UIButton.large &#123; &#125;</span><br></pre></td></tr></table></figure>
-<p>下面分别说明:</p>
-<h2 id="类">类</h2>
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -701,7 +744,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
   
-    <li><a href="/categories/Swift/">Swift</a><small>1</small></li>
+    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
@@ -742,7 +785,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
   
-    <li><a href="/tags/Swift/">Swift</a><small>1</small></li>
+    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
   
     <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
   
