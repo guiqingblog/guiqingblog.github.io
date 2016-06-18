@@ -51,6 +51,113 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-04-14T03:03:13.000Z"><a href="/2015/04/14/主页维护记录/网站错误解决日志/">2015-04-14</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/04/14/主页维护记录/网站错误解决日志/">网站错误解决日志</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="时间">时间</h2><h3 id=""> </h3><h2 id="时间_2015-04-14_11:10:43">时间 2015-04-14 11:10:43</h2><h3 id="问题描述">问题描述</h3><p>今天使用 hexo 部署到 git 的时候,报错:  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&#10;@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @&#10;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&#10;Permissions 0777 for &#39;/Users/katsura/.ssh/id_rsa&#39; are too open.&#10;It is required that your private key files are NOT accessible by others.&#10;This private key will be ignored.&#10;bad permissions: ignore key: /Users/katsura/.ssh/id_rsa&#10;Permission denied (publickey).&#10;fatal: Could not read from remote repository.&#10;&#10;Please make sure you have the correct access rights&#10;and the repository exists.&#10;&#10;    at ChildProcess.&#60;anonymous&#62; (/Users/katsura/Git/guiqingblog.github.io/node_modules/hexo-deployer-git/node_modules/hexo-util/lib/spawn.js:42:17)&#10;    at ChildProcess.emit (events.js:98:17)&#10;    at maybeClose (child_process.js:766:16)&#10;    at Socket.&#60;anonymous&#62; (child_process.js:979:11)&#10;    at Socket.emit (events.js:95:17)&#10;    at Pipe.close (net.js:466:12)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/04/14/主页维护记录/网站错误解决日志/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/7/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-04-13T14:25:14.000Z"><a href="/2015/04/13/iOS Tips/UIApplication-tips/">2015-04-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/04/13/iOS Tips/UIApplication-tips/">UIApplication tips -给新手的笔记</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="UIApplication_对象是应用程序的象征">UIApplication 对象是应用程序的象征</h3><p>每一个应用程序都有自己的 UIApplication对象,而且是单例的.<br>通过 [UIApplication sharedApplication]可以获得这个单例对象<br>一个iOS程序启动后创建的第一个对象就是 UIApplication 对象<br>一个iOS程序启动后创建的第一个对象就是 UIApplication 对象<br>利用 UIApplication 对象,能进行一些应用级别的操作 </p>
+<p>验证单例操作:  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;&#10;&#9;    [super viewDidLoad];&#10;    &#10;    UIApplication *app  = [UIApplication sharedApplication];&#10;    UIApplication *app2 = [UIApplication sharedApplication];&#10;    UIApplication *app3 = [[UIApplication alloc] init];&#10;    &#10;    NSLog(@&#34;%p,%p,%p&#34;,app,app2,app3);&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/04/13/iOS Tips/UIApplication-tips/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/7/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-04-13T01:32:52.000Z"><a href="/2015/04/13/Core Aniamtion深入探讨/2-寄宿图/寄宿图/">2015-04-13</a></time>
       
       
@@ -217,26 +324,25 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/">2015-04-12</a></time>
+        <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">2015-04-12</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/">25条提升iOS App性能的建议-iOS 方法论</a></h1>
+    <h1 class="title"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">高效OC编程-在对象内部尽量直接访问实例变量</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="25条提高_iOS_App_性能的建议">25条提高 iOS App 性能的建议</h2><p>性能关系到用户体验,所以它对于我们的开发来说是至关重要的.  </p>
-<h3 id="特别注意:">特别注意:</h3><p>在优化代码之后,必须保证有个需要解决的问题!不要陷入”pre-optimizing(预优化)”你的代码.用Instruments分析你的代码,来发现需要提高的地方.</p>
-<p>下面是一些值得预先考虑的地方,分为三个不同的级别-基础,中级,高级<br>
+        <p>在对象之外访问实例变量时,应该总是通过属性来做.在那么在对象内部访问实例变量的时候,又该如何呢?  </p>
+<p>这是 OCer们一直激烈讨论的问题.有人认为,无论什么情况,都应该通过属性来访问实例变量;也有人说,”通过属性访问”和”直接访问”应该搭配着用. 除了几种特殊情况之外, 笔者强烈建议大家在读取实例变量的时候采用直接访问的形式,而在设置实例变量的时候通过属性来做.<br>
       
     </div>
     <footer>
       
         
           <div class="alignleft">
-            <a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/#more" class="more-link">Read More</a>
+            <a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -271,25 +377,26 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">2015-04-12</a></time>
+        <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/">2015-04-12</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">高效OC编程-在对象内部尽量直接访问实例变量</a></h1>
+    <h1 class="title"><a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/">25条提升iOS App性能的建议-iOS 方法论</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>在对象之外访问实例变量时,应该总是通过属性来做.在那么在对象内部访问实例变量的时候,又该如何呢?  </p>
-<p>这是 OCer们一直激烈讨论的问题.有人认为,无论什么情况,都应该通过属性来访问实例变量;也有人说,”通过属性访问”和”直接访问”应该搭配着用. 除了几种特殊情况之外, 笔者强烈建议大家在读取实例变量的时候采用直接访问的形式,而在设置实例变量的时候通过属性来做.<br>
+        <h2 id="25条提高_iOS_App_性能的建议">25条提高 iOS App 性能的建议</h2><p>性能关系到用户体验,所以它对于我们的开发来说是至关重要的.  </p>
+<h3 id="特别注意:">特别注意:</h3><p>在优化代码之后,必须保证有个需要解决的问题!不要陷入”pre-optimizing(预优化)”你的代码.用Instruments分析你的代码,来发现需要提高的地方.</p>
+<p>下面是一些值得预先考虑的地方,分为三个不同的级别-基础,中级,高级<br>
       
     </div>
     <footer>
       
         
           <div class="alignleft">
-            <a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/#more" class="more-link">Read More</a>
+            <a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -682,134 +789,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-02-28T01:32:47.000Z"><a href="/2015/02/28/辅助编程技能/使用-Homebrew-管理你的mac开发包/">2015-02-28</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/02/28/辅助编程技能/使用-Homebrew-管理你的mac开发包/">使用 Homebrew 管理你的mac开发包</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>很多人可能不了解 Homebrew, 其实它相当于开发软件界的 Appstore.</p>
-<p>比如,如果我要安装 python 的最新版本,那么传统的做法是</p>
-<ol>
-<li>到官方网站下载 python 的最新版本 </li>
-<li>极其麻烦和小心翼翼的删除自带的 python 版本 </li>
-<li>安装新的版本 </li>
-<li>设置环境变量</li>
-</ol>
-<p>而借助 <code>Homebrew</code>, 需要做的仅仅是:<br><code>brew uninstall python</code><br>然后<br><code>brew install python</code></p>
-<p>整个过程只是等待而已,不需要百度 <code>python</code> 的官方网址,不需要找卸载安装配置环境变量教程…</p>
-<h2 id="安装_Homebrew">安装 Homebrew</h2><p>更多的好处就会在你以后的使用中被发掘.<br>下面我们进行 Homebrew 的安装.</p>
-<p>打开终端,输入以下命令:<br><code>ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</code></p>
-<p>注意:</p>
-<ul>
-<li><p>因网络的原因,可能会不成功,请多尝试几次,一直到成功安装.</p>
-</li>
-<li><p>中间会出现一个 Press RETURN to continue or any other key to abort,请及时回车,并输入密码,不要傻等着…</p>
-</li>
-<li><p>不要加 sudo, 加了也没关系,待会会提示你 Don’t run as root</p>
-</li>
-<li><p>如果出现了某个包导致的安装失败,你仅需要按照提示进行操作即可</p>
-</li>
-</ul>
-<p>当看到下面的内容时 ,证明已经安装成功了.</p>
-<p><img src="http://ww4.sinaimg.cn/large/9e446dffjw1essytoxlv1j20ka0dhtf0.jpg"></p>
-<p>注: 本文来自本人早期在 csdn 上撰写的文章,内容为原创</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/7/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-01-15T04:21:05.000Z"><a href="/2015/01/15/iOS Tips/用枚举表示状态、选项、状态码/">2015-01-15</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/01/15/iOS Tips/用枚举表示状态、选项、状态码/">高效OC编程-用枚举表示状态、选项、状态码 </a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>由于Objective-C 基于C 语言，所以C 语言有的功能它都有。其中之一就是枚举类型：</p>
-<p>enum 系统框架中频繁用到此类型，然而开发者容易忽视它。在以一系列常量来表示错误状态码或可组合的选项时，极宜使用枚举为其命名。由于C++11 标准扩充了枚举的特性所以最新版系统框架使用了“强类型”（strong type）的枚举。没错，Objective-C 也能得益于<br>C++11 标准。<br>枚举只是一种常量命名方式。某个对象所经历的各种状态就可以定义为一个简单的枚举集（enumeration set）。比如说，可以用下列枚举表示“套接字连接”（socket connection）的状态:  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enum EOCConnectionState &#123;&#10;EOCConnectionStateDisconnected,  &#10;&#10;EOCConnectionStateConnecting,  &#10;&#10;EOCConnectionStateConnected,  &#10;&#10;&#125;;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/01/15/iOS Tips/用枚举表示状态、选项、状态码/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/7/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -839,7 +818,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Git/">Git</a><small>1</small></li>
   
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
   
     <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
   
@@ -880,7 +859,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
   
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
   
     <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
   

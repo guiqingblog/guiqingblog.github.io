@@ -51,6 +51,116 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-10-08T11:07:48.000Z"><a href="/2015/10/08/ReactiveCocoa/ReactiveCocoa代替Target-Action/">2015-10-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/10/08/ReactiveCocoa/ReactiveCocoa代替Target-Action/">ReactiveCocoa代替Target-Action</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>从入职新公司到现在, 都在给”友商”的硬件填坑 .什么RTSP,H264… 我和安卓小伙伴都快忘记自己是应用开发的了… 好在最近回过神来了. 继续可爱的 <code>ReactiveCocoa</code></p>
+<h2 id="context">context</h2><p>我们传统的使用 <code>UIButton</code>的方式,都是 <code>Target-Action</code>的方式. 但是有几个问题:</p>
+<ol>
+<li><p>局部变量共享 </p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/10/08/ReactiveCocoa/ReactiveCocoa代替Target-Action/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-09-20T02:26:10.000Z"><a href="/2015/09/20/ClassyLiveLayout/Classy官方文档翻译-Properties/">2015-09-20</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/09/20/ClassyLiveLayout/Classy官方文档翻译-Properties/">Classy官方文档翻译:Properties</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="支持的属性">支持的属性</h2><p><code>Classy</code> 支持所有 <code>UIAppearance</code> 的属性和方法,还支持一些<code>UIAppearence</code>没有提到的属性. 因为<code>Classy</code>的属性名和<code>OC</code>中的是一致的,所以,其实你不用关心哪个属性对应哪个.</p>
+<p>比如下面 <code>UIPageControl</code>的属性:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic,retain) UIColor *pageIndicatorTintColor;&#10;@property (nonatomic,retain) UIColor *currentPageIndicatorTintColor;</span><br></pre></td></tr></table></figure>
+<p>在 <code>Classy</code>中的应用是这样子的:<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/09/20/ClassyLiveLayout/Classy官方文档翻译-Properties/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-09-18T12:04:28.000Z"><a href="/2015/09/18/ClassyLiveLayout/Classy手记/">2015-09-18</a></time>
       
       
@@ -493,114 +603,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-18T09:45:17.000Z"><a href="/2015/08/18/Swift/Swift的编译标记/">2015-08-18</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/18/Swift/Swift的编译标记/">Swift的编译标记</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="Context">Context</h2><p>在OC 中, 我经常使用 <code>#Param</code>来给控制器划分代码结构 , 比如 ,一个控制器,我经常分为如下的结构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark -life cycle&#10;&#10;#pragma mark - &#60;#name#&#62; delegate&#10;&#10;#pragma mark -event response&#10;&#10;#pragma mark -private methods&#10;&#10;#pragma mark -getters and setters</span><br></pre></td></tr></table></figure>
-<p>这样的好处是, 每个控制器的结构都是规范的. 如图, 方法都分类了(对于我这样的Vim控 ,还能实现在标签之间的跳转)<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/18/Swift/Swift的编译标记/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-13T09:58:35.000Z"><a href="/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/">2015-08-13</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/">由一个正则引出的 NSPredicate</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>今天需要用到一个正则,正则本身很简单,就是功能是限制<code>UITextField</code>只能输入数字,仅仅限制键盘类型是不够的.</p>
-<p>正则 <code>^[0-9]*$</code> ,说到这里了,顺便记录一下,匹配中文的正则表达式是: <code>[\u4e00-\u9fa5]</code></p>
-<p>根据自己以前的知识,iOS有专门的正则表达式类. 一般的步骤是这样的:<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -630,7 +632,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Git/">Git</a><small>1</small></li>
   
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
   
     <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
   
@@ -671,7 +673,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
   
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>2</small></li>
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
   
     <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
   
