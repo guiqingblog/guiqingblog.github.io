@@ -128,99 +128,22 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <div class="entry">
       
         <p>项目中有个小需求,文本框与按钮绑定.当文本框内容符合规则的时候,按钮才会可用.把判定条件修改一下,代码如下:</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">     RAC(self.loginButton,enabled)  = [self.textFiled.rac_textSignal  map:^id(NSString *value) &#123;&#10;        return @(value.length&#62;3);&#10;    &#125;];&#10; ``` &#10;&#20294;&#26159;&#22914;&#26524;&#22312;&#21457;&#36865;&#35831;&#27714;&#20043;&#21518;,&#36890;&#36807;&#20195;&#30721;&#28165;&#38500;&#20102;&#25991;&#26412;&#26694;&#30340;&#20869;&#23481;,&#25353;&#38062;&#24182;&#19981;&#20250;&#25913;&#21464;&#29366;&#24577;. &#10;&#10; &#24819;&#21040;&#20102;, &#24212;&#35813;&#26159;&#36825;&#20010; `rac_textSignal` &#20986;&#29616;&#38382;&#39064;&#20102;.&#10; &#30475;&#19968;&#19979;&#23427;&#30340;&#23454;&#29616;:</span><br></pre></td></tr></table></figure>
-<ul>
-<li>(RACSignal *)rac_textSignal {<br> @weakify(self);<br> return [[[[[RACSignal<pre><code><span class="rule"><span class="attribute">defer</span>:<span class="value">^{
-    @<span class="function">strongify</span>(self)</span></span>;
-    <span class="tag">return</span> <span class="attr_selector">[RACSignal return:self]</span>;
-}]
-<span class="rule"><span class="attribute">concat</span>:<span class="value">[self rac_signalForControlEvents:UIControlEventAllEditingEvents]]
-map:^(UITextField *x) {
-    return x.text</span></span>;
-}]
-<span class="rule"><span class="attribute">takeUntil</span>:<span class="value">self.rac_willDeallocSignal]
-setNameWithFormat:@<span class="string">"%@ -rac_textSignal"</span>, self.rac_description]</span></span>;
-</code></pre>}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#20960;&#20010;&#20851;&#38190;&#35789;&#30340;&#35299;&#37322;:&#10;`defer` : &#23558;&#20195;&#30721;&#30340;&#21019;&#24314;&#25512;&#36831;&#21040;&#20449;&#21495;&#34987;&#35746;&#38405;&#10;`concat`: &#36830;&#25509;&#20449;&#21495;,&#31532;&#19968;&#20010;&#20449;&#21495;&#24517;&#39035;&#21457;&#36865;&#23436;&#25104;&#65292;&#31532;&#20108;&#20010;&#20449;&#21495;&#25165;&#20250;&#34987;&#28608;&#27963;&#10;`map` : &#26144;&#23556;,&#23558;&#20449;&#21495;&#20869;&#23481;&#36716;&#25442;&#10;`takeUtil` :  signalA takeUntil:signalB &#24403;signalB&#28608;&#27963;&#20043;&#21518;,&#20572;&#27490;signalA &#30340;&#35746;&#38405;&#10;&#10;&#20854;&#23454;&#20027;&#35201;&#30340;&#26159;, &#36825;&#20010; `signal` &#26159;&#30417;&#21548;&#30340;: `UIControlEventAllEditingEvents` . &#37027;&#20040;&#20063;&#23601;&#26159;&#35828;&#23545;`setter` &#26041;&#24335;&#19981;&#20250;&#35302;&#21457;&#20449;&#21495; &#10;&#10;`RACObserve` &#26159;&#19968;&#20010;&#24120;&#29992;&#30340;&#23439;,&#25105;&#20204;&#37117;&#30693;&#36947;&#26159;&#30417;&#21548;&#23646;&#24615;&#20540;&#25913;&#21464;&#30340;.</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="define_RACObserve(TARGET,_KEYPATH)_\">define RACObserve(TARGET, KEYPATH) \</h1><pre><code><span class="list">(<span class="collection">{ \
-    _Pragma<span class="list">(<span class="string">"clang diagnostic push"</span>)</span> \
-    _Pragma<span class="list">(<span class="string">"clang diagnostic ignored \"-Wreceiver-is-weak\""</span>)</span> \
-    __weak id target_ = <span class="list">(<span class="keyword">TARGET</span>)</span><span class="comment">; \</span>
-    <span class="collection">[target_ rac_valuesForKeyPath:@keypath<span class="list">(<span class="keyword">TARGET</span>, KEYPATH)</span> observer:self]</span><span class="comment">; \</span>
-    _Pragma<span class="list">(<span class="string">"clang diagnostic pop"</span>)</span> \
-}</span>)</span>
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#20027;&#35201;&#20195;&#30721;&#26159;:`&#9;[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self]; `&#10;&#28982;&#21518;&#36825;&#20010;`rac_valuesForKeyPath `&#30340;&#23454;&#29616;&#22914;&#19979;:</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>(RACSignal <em>)rac_valuesForKeyPath:(NSString </em>)keyPath observer:(__weak NSObject *)observer {<br>  return [[[self</p>
-<pre><code><span class="string">rac_valuesAndChangesForKeyPath:</span>keyPath <span class="string">options:</span>NSKeyValueObservingOptionInitial <span class="string">observer:</span>observer]
-<span class="string">map:</span>^(RACTuple *value) {
-    <span class="comment">// -map: because it doesn't require the block trampoline that -reduceEach: uses</span>
-    <span class="keyword">return</span> value[<span class="number">0</span>];
-}]
-<span class="string">setNameWithFormat:</span>@<span class="string">"RACObserve(%@, %@)"</span>, self.rac_description, keyPath];
-</code></pre><p>}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#20027;&#35201;&#20195;&#30721;:</span><br></pre></td></tr></table></figure>
-<p>  rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#20063;&#23601;&#26159;&#36825;&#20010;&#26159;&#36890;&#36807; `KVO` &#23454;&#29616;&#30340;. &#32780; `KVO` &#24471;&#23454;&#29616;&#26159;&#36890;&#36807;&#20020;&#26102;&#29983;&#25104;&#19968;&#20010;&#23376;&#31867;,&#24182;&#37325;&#20889;&#29238;&#31867;&#30340; `setter` &#26041;&#27861;.&#36825;&#20010;&#22312;&#23448;&#26041;&#25991;&#26723;&#20013;&#26377;&#35828;&#26126;:</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>Key-Value Observing Implementation Details</p>
-<p>Automatic key-value observing is implemented using a technique called isa-swizzling.<br>The isa pointer, as the name suggests, points to the object’s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.<br>When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.<br>You should never rely on the isa pointer to determine class membership. Instead, you should use the class method to determine the class of an object instance.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;### &#26368;&#32456;&#23454;&#29616;&#10;&#10;&#20102;&#35299;&#20102;&#20004;&#32773;&#30340;&#23454;&#29616;,&#23601;&#21487;&#20197;&#24456;&#23481;&#26131;&#23454;&#29616;&#20195;&#30721;:</span><br></pre></td></tr></table></figure>
-<pre><code>RAC(<span class="keyword">self</span><span class="variable">.loginButton</span>,enabled) =[ [RACObserve(<span class="keyword">self</span><span class="variable">.textFiled</span>, text)  merge:<span class="keyword">self</span><span class="variable">.textFiled</span><span class="variable">.rac_textSignal</span> ] map:^<span class="keyword">id</span>(<span class="built_in">NSString</span> *value) {
-     <span class="keyword">return</span> @(value<span class="variable">.length</span>&gt;<span class="number">3</span>);
-}];
-</code></pre><p>```</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> RAC(self.loginButton,enabled)  = [self.textFiled.rac_textSignal  map:^id(NSString *value) &#123;&#10;    return @(value.length&#62;3);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<p>但是如果在发送请求之后,通过代码清除了文本框的内容,按钮并不会改变状态. </p>
+<p> 想到了, 应该是这个 <code>rac_textSignal</code> 出现问题了.<br> 看一下它的实现:<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> - (RACSignal *)rac_textSignal &#123;&#10;&#9;@weakify(self);&#10;&#9;return [[[[[RACSignal&#10;&#9;&#9;defer:^&#123;&#10;&#9;&#9;&#9;@strongify(self);&#10;&#9;&#9;&#9;return [RACSignal return:self];&#10;&#9;&#9;&#125;]&#10;&#9;&#9;concat:[self rac_signalForControlEvents:UIControlEventAllEditingEvents]]&#10;&#9;&#9;map:^(UITextField *x) &#123;&#10;&#9;&#9;&#9;return x.text;&#10;&#9;&#9;&#125;]&#10;&#9;&#9;takeUntil:self.rac_willDeallocSignal]&#10;&#9;&#9;setNameWithFormat:@&#34;%@ -rac_textSignal&#34;, self.rac_description];&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>几个关键词的解释:<br><code>defer</code> : 将代码的创建推迟到信号被订阅<br><code>concat</code>: 连接信号,第一个信号必须发送完成，第二个信号才会被激活<br><code>map</code> : 映射,将信号内容转换<br><code>takeUtil</code> :  signalA takeUntil:signalB 当signalB激活之后,停止signalA 的订阅</p>
+<p>其实主要的是, 这个 <code>signal</code> 是监听的: <code>UIControlEventAllEditingEvents</code> . 那么也就是说对<code>setter</code> 方式不会触发信号 </p>
+<p><code>RACObserve</code> 是一个常用的宏,我们都知道是监听属性值改变的.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define RACObserve(TARGET, KEYPATH) \&#10;&#9;(&#123; \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic push&#34;) \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic ignored \&#34;-Wreceiver-is-weak\&#34;&#34;) \&#10;&#9;&#9;__weak id target_ = (TARGET); \&#10;&#9;&#9;[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self]; \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic pop&#34;) \&#10;&#9;&#125;)</span><br></pre></td></tr></table></figure>
+<p>主要代码是:<code>[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self];</code><br>然后这个<code>rac_valuesForKeyPath</code>的实现如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (RACSignal *)rac_valuesForKeyPath:(NSString *)keyPath observer:(__weak NSObject *)observer &#123;&#10;&#9;return [[[self&#10;&#9;&#9;rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]&#10;&#9;&#9;map:^(RACTuple *value) &#123;&#10;&#9;&#9;&#9;// -map: because it doesn&#39;t require the block trampoline that -reduceEach: uses&#10;&#9;&#9;&#9;return value[0];&#10;&#9;&#9;&#125;]&#10;&#9;&#9;setNameWithFormat:@&#34;RACObserve(%@, %@)&#34;, self.rac_description, keyPath];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>主要代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]</span><br></pre></td></tr></table></figure>
+<p>也就是这个是通过 <code>KVO</code> 实现的. 而 <code>KVO</code> 得实现是通过临时生成一个子类,并重写父类的 <code>setter</code> 方法.这个在官方文档中有说明:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Key-Value Observing Implementation Details&#10;&#10;Automatic key-value observing is implemented using a technique called&#160;isa-swizzling.&#160;&#10;The&#160;isa&#160;pointer, as the name suggests, points to the object&#39;s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.&#160;&#10;When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.&#160;&#10;You should never rely on the&#160;isa&#160;pointer to determine class membership. Instead, you should use the&#160;class&#160;method to determine the class of an object instance.</span><br></pre></td></tr></table></figure>
+<h3 id="最终实现">最终实现</h3><p>了解了两者的实现,就可以很容易实现代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RAC(self.loginButton,enabled) =[ [RACObserve(self.textFiled, text)  merge:self.textFiled.rac_textSignal ] map:^id(NSString *value) &#123;&#10;     return @(value.length&#62;3);&#10;&#125;];</span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-06-18T15:28:19.000Z"><a href="/2016/06/18/RACObserve-和-rac-textSignal-的搭配使用/">2016-06-18</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/06/18/RACObserve-和-rac-textSignal-的搭配使用/">RACObserve 和 rac_textSignal 的搭配使用</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        
       
     </div>
     <footer>
@@ -732,6 +655,58 @@ var duoshuoQuery = {short_name:"guiqingblog"};
         
           <div class="alignleft">
             <a href="/2015/11/18/iOS Tips/iOS正则表达式类/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-20T11:04:22.000Z"><a href="/2015/10/20/重构、模式、架构/方法封装的基本步骤/">2015-10-20</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/10/20/重构、模式、架构/方法封装的基本步骤/">方法封装的基本步骤</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>今天一同学问我封装时候的基本依据. 然后要详细一点 . 所以写了这篇文章.</p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/10/20/重构、模式、架构/方法封装的基本步骤/#more" class="more-link">Read More</a>
           </div>
         
         
