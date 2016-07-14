@@ -1,0 +1,253 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>视频裁剪 | Kenny 肉桂的主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="视频裁剪"/>
+  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Kenny 肉桂的主页</a></h1>
+  <h2><a href="/">记录自己的进步</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-07-14T07:25:06.000Z"><a href="/2016/07/14/视频相关/视频裁剪/">2016-07-14</a></time>
+      
+      
+  
+    <h1 class="title">视频裁剪</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="AVAsset">AVAsset</h3><p>AVAsset是一个表现音视频媒体的抽象类.AVAsset对象给我们开发提供了媒体文件的访问接口.<br>这个 AVAsset 可以通过文件创建,也可以是来自用户相册目录的.如果获得了一个视频文件的 AVAsset,我们就可以从中获取静态图片,转换格式,或者是裁剪内容.</p>
+<p>通过以下代码,获得特定位置的视频文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString * videoPath = @&#34;a video file path&#34;;&#10;AVAsset *anAsset = [[AVURLAsset alloc] initWithURL:[NSURL fileURLWithPath:videoPath] options:nil];</span><br></pre></td></tr></table></figure>
+<p>其中 options 是一个字典,这个字典只有一个 key-value:<br><code>AVURLAssetPreferPreciseDurationAndTimingKey</code> value 是 <code>YES</code> 或者 <code>NO</code></p>
+<p>这个是设置时间精确度的,如果设置为 YES, 那么会造成很大的开销,但是可以保证操作的精度,对于我的裁剪操作,不用设置.因为我的业务中,裁剪范围是用户滑块操作的,本来精度就要求不高.<br>传递 nil 和 传递 NO, 两者等效.<br>特别的,当进行视频合成操作的时候,需要设置这个字典,并将 value 设置为 <code>YES</code>,因为如果精度不够,可能造成音视频不同步等问题.</p>
+<h3 id="AVAssetExportSession">AVAssetExportSession</h3><p>AVAssetExportSession 是一个控制 Asset 异步导出的对象.可以实现裁剪视频,转换格式等需求. 代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exportSession_ = [[AVAssetExportSession alloc]&#10;                            initWithAsset:anAsset presetName:AVAssetExportPreset960x540]</span><br></pre></td></tr></table></figure>
+<p>这个<code>presetName</code> 是系统提供的预设,有一些常用的视频分辨率和视频质量控制的选项.可以按住<code>command</code>自行查看.另外.如果预设的分辨率不能满足需求,我们还可以自定义任意分辨率,这个将在我以后的文章中进行说明.</p>
+<p>然后就是配置<code>AVAssetExportSession</code>,下面分别配置了<code>导出路径</code>,<code>导出文件格式</code>,<code>截取范围</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exportSession_.outputURL = tempVideoURL;&#10;exportSession_.outputFileType = AVFileTypeMPEG4;&#10;exportSession_.timeRange = [self videoTimeRange:anAsset];</span><br></pre></td></tr></table></figure>
+<p>需要说明的是这个截取范围的实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(CMTimeRange)videoTimeRange:(AVAsset*)anAsset&#123;&#10;    CMTime start = CMTimeMakeWithSeconds(self.videoRange.startTime, anAsset.duration.timescale);&#10;    CMTime duration = CMTimeMakeWithSeconds(self.videoRange.duration, anAsset.duration.timescale);&#10;    CMTimeRange range = CMTimeRangeMake(start, duration);&#10;    return range;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p><code>CMTime</code> 是一个结构体对象,常用的两个值是: <code>value</code> 和 <code>timescale</code>. 两者的关系可以表示为: <code>value/timescale=seconds</code>.</p>
+<p>在上面的方法中,我将来自滑块的值(秒为单位),转换成了<code>CMTime</code>然后构造了一个<code>CMTimeRange</code> 对象.</p>
+<p>最后进行导出:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[exportSession_ exportAsynchronouslyWithCompletionHandler:^&#123;&#10;                switch (exportSession_.status) &#123;&#10;                   case AVAssetExportSessionStatusUnknown: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;                   case AVAssetExportSessionStatusWaiting: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;                   case AVAssetExportSessionStatusExporting: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;                   case AVAssetExportSessionStatusCompleted: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;                   case AVAssetExportSessionStatusFailed: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;                   case AVAssetExportSessionStatusCancelled: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;               &#125;&#10;           &#125;];</span><br></pre></td></tr></table></figure>
+<p>可以对各种状态进行判断.进而采取不同的操作.通常关心的是<code>Failed</code> 和<code>Completed</code> ,前者给用户提示,后者进行后续操作.</p>
+<p>到此,就完成了一段视频的裁剪操作.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/视频相关/">视频相关</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/视频相关/">视频相关</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2016/07/14/视频相关/视频裁剪/" data-title="视频裁剪" data-url="http://yoursite.com/2016/07/14/视频相关/视频裁剪/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Git/">Git</a><small>1</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/算法专题/">算法专题</a><small>1</small></li>
+  
+    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/算法专题-字符串/">算法专题 字符串</a><small>1</small></li>
+  
+    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2016 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
