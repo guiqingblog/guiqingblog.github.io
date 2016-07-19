@@ -51,6 +51,61 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-19T11:17:13.000Z"><a href="/2015/08/19/iOS Tips/利用Runtime实现自依赖按钮/">2015-08-19</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/19/iOS Tips/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>我在开发中遇到一个问题, 就是传统的<code>Target-Action</code>没法满足我的要求. 因为当按钮触发的瞬间, 控制器可能已经被销毁了. <code>Target</code>没有了. 暂且不说这个设计的优劣, 单纯从技术方面,剖析一下是否可以实现一个按钮 ,这个按钮不依赖外部 <code>Target</code> ,而是依赖自己.</p>
+<h2 id="几个想法">几个想法</h2><p>首先想到的是继承<code>UIButton</code>,然后给<code>Button</code>增加一个<code>block</code>属性 ,然后内部执行<code>block</code>代码.</p>
+<p>但是这样要求我项目中所有使用UIButton的地方都需要修改 ,成本太高,遂放弃.</p>
+<p>然后想到通过给<code>UIButton</code>添加<code>Category</code>的方式,完成需求. 之前曾经做个一个分类,就是让<code>NSObject</code>携带一个字典,字典内部可以带上用户自定义的一些参数.解决了一些<code>seletor</code>不能传递任意参数的问题. 所以,这次给<code>Button</code>分类增加个属性,也没有什么问题:</p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/19/iOS Tips/利用Runtime实现自依赖按钮/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-08-18T11:20:34.000Z"><a href="/2015/08/18/主页维护记录/更换电脑引发的MODULE-NOT-FOUND/">2015-08-18</a></time>
       
       
@@ -618,61 +673,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-05T02:00:35.000Z"><a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/">2015-08-05</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/">通过重构实现模板方法模式（Template Method）: 重构篇</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>现在公司的项目中,有两个界面表现几乎完全一样的控制器.如图:</p>
-<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-2@2x.png" alt=""><br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-3@2x.png" alt=""></p>
-<p>但是两者的行为是部分有差别的,当时编码过程中,遵循了<code>极限编程</code>的原则,尽快的写出可以实现功能的代码. 重构和使用模式的工作放在以后进行 . 以防止<code>过度设计</code>带来的问题.<br>写好一个界面之后,直接复制代码,修改了部分.这在什么时候来看,都是编写的最快方式,但是却不是好的设计和可维护方案.</p>
-<p>所以现在要开始进行重构了.</p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -708,7 +708,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
-    <li><a href="/categories/Vim/">Vim</a><small>1</small></li>
+    <li><a href="/categories/Vim/">Vim</a><small>2</small></li>
   
     <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
   

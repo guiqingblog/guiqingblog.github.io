@@ -51,6 +51,61 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-05T02:00:35.000Z"><a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/">2015-08-05</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/">通过重构实现模板方法模式（Template Method）: 重构篇</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>现在公司的项目中,有两个界面表现几乎完全一样的控制器.如图:</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-2@2x.png" alt=""><br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-3@2x.png" alt=""></p>
+<p>但是两者的行为是部分有差别的,当时编码过程中,遵循了<code>极限编程</code>的原则,尽快的写出可以实现功能的代码. 重构和使用模式的工作放在以后进行 . 以防止<code>过度设计</code>带来的问题.<br>写好一个界面之后,直接复制代码,修改了部分.这在什么时候来看,都是编写的最快方式,但是却不是好的设计和可维护方案.</p>
+<p>所以现在要开始进行重构了.</p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/4/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-08-04T00:22:09.000Z"><a href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/">2015-08-04</a></time>
       
       
@@ -575,88 +630,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-06-02T23:34:58.000Z"><a href="/2015/06/03/辅助编程技能/定位程序崩溃点的方法探究/">2015-06-03</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/06/03/辅助编程技能/定位程序崩溃点的方法探究/">定位程序崩溃点的方法探究</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>昨天遇到问题,当我的 NavitgationController back 的时候,程序崩溃,诡异的地方是: 控制台完全没有任何打印,崩溃的断点直接回到了 main 函数中.</p>
-<h2 id="几个尝试">几个尝试</h2><p>想到之前曾经读过一篇出现在这样情景崩溃的文章:有对象依赖被 pop 的控制器,结果导致了崩溃,但是经过仔细排查,发现并没有这样的情况.</p>
-<h2 id="查找资料">查找资料</h2><p>网上对崩溃问题的定位常规方法总结起来有:</p>
-<h3 id="1-添加通用断点">1.添加通用断点</h3><ol>
-<li>选择 BreakPoint Navigator,点击右下角的 ‘+’ ,然后在弹窗中选择 ‘Add Exception BreakPoint’<br><img src="http://i1.tietuku.com/e8b80841e86eb86a.png"></li>
-</ol>
-<p><img src="http://i1.tietuku.com/de970099a16ad135.png"></p>
-<ol>
-<li>右键断点,选择 ‘Edit BreakPoint’,检查设置如下<br><img src="http://i1.tietuku.com/d135fc352fd61583.png"></li>
-</ol>
-<p>然后运行程序,程序就能定位到出现崩溃的代码.</p>
-<p>但是很遗憾的是,这种方式只能解决大部分的问题(比如不识别的selector 等),有很多类型的崩溃它是不能定位的 </p>
-<p>比如出现 <code>EXEC_BAD_ACCESS</code>这种错误,以上的方法是不能定位的.</p>
-<h3 id="2-重写object的respondsToSelector方法">2.重写object的respondsToSelector方法</h3><p>1.重写object的respondsToSelector方法，现实出现EXEC_BAD_ACCESS前访问的最后一个object.因为有时候程序崩溃根本不知错误发生在什么地方。</p>
-<p>在可能出现问题的 .m 或者.mm 文件中加入以下代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#ifdef _FOR_DEBUG_  &#10;-(BOOL) respondsToSelector:(SEL)aSelector &#123;  &#10;    printf(&#34;SELECTOR: %s\n&#34;, [NSStringFromSelector(aSelector) UTF8String]);  &#10;    return [super respondsToSelector:aSelector];  &#10;&#125;  &#10;#endif</span><br></pre></td></tr></table></figure>
-<ol>
-<li>在 <code>other c flags</code>中加入<code>-D _FOR_DEBUG_</code>（记住请只在<code>Debug Configuration</code>下加入此标记）,这样当你程序崩溃时，Xcode的console上就会准确地记录了最后运行的object的方法。</li>
-</ol>
-<p><img src="http://i1.tietuku.com/4399070fa7215690.png"><br>很不幸,这样还是没有定位我出现问题的代码.</p>
-<h2 id="最终方案">最终方案</h2><p>首先说一下 EXC_BAD_ACCESS 这个错误，可以这么说，90%的错误来源在于对一个已经释放的对象进行release操作.那么我们应该启用 僵尸对象.方法如下:</p>
-<p><code>Product-&gt;Scheme-&gt;Edit Scheme-&gt;Arguments 的 Environment Variables 中，增加标计位NSZombieEnabled设为YES)</code><br><img src="http://i1.tietuku.com/d7c5ed9195b06916.png"></p>
-<p>这样,就能看到崩溃的具体原因了.但是如果想知道代码,这个<a href="http://www.jb51.net/article/38948.htm" target="_blank" rel="external">原文</a>说需要借助 Xcode 控制台的 GDB,很不幸的是,高版本的 Xcode 中,已经没有切换到 GDB 的功能了.网上也有帖子介绍 GDB 对应 lldb 的指令是什么,很不幸,都不能正常工作,所以这里不在罗列.</p>
-<p>后来,我想到是否可以借助终端来完成任务?</p>
-<p>那么问题来了,终端怎么知道这个内存地址是属于谁的?<br>后来想到,可以通过活动监视器,拿到我们程序进程的 pid<br><img src="http://i1.tietuku.com/623a316bb0e053be.png"><br>我的是 <code>1175</code></p>
-<p>然后参考刚刚<a href="http://www.jb51.net/article/38948.htm" target="_blank" rel="external">原文</a>中的指令, <code>sudo malloc_history 1175 0x7a692620</code><br>后面一个参数是崩溃的地址.</p>
-<p>此时终端提示,没有打印 <code>MallocStackLogging</code> .<br><img src="http://i1.tietuku.com/c13979bcb1add8c6.png"></p>
-<p>其实这里是需要在 Xocde 中配置的.按照刚刚配置 <code>NSZombieEnabled</code>的位置和方式,添加一个参数:</p>
-<p><code>MallocStackLoggingNoCompact</code> 值设置为 <code>YES</code></p>
-<p>然后继续重新编译运行,查看 pid ,查看崩溃的内存地址.</p>
-<p><img src="http://i1.tietuku.com/e197b876e9fa3a52.png"></p>
-<p>见到终端打印出了调用顺序,一般来说,是最后一个你自定义的方法导致的崩溃.</p>
-<p>然后就是解决 bug 了,祝好运 ~</p>
-<p>参考网址:<br><a href="http://blog.csdn.net/totogo2010/article/details/8949440" target="_blank" rel="external">http://blog.csdn.net/totogo2010/article/details/8949440</a><br><a href="http://mobile.51cto.com/iphone-279455.htm" target="_blank" rel="external">http://mobile.51cto.com/iphone-279455.htm</a></p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/4/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -692,7 +665,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
-    <li><a href="/categories/Vim/">Vim</a><small>1</small></li>
+    <li><a href="/categories/Vim/">Vim</a><small>2</small></li>
   
     <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
   
