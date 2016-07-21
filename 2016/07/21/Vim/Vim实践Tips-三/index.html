@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Vim实践Tips(三) | Kenny 肉桂的主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Vim实践Tips(三)"/>
+  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Kenny 肉桂的主页</a></h1>
+  <h2><a href="/">记录自己的进步</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-07-21T09:43:06.000Z"><a href="/2016/07/21/Vim/Vim实践Tips-三/">2016-07-21</a></time>
+      
+      
+  
+    <h1 class="title">Vim实践Tips(三)</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Tip_10_使用计数做一些简单的计算">Tip 10 使用计数做一些简单的计算</h2><p>大多数命令模式下的指令能够和计数搭配使用.我们可以利用这个特性做一些简单的运算.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this character is 5</span><br></pre></td></tr></table></figure>
+<p><code>&lt;C-a&gt;</code> 增加计数 (Ctrl+a)<br><code>&lt;C-x&gt;</code> 减少计数 (Ctrl+x)<br>他们可以可数字搭配使用,例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this character is 16 &#34; 10&#60;C-a&#62;</span><br></pre></td></tr></table></figure>
+<p>这个<c-a> 如果是在数字字符上,那么就会给他增加数字.如果没有在数字上,那么它会在这行中查找数字,并且跳转到数字上.如果没有那么就不会做任何操作.</c-a></p>
+<p>例如下面有一段 css 代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.blog, .news &#123; background-image: url(/sprite.png); &#125;&#10;.blog &#123; background-position: 0px 0px &#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们要复制最后一行,然后做一些改变:</p>
+<ol>
+<li>把单词 <code>blog</code> 换成 <code>news</code></li>
+<li>把 <code>0px</code> 换成 <code>-180px</code></li>
+</ol>
+<p>实现1,可以使用 <code>yyp</code> 然后使用 <code>cw</code> 修改单词.<br>那么2怎么实现呢?</p>
+<p>第一种方式是: <code>f0</code>, 然后 <code>i</code> 进入插入模式,输入<code>-18</code>,然后<code>&lt;Esc&gt;</code><br>但是我们的光标不在数字上,那么需要额外的跳转.而 <code>&lt;C-x&gt;</code> 可以自动给我们找到数字.<br>所以,直接 <code>180&lt;C-x&gt;</code> 更快</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.blog &#123; background-position: -180px 0px &#125; &#34;180&#60;C-x&#62;</span><br></pre></td></tr></table></figure>
+<h2 id="Tip_11_如果可以重复,就别计数">Tip 11 如果可以重复,就别计数</h2><p>我们可以通过提供个数字来减少完成特定任务所需要的按键.但是这不代表我们就该这么做.还是应该思考下到底该重复还是该计数.</p>
+<p>假设我们有下面的文字:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Delete more than one word</span><br></pre></td></tr></table></figure>
+<p><code>d2w</code>  和 <code>2dw</code> 都能完成任务.</p>
+<ul>
+<li><code>d2w</code> 是<code>d</code>, 然后加上<code>2w</code> 的 <code>motion</code> ,理解为: 删除两个单词</li>
+<li><code>2dw</code>是2次执行 <code>dw</code> ,理解为: 删除一个单词,执行两次</li>
+</ul>
+<p>现在让我们想想一个替换方案: <code>dw.</code> 删除一个单词,然后重复之.</p>
+<h3 id="讨论几种方式-">讨论几种方式.</h3><p>其实<code>d2w</code>和<code>2dw</code> 没有区别,如果执行之后,按 <code>u</code> ,都会恢复两个单词.如果按<code>dot</code>,将重复删除后两个单词.<br>如果我们要删除下一个单词(总共三个)那我们就需要先<code>u</code>(恢复两个单词),然后<code>d3w</code>.这还是比较麻烦的.<br><code>dw.</code> 按<code>u</code>,会恢复一个单词,如果删除下个单词,只需要重新按<code>dot</code>即可.<br>在这种情况下,重复的优势更明显.</p>
+<p>如果我要删除6个单词呢? 我可以 <code>d6w</code> 或者<code>6dw</code>.或者 <code>dw.....</code> ,当然,前者有更少的按键.但是有个问题在这:我们需要数一下单词的数量,而且如果错误了,<code>u</code>会恢复<code>6</code>个单词.而<code>dw.....</code>如果出现错误,<code>u</code>一下,只是恢复一个单词.我们可以更好的控制这个过程.</p>
+<p>记住我们的”咒语”: 操作,重复,撤销. </p>
+<h3 id="必要时使用计数">必要时使用计数</h3><p>下面的文字,如果我要把 <code>a couple of</code> 换成 <code>some more.</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I have a couple of questions.&#10;I have some more questions. &#34;&#25353;&#38190;&#20381;&#27425;&#26159; c3wsome more</span><br></pre></td></tr></table></figure></p>
+<p>在这个场景下,使用dot命令没有什么意义.即使重复了,最后还要按<code>i</code>进入插入模式.这样太笨拙了,所以我还是愿意使用计数.</p>
+<p>计数还有个好处,就是能够有个条理清楚的恢复操作.比如我<code>d3w</code>,<code>u</code>就会恢复3个单词</p>
+<h1 id="Tip_12_征服结合命令">Tip 12 征服结合命令</h1><p>Vim的强大源于操作符和移动命令的结合.</p>
+<h3 id="操作符+移动=操作">操作符+移动=操作</h3><p><code>d{motion}</code> 可以使用<code>dl</code>删除一个字符,<code>daw</code>删除整个单词,<code>dap</code>删除整段.<br><code>c{motion}</code> 和 <code>y{motion}</code>和上面类似</p>
+<p>操作符和移动的结合,可以认为是一种语法.第一条规则很简单:一个动作由一个操作符和一个移动组成.学习新的操作符就像学习Vim的词汇表.只要我们遵循简单的语法,随着词汇量增加,我们就能表达更多想法.</p>
+<p>假设我们已经知道了通过 daw 删除一整个单词.然后,我们学到了 <code>gU</code>,这也是一个操作符.所以,我们就能通过gUaw把当前单词转换成大写.</p>
+<p>再假设我们知道了<code>ap</code>(一整段motion},然后我们就能合成新的操作:<br><code>dap</code> 删除一整段 <code>gUap</code> 让一整段大写.</p>
+<p><code>Vim</code>  的语法还有个规则:如果一个操作符被重复输入,那么<code>motion</code>就等于当前行.例如:<br>-<code>dd</code>   删除当前行<br>-<code>&gt;&gt;</code>  缩进当前行<br>-<code>gUgU</code> 或者 <code>gUU</code> 大写当前行 g是后面操作符的一个前缀</p>
+<p>Vim的操作符命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#25805;&#20316;&#31526;        &#25928;&#26524;&#10;c             Change &#25913;&#21464;&#10;d             Delete &#21024;&#38500;&#10;y             Yank into register &#22797;&#21046;&#21040;&#23492;&#23384;&#22120;&#10;g~            Swap case &#20999;&#25442;&#22823;&#23567;&#20889;&#10;gu            make lowercase &#23567;&#20889;&#10;gU            make upppercase &#22823;&#20889;&#10;&#62;             shift right &#21491;&#31227;&#10;&#60;             shift left &#24038;&#31227;&#10;=             autoindent &#33258;&#21160;&#32553;&#36827;&#10;!             Filter &#123;motion&#125; lines through an external program</span><br></pre></td></tr></table></figure>
+<h3 id="拓展Vim整合的力量">拓展Vim整合的力量</h3><p>Vim标准的操作符相对来说比较少,但是我们可以定义新的.</p>
+<h3 id="使用现有的操作符自定义移动">使用现有的操作符自定义移动</h3><p>Vim标准的移动命令已经很全面,但是我们还可以增加新的移动和文本对象.</p>
+<h3 id="待决模式">待决模式</h3><p>除了明显的插入,命令和底行模式.Vim还有些容易被忽略的模式.待决模式( Operator-Pending mode )就是其中的一个.我们每天都大量使用它,但是每次都持续一小段时间.例如<code>dw</code>,这个模式仅仅持续了你按下<code>d</code>到按下<code>w</code>这中间的这个时间.</p>
+<p>如果我们把Vim看做是一个有限状态机.那么待决模式就是仅接受移动命令的状态.当一个操作符被触发的时候,这个状态被激活,在输入移动命令之前,Vim不会做任何操作.当待决模式被激活后,我们可以通过<esc>就可以中断,返回命令模式.</esc></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2016/07/21/Vim/Vim实践Tips-三/" data-title="Vim实践Tips(三)" data-url="http://yoursite.com/2016/07/21/Vim/Vim实践Tips-三/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Git/">Git</a><small>1</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
+  
+    <li><a href="/categories/Vim/">Vim</a><small>2</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/算法专题/">算法专题</a><small>1</small></li>
+  
+    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/算法专题-字符串/">算法专题 字符串</a><small>1</small></li>
+  
+    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2016 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

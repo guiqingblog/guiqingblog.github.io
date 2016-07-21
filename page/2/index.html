@@ -51,6 +51,69 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-04-27T08:49:05.000Z"><a href="/2016/04/27/算法专题/变形字符串问题/">2016-04-27</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/04/27/算法专题/变形字符串问题/">变形字符串问题</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="题目">题目</h2><p>给定两个字符串 <code>str1</code> 和 <code>str2</code>, 如果两个字符串中出现的字符的<strong>种类</strong> 和每种字符出现的<strong>次数</strong>也一样, 那么可以说 <code>str1</code> 和 <code>str2</code> 互为变形词.</p>
+<p>例如:</p>
+<p>“abc” 和 “acb”  返回  <code>true</code></p>
+<p>“abc” 和 “aabc” 返回  <code>false</code></p>
+<h2 id="思考">思考</h2><p>如果两个字符串的长度不一样,那么直接返回<code>false</code><br>使用一个数组对第一个字符串进行统计,然后和第二个字符串进行运算.得出结果</p>
+<h2 id="代码">代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import UIKit&#10;&#10;func isMutualTansformString(firstString:String,secondString:String)-&#62;Bool&#123;&#10;    &#10;    if firstString.characters.count != secondString.characters.count &#123;&#10;        return false&#10;    &#125;&#10;    &#10;    var map:[Int] = Array&#60;Int&#62;(count:256,repeatedValue:0);&#10;    &#10;    for char in firstString.unicodeScalars&#123;&#10;        map[Int(char.value)] += 1;&#10;    &#125;&#10;    &#10;    &#10;    for char in secondString.unicodeScalars&#123;&#10;         map[Int(char.value)] -= 1&#10;        if  map[Int(char.value)] == -1 &#123;&#10;            return false;&#10;        &#125;&#10;    &#125;&#10;    &#10;    &#10;    return true;&#10;&#125;&#10;&#10;&#10;isMutualTansformString(&#34;1223&#34;, secondString: &#34;3221&#34;)</span><br></pre></td></tr></table></figure>
+<h2 id="更多">更多</h2><p>现在字符串字数比较少,可以使用数组来进行处理. 但是如果存在多种字符,长度显然不够.而分配太多,又太浪费空间. 那么应该怎么处理呢?</p>
+<p>其实更好的方式可以使用 hash表或者字典. 鉴于:</p>
+<ol>
+<li>我们只是单线程访问</li>
+<li>需要借助字典的泛型的优势</li>
+<li>字典默认是存在顺序的(这种顺序只有在删除某个字典元素后,才会被打乱)</li>
+</ol>
+<p>所以这里采用字典进行处理.</p>
+<h2 id="代码-1">代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func isMutualTansformString(firstString:String,secondString:String)-&#62;Bool&#123;&#10;    &#10;    if firstString.characters.count != secondString.characters.count &#123;&#10;        return false&#10;    &#125;&#10;    &#10;    var resultDict:Dictionary&#60;String,Int&#62; = [&#34;&#34;:0];&#10;    &#10;    &#10;    for char in firstString.unicodeScalars&#123;&#10;        if resultDict[&#34;\(char)&#34;]==nil &#123;&#10;           resultDict[&#34;\(char)&#34;] = 0&#10;        &#125;&#10;        resultDict[&#34;\(char)&#34;]! += 1;&#10;    &#125;&#10;    &#10;    for char in secondString.unicodeScalars &#123;&#10;        &#10;        if resultDict[&#34;\(char)&#34;] == nil &#123;&#10;            return false;&#10;        &#125;&#10;        &#10;        resultDict[&#34;\(char)&#34;]! -= 1&#10;       &#10;        if resultDict[&#34;\(char)&#34;] == -1 &#123;&#10;            return false&#10;        &#125;&#10;        &#10;    &#125;&#10;        &#10;    return true;&#10;&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-11-18T01:32:20.000Z"><a href="/2015/11/18/iOS Tips/iOS正则表达式类/">2015-11-18</a></time>
       
       
@@ -519,61 +582,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
         
           <div class="alignleft">
             <a href="/2015/08/26/iOS Tips/关于代码控制屏幕方向/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-22T14:06:25.000Z"><a href="/2015/08/22/悟/谁让APP工程师产生了泡沫？/">2015-08-22</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/22/悟/谁让APP工程师产生了泡沫？/">谁让APP工程师产生了泡沫？</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>这两年移动互联网比较火，移动APP的开发人员也是比较紧缺。</p>
-<p>　　面试了一个做APP的，能力很一般，态度也比较傲慢。最后感觉肯定不会用这个人了，但是出于验证自己想法的目的，还是很诚恳地以一个决定录取他的态度，和他交谈。</p>
-<p>　　“刚才我问了你一些问题，可能比较偏，或者不是你所擅长的。我也是本着为公司负责的态度，问一些我们经常用到的问题。这一点请见谅。”，我说。</p>
-<p>　　他说：“没事的，问的确实有点偏。实际工作中，根本用不到，用到了现查就行，网上好多例子，复制粘贴都能搞定！”。<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/22/悟/谁让APP工程师产生了泡沫？/#more" class="more-link">Read More</a>
           </div>
         
         
