@@ -51,6 +51,234 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-08-03T09:05:25.000Z"><a href="/2016/08/03/Vim/Vim实践Tips-六/">2016-08-03</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/08/03/Vim/Vim实践Tips-六/">Vim实践Tips(六)</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Tip_27_遇见Vim的命令行">Tip 27 遇见Vim的命令行</h2><p>当我们按下<code>:</code>,Vim就切换到了底行模式.这个模式和shell的命令行有些类似.我们只要输入点命令,然后按下<code>&lt;CR&gt;</code>就能执行.使用<code>&lt;Esc&gt;</code>可以从底行模式切换到命令行模式.</p>
+<p>由于一些历史原因,我们执行的命令叫做 <code>Ex Commands</code> .当我们按下<code>/</code>之后,或者使用<code>&lt;C-r&gt;=</code>访问表达式寄存器的时候,也都会进入底行模式.这章中提到的一些小技巧也都适用于不同的情况,但是在这个章节,我们先讨论<code>Ex commands</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  &#21629;&#20196;                     &#25928;&#26524;&#10;:[range]delete[x]          &#21024;&#38500;&#29305;&#23450;&#30340;&#34892;(&#25918;&#21040;&#23492;&#23384;&#22120;x&#20013;)&#10;:[range]yank[x]            &#22797;&#21046;&#29305;&#23450;&#30340;&#34892;(&#25918;&#21040;&#23492;&#23384;&#22120;x&#20013;)&#10;:[line]put[x]              &#25226;&#23492;&#23384;&#22120;x&#20013;&#30340;&#20869;&#23481;&#25918;&#21040;&#29305;&#23450;&#30340;&#34892;&#21518;&#38754;&#10;:[range]copy&#123;address&#125;      &#22797;&#21046;&#29305;&#23450;&#30340;&#34892;&#21040;&#36890;&#36807;&#22320;&#22336;&#25351;&#23450;&#30340;&#34892;&#30340;&#19979;&#38754;&#10;:[range]move&#123;address&#125;      &#31227;&#21160;&#29305;&#23450;&#30340;&#34892;&#21040;&#36890;&#36807;&#22320;&#22336;&#25351;&#23450;&#30340;&#34892;&#30340;&#19979;&#38754;&#10;:[range]join               &#36830;&#25509;&#25351;&#23450;&#30340;&#34892;&#10;:[range]normal &#123;commands&#125;  &#23545;&#29305;&#23450;&#30340;&#33539;&#22260;&#25191;&#34892;&#21629;&#20196;&#27169;&#24335;&#19979;&#30340;&#21629;&#20196;&#10;:[range]substitute/&#123;pattern&#125;&#10;/&#123;string&#125;/&#123;flags&#125;&#10;                           &#22312;&#29305;&#23450;&#30340;&#34892;&#37324;&#38754;,&#25226;&#31526;&#21512;&#26465;&#20214;&#30340;&#21305;&#37197;&#20351;&#29992;&#23383;&#31526;&#20018;&#26367;&#25442;&#25481;.&#10;:[range]global/&#123;pattern&#125;/[cmd] &#22312;&#25152;&#26377;&#21305;&#37197;&#21040;pattern&#30340;&#34892;&#20013;,&#25191;&#34892;Ex&#21629;&#20196;</span><br></pre></td></tr></table></figure>
+<p>我们可以Ex命令读写文件(<code>:read</code>和<code>:write</code>),或者使用<code>:tabnew</code>命令创建Tab页,或者使用<code>:split</code>命令创建窗口.</p>
+<h2 id="Tip_28_在一到多个连续行中执行命令">Tip 28 在一到多个连续行中执行命令</h2><p>许多Ex命令都可以接受一个{range},我们可以通过行号,标记,或者是一个Pattern来提供范围.<br>假设有下面一段代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;html&#62;&#10;  &#60;head&#62;&#60;title&#62;Practical Vim&#60;/title&#62;&#60;/head&#62;&#10;  &#60;body&#62;&#60;h1&#62;Practical Vim&#60;/h1&#62;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure></p>
+<p>为了说明,我们使用<code>:print</code>命令,这个命令可以简单的通过这个命令将特定的行打印到Vim的底行之下.<br>这个命令没有什么特定的功能.但是可以用来做说明.当然,你也可以通过<code>:delete</code>,<code>:join</code>,<code>:substitude</code>,<code>:normal</code>这几个命令来测试.通过测试,你就可以知道怎么使用Ex命令了.</p>
+<h3 id="使用行号作为地址">使用行号作为地址</h3><p>如果我们输入一个仅由数字组成的Ex命令.Vim就会把这个命令当做地址,然后将光标移动到那一行.所以,我们就能通过下面的这个命令跳转到文件顶部:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:1&#10;:print</span><br></pre></td></tr></table></figure></p>
+<p>你也可以使用<code>:p</code>来打印,这个是<code>:print</code>的缩写形式.你也可以将两个命令合并到一起.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:3p</span><br></pre></td></tr></table></figure></p>
+<p>这个命令移动到第3行,然后打印该行的内容.我们只是通过<code>:p</code>命令来说明问题,下面你可以试试这个命令.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:3d</span><br></pre></td></tr></table></figure></p>
+<p>这个命令跳转到第3行,然后执行删除命令.它相当于在命令模式下执行:<code>3Gdd</code>.这个命令比命令行模式下的要快点.</p>
+<h3 id="通过地址指定一个范围">通过地址指定一个范围</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:2,5p</span><br></pre></td></tr></table></figure>
+<p>这个命令可以打印从第2行到第5行,并且最后光标停留在第5行.通常来说,范围可以表现为这个形式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:&#123;start&#125;,&#123;end&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意,这个<code>start</code>和<code>end</code>都是地址,目前我们知道的地址是行号.在后面的我们将见到通过匹配和标记指定的地址.</p>
+<p><code>.</code>可以用来表达为当前行,所以,我们可以通过下面的命令打印从当前行到文件末尾<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:2&#10;:.,$p</span><br></pre></td></tr></table></figure></p>
+<p><code>%</code>这个符号也有特别的意义,它代表了当前文件中的所有行.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%p</span><br></pre></td></tr></table></figure></p>
+<p>它相当于<code>:1,$p</code>这个命令.</p>
+<h3 id="通过在可视化模式下的选择指定范围">通过在可视化模式下的选择指定范围</h3><p>首先通过命令<code>2G</code>跳转到第2行,然后<code>VG</code>可以选择从2行到文件结尾.此时,我们按下<code>:</code>.这时候,底行上出现了<code>:&#39;&lt;,&#39;&gt;</code>,看起来有点怪怪的,但是你可以简单的认为,它就代表了可视化模式的选区.然后,我们就能指定Ex命令.例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:&#39;&#60;,&#39;&#62;p</span><br></pre></td></tr></table></figure></p>
+<h3 id="通过匹配指定范围">通过匹配指定范围</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/&#60;html&#62;/,/&#60;\/html&#62;/p</span><br></pre></td></tr></table></figure>
+<p>打印结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;html&#62;&#10;  &#60;head&#62;&#60;title&#62;Practical Vim&#60;/title&#62;&#60;/head&#62;&#10;  &#60;body&#62;&#60;h1&#62;Practical Vim&#60;/h1&#62;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure></p>
+<p>看起来有点复杂,但是,它还是遵循了<code>:{start},{end}</code>的形式.这个<code>start</code>和刚刚的<code>/&lt;html&gt;/</code>相对应.而<code>end</code>和<code>/&lt;\/html&gt;/</code>相对应.</p>
+<p>在这个例子中,我们可以通过<code>:2,5</code>指定范围,这个方式更简洁.而通过标签形式的方式,可以直接匹配标签,不论中间有多少行.</p>
+<h3 id="通过偏移来指定地址">通过偏移来指定地址</h3><p>假设我们有需求:<code>打印所有的&lt;html&gt;标签内的内容,但是不打印包含&lt;html&gt;的行.</code><br>我们可以指定偏移:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/&#60;html&#62;/+1,/&#60;\/html&#62;/-1p</span><br></pre></td></tr></table></figure></p>
+<p>打印结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;head&#62;&#60;title&#62;Practical Vim&#60;/title&#62;&#60;/head&#62;&#10;&#60;body&#62;&#60;h1&#62;Practical Vim&#60;/h1&#62;&#60;/body&#62;</span><br></pre></td></tr></table></figure></p>
+<p>这个语法的一般形式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;address&#125;+n</span><br></pre></td></tr></table></figure></p>
+<p>如果<code>n</code>省略,那么它默认是1.这个<code>address</code>可以是<code>行号</code>或者是<code>标记</code>或者是<code>模式匹配</code><br>那么我们可以实现,从当前行打印后面3行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:.,.+3p</span><br></pre></td></tr></table></figure></p>
+<h3 id="讨论">讨论</h3><p>指定范围的语法非常灵活.我们可以混合使用<code>行号</code> <code>标记</code> <code>模式匹配</code>,也可以通过应用偏移来修改范围.<br>下面的表格可以作为一个参考:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#31526;&#21495;      &#20195;&#34920;&#30340;&#22320;&#22336;&#10;1         &#25991;&#20214;&#30340;&#31532;&#19968;&#34892;&#10;$         &#25991;&#20214;&#30340;&#26368;&#21518;&#19968;&#34892;&#10;.         &#20809;&#26631;&#25152;&#22312;&#34892;&#10;&#39;m        &#26631;&#35760;m&#25152;&#22312;&#30340;&#34892;&#10;&#39;&#60;        &#21487;&#35270;&#21270;&#36873;&#21306;&#30340;&#24320;&#22987;&#10;&#39;&#62;        &#21487;&#35270;&#21270;&#36873;&#21306;&#30340;&#32467;&#23614;&#10;%         &#25991;&#20214;&#25152;&#26377;&#34892; ( :1,$ &#30340;&#24555;&#25463;&#26041;&#24335;)&#10;0         &#31532;0&#34892;</span><br></pre></td></tr></table></figure></p>
+<p>第0行并不真实存在,但是在特定的情况下,这个地址还是很有用的.例如,在<code>:copy {address}</code>和<code>:move {address}</code>中,我们想复制或者移动从文件开头的范围.在后面的两个Tip中,我们将看到具体的例子.</p>
+<p>当我们指定一个<code>[range]</code>,它总是表示一些连续的行.我们也能通过模式匹配应用Ex命令到一系列非连续的行,通过<code>:global</code>这个命令就能做到.</p>
+<h2 id="Tip_29_通过t和m复制和移动行">Tip 29 通过t和m复制和移动行</h2><p><code>:copy</code>命令(快捷方式是<code>:t</code>)让我们可以复制1到多行,而<code>:move</code>命令可以移动1到多行.</p>
+<p>为了说明,我们使用下面的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Shopping list&#10;    Hardware Store&#10;        Buy new hammer&#10;    Beauty Parlor&#10;        Buy nail polish remover&#10;        Buy nails</span><br></pre></td></tr></table></figure></p>
+<h3 id="通过:t命令复制行">通过:t命令复制行</h3><p>我们的购物清单还不完整.假设我们也需要在<code>Hardware Store</code>买<code>nails</code>.为了修正这个清单,我们重用文件的最后一行.我们可以简单的使用<code>:copy</code>命令完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Shopping list&#10;    Hardware Store&#10;        Buy nails&#10;        Buy new hammer&#10;    Beauty Parlor&#10;        Buy nail polish remover&#10;        Buy nails</span><br></pre></td></tr></table></figure>
+<p>上述命令是通过<code>:160copy.</code>完成的(在我编写这个文档的时候,Buy nails 是第160行`)</p>
+<p>copy命令的一般格式是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:[range]copy &#123;address&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在我们的例子中,<code>[range]</code>是<code>160</code>行.<code>{address}</code>在这个例子中是<code>.</code>,代表了当前行.所以这个<code>:160copy.</code>的意义是:<code>复制160行,并且放置到当前行的下面</code>.</p>
+<p>我们也可以简写<code>:copy</code>成<code>:co</code>,也可以更简洁的写成<code>:t</code>.为了辅助记忆,你可以理解<code>t</code>为:<code>copy To</code>.下面的表格中列举了一些<code>:t</code>的用法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#21629;&#20196;             &#25928;&#26524;&#10;:6t.            &#22797;&#21046;&#31532;6&#34892;&#21040;&#24403;&#21069;&#34892;&#30340;&#19979;&#38754;&#10;:t6             &#22797;&#21046;&#24403;&#21069;&#34892;&#21040;&#31532;6&#34892;&#19979;&#38754;&#10;:t.             &#22797;&#21046;&#24403;&#21069;&#34892;(&#30456;&#24403;&#20110;&#21629;&#20196;&#27169;&#24335;&#19979;&#30340;yyp)&#10;:t$             &#22797;&#21046;&#24403;&#21069;&#34892;&#21040;&#25991;&#20214;&#32467;&#23614;&#10;:&#39;&#60;,&#39;&#62;t0        &#22797;&#21046;&#21487;&#35270;&#21270;&#36873;&#21306;&#21040;&#25991;&#20214;&#24320;&#22836;</span><br></pre></td></tr></table></figure></p>
+<p>注意: <code>:t.</code>复制当前行.作为选择,我们也可以通过命令模式下的<code>yyp</code>实现同样的效果.一个值得注意的区别就是<code>yyp</code>使用寄存器,而<code>:t.</code>不这样.有时候,为了避免覆盖默认寄存器的内容,我使用<code>:t.</code>复制当前行.</p>
+<p>在这个例子中,我们使用<code>yyp</code>的变体复制我们想要的行,但是,它需要一些额外的移动.我们需要先跳转到到我们想复制的行<code>6G</code>,复制<code>yy</code>,回到我们开始的地方<code>&lt;C-o&gt;</code>,然后<code>p</code>粘贴.所以,在这种比较远的复制操作,<code>:t</code>这种命令更高效.</p>
+<h3 id="通过:m命令移动行">通过:m命令移动行</h3><p>语法是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:[range]move &#123;address&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以简写成<code>:m</code><br>如果已经选择好了分区.我们可以直接运行命令<code>:&#39;&lt;,&#39;&gt;m$</code>,作为选择,我们也可以使用<code>dGp</code>命令.这个命令可以分解为:<code>d</code>删除,同时复制到寄存器,<code>G</code>跳转到文件结尾,<code>p</code>粘贴内容.</p>
+<p>重复上个Ex命令: <code>@:</code></p>
+<h2 id="Tip_30_在一个范围上使用命令模式的命令">Tip 30 在一个范围上使用命令模式的命令</h2><p>在Tip 2 中,我们在每行的后面追加一个分号,当时我们使用的<code>.</code>命令做的重复.当时只有几行,那么做可以,但是如果有2000行需要追加呢? 显然,用<code>j.</code>的方式就不靠谱了.</p>
+<p>使用<code>normal</code>命令可以对一个范围使用命令模式下的命令.</p>
+<p>我们使用下面的代码来说明问题:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1&#10;var bar = &#39;a&#39;&#10;var baz = &#39;z&#39;&#10;var foobar = foo + bar&#10;var foobarbaz = foo + bar + baz</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><code>A;&lt;Esc&gt;</code> 跳转到行结尾,输入<code>;</code>,退出插入模式</li>
+<li><code>jVG</code> 选中除了第一行的的后面所有行</li>
+<li><code>&#39;&lt;,&#39;&gt;normal.</code> normal执行命令模式,<code>.</code>重复</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;&#10;var bar = &#39;a&#39;;&#10;var baz = &#39;z&#39;;&#10;var foobar = foo + bar;&#10;var foobarbaz = foo + bar + baz;</span><br></pre></td></tr></table></figure>
+<p>使用了上面的步骤,不管是5行还是5000行,都能正常工作.<br>其实不仅仅是<code>.</code>这个命令,使用了<code>normal</code>这个标记之后,我们可以执行任何命令模式下命令.</p>
+<p>在这个例子中,我们可以通过一个命令完成操作.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%normal A;</span><br></pre></td></tr></table></figure></p>
+<p><code>%</code>这个命令表示整个文件范围的行.所以上面的命令的意思是:<code>在文件的每一行后面都追加一个;</code>,而且Vim会在完成之后,自动切换到命令模式</p>
+<p>既然可以通过<code>:normal</code>这个命令使用所有的命令模式命令.那么下面这个命令也很同意理解.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%normal i//</span><br></pre></td></tr></table></figure>
+<p>在所有行的开始加入<code>//</code>.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-08-03T09:03:58.000Z"><a href="/2016/08/03/Vim/Vim实践Tips-五/">2016-08-03</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/08/03/Vim/Vim实践Tips-五/">Vim实践Tips(五)</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Tip_20_体验可视化模式">Tip 20 体验可视化模式</h2><p>在可视化模式下,很多命令的作用和它们在命令模式时相同.我们仍旧可以使用<code>hjkl</code>来移动光标.使用<code>f{char}</code>跳转到当前行的某个字符.然后使用<code>;</code>重复跳转,或者使用<code>,</code>反向跳转.我们甚至可以使用查找命令(包括<code>n</code>和<code>N</code>)跳转到匹配的地方.在可视化模式下,移动光标,将改变选择的范围.</p>
+<p>虽然大多数命令一样,但是也有一些细微的差别,例如<code>c</code>这个命令.在命令模式下.我们使用<code>c{motion}</code>删除内容并进入插入模式.而在可视化模式下,在选中了部分内容时,只需要一个<code>c</code>就能进入插入模式,删除的内容是高亮部分的内容.这时候,这个<code>c</code>的作用更直观了.</p>
+<p>下面看一个例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">March is a month</span><br></pre></td></tr></table></figure>
+<p>如果要把<code>March</code>改为<code>April</code>,假设我们已经把光标放在了<code>March</code>这个单词上的任意位置了.那么可以通过<code>viw</code>选择整个单词.这时候,我们不能直接输入<code>April</code>,因为<code>A</code>会触发Vim命令.然后只会输入剩下的<code>pril</code>.所以,我们使用<code>c</code>这个命令,删除当前选择并进入插入模式.然后输入<code>April</code>.</p>
+<h3 id="遇见选择模式">遇见选择模式</h3><p>在一般的编辑器中,当我们选中想要删除的文字时候,只要输入点内容,就能覆盖原来的文本,但是可视化模式没有遵循这个惯例.而选择模式是这样的.</p>
+<p>我们可以通过<code>&lt;C-g&gt;</code>切换可视化模式和选择模式.唯一可以看到的区别就是在屏幕的底部,可视化模式是<code>VISUAL</code>而选择模式是<code>SELECT</code>.当在选择模式下输入任意可打印的字符时候,将替换,并自动进入插入模式.当然,这个功能也能通过在可视化模式下,按<code>c</code>来实现.Vim做这个东西的作用,应该为了更符合用户的习惯.</p>
+<h2 id="Tip21_定义可视化选区">Tip21 定义可视化选区</h2><p><strong>可视化模式有三个不同的子模式,他们用来处理不同的可视化模式.</strong></p>
+<p>在字符可视化模式(character-wise Visual mode),我们可以以字符为单位选取内容.它可以是一个字符,也可以是多行.它适合于对独立的单词或者段落.<br>在行可视化模式(line-wise Visual mode),处理的单位是行<br>在块可视化模式(block-wise Visual mode),我们可以选择柱形区域</p>
+<p>这里只是粗略一说,后面有更详细的内容.</p>
+<h3 id="进入可视化模式">进入可视化模式</h3><p>使用<code>v</code>键,可以进入可视化模式.按<code>v</code>键,可以从命令模式,进入字符可视化模式.通过<code>V</code>(Shift-v),可以进入行可视化模式.通过<code>&lt;C-v&gt;</code>可以进入块可视化模式.<br>下面是简单的一个列举:</p>
+<p>命令        作用<br>v           进入字符可视化模式<br>V           进入行可视化模式</p>
+<p><c-v>       进入块可视化模式<br>gv          重新选择最后一次的选区</c-v></p>
+<p><code>gv</code>是个很好用的快捷命令.无论是什么可视化模式,<code>gv</code>都能应对自如.唯一可能有点问题的是:你已经删除了最后一次选区的内容.</p>
+<h3 id="在可视化模式中切换">在可视化模式中切换</h3><p>下面是命令参考表<br>命令          作用</p>
+<p><esc>         切换到命令模式</esc></p>
+<p><c-[>         切换到命令模式<br>v             在命令模式和字符可视化模式切换<br>V             在命令模式和行可视化模式切换</c-[></p>
+<p><c-v>         在命令模式和字符块视化模式切换<br>o             把光标在选区的两端切换.</c-v></p>
+<h3 id="切换选区的可变端">切换选区的可变端</h3><p>默认选择选区的时候,一端是固定的,另一端是可以通过各种移动命令进行移动的.可以通过<code>o</code>这个命令切换移动端.</p>
+<p>补充小知识:</p>
+<p><code>e</code>移动到下个单词的结尾.</p>
+<h2 id="Tip_22_重复行可视化模式命令">Tip 22 重复行可视化模式命令</h2><p>当我们在可视化模式下执行一个命令之后,我们就会进入命令模式.在可视化模式下选中的文字将取消选中.那么如果我们想对刚刚选中的文字重新执行一个可视化模式的命令该怎么办?</p>
+<p>假设我们有下面一段python:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def fib(n):&#10;  a, b = 0, 1&#10;  while a &#60; n:&#10;print a,&#10;a, b = b, a+b&#10;fib(42)</span><br></pre></td></tr></table></figure>
+<h3 id="准备工作">准备工作</h3><p>为了让<code>&lt;</code>和<code>&gt;</code>这两个命令正常工作,我们应该做下面的设置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:set shiftwidth=4 softtabstop=4 expandtab</span><br></pre></td></tr></table></figure></p>
+<h3 id="缩进一次,然后重复">缩进一次,然后重复</h3><p>对于刚刚的python代码,缩进有问题,我们应该在可视化模式下选择.然后使用<code>&gt;</code>这个命令缩进.但是缩进要超过两次.而执行一次刚刚的命令之后,我们就会进入命令模式.</p>
+<p>有个解决方案是通过<code>gv</code>命令,然后再次执行缩进命令.但是如果你对Vim已经有了感觉,那你就应该知道这个方式是不好的.</p>
+<p>当我们需要重复,<code>.</code>这个命令是一个非常好的选择.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def fib(n):&#10;  a, b = 0, 1&#10;  while a &#60; n:&#10;    print a,&#10;    a, b = b, a+b&#10;fib(42)</span><br></pre></td></tr></table></figure>
+<p>上面是通过 <code>Vj</code>选中两行,然后<code>&gt;.</code>完成的</p>
+<p>如果你喜欢计算,那么你可能更喜欢<code>2&gt;</code>这个命令.但是我更喜欢使用<code>.</code>这个命令.因为这个命令可以给我可视化的反馈.我也能享受到自己键盘的反馈的乐趣.之前我们也讨论过计数和重复的取舍.你可以重新看看.</p>
+<h2 id="Tip_23_在可能的时候,在可视化模式下,使用操作符">Tip 23 在可能的时候,在可视化模式下,使用操作符</h2><p>可视化模式更直观,但是它有个缺点:<code>.</code>这个命令不能完全发挥作用.我们可以通过命令模式下的命令来搞定这个缺点.</p>
+<p>假设我们有下面一段文字.我们想把下面链接设置为大写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;a href=&#34;#&#34;&#62;one&#60;/a&#62;&#10;&#60;a href=&#34;#&#34;&#62;two&#60;/a&#62;&#10;&#60;a href=&#34;#&#34;&#62;three&#60;/a&#62;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以通过<code>vit</code>命令选中标签内部的文字,它理解为:可视化选中标签之间的文字.<code>it</code>命令是一种特别的<code>{motion}</code>命令.我们将在<code>Tip 51</code>进行更深入讨论.</p>
+<h3 id="使用可视化操作符号">使用可视化操作符号</h3><p>在可视化模式下,我们选择一段文字,然后对它进行操作.在这个案例下,我们可以使用<code>U</code>命令来让选中的文字变成大写.<br>完成了第一行之后,如果想对第二行,第三行进行操作.应该怎么办呢?<code>.</code>命令可以吗?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;a href=&#34;#&#34;&#62;ONE&#60;/a&#62;   &#34;vit&#10;&#60;a href=&#34;#&#34;&#62;TWO&#60;/a&#62;   &#34;j.&#10;&#60;a href=&#34;#&#34;&#62;THRee&#60;/a&#62; &#34;j.</span><br></pre></td></tr></table></figure>
+<p>可以看到,<code>.</code>命令仅仅重复了三个字符.造成了最后一行的样子.这并不是我们想要的结果.</p>
+<h3 id="使用命令模式下的操作符">使用命令模式下的操作符</h3><p><code>U</code>这个可视化模式的操作符对应了一个命令模式下的版本:<code>gU{motion}</code>,但是在语义上有很大不同.<br>在可视化模式命令<code>U</code>的案例中,我们做了两件事:</p>
+<ol>
+<li><code>vit</code>选中文本</li>
+<li><code>U</code>操作文本变成大写<br>在命令模式的案例中,我们弄了一个命令,这个命令由:<code>gU</code>操作和<code>it</code>作为<code>{motion}</code>.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;a href=&#34;#&#34;&#62;ONE&#60;/a&#62; &#34;gUit&#10;&#60;a href=&#34;#&#34;&#62;TWO&#60;/a&#62; &#34;j.&#10;&#60;a href=&#34;#&#34;&#62;THREE&#60;/a&#62; &#34;j.</span><br></pre></td></tr></table></figure>
+<p>确实,可视化模式有局限性.但是它也很有用处.因为并不是所有编辑工作都需要重复.所以可视化模式是非常适合单次的编辑.</p>
+<h2 id="Tip_24_在块可视化模式下编辑表格化数据">Tip 24 在块可视化模式下编辑表格化数据</h2><p>所有编辑器都可以以行为单位编辑数据.在Vim中,块可视化模式,提供给我们以列为单位编辑数据.</p>
+<p>假设有下面的文本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Chapter       Page&#10;Normal mode     15&#10;Insert mode     31&#10;Visual mode     44</span><br></pre></td></tr></table></figure>
+<p>我们要加点东西,让上面的文字看起来更像表格.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Chapter     | Page&#10;==================&#10;Normal mode |   15&#10;Insert mode |   31&#10;Visual mode |   44</span><br></pre></td></tr></table></figure>
+<p>上面的实现步骤是:</p>
+<ol>
+<li><code>&lt;C-v&gt;3j</code>进入块可视化模式,并向下选择3行</li>
+<li><code>r|</code>将选中范围替换为 <code>|</code></li>
+<li>同理,复制一行,然后替换为<code>=</code></li>
+</ol>
+<h2 id="Tip_25_改变多列文本">Tip 25 改变多列文本</h2><p>假设有下面一段css代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">li.one   a&#123; background-image: url(&#39;/images/sprite.png&#39;); &#125;&#10;li.two   a&#123; background-image: url(&#39;/images/sprite.png&#39;); &#125;&#10;li.three a&#123; background-image: url(&#39;/images/sprite.png&#39;); &#125;</span><br></pre></td></tr></table></figure></p>
+<p>假设<code>sprite.png</code>  已经从<code>images</code>文件夹移动到了<code>components</code>文件夹.我们需要修改三行来改变目录.这时候,我们就能使用块可视化模式了.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">li.one   a&#123; background-image: url(&#39;/components/sprite.png&#39;); &#125;&#10;li.two   a&#123; background-image: url(&#39;/components/sprite.png&#39;); &#125;&#10;li.three a&#123; background-image: url(&#39;/components/sprite.png&#39;); &#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>光标定位到images这个单词的开头.</li>
+<li><code>&lt;C-v&gt;jje</code>选中三列的images</li>
+<li><code>c</code>删除单词,并进入插入模式, 输入<code>components</code>,然后<code>&lt;Esc&gt;</code>.</li>
+</ol>
+<p>唯一一个可能造成疑惑的是,当第三步输入单词之后,只改变了第一行.但是,当按了<code>&lt;Esc&gt;</code>之后,三行都改变了.<br>确实Vim的这个功能有点不太人性化.但是,最终结果没有什么区别.习惯就好了</p>
+<h2 id="Tip_26_在参差不齐的块选区后面追加内容">Tip 26 在参差不齐的块选区后面追加内容</h2><p>假设有下面一段js代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1&#10;var bar = &#39;a&#39;&#10;var foobar = foo + bar</span><br></pre></td></tr></table></figure></p>
+<p>这三行不是一样长的,假设我们想为每一行的后面添加一个<code>,</code> 在<code>Tip2</code>我们通过<code>.</code>完成了这个操作.其实通过块可视化区域也能完成这个任务.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;&#10;var bar = &#39;a&#39;;&#10;var foobar = foo + bar;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>&lt;C-v&gt;jj$</code>选中全部</li>
+<li><code>A;</code>移动到结尾,进入插入模式,并输入</li>
+<li><code>&lt;Esc&gt;</code>完成</li>
+</ol>
+<p>细心可以看出,这个操作和Tip 25差不多意思.<br>主要是通过<code>$</code>改变了矩形的结尾.</p>
+<h3 id="Vim关于_i_和_a_的惯例">Vim关于 i 和 a 的惯例</h3><p>Vim有很多从命令模式切换到插入模式的按键.<code>i</code>和<code>a</code>都能完成这个操作.<code>i</code>在光标前进入插入模式,<code>a</code>在光标后进入插入模式.<code>I</code>和<code>A</code>功能类似,是在行开头和行结尾进入插入模式.</p>
+<p>在块可视化模式中,<code>A</code>和<code>I</code>的功能和在命令模式下类似.那么<code>a</code>和<code>i</code>呢?</p>
+<p>在可视化模式和操作符悬停模式下,<code>a</code>和<code>i</code>有不同的意义.这个在Tip 51会有更深入的讨论.现在记得,使用<code>A</code>和<code>I</code>替代</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-07-22T08:20:01.000Z"><a href="/2016/07/22/Vim/Vim实践Tips-四/">2016-07-22</a></time>
       
       
@@ -725,160 +953,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-05-13T05:59:26.000Z"><a href="/2016/05/13/Swift/从-variable-with-a-setter-must-also-have-a-getter-引发的思考/">2016-05-13</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/05/13/Swift/从-variable-with-a-setter-must-also-have-a-getter-引发的思考/">从 variable with a setter must also have a getter 引发的思考</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>今天一哥们在群里问:”为什么我不能只重写 setter ,还要多写个 getter ?”<br>我一听也是懵了,后来在 playgroud 里面写,果然得到了一个错误:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;&#10;    &#10;    var labelText:String&#10;        &#123;&#10;        set(newValue)&#123;&#10;            self.labelText = newValue&#10;        &#125;&#10;   &#10;    &#125;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
-<p><code>Variable With a setter must also have a getter</code></p>
-<p>后来,查找 stackflow, 找到了答案:</p>
-<p>一旦你给一个属性添加了 <code>getter</code> 或者 <code>setter</code> ,这个属性将变成 <code>计算属性</code>.</p>
-<p>后来,我在<code>The Swift Programming Language 2.2</code> 的 Properties 一章中,找到这样一段描述:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#8220;In addition to stored properties, classes, structures, and enumerations can define computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.&#8221;</span><br></pre></td></tr></table></figure>
-<p>除了存储属性之外,类,结构体和枚举还可以定义计算属性,计算属性 <strong>不存储值</strong> ,它们提供一个 <code>getter</code> 和一个 <strong>可选的</strong> <code>setter</code>,借此来读取和<strong>间接地</strong>设置<strong>其他属性和值</strong>.</p>
-<p>我在文档中没有找到更多的说明,下面来说说我自己的思考:</p>
-<ol>
-<li><p>计算属性不存储值,那么也就是说,只能我显式地告诉程序,这个值是怎么来的.所以,需要有一个 <code>getter</code> ,它是必须的,否则这个属性就不是计算属性.而是存储属性.</p>
-</li>
-<li><p><code>setter</code>是可选的,可以不写 (不写 <code>setter</code> 不写 <code>getter</code>,那么这个属性还是存储属性).但是一旦写了<code>setter</code>(这个属性变成了计算属性),那么<code>getter</code>也是必须的</p>
-</li>
-</ol>
-<h3 id="willSet_和_didSet">willSet 和 didSet</h3><p>刚刚说明了关于计算属性的一些特点,但是问题来了,我们经常有拦截<code>setter</code>来做一些自定义处理的需求. 在 OC 中,这个很简单,重写 <code>setter</code>方法就好了,但是, Swift 中, 添加<code>setter</code>会让属性变味.</p>
-<p>Swift 的设计者肯定也是考虑到了这一点,所以提供了 <code>willSet</code> 和 <code>didSet</code>这两个属性观察方法.用法如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;&#10;    &#10;    var labelText:String = &#34;great&#34;&#10;        &#123;&#10;        willSet&#123;&#10;            print(&#34;labeltext will change!&#34;)&#10;            &#10;        &#125;&#10;        didSet&#123;&#10;            print(&#34;labeltext did change!&#34;)&#10;//            labelText = &#34;defalut&#34;&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>输出结果:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">labeltext will change!&#10;labeltext did change!&#10;11</span><br></pre></td></tr></table></figure>
-<p>这样,我们可以过滤值,可以自己处理一些事情,也不会误把存储属性转换成计算属性.</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-05-12T07:05:37.000Z"><a href="/2016/05/12/开发环境相关/手把手教你创建自己的Cocoapods库/">2016-05-12</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/05/12/开发环境相关/手把手教你创建自己的Cocoapods库/">手把手教你创建自己的Cocoapods库</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>如果您能看这篇文章,相信您已经了解并喜欢上了 Cocoapods, 下面我们一步一步的创建一个属于自己的 Cocoapods 库.</p>
-<h2 id="创建">创建</h2><p>通过下面命令,可以使用一个创建向导简历 Cocoapods 库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create GUICodeSnippet</span><br></pre></td></tr></table></figure></p>
-<p>然后终端会进行引导,依次选择即可. 回车键确认默认选择.</p>
-<p>问题依次是:</p>
-<ol>
-<li><p>语言 </p>
-</li>
-<li><p>创建demo工程( 极力推荐创建)</p>
-</li>
-<li><p>选择测试框架 (可选择默认,如果非常确定没有需要,可以选择None)</p>
-</li>
-<li><p>View-based Testing  (官方推荐使用 <code>FBSnapShotTestCase</code>)</p>
-</li>
-<li><p>OC类前缀 (如果语言选择非OC,不会有这项)</p>
-</li>
-</ol>
-<p>打开工程,会发现有一个 GUICodeSnippet 和一个 Pods, 在<br><code>Pods-&gt;Development Pods-&gt;GUICodeSnippet-&gt;Pod-&gt;Classes</code>中,有一个<code>ReplaceMe.m</code></p>
-<p>你需要将这个文件替换成自己的代码文件.</p>
-<h2 id="源码验证">源码验证</h2><p>进入 Example 目录 , 执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod install</span><br></pre></td></tr></table></figure></p>
-<p>然后 Xcode 打开 xcworkspace 文件 ,去跑一下项目,如果没有错误,证明添加的代码没有问题,可以继续进行</p>
-<h2 id="准备工作">准备工作</h2><h3 id="配置_podspec_文件">配置 podspec 文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#10;# Be sure to run `pod lib lint GUICodeSnippet.podspec&#39; to ensure this is a&#10;# valid spec before submitting.&#10;#&#10;# Any lines starting with a # are optional, but their use is encouraged&#10;# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html&#10;#&#10;&#10;Pod::Spec.new do |s|&#10;  s.name             = &#34;GUICodeSnippet&#34;&#10;  s.version          = &#34;0.1.8&#34;&#10;  s.summary          = &#34;code segment of kennyGui&#34;&#10;&#10;# This description is used to generate tags and improve search results.&#10;#   * Think: What does it do? Why did you write it? What is the focus?&#10;#   * Try to keep it short, snappy and to the point.&#10;#   * Write the description between the DESC delimiters below.&#10;#   * Finally, don&#39;t worry about the indent, CocoaPods strips it!  &#10;  s.description      = &#60;&#60;-DESC&#10;                      code segment of kenny ,and in most situation ,is for private use only&#10;                       DESC&#10;&#10;  s.homepage         = &#34;https://git.oschina.net/kennygui/GUICodeSnippet&#34;&#10;  # s.screenshots     = &#34;www.example.com/screenshots_1&#34;, &#34;www.example.com/screenshots_2&#34;&#10;  s.license          = &#39;MIT&#39;&#10;  s.author           = &#123; &#34;katsurake&#34; =&#62; &#34;katsurake@foxmail.com&#34; &#125;&#10;  s.source           = &#123; :git =&#62; &#34;https://git.oschina.net/kennygui/GUICodeSnippet.git&#34;, :tag =&#62; s.version.to_s &#125;&#10;  # s.social_media_url = &#39;https://twitter.com/&#60;TWITTER_USERNAME&#62;&#39;&#10;&#10;  s.platform     = :ios, &#39;7.0&#39;&#10;  s.requires_arc = true&#10;&#10;  s.source_files = &#39;Pod/Classes/*.h&#39;&#10;  s.resource_bundles = &#123;&#10;    &#39;GUICodeSnippet&#39; =&#62; [&#39;Pod/Assets/*.png&#39;]&#10;  &#125;&#10;&#10;  s.public_header_files = &#39;Pod/Classes/*.h&#39;&#10;  s.frameworks = &#39;UIKit&#39;, &#39;MapKit&#39;&#10;  s.dependency &#39;AFNetworking&#39;, &#39;~&#62; 2.3&#39;&#10;  s.dependency &#39;CocoaLumberjack&#39;, &#39;~&#62; 2.2.0&#39;&#10;  s.dependency &#39;MBProgressHUD&#39;, &#39;~&#62; 0.9.2&#39;&#10;  s.dependency &#39;Masonry&#39;, &#39;~&#62; 0.6.4&#39;&#10;  s.dependency &#39;ReactiveCocoa&#39;, &#39;~&#62; 2.5&#39;&#10;  s.dependency &#39;YapDatabase&#39;, &#39;~&#62; 2.8.3&#39;&#10;  s.dependency &#39;DTCoreText&#39;, &#39;~&#62; 1.6.17&#39;&#10;  s.dependency &#39;MJExtension&#39;, &#39;~&#62; 3.0.10&#39;&#10;  end</span><br></pre></td></tr></table></figure>
-<p>创建完毕之后,随手使用<br><code>pod lib lint</code><br>命令验证是否编写正确,如果没有正确,根据提示修改即可.</p>
-<p>几个好用的命令:</p>
- <figure class="highlight"><figcaption><span>完整打印详情,可以帮助我们调试,用法 ` pod lib lint --verbose`</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> &#10; &#10; ```--allow-warnings``` &#24573;&#30053;&#35686;&#21578;,&#30001;&#20110;&#19968;&#20123;&#19977;&#26041;&#20195;&#30721;&#26377;&#35686;&#21578;,&#25152;&#20197;&#36896;&#25104;&#22987;&#32456;&#26080;&#27861;&#36890;&#36807;,&#21487;&#20197;&#29992;&#36825;&#20010;&#26041;&#27861;&#24573;&#30053;&#35686;&#21578;,&#29992;&#27861;&#21516;&#19978;&#10; &#10;&#10;&#10;### &#21019;&#24314;&#20195;&#30721;&#20179;&#24211;&#10; &#22312;github &#25110;&#32773;&#20854;&#20182;&#25176;&#31649;&#24179;&#21488;&#24314;&#31435;&#19968;&#20010;&#31354;&#39033;&#30446;,&#26368;&#22909;&#39033;&#30446;&#21517;&#31216;&#21644;&#26412;&#22320;&#30340;&#19968;&#33268;</span><br></pre></td></tr></table></figure>
-<p>git add .<br>git commit -m “Initial Commit”<br>git remote add origin <a href="https://github.com/kennyGui/GUICodeSnippet.git" target="_blank" rel="external">https://github.com/kennyGui/GUICodeSnippet.git</a><br>git push -u origin master<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#20854;&#23454;&#25105;&#26356;&#21916;&#27426;&#30340;&#26041;&#24335;&#26159;, Clone &#31354;&#39033;&#30446;,&#28982;&#21518;&#26367;&#25442;&#20195;&#30721;&#30340; .git &#25991;&#20214;&#22841;,&#36825;&#26679;&#26356;&#26292;&#21147;,&#20855;&#20307;&#24590;&#20040;&#36873;&#25321;,&#30475;&#20010;&#20154;&#21916;&#22909;.&#10;&#10;### &#25171; tag</span><br></pre></td></tr></table></figure></p>
-<p>git tag -a 0.1.0 -m “初始版本”</p>
-<p>通常的git push不会将标签对象提交到git服务器，我们需要进行显式的操作：<br>git push origin 0.1.2 # 将v0.1.2标签提交到git服务器<br>或者<br>git push origin –tags # 将本地所有标签一次性提交到git服务器<br>验证标签成功<br>git tag #查看标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;## &#25512;&#36865;&#25551;&#36848;&#25991;&#20214;&#10;&#20351;&#29992;&#36825;&#20010;&#21629;&#20196;&#25512;&#36865;&#33258;&#24049;&#30340;&#24211;&#30340;&#20449;&#24687;&#21040;&#23448;&#26041;&#30340; Master &#24211;&#10;&#10;```pod trunk push GUICodeSnippet.podspec</span><br></pre></td></tr></table></figure></p>
-<p>但是如果你是第一次使用的话,需要注册 Session<br>使用如下命令注册自己的邮箱(注意替换成自己的邮箱)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk register orta@cocoapods.org &#39;Orta Therox&#39; --description=&#39;macbook air&#39;</span><br></pre></td></tr></table></figure>
-<p>稍后, 邮箱会收到邮件, 点击链接即可</p>
-<figure class="highlight"><figcaption><span>trunk push BlinkingLabel.podspec ```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#30001;&#20110;&#32593;&#32476;&#21407;&#22240;(&#20320;&#25026;&#24471;),&#21487;&#33021;&#20250;&#25512;&#36865;&#22833;&#36133;,&#22810;&#23581;&#35797;&#20960;&#27425;&#21363;&#21487;.&#10;&#10;## &#39564;&#35777;&#10;&#10;&#21487;&#20197;&#35753;&#21516;&#20107;&#25110;&#32773;&#26379;&#21451;&#20351;&#29992;</span><br></pre></td></tr></table></figure>
-<p>pod search GUICodeSnippet<br><code>``
-这个命令进行测试,但是,如果是第一次,应该是找不到的.
-需要使用</code>pod setup`更新一下本地的 Maser 库信息</p>
-<h2 id="结语">结语</h2><p>好了,现在,你就可以将自己的代码共享给小伙伴使用啦.</p>
-<p>现在 pod 里面的 Class 都是放在一个文件夹下的,没有办法实现子文件夹,(即使工程里面有多个文件夹,但是弄好 cocoapods 之后,也是都放到一个文件夹下面了)</p>
-<p>这需要我们的 spec 里面配置 subspec ,这个知识点会在下一篇文章中说</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -912,7 +986,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
-    <li><a href="/categories/Vim/">Vim</a><small>3</small></li>
+    <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
   
     <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
   
@@ -960,6 +1034,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
   
     <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/Vim/">Vim</a><small>2</small></li>
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
   

@@ -51,6 +51,160 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-05-13T05:59:26.000Z"><a href="/2016/05/13/Swift/从-variable-with-a-setter-must-also-have-a-getter-引发的思考/">2016-05-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/05/13/Swift/从-variable-with-a-setter-must-also-have-a-getter-引发的思考/">从 variable with a setter must also have a getter 引发的思考</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>今天一哥们在群里问:”为什么我不能只重写 setter ,还要多写个 getter ?”<br>我一听也是懵了,后来在 playgroud 里面写,果然得到了一个错误:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;&#10;    &#10;    var labelText:String&#10;        &#123;&#10;        set(newValue)&#123;&#10;            self.labelText = newValue&#10;        &#125;&#10;   &#10;    &#125;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Variable With a setter must also have a getter</code></p>
+<p>后来,查找 stackflow, 找到了答案:</p>
+<p>一旦你给一个属性添加了 <code>getter</code> 或者 <code>setter</code> ,这个属性将变成 <code>计算属性</code>.</p>
+<p>后来,我在<code>The Swift Programming Language 2.2</code> 的 Properties 一章中,找到这样一段描述:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#8220;In addition to stored properties, classes, structures, and enumerations can define computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.&#8221;</span><br></pre></td></tr></table></figure>
+<p>除了存储属性之外,类,结构体和枚举还可以定义计算属性,计算属性 <strong>不存储值</strong> ,它们提供一个 <code>getter</code> 和一个 <strong>可选的</strong> <code>setter</code>,借此来读取和<strong>间接地</strong>设置<strong>其他属性和值</strong>.</p>
+<p>我在文档中没有找到更多的说明,下面来说说我自己的思考:</p>
+<ol>
+<li><p>计算属性不存储值,那么也就是说,只能我显式地告诉程序,这个值是怎么来的.所以,需要有一个 <code>getter</code> ,它是必须的,否则这个属性就不是计算属性.而是存储属性.</p>
+</li>
+<li><p><code>setter</code>是可选的,可以不写 (不写 <code>setter</code> 不写 <code>getter</code>,那么这个属性还是存储属性).但是一旦写了<code>setter</code>(这个属性变成了计算属性),那么<code>getter</code>也是必须的</p>
+</li>
+</ol>
+<h3 id="willSet_和_didSet">willSet 和 didSet</h3><p>刚刚说明了关于计算属性的一些特点,但是问题来了,我们经常有拦截<code>setter</code>来做一些自定义处理的需求. 在 OC 中,这个很简单,重写 <code>setter</code>方法就好了,但是, Swift 中, 添加<code>setter</code>会让属性变味.</p>
+<p>Swift 的设计者肯定也是考虑到了这一点,所以提供了 <code>willSet</code> 和 <code>didSet</code>这两个属性观察方法.用法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;&#10;    &#10;    var labelText:String = &#34;great&#34;&#10;        &#123;&#10;        willSet&#123;&#10;            print(&#34;labeltext will change!&#34;)&#10;            &#10;        &#125;&#10;        didSet&#123;&#10;            print(&#34;labeltext did change!&#34;)&#10;//            labelText = &#34;defalut&#34;&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">labeltext will change!&#10;labeltext did change!&#10;11</span><br></pre></td></tr></table></figure>
+<p>这样,我们可以过滤值,可以自己处理一些事情,也不会误把存储属性转换成计算属性.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-05-12T07:05:37.000Z"><a href="/2016/05/12/开发环境相关/手把手教你创建自己的Cocoapods库/">2016-05-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/05/12/开发环境相关/手把手教你创建自己的Cocoapods库/">手把手教你创建自己的Cocoapods库</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>如果您能看这篇文章,相信您已经了解并喜欢上了 Cocoapods, 下面我们一步一步的创建一个属于自己的 Cocoapods 库.</p>
+<h2 id="创建">创建</h2><p>通过下面命令,可以使用一个创建向导简历 Cocoapods 库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create GUICodeSnippet</span><br></pre></td></tr></table></figure></p>
+<p>然后终端会进行引导,依次选择即可. 回车键确认默认选择.</p>
+<p>问题依次是:</p>
+<ol>
+<li><p>语言 </p>
+</li>
+<li><p>创建demo工程( 极力推荐创建)</p>
+</li>
+<li><p>选择测试框架 (可选择默认,如果非常确定没有需要,可以选择None)</p>
+</li>
+<li><p>View-based Testing  (官方推荐使用 <code>FBSnapShotTestCase</code>)</p>
+</li>
+<li><p>OC类前缀 (如果语言选择非OC,不会有这项)</p>
+</li>
+</ol>
+<p>打开工程,会发现有一个 GUICodeSnippet 和一个 Pods, 在<br><code>Pods-&gt;Development Pods-&gt;GUICodeSnippet-&gt;Pod-&gt;Classes</code>中,有一个<code>ReplaceMe.m</code></p>
+<p>你需要将这个文件替换成自己的代码文件.</p>
+<h2 id="源码验证">源码验证</h2><p>进入 Example 目录 , 执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod install</span><br></pre></td></tr></table></figure></p>
+<p>然后 Xcode 打开 xcworkspace 文件 ,去跑一下项目,如果没有错误,证明添加的代码没有问题,可以继续进行</p>
+<h2 id="准备工作">准备工作</h2><h3 id="配置_podspec_文件">配置 podspec 文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#10;# Be sure to run `pod lib lint GUICodeSnippet.podspec&#39; to ensure this is a&#10;# valid spec before submitting.&#10;#&#10;# Any lines starting with a # are optional, but their use is encouraged&#10;# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html&#10;#&#10;&#10;Pod::Spec.new do |s|&#10;  s.name             = &#34;GUICodeSnippet&#34;&#10;  s.version          = &#34;0.1.8&#34;&#10;  s.summary          = &#34;code segment of kennyGui&#34;&#10;&#10;# This description is used to generate tags and improve search results.&#10;#   * Think: What does it do? Why did you write it? What is the focus?&#10;#   * Try to keep it short, snappy and to the point.&#10;#   * Write the description between the DESC delimiters below.&#10;#   * Finally, don&#39;t worry about the indent, CocoaPods strips it!  &#10;  s.description      = &#60;&#60;-DESC&#10;                      code segment of kenny ,and in most situation ,is for private use only&#10;                       DESC&#10;&#10;  s.homepage         = &#34;https://git.oschina.net/kennygui/GUICodeSnippet&#34;&#10;  # s.screenshots     = &#34;www.example.com/screenshots_1&#34;, &#34;www.example.com/screenshots_2&#34;&#10;  s.license          = &#39;MIT&#39;&#10;  s.author           = &#123; &#34;katsurake&#34; =&#62; &#34;katsurake@foxmail.com&#34; &#125;&#10;  s.source           = &#123; :git =&#62; &#34;https://git.oschina.net/kennygui/GUICodeSnippet.git&#34;, :tag =&#62; s.version.to_s &#125;&#10;  # s.social_media_url = &#39;https://twitter.com/&#60;TWITTER_USERNAME&#62;&#39;&#10;&#10;  s.platform     = :ios, &#39;7.0&#39;&#10;  s.requires_arc = true&#10;&#10;  s.source_files = &#39;Pod/Classes/*.h&#39;&#10;  s.resource_bundles = &#123;&#10;    &#39;GUICodeSnippet&#39; =&#62; [&#39;Pod/Assets/*.png&#39;]&#10;  &#125;&#10;&#10;  s.public_header_files = &#39;Pod/Classes/*.h&#39;&#10;  s.frameworks = &#39;UIKit&#39;, &#39;MapKit&#39;&#10;  s.dependency &#39;AFNetworking&#39;, &#39;~&#62; 2.3&#39;&#10;  s.dependency &#39;CocoaLumberjack&#39;, &#39;~&#62; 2.2.0&#39;&#10;  s.dependency &#39;MBProgressHUD&#39;, &#39;~&#62; 0.9.2&#39;&#10;  s.dependency &#39;Masonry&#39;, &#39;~&#62; 0.6.4&#39;&#10;  s.dependency &#39;ReactiveCocoa&#39;, &#39;~&#62; 2.5&#39;&#10;  s.dependency &#39;YapDatabase&#39;, &#39;~&#62; 2.8.3&#39;&#10;  s.dependency &#39;DTCoreText&#39;, &#39;~&#62; 1.6.17&#39;&#10;  s.dependency &#39;MJExtension&#39;, &#39;~&#62; 3.0.10&#39;&#10;  end</span><br></pre></td></tr></table></figure>
+<p>创建完毕之后,随手使用<br><code>pod lib lint</code><br>命令验证是否编写正确,如果没有正确,根据提示修改即可.</p>
+<p>几个好用的命令:</p>
+ <figure class="highlight"><figcaption><span>完整打印详情,可以帮助我们调试,用法 ` pod lib lint --verbose`</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> &#10; &#10; ```--allow-warnings``` &#24573;&#30053;&#35686;&#21578;,&#30001;&#20110;&#19968;&#20123;&#19977;&#26041;&#20195;&#30721;&#26377;&#35686;&#21578;,&#25152;&#20197;&#36896;&#25104;&#22987;&#32456;&#26080;&#27861;&#36890;&#36807;,&#21487;&#20197;&#29992;&#36825;&#20010;&#26041;&#27861;&#24573;&#30053;&#35686;&#21578;,&#29992;&#27861;&#21516;&#19978;&#10; &#10;&#10;&#10;### &#21019;&#24314;&#20195;&#30721;&#20179;&#24211;&#10; &#22312;github &#25110;&#32773;&#20854;&#20182;&#25176;&#31649;&#24179;&#21488;&#24314;&#31435;&#19968;&#20010;&#31354;&#39033;&#30446;,&#26368;&#22909;&#39033;&#30446;&#21517;&#31216;&#21644;&#26412;&#22320;&#30340;&#19968;&#33268;</span><br></pre></td></tr></table></figure>
+<p>git add .<br>git commit -m “Initial Commit”<br>git remote add origin <a href="https://github.com/kennyGui/GUICodeSnippet.git" target="_blank" rel="external">https://github.com/kennyGui/GUICodeSnippet.git</a><br>git push -u origin master<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#20854;&#23454;&#25105;&#26356;&#21916;&#27426;&#30340;&#26041;&#24335;&#26159;, Clone &#31354;&#39033;&#30446;,&#28982;&#21518;&#26367;&#25442;&#20195;&#30721;&#30340; .git &#25991;&#20214;&#22841;,&#36825;&#26679;&#26356;&#26292;&#21147;,&#20855;&#20307;&#24590;&#20040;&#36873;&#25321;,&#30475;&#20010;&#20154;&#21916;&#22909;.&#10;&#10;### &#25171; tag</span><br></pre></td></tr></table></figure></p>
+<p>git tag -a 0.1.0 -m “初始版本”</p>
+<p>通常的git push不会将标签对象提交到git服务器，我们需要进行显式的操作：<br>git push origin 0.1.2 # 将v0.1.2标签提交到git服务器<br>或者<br>git push origin –tags # 将本地所有标签一次性提交到git服务器<br>验证标签成功<br>git tag #查看标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;## &#25512;&#36865;&#25551;&#36848;&#25991;&#20214;&#10;&#20351;&#29992;&#36825;&#20010;&#21629;&#20196;&#25512;&#36865;&#33258;&#24049;&#30340;&#24211;&#30340;&#20449;&#24687;&#21040;&#23448;&#26041;&#30340; Master &#24211;&#10;&#10;```pod trunk push GUICodeSnippet.podspec</span><br></pre></td></tr></table></figure></p>
+<p>但是如果你是第一次使用的话,需要注册 Session<br>使用如下命令注册自己的邮箱(注意替换成自己的邮箱)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk register orta@cocoapods.org &#39;Orta Therox&#39; --description=&#39;macbook air&#39;</span><br></pre></td></tr></table></figure>
+<p>稍后, 邮箱会收到邮件, 点击链接即可</p>
+<figure class="highlight"><figcaption><span>trunk push BlinkingLabel.podspec ```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#30001;&#20110;&#32593;&#32476;&#21407;&#22240;(&#20320;&#25026;&#24471;),&#21487;&#33021;&#20250;&#25512;&#36865;&#22833;&#36133;,&#22810;&#23581;&#35797;&#20960;&#27425;&#21363;&#21487;.&#10;&#10;## &#39564;&#35777;&#10;&#10;&#21487;&#20197;&#35753;&#21516;&#20107;&#25110;&#32773;&#26379;&#21451;&#20351;&#29992;</span><br></pre></td></tr></table></figure>
+<p>pod search GUICodeSnippet<br><code>``
+这个命令进行测试,但是,如果是第一次,应该是找不到的.
+需要使用</code>pod setup`更新一下本地的 Maser 库信息</p>
+<h2 id="结语">结语</h2><p>好了,现在,你就可以将自己的代码共享给小伙伴使用啦.</p>
+<p>现在 pod 里面的 Class 都是放在一个文件夹下的,没有办法实现子文件夹,(即使工程里面有多个文件夹,但是弄好 cocoapods 之后,也是都放到一个文件夹下面了)</p>
+<p>这需要我们的 spec 里面配置 subspec ,这个知识点会在下一篇文章中说</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-05-12T03:06:35.000Z"><a href="/2016/05/12/开发环境相关/升级-Chisel-遇到的问题和解决记录/">2016-05-12</a></time>
       
       
@@ -522,112 +676,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-09-05T01:08:14.000Z"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">2015-09-05</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">ReactiveCocoa 使用速查</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="Context">Context</h2><p>反复接触 <code>ReactiveCocoa</code> ,这次真的准备把它应用到实际开发中了.为了以后使用方便,这里列出一些常用关键字的使用方法,以备查询.</p>
-<h2 id="常用方法">常用方法</h2><h3 id="简单订阅_subscribeNext">简单订阅 subscribeNext</h3><p>使用场景:<br>“ 如果你改变了,让我知道 “</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.usernameTextField.rac_textSignal subscribeNext:^(id x) &#123;&#10;   NSLog(@&#34;%@&#34;, x);&#10; &#125;];</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-28T23:37:53.000Z"><a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/">2015-08-29</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/">简单实现控制器过渡动画</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>自己实现控制器动画的方法,还是比较常见的. 这个是    <code>UINavigationController</code>的 <code>Push</code> 和 <code>Dismiss</code> 动画.<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -663,7 +711,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
-    <li><a href="/categories/Vim/">Vim</a><small>3</small></li>
+    <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
   
     <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
   
@@ -711,6 +759,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
   
     <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/Vim/">Vim</a><small>2</small></li>
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
   

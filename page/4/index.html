@@ -51,6 +51,168 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-08-10T00:48:58.000Z"><a href="/2015/08/10/重构、模式、架构/从简单工厂到工厂模式/">2015-08-10</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/10/重构、模式、架构/从简单工厂到工厂模式/">从简单工厂到工厂模式</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>上次的文章,用简单工厂,解决了生产布局类的问题. 但是,上次的方式针对一个模块是可以的,当模块多了,每个类负责的属性就太多了.这是一个需要重构的点.</p>
+<h2 id="准备工作">准备工作</h2><p>首先,将类重命名, 比如 原来的: </p>
+<p>GUILayoutFactory -&gt; GUILoginLayoutFactory</p>
+<p>原来的布局产品名称也是应该修改的,但是就不贴出来了,一个原则就是:不要让类名把你自己弄迷糊了即可.</p>
+<h2 id="重构">重构</h2><p>下面是我工厂模式的结构图,目前工厂只有 Login这一个,项目中有更多,但是没必要都在此列举.</p>
+<p><img src="" alt=""></p>
+<p>文件说明图</p>
+<p><img src="" alt=""></p>
+<p>当把图画出来, 很容易看出来, 需要进行重构了. 因为在 <code>GUILoginLayoutFactory</code> 存在着逻辑判断代码,如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;&#10;typedef NS_ENUM(NSUInteger, GUIDeviceType) &#123;&#10;    &#10;    GUIDeviceType4S = 1,&#10;    GUIDeviceType5,&#10;    GUIDeviceType6,&#10;    GUIDeviceType6P,&#10;    GUIDeviceTypeNotFound&#10;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面的代码是当时在应用简单工厂的时候,将逻辑下放到工厂中得.现在它存在于我们的 <code>GUILoginLayoutFactory</code>中,这个工厂还会有同级的兄弟工厂.它们也需要这种判断来生产具体的 layou产品,比如<code>GUIDiaryLayoutFactory</code>,那么,现在应该采用将这些代码提升到父类的重构手法.  <code>GUILoginLayoutFactory</code> 的父类是我们的 “ 总工厂 “ 也就是 <code>GUILayoutFactory</code></p>
+<p>现在 <code>GUILayoutFactory</code>的头文件代码是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;@class GUILayout;&#10;&#10;#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;&#10;typedef NS_ENUM(NSUInteger, GUIDeviceType) &#123;&#10;    &#10;    GUIDeviceType4S = 1,&#10;    GUIDeviceType5,&#10;    GUIDeviceType6,&#10;    GUIDeviceType6P,&#10;    GUIDeviceTypeNotFound&#10;    &#10;&#125;;&#10;&#10;@interface GUILayoutFactory : NSObject&#10;&#10;-(GUILayout *)layout;&#10;+(GUILayout *)layout;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>养成好习惯,每次小重构后都进行编译.</p>
+<p>客户端调用代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;&#10;    [super viewDidLoad];&#10;    &#10;    GUILayoutFactory * layoutFactory = [GUILoginLayoutFactory new];&#10;    GUILayout * layout = [layoutFactory layout];&#10;    &#10;    NSLog(@&#34;\n %f \n %f \n %f \n %f&#34;,layout.textFieldWidth,layout.textFieldHeight,layout.loginButtonWidth,layout.loginButtonHeight);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>是的, 调用端需要知晓具体的工厂.比如这里的 <code>GUILoginFactory</code>才能拿到具体的产品.</p>
+<h2 id="对比简单工厂">对比简单工厂</h2><p>原来使用简单工厂实现的时候,如果要增加新产品.那么需要:</p>
+<ol>
+<li>添加具体的产品(Layout类)</li>
+<li>在工厂类中增加一个分支语句</li>
+</ol>
+<p>客户端是无需修改和知道工厂内部的细节的.</p>
+<p>现在使用工厂模式,如果要增加新产品:</p>
+<ol>
+<li>添加具体的产品(Layout类)</li>
+<li>添加具体产品的工厂类(LayoutFactory类)</li>
+<li>客户端进行判断和需要知晓新的工厂类</li>
+</ol>
+<p>加重了客户端的负担.</p>
+<p>总结来说: </p>
+<ul>
+<li><p>简单工厂最大的优点在于工厂类中包含了必要的逻辑判断,根据客户端的选择(或者是其他条件)动态实例化相关的类,对于客户端来说,去除了与具体产品的依赖 .</p>
+</li>
+<li><p>但是如果添加新产品,要修改工厂类,违背了”开放-封闭原则”</p>
+</li>
+<li><p>工厂模式让子类工厂决定实例化哪个类.让产品类的实例化延迟到了子工厂.</p>
+</li>
+<li><p>新增加产品的时候, 整个工厂的体系是没有修改的,只是扩展出一个子类.</p>
+</li>
+<li><p>工厂模式,客户端需要知晓具体的工厂子类</p>
+</li>
+</ul>
+<p>两者没有好坏, 我们需要根据自己的实际情景来选择模式进行应用.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/4/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-09T04:02:36.000Z"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/">2015-08-09</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/">当遇到严格要求的UI-实现</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="说明">说明</h2><p>因为公司项目负责,所以这个代码将用Demo的形式建立,然后引入到项目中.然后对项目的调用进行重构.</p>
+<h2 id="创建项目文件">创建项目文件</h2><p>文件清单:</p>
+<ul>
+<li>产品父类 <code>GUILayout</code> 包含各种属性</li>
+<li>iPhone4s/4 布局类 <code>GUIIP4SLayout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone5s/5 布局类 <code>GUIIP5Layout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone6 布局类  <code>GUIIP6Layout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone6 plus 布局类 <code>GUIIP6PLayout</code> 继承 <code>GUILayout</code></li>
+<li>工厂类 <code>GUILayoutFactory</code></li>
+</ul>
+<h2 id="代码详解">代码详解</h2><p>首先是     <code>GUILayout</code>,它定义了所有需要的属性.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;UIKit/UIKit.h&#62;&#10;&#10;@interface GUILayout : NSObject&#10;&#10;@property (assign, nonatomic) CGFloat textFieldHeight;&#10;@property (assign, nonatomic) CGFloat textFieldWidth;&#10;@property (assign, nonatomic) CGFloat loginButtonWidth;&#10;@property (assign, nonatomic) CGFloat loginButtonHeight;&#10;&#10;@end&#10;&#10;#import &#34;GUILayout.h&#34;&#10;&#10;@implementation GUILayout&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>它的布局子类,在 <code>init</code>方法中,对布局属性进行了初始化,因为代码几乎一样,所以拿一个类说明:(为了以后区分,我给不同的布局类不同的值:<br>4/4s 值都是 4 ,5/5s 值都是5 ,6 值都是6 ,6 plus值都是 60)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;GUILayout.h&#34;&#10;&#10;@interface GUIIP4SLayout : GUILayout&#10;&#10;@end&#10;&#10;#import &#34;GUIIP4SLayout.h&#34;&#10;&#10;@implementation GUIIP4SLayout&#10;&#10;- (instancetype)init &#123;&#10;    if (self = [super init]) &#123;&#10;&#10;        self.textFieldHeight   = 4;&#10;        self.textFieldWidth    = 4;&#10;        self.loginButtonHeight = 4;&#10;        self.loginButtonWidth  = 4;&#10;&#10;    &#125;&#10;    return self;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>然后是工厂类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;@class GUILayout;&#10;@interface GUILayoutFactory : NSObject&#10;&#10;-(GUILayout*)createLayout;&#10;+(GUILayout*)createLayout;&#10;&#10;&#10;@end&#10;&#10;&#10;#import &#34;GUILayoutFactory.h&#34;&#10;#import &#34;GUIIP4SLayout.h&#34;&#10;#import &#34;GUIIP6Layout.h&#34;&#10;#import &#34;GUIIP6PLayout.h&#34;&#10;#import &#34;GUIIP5Layout.h&#34;&#10;&#10;#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;&#10;typedef NS_ENUM(NSUInteger, GUIDeviceType) &#123;&#10;    &#10;    GUIDeviceType4S = 1,&#10;    GUIDeviceType5,&#10;    GUIDeviceType6,&#10;    GUIDeviceType6P,&#10;    GUIDeviceTypeNotFound&#10;&#10;&#125;;&#10;&#10;@implementation GUILayoutFactory&#10;&#10;-(GUILayout*)createLayout&#123;&#10;    &#10;   switch ([self deviceType]) &#123;&#10;        case GUIDeviceType4S:&#10;            return [GUIIP4SLayout new];&#10;            break;&#10;        case GUIDeviceType6:&#10;            return [GUIIP6Layout new];&#10;            break;&#10;        case GUIDeviceType6P:&#10;            return [GUIIP6PLayout new];&#10;            break;&#10;        case GUIDeviceType5:&#10;            return [GUIIP5Layout new];&#10;        case GUIDeviceTypeNotFound:&#10;            return nil;&#10; &#10;    &#125;&#10;    &#10;    return nil;&#10;&#10;&#10;&#125;&#10;&#10;+(GUILayout*)createLayout&#123;&#10;&#10;    return  [[GUILayoutFactory new] createLayout];&#10;&#10;&#125;&#10;&#10;-(GUIDeviceType)deviceType&#123;&#10;    &#10;    if (kisiPhone4) &#123;&#10;        return GUIDeviceType4S;&#10;    &#125;else if(kisiPhone5)&#123;&#10;        return GUIDeviceType5;&#10;    &#125;else if(kisiPhone6)&#123;&#10;        return GUIDeviceType6;&#10;    &#125;else if(kisiPhone6Plus)&#123;&#10;        return GUIDeviceType6P;&#10;    &#125;else&#123;&#10;        return GUIDeviceTypeNotFound;&#10;    &#125;&#10;   &#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将判断逻辑下放到工厂类中,简化了控制器的调用</li>
+<li>定义根据屏幕尺寸判断设备类型的宏</li>
+<li>根据枚举类型决定返回的<code>layout</code>类型</li>
+</ul>
+<h2 id="结语">结语</h2><p>好了,这就是完整的代码了.根据自己的需求,修改参数名,可以方便的用到自己的系统中.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/4/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-08-09T03:16:28.000Z"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/">2015-08-09</a></time>
       
       
@@ -506,116 +668,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-06-05T00:56:46.000Z"><a href="/2015/06/05/开发环境相关/Xocde插件失效解决-转载/">2015-06-05</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/06/05/开发环境相关/Xocde插件失效解决-转载/">Xocde插件失效解决[转载]</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>XCode的插件大大丰富了XCode的功能，而且有了Alcatraz，插件的管理也非常容易，像我这种Vim党完全离不开XVim。但是有个非常恼人的问题：一旦升级XCode，插件就失效！<br>之前XCode升级到6.2的时候遇到过插件失效的问题，Google之后把一段很长命令复制到Terminal后运行一下即可，当时一看解决了， 顿时觉得满足感爆棚，自己可以拯救地球了~就没有再深入，结果升级到6.3时又遇到了。“同样的招式对圣斗士是不能使用第二次的！”，同样的坑对有节操的 程序员是不能掉进去第二次的！因此这一次一定要搞清楚为什么会这样，以后再次遇到了如何解决。<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/06/05/开发环境相关/Xocde插件失效解决-转载/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/4/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-06-04T06:10:47.000Z"><a href="/2015/06/04/高效OC编程读书心得/Tip9 以类族模式隐藏实现细节/">2015-06-04</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/06/04/高效OC编程读书心得/Tip9 以类族模式隐藏实现细节/">Tip9 以类族模式隐藏实现细节</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.</p>
-<p>一个例子: UIButton<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIButton * button = [UIButton buttonWithType];</span><br></pre></td></tr></table></figure></p>
-<p>该方法返回的对象类型取决于传入的 <code>type</code> ,不同的<code>type</code>决定了这个 button 将来的一些属性的不同(或者说可供设置的属性的不同)</p>
-<p>要实现类似的功能,如果不用类族,那么还可能是一个类中的枚举.比如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void) drawRect:(CGRect)rect&#123;&#10;&#9;if(_type == typeA)&#123;&#10;&#9;&#9;//&#32472;&#21046;&#19968;&#20010; typeA &#31867;&#22411;&#30340; Button&#10;&#9;&#125;else if (_type == typeB)&#123;&#10;&#9;&#9;//&#32472;&#21046;&#19968;&#20010; typeB &#31867;&#22411;&#30340; Button&#10;&#9;&#125;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>这是一个简单的类型,这么看来没有问题,但是如果类型太多,这样就显得非常笨拙了.</p>
-<p>稍微聪明一点的程序员,会把这样的代码重构.不同的实现放到子类中,父类中存放公共代码.但是这样也有一个缺点,就是开发者需要知道所有的子类.</p>
-<p>现在类族的好处就显而易见了.</p>
-<h2 id="一个自定义的类族">一个自定义的类族</h2><p>假设我们有一个 Person 类,Person 分为不同的职业.有老师,学生,医生.那么类族的实现应该是:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger,PersonType) &#123;&#10;    PersonTypeDoctor,&#10;    PersonTypeTeacher,&#10;    PersonTypeStudent&#10;&#125;;&#10;&#10;+ (Person *) personWithType:(PersonType)type&#123;&#10;    switch(type)&#123;&#10;        case PersonTypeDoctor:&#10;            return [[PersonDoctor alloc]init];&#10;            break;&#10;        case PersonTypeTeacher:&#10;            return [[PersonTypeTeacher alloc]init];&#10;            break;&#10;        case PersonTypeStudent:&#10;            return [[PersonTypeStudent alloc]init];&#10;            break;&#10;            &#10;    &#125;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/4/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -651,7 +703,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
-    <li><a href="/categories/Vim/">Vim</a><small>3</small></li>
+    <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
   
     <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
   
@@ -699,6 +751,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
   
     <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/Vim/">Vim</a><small>2</small></li>
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
   
