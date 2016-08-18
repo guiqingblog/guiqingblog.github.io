@@ -51,6 +51,61 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-08-18T06:19:06.000Z"><a href="/2016/08/18/iOS Tips/一份自己满意的ClangFormat配置/">2016-08-18</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/08/18/iOS Tips/一份自己满意的ClangFormat配置/">一份自己满意的ClangFormat配置</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>对于一个团队来说,有共同的代码格式规范是非常重要的.但是,却不能保证每个细节,使用代码格式化工具可以极大的提高效率.下面是自己积累出来的一份配置,每一行都有注释,可以自己比对:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#22522;&#20110;&#37027;&#20010;&#37197;&#32622;&#25991;&#20214;&#10;BasedOnStyle: LLVM&#10;#&#25351;&#38024;&#30340;*&#30340;&#25384;&#30528;&#21738;&#36793;&#10;PointerAlignment: Right&#10;#&#32553;&#36827;&#23485;&#24230;&#10;IndentWidth: 4&#10;# &#36830;&#32493;&#30340;&#31354;&#34892;&#20445;&#30041;&#20960;&#34892;&#10;MaxEmptyLinesToKeep: 1&#10;# &#22312; @property &#21518;&#38754;&#28155;&#21152;&#31354;&#26684;, \@property (readonly) &#32780;&#19981;&#26159; \@property(readonly).&#10;ObjCSpaceAfterProperty: true&#10;# OC block&#21518;&#38754;&#30340;&#32553;&#36827;&#10;ObjCBlockIndentWidth: 4&#10;# &#26159;&#21542;&#20801;&#35768;&#30701;&#26041;&#27861;&#21333;&#34892;&#10;AllowShortFunctionsOnASingleLine: true&#10;# &#26159;&#21542;&#20801;&#35768;&#30701;if&#21333;&#34892; If true, if (a) return; &#21487;&#20197;&#25918;&#21040;&#21516;&#19968;&#34892;&#10;AllowShortIfStatementsOnASingleLine: true&#10;#&#27880;&#37322;&#23545;&#40784;&#10;AlignTrailingComments: true&#10;# &#25442;&#34892;&#30340;&#26102;&#20505;&#23545;&#40784;&#25805;&#20316;&#31526;&#10;#AlignOperands: true&#10;# &#20013;&#25324;&#21495;&#20004;&#36793;&#31354;&#26684; [] &#10;SpacesInSquareBrackets: true&#10;# &#23567;&#25324;&#21495;&#20004;&#36793;&#28155;&#21152;&#31354;&#26684;&#10;SpacesInParentheses : true&#10;#&#22810;&#34892;&#22768;&#26126;&#35821;&#21477;&#25353;&#29031;=&#23545;&#40784;&#10;AlignConsecutiveDeclarations: true&#10;#&#36830;&#32493;&#30340;&#36171;&#20540;&#35821;&#21477;&#20197; = &#20026;&#20013;&#24515;&#23545;&#40784;&#10;AlignConsecutiveAssignments: true&#10;#&#31561;&#21495;&#20004;&#36793;&#30340;&#31354;&#26684;&#10;SpaceBeforeAssignmentOperators: true&#10;# &#23481;&#22120;&#31867;&#30340;&#31354;&#26684; &#20363;&#22914; OC&#30340;&#23383;&#20856;&#10;SpacesInContainerLiterals: true&#10;#&#32553;&#36827;&#10;IndentWrappedFunctionNames: true&#10;#&#22312;block&#20174;&#31354;&#34892;&#24320;&#22987;&#10;KeepEmptyLinesAtTheStartOfBlocks: true&#10;#&#22312;&#26500;&#36896;&#20989;&#25968;&#21021;&#22987;&#21270;&#26102;&#25353;&#36887;&#21495;&#26029;&#34892;&#65292;&#24182;&#20197;&#20882;&#21495;&#23545;&#40784;&#10;BreakConstructorInitializersBeforeComma: true&#10;#&#20989;&#25968;&#21442;&#25968;&#25442;&#34892;&#10;AllowAllParametersOfDeclarationOnNextLine: true&#10;#&#25324;&#21495;&#21518;&#28155;&#21152;&#31354;&#26684;&#10;SpaceAfterCStyleCast: true&#10;#tab&#38190;&#30424;&#30340;&#23485;&#24230;&#10;TabWidth: 4&#10;UseTab: Never</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用方法">使用方法</h2><ol>
+<li>安装Clang-Format Xcode插件, <a href="https://github.com/travisjeffery/ClangFormat-Xcode" target="_blank" rel="external">地址</a></li>
+<li>在用户根目录下创建 <code>.clang-format</code>文件,将上面配置拷贝进去</li>
+<li>在Xocde中的选中以下菜单即可:<br>  <img src="http://7xv9rf.com1.z0.glb.clouddn.com/82417QQ20160818-1@2x.png" alt="82417QQ20160818-1@2x.png"></li>
+<li>可以设置在保存文件的时候自动格式化,也可以自己配置<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/67391QQ20160818-2@2x.png" alt="67391QQ20160818-2@2x.png"></li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-08-03T09:05:25.000Z"><a href="/2016/08/03/Vim/Vim实践Tips-六/">2016-08-03</a></time>
       
       
@@ -897,62 +952,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-06-14T02:18:56.000Z"><a href="/2016/06/14/Swift/在-Swift-中使用DEBUG标记/">2016-06-14</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/06/14/Swift/在-Swift-中使用DEBUG标记/">在 Swift 中使用DEBUG标记</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>在 OC 中,我们经常会使用 <code>DEBUG</code> 标记来区分开发版本和发行版本,例如,控制调试信息的打印.</p>
-<p>但是在使用 Swift 之后,我们发现<code>DEBUG</code> 不能正常工作.原因是 Swift 中没有<code>DEBUG</code>这个标记.例如下面的代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func GUILog&#60;T&#62;(_ message: T, fileName: String = #function, methodName: String = #function, lineNumber: Int = #line) &#123;&#10;    #if DEBUG&#10;    print(&#34;\(methodName)[\(lineNumber)]:\(message)&#34;)&#10;    #endif&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>虽然并不会报错,但是始终不会有打印.</p>
-<h3 id="解决方案">解决方案</h3><p>在 <code>Build Settings</code> 中搜索 <code>other swift flags</code><br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658688864325.jpg" alt=""><br>点击图中红色框内部(注意不是直接点击<code>+</code>),会出现一个这样的对话框.(可能已经有其他标记,如果你使用了 <code>cocoapods</code> 的话,不过不用在意),点击左下角的+ ,或者双击任意空白行,输入<code>-DDEBUG</code>.<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658689870706.jpg" alt=""><br>点击其它任意区域.结果如图<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658693876738.jpg" alt=""></p>
-<p>现在,<code>DEBUG</code>就能正常工作了!<br>可以通过调整模式来进行测试:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658692067377.jpg" alt=""></p>
-<p>把图中的地方改成<code>Release</code>,即可进行测试.</p>
-<h3 id="Tips">Tips</h3><p>这个编译标记可以随便定义,并不是只能是<code>DEBUG</code>,只要标记能够对应,即可正常工作.编译器只是会看,在<code>Debug</code>模式下,有哪些标记.(或者在 <code>Release</code> 模式下有哪些标记.)例如:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658693876738.jpg" alt=""><br>代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func GUILog&#60;T&#62;(_ message: T, fileName: String = #function, methodName: String = #function, lineNumber: Int = #line) &#123;&#10;    #if DEFAULT&#10;    print(&#34;\(methodName)[\(lineNumber)]:\(message)&#34;)&#10;    #endif&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -988,7 +987,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>15</small></li>
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
   
@@ -1018,6 +1017,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 <div class="widget tag">
   <h3 class="title">标签</h3>
   <ul class="entry">
+  
+    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
   
     <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
   

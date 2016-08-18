@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一份自己满意的ClangFormat配置 | Kenny 肉桂的主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="一份自己满意的ClangFormat配置"/>
+  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Kenny 肉桂的主页</a></h1>
+  <h2><a href="/">记录自己的进步</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-08-18T06:19:06.000Z"><a href="/2016/08/18/iOS Tips/一份自己满意的ClangFormat配置/">2016-08-18</a></time>
+      
+      
+  
+    <h1 class="title">一份自己满意的ClangFormat配置</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>对于一个团队来说,有共同的代码格式规范是非常重要的.但是,却不能保证每个细节,使用代码格式化工具可以极大的提高效率.下面是自己积累出来的一份配置,每一行都有注释,可以自己比对:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#22522;&#20110;&#37027;&#20010;&#37197;&#32622;&#25991;&#20214;&#10;BasedOnStyle: LLVM&#10;#&#25351;&#38024;&#30340;*&#30340;&#25384;&#30528;&#21738;&#36793;&#10;PointerAlignment: Right&#10;#&#32553;&#36827;&#23485;&#24230;&#10;IndentWidth: 4&#10;# &#36830;&#32493;&#30340;&#31354;&#34892;&#20445;&#30041;&#20960;&#34892;&#10;MaxEmptyLinesToKeep: 1&#10;# &#22312; @property &#21518;&#38754;&#28155;&#21152;&#31354;&#26684;, \@property (readonly) &#32780;&#19981;&#26159; \@property(readonly).&#10;ObjCSpaceAfterProperty: true&#10;# OC block&#21518;&#38754;&#30340;&#32553;&#36827;&#10;ObjCBlockIndentWidth: 4&#10;# &#26159;&#21542;&#20801;&#35768;&#30701;&#26041;&#27861;&#21333;&#34892;&#10;AllowShortFunctionsOnASingleLine: true&#10;# &#26159;&#21542;&#20801;&#35768;&#30701;if&#21333;&#34892; If true, if (a) return; &#21487;&#20197;&#25918;&#21040;&#21516;&#19968;&#34892;&#10;AllowShortIfStatementsOnASingleLine: true&#10;#&#27880;&#37322;&#23545;&#40784;&#10;AlignTrailingComments: true&#10;# &#25442;&#34892;&#30340;&#26102;&#20505;&#23545;&#40784;&#25805;&#20316;&#31526;&#10;#AlignOperands: true&#10;# &#20013;&#25324;&#21495;&#20004;&#36793;&#31354;&#26684; [] &#10;SpacesInSquareBrackets: true&#10;# &#23567;&#25324;&#21495;&#20004;&#36793;&#28155;&#21152;&#31354;&#26684;&#10;SpacesInParentheses : true&#10;#&#22810;&#34892;&#22768;&#26126;&#35821;&#21477;&#25353;&#29031;=&#23545;&#40784;&#10;AlignConsecutiveDeclarations: true&#10;#&#36830;&#32493;&#30340;&#36171;&#20540;&#35821;&#21477;&#20197; = &#20026;&#20013;&#24515;&#23545;&#40784;&#10;AlignConsecutiveAssignments: true&#10;#&#31561;&#21495;&#20004;&#36793;&#30340;&#31354;&#26684;&#10;SpaceBeforeAssignmentOperators: true&#10;# &#23481;&#22120;&#31867;&#30340;&#31354;&#26684; &#20363;&#22914; OC&#30340;&#23383;&#20856;&#10;SpacesInContainerLiterals: true&#10;#&#32553;&#36827;&#10;IndentWrappedFunctionNames: true&#10;#&#22312;block&#20174;&#31354;&#34892;&#24320;&#22987;&#10;KeepEmptyLinesAtTheStartOfBlocks: true&#10;#&#22312;&#26500;&#36896;&#20989;&#25968;&#21021;&#22987;&#21270;&#26102;&#25353;&#36887;&#21495;&#26029;&#34892;&#65292;&#24182;&#20197;&#20882;&#21495;&#23545;&#40784;&#10;BreakConstructorInitializersBeforeComma: true&#10;#&#20989;&#25968;&#21442;&#25968;&#25442;&#34892;&#10;AllowAllParametersOfDeclarationOnNextLine: true&#10;#&#25324;&#21495;&#21518;&#28155;&#21152;&#31354;&#26684;&#10;SpaceAfterCStyleCast: true&#10;#tab&#38190;&#30424;&#30340;&#23485;&#24230;&#10;TabWidth: 4&#10;UseTab: Never</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用方法">使用方法</h2><ol>
+<li>安装Clang-Format Xcode插件, <a href="https://github.com/travisjeffery/ClangFormat-Xcode" target="_blank" rel="external">地址</a></li>
+<li>在用户根目录下创建 <code>.clang-format</code>文件,将上面配置拷贝进去</li>
+<li>在Xocde中的选中以下菜单即可:<br>  <img src="http://7xv9rf.com1.z0.glb.clouddn.com/82417QQ20160818-1@2x.png" alt="82417QQ20160818-1@2x.png"></li>
+<li>可以设置在保存文件的时候自动格式化,也可以自己配置<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/67391QQ20160818-2@2x.png" alt="67391QQ20160818-2@2x.png"></li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/iOS-Tips/">iOS Tips</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/Clang-Format/">Clang Format</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2016/08/18/iOS Tips/一份自己满意的ClangFormat配置/" data-title="一份自己满意的ClangFormat配置" data-url="http://yoursite.com/2016/08/18/iOS Tips/一份自己满意的ClangFormat配置/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/Git/">Git</a><small>1</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
+  
+    <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>15</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
+  
+    <li><a href="/categories/算法专题/">算法专题</a><small>1</small></li>
+  
+    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
+  
+    <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/Vim/">Vim</a><small>2</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/算法专题-字符串/">算法专题 字符串</a><small>1</small></li>
+  
+    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2016 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

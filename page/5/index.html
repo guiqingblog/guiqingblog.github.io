@@ -51,6 +51,56 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-07-05T06:53:05.000Z"><a href="/2015/07/05/辅助编程技能/xvim相关/">2015-07-05</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/07/05/辅助编程技能/xvim相关/">xvim相关</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="配置常用功能">配置常用功能</h2><p>用户目录下的  .xvimrc 如果没有,新建一个即可<br>touch .xvimrc</p>
+<h3 id="设置按钮映射">设置按钮映射</h3><p><code>imap zz &lt;Esc&gt;</code> 映射 zz 为 Esc 的功能<br><code>set ic</code> set ignore case 搜索的时候,忽略大小写</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/5/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-06-05T00:56:46.000Z"><a href="/2015/06/05/开发环境相关/Xocde插件失效解决-转载/">2015-06-05</a></time>
       
       
@@ -846,108 +896,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-05-07T01:32:52.000Z"><a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/">2015-05-07</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/05/07/Core Aniamtion深入探讨/13-高效绘图/13-高效绘图/">13-高效绘图 </a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="高效绘图">高效绘图</h1><blockquote>
-<p>不必要的效率考虑往往是性能问题的万恶之源。<br>——William Allan Wulf</p>
-</blockquote>
-<p>在第12章『速度的曲率』我们学习如何用Instruments来诊断Core Animation性能问题。在构建一个iOS app的时候会遇到很多潜在的性能陷阱，但是在本章我们将着眼于有关<em>绘制</em>的性能问题。</p>
-<h2 id="软件绘图">软件绘图</h2><p>术语<em>绘图</em>通常在Core Animation的上下文中指代软件绘图（意即：不由GPU协助的绘图）。在iOS中，软件绘图通常是由Core Graphics框架完成来完成。但是，在一些必要的情况下，相比Core Animation和OpenGL，Core Graphics要慢了不少。</p>
-<p>软件绘图不仅效率低，还会消耗可观的内存。<code>CALayer</code>只需要一些与自己相关的内存：只有它的寄宿图会消耗一定的内存空间。即使直接赋给<code>contents</code>属性一张图片，也不需要增加额外的照片存储大小。如果相同的一张图片被多个图层作为<code>contents</code>属性，那么他们将会共用同一块内存，而不是复制内存块。</p>
-<p>但是一旦你实现了<code>CALayerDelegate</code>协议中的<code>-drawLayer:inContext:</code>方法或者<code>UIView</code>中的<code>-drawRect:</code>方法（其实就是前者的包装方法），图层就创建了一个绘制上下文，这个上下文需要的大小的内存可从这个算式得出：图层宽*图层高*4字节，宽高的单位均为像素。对于一个在Retina iPad上的全屏图层来说，这个内存量就是 2048*1526*4字节，相当于12MB内存，图层每次重绘的时候都需要重新抹掉内存然后重新分配。</p>
-<p>软件绘图的代价昂贵，除非绝对必要，你应该避免重绘你的视图。提高绘制性能的秘诀就在于尽量避免去绘制。</p>
-<h2 id="矢量图形">矢量图形</h2><p>我们用Core Graphics来绘图的一个通常原因就是只是用图片或是图层效果不能轻易地绘制出矢量图形。矢量绘图包含一下这些：</p>
-<ul>
-<li>任意多边形（不仅仅是一个矩形）</li>
-<li>斜线或曲线</li>
-<li>文本</li>
-<li>渐变</li>
-</ul>
-<p>举个例子，清单13.1 展示了一个基本的画线应用。这个应用将用户的触摸手势转换成一个<code>UIBezierPath</code>上的点，然后绘制成视图。我们在一个<code>UIView</code>子类<code>DrawingView</code>中实现了所有的绘制逻辑，这个情况下我们没有用上view controller。但是如果你喜欢你可以在view controller中实现触摸事件处理。图13.1是代码运行结果。</p>
-<p>清单13.1 用Core Graphics实现一个简单的绘图应用</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;DrawingView.h&#34;&#13;&#13;@interface DrawingView ()&#13;&#13;@property (nonatomic, strong) UIBezierPath *path;&#13;&#13;@end&#13;&#13;@implementation DrawingView&#13;&#13;- (void)awakeFromNib&#13;&#123;&#13;    //create a mutable path&#13;    self.path = [[UIBezierPath alloc] init];&#13;    self.path.lineJoinStyle = kCGLineJoinRound;&#13;    self.path.lineCapStyle = kCGLineCapRound;&#13;    &#65532;&#10;    self.path.lineWidth = 5;&#13;&#125;&#13;&#13;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#13;&#123;&#13;    //get the starting point&#13;    CGPoint point = [[touches anyObject] locationInView:self];&#13;&#13;    //move the path drawing cursor to the starting point&#13;    [self.path moveToPoint:point];&#13;&#125;&#13;&#13;- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event&#13;&#123;&#13;    //get the current point&#13;    CGPoint point = [[touches anyObject] locationInView:self];&#13;&#13;    //add a new line segment to our path&#13;    [self.path addLineToPoint:point];&#13;&#13;    //redraw the view&#13;    [self setNeedsDisplay];&#13;&#125;&#13;&#13;- (void)drawRect:(CGRect)rect&#13;&#123;&#13;    //draw path&#13;    [[UIColor clearColor] setFill];&#13;    [[UIColor redColor] setStroke];&#13;    [self.path stroke];&#13;&#125;&#13;@end</span><br></pre></td></tr></table></figure>
-<p><img src="http://i1.tietuku.com/b45317302adb1929.png"></p>
-<p>图13.1 用Core Graphics做一个简单的『素描』</p>
-<p>这样实现的问题在于，我们画得越多，程序就会越慢。因为每次移动手指的时候都会重绘整个贝塞尔路径（<code>UIBezierPath</code>），随着路径越来越复杂，每次重绘的工作就会增加，直接导致了帧数的下降。看来我们需要一个更好的方法了。</p>
-<p>Core Animation为这些图形类型的绘制提供了专门的类，并给他们提供硬件支持（第六章『专有图层』有详细提到）。<code>CAShapeLayer</code>可以绘制多边形，直线和曲线。<code>CATextLayer</code>可以绘制文本。<code>CAGradientLayer</code>用来绘制渐变。这些总体上都比Core Graphics更快，同时他们也避免了创造一个寄宿图。</p>
-<p>如果稍微将之前的代码变动一下，用<code>CAShapeLayer</code>替代Core Graphics，性能就会得到提高（见清单13.2）.虽然随着路径复杂性的增加，绘制性能依然会下降，但是只有当非常非常浮躁的绘制时才会感到明显的帧率差异。</p>
-<p>清单13.2 用<code>CAShapeLayer</code>重新实现绘图应用</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;DrawingView.h&#34;&#13;#import &#60;QuartzCore/QuartzCore.h&#62;&#13;&#13;@interface DrawingView ()&#13;&#13;@property (nonatomic, strong) UIBezierPath *path;&#13;&#13;@end&#13;&#65532;&#10;@implementation DrawingView&#13;&#13;+ (Class)layerClass&#13;&#123;&#13;    //this makes our view create a CAShapeLayer&#13;    //instead of a CALayer for its backing layer&#13;    return [CAShapeLayer class];&#13;&#125;&#13;&#13;- (void)awakeFromNib&#13;&#123;&#13;    //create a mutable path&#13;    self.path = [[UIBezierPath alloc] init];&#13;&#13;    //configure the layer&#13;    CAShapeLayer *shapeLayer = (CAShapeLayer *)self.layer;&#13;    shapeLayer.strokeColor = [UIColor redColor].CGColor;&#13;    shapeLayer.fillColor = [UIColor clearColor].CGColor;&#13;    shapeLayer.lineJoin = kCALineJoinRound;&#13;    shapeLayer.lineCap = kCALineCapRound;&#13;    shapeLayer.lineWidth = 5;&#13;&#125;&#13;&#13;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#13;&#123;&#13;    //get the starting point&#13;    CGPoint point = [[touches anyObject] locationInView:self];&#13;&#13;    //move the path drawing cursor to the starting point&#13;    [self.path moveToPoint:point];&#13;&#125;&#13;&#13;- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event&#13;&#123;&#13;    //get the current point&#13;    CGPoint point = [[touches anyObject] locationInView:self];&#13;&#13;    //add a new line segment to our path&#13;    [self.path addLineToPoint:point];&#13;&#13;    //update the layer with a copy of the path&#13;    ((CAShapeLayer *)self.layer).path = self.path.CGPath;&#13;&#125;&#13;@end</span><br></pre></td></tr></table></figure>
-<h2 id="脏矩形">脏矩形</h2><p>有时候用<code>CAShapeLayer</code>或者其他矢量图形图层替代Core Graphics并不是那么切实可行。比如我们的绘图应用：我们用线条完美地完成了矢量绘制。但是设想一下如果我们能进一步提高应用的性能，让它就像一个黑板一样工作，然后用『粉笔』来绘制线条。模拟粉笔最简单的方法就是用一个『线刷』图片然后将它粘贴到用户手指碰触的地方，但是这个方法用<code>CAShapeLayer</code>没办法实现。</p>
-<p>我们可以给每个『线刷』创建一个独立的图层，但是实现起来有很大的问题。屏幕上允许同时出现图层上线数量大约是几百，那样我们很快就会超出的。这种情况下我们没什么办法，就用Core Graphics吧（除非你想用OpenGL做一些更复杂的事情）。</p>
-<p>我们的『黑板』应用的最初实现见清单13.3，我们更改了之前版本的<code>DrawingView</code>，用一个画刷位置的数组代替<code>UIBezierPath</code>。图13.2是运行结果</p>
-<p>清单13.3 简单的类似黑板的应用</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;DrawingView.h&#34;&#13;#import &#60;QuartzCore/QuartzCore.h&#62;&#13;#define BRUSH_SIZE 32&#13;&#13;@interface DrawingView ()&#13;&#13;@property (nonatomic, strong) NSMutableArray *strokes;&#13;&#13;@end&#13;&#13;@implementation DrawingView&#13;&#13;- (void)awakeFromNib&#13;&#123;&#13;    //create array&#13;    self.strokes = [NSMutableArray array];&#13;&#125;&#13;&#13;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event&#13;&#123;&#13;    //get the starting point&#13;    CGPoint point = [[touches anyObject] locationInView:self];&#13;&#13;    //add brush stroke&#13;    [self addBrushStrokeAtPoint:point];&#13;&#125;&#13;&#13;- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event&#13;&#123;&#13;    //get the touch point&#13;    CGPoint point = [[touches anyObject] locationInView:self];&#13;&#13;    //add brush stroke&#13;    [self addBrushStrokeAtPoint:point];&#13;&#125;&#13;&#13;- (void)addBrushStrokeAtPoint:(CGPoint)point&#13;&#123;&#13;    //add brush stroke to array&#13;    [self.strokes addObject:[NSValue valueWithCGPoint:point]];&#13;&#13;    //needs redraw&#13;    [self setNeedsDisplay];&#13;&#125;&#13;&#13;- (void)drawRect:(CGRect)rect&#13;&#123;&#13;    //redraw strokes&#13;    for (NSValue *value in self.strokes) &#123;&#13;        //get point&#13;        CGPoint point = [value CGPointValue];&#13;&#13;        //get brush rect&#13;        CGRect brushRect = CGRectMake(point.x - BRUSH_SIZE/2, point.y - BRUSH_SIZE/2, BRUSH_SIZE, BRUSH_SIZE);&#13;&#13;        //draw brush stroke    &#65532;&#13;        [[UIImage imageNamed:@&#34;Chalk.png&#34;] drawInRect:brushRect];&#10;    &#125;&#13;&#125;&#13;@end</span><br></pre></td></tr></table></figure>
-<p><img src="http://i1.tietuku.com/ff6629417d552d84.png"></p>
-<p>图13.2 用程序绘制一个简单的『素描』</p>
-<p>这个实现在模拟器上表现还不错，但是在真实设备上就没那么好了。问题在于每次手指移动的时候我们就会重绘之前的线刷，即使场景的大部分并没有改变。我们绘制地越多，就会越慢。随着时间的增加每次重绘需要更多的时间，帧数也会下降（见图13.3），如何提高性能呢？</p>
-<p><img src="http://i1.tietuku.com/302d3509dc557cc3.png"></p>
-<p>图13.3 帧率和线条质量会随时间下降。</p>
-<p>为了减少不必要的绘制，Mac OS和iOS设备将会把屏幕区分为需要重绘的区域和不需要重绘的区域。那些需要重绘的部分被称作『脏区域』。在实际应用中，鉴于非矩形区域边界裁剪和混合的复杂性，通常会区分出包含指定视图的矩形位置，而这个位置就是『脏矩形』。</p>
-<p>当一个视图被改动过了，TA可能需要重绘。但是很多情况下，只是这个视图的一部分被改变了，所以重绘整个寄宿图就太浪费了。但是Core Animation通常并不了解你的自定义绘图代码，它也不能自己计算出脏区域的位置。然而，你的确可以提供这些信息。</p>
-<p>当你检测到指定视图或图层的指定部分需要被重绘，你直接调用<code>-setNeedsDisplayInRect:</code>来标记它，然后将影响到的矩形作为参数传入。这样就会在一次视图刷新时调用视图的<code>-drawRect:</code>（或图层代理的<code>-drawLayer:inContext:</code>方法）。</p>
-<p>传入<code>-drawLayer:inContext:</code>的<code>CGContext</code>参数会自动被裁切以适应对应的矩形。为了确定矩形的尺寸大小，你可以用<code>CGContextGetClipBoundingBox()</code>方法来从上下文获得大小。调用<code>-drawRect()</code>会更简单，因为<code>CGRect</code>会作为参数直接传入。</p>
-<p>你应该将你的绘制工作限制在这个矩形中。任何在此区域之外的绘制都将被自动无视，但是这样CPU花在计算和抛弃上的时间就浪费了，实在是太不值得了。</p>
-<p>相比依赖于Core Graphics为你重绘，裁剪出自己的绘制区域可能会让你避免不必要的操作。那就是说，如果你的裁剪逻辑相当复杂，那还是让Core Graphics来代劳吧，记住：当你能高效完成的时候才这样做。</p>
-<p>清单13.4 展示了一个<code>-addBrushStrokeAtPoint:</code>方法的升级版，它只重绘当前线刷的附近区域。另外也会刷新之前线刷的附近区域，我们也可以用<code>CGRectIntersectsRect()</code>来避免重绘任何旧的线刷以不至于覆盖已更新过的区域。这样做会显著地提高绘制效率（见图13.4）</p>
-<p>清单13.4 用<code>-setNeedsDisplayInRect:</code>来减少不必要的绘制<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)addBrushStrokeAtPoint:(CGPoint)point&#13;&#123;&#13;    //add brush stroke to array&#13;    [self.strokes addObject:[NSValue valueWithCGPoint:point]];&#13;&#13;    //set dirty rect&#13;    [self setNeedsDisplayInRect:[self brushRectForPoint:point]];&#13;&#125;&#13;&#13;- (CGRect)brushRectForPoint:(CGPoint)point&#13;&#123;&#13;    return CGRectMake(point.x - BRUSH_SIZE/2, point.y - BRUSH_SIZE/2, BRUSH_SIZE, BRUSH_SIZE);&#13;&#125;&#13;&#13;- (void)drawRect:(CGRect)rect&#13;&#123;&#13;    //redraw strokes&#13;    for (NSValue *value in self.strokes) &#123;&#13;        //get point&#13;        CGPoint point = [value CGPointValue];&#13;        &#13;        //get brush rect&#13;        CGRect brushRect = [self brushRectForPoint:point];&#13;        &#65532;&#10;        //only draw brush stroke if it intersects dirty rect&#13;        if (CGRectIntersectsRect(rect, brushRect)) &#123;&#13;            //draw brush stroke&#13;            [[UIImage imageNamed:@&#34;Chalk.png&#34;] drawInRect:brushRect];&#13;        &#125;&#13;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://i1.tietuku.com/2fe1672a8ea71f7c.png"></p>
-<p>图13.4 更好的帧率和顺滑线条</p>
-<h2 id="异步绘制">异步绘制</h2><p>UIKit的单线程天性意味着寄宿图通畅要在主线程上更新，这意味着绘制会打断用户交互，甚至让整个app看起来处于无响应状态。我们对此无能为力，但是如果能避免用户等待绘制完成就好多了。</p>
-<p>针对这个问题，有一些方法可以用到：一些情况下，我们可以推测性地提前在另外一个线程上绘制内容，然后将由此绘出的图片直接设置为图层的内容。这实现起来可能不是很方便，但是在特定情况下是可行的。Core Animation提供了一些选择：<code>CATiledLayer</code>和<code>drawsAsynchronously</code>属性。</p>
-<h3 id="CATiledLayer">CATiledLayer</h3><p>我们在第六章简单探索了一下<code>CATiledLayer</code>。除了将图层再次分割成独立更新的小块（类似于脏矩形自动更新的概念），<code>CATiledLayer</code>还有一个有趣的特性：在多个线程中为每个小块同时调用<code>-drawLayer:inContext:</code>方法。这就避免了阻塞用户交互而且能够利用多核心新片来更快地绘制。只有一个小块的<code>CATiledLayer</code>是实现异步更新图片视图的简单方法。</p>
-<h3 id="drawsAsynchronously">drawsAsynchronously</h3><p>iOS 6中，苹果为<code>CALayer</code>引入了这个令人好奇的属性，<code>drawsAsynchronously</code>属性对传入<code>-drawLayer:inContext:</code>的CGContext进行改动，允许CGContext延缓绘制命令的执行以至于不阻塞用户交互。</p>
-<p>它与<code>CATiledLayer</code>使用的异步绘制并不相同。它自己的<code>-drawLayer:inContext:</code>方法只会在主线程调用，但是CGContext并不等待每个绘制命令的结束。相反地，它会将命令加入队列，当方法返回时，在后台线程逐个执行真正的绘制。</p>
-<p>根据苹果的说法。这个特性在需要频繁重绘的视图上效果最好（比如我们的绘图应用，或者诸如<code>UITableViewCell</code>之类的），对那些只绘制一次或很少重绘的图层内容来说没什么太大的帮助。</p>
-<h2 id="总结">总结</h2><p>本章我们主要围绕用Core Graphics软件绘制讨论了一些性能挑战，然后探索了一些改进方法：比如提高绘制性能或者减少需要绘制的数量。</p>
-<p>第14章，『图像IO』，我们将讨论图片的载入性能。</p>
-<p><strong>来源网址:[<a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques](" target="_blank" rel="external">https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques](</a></strong>来源网址:<a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques__)__" target="_blank" rel="external">https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques__)__</a></p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/5/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -985,7 +933,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>15</small></li>
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
   
@@ -1015,6 +963,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 <div class="widget tag">
   <h3 class="title">标签</h3>
   <ul class="entry">
+  
+    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
   
     <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
   

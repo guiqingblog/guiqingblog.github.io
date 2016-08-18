@@ -51,6 +51,62 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-06-14T02:18:56.000Z"><a href="/2016/06/14/Swift/在-Swift-中使用DEBUG标记/">2016-06-14</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/06/14/Swift/在-Swift-中使用DEBUG标记/">在 Swift 中使用DEBUG标记</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>在 OC 中,我们经常会使用 <code>DEBUG</code> 标记来区分开发版本和发行版本,例如,控制调试信息的打印.</p>
+<p>但是在使用 Swift 之后,我们发现<code>DEBUG</code> 不能正常工作.原因是 Swift 中没有<code>DEBUG</code>这个标记.例如下面的代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func GUILog&#60;T&#62;(_ message: T, fileName: String = #function, methodName: String = #function, lineNumber: Int = #line) &#123;&#10;    #if DEBUG&#10;    print(&#34;\(methodName)[\(lineNumber)]:\(message)&#34;)&#10;    #endif&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然并不会报错,但是始终不会有打印.</p>
+<h3 id="解决方案">解决方案</h3><p>在 <code>Build Settings</code> 中搜索 <code>other swift flags</code><br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658688864325.jpg" alt=""><br>点击图中红色框内部(注意不是直接点击<code>+</code>),会出现一个这样的对话框.(可能已经有其他标记,如果你使用了 <code>cocoapods</code> 的话,不过不用在意),点击左下角的+ ,或者双击任意空白行,输入<code>-DDEBUG</code>.<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658689870706.jpg" alt=""><br>点击其它任意区域.结果如图<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658693876738.jpg" alt=""></p>
+<p>现在,<code>DEBUG</code>就能正常工作了!<br>可以通过调整模式来进行测试:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658692067377.jpg" alt=""></p>
+<p>把图中的地方改成<code>Release</code>,即可进行测试.</p>
+<h3 id="Tips">Tips</h3><p>这个编译标记可以随便定义,并不是只能是<code>DEBUG</code>,只要标记能够对应,即可正常工作.编译器只是会看,在<code>Debug</code>模式下,有哪些标记.(或者在 <code>Release</code> 模式下有哪些标记.)例如:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/%E5%9C%A8-Swift-%E4%B8%AD%E4%BD%BF%E7%94%A8DEBUG%E6%A0%87%E8%AE%B014658693876738.jpg" alt=""><br>代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func GUILog&#60;T&#62;(_ message: T, fileName: String = #function, methodName: String = #function, lineNumber: Int = #line) &#123;&#10;    #if DEFAULT&#10;    print(&#34;\(methodName)[\(lineNumber)]:\(message)&#34;)&#10;    #endif&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-05-13T05:59:26.000Z"><a href="/2016/05/13/Swift/从-variable-with-a-setter-must-also-have-a-getter-引发的思考/">2016-05-13</a></time>
       
       
@@ -616,66 +672,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-09-18T06:30:01.000Z"><a href="/2015/09/18/Git/Git命令备忘/">2015-09-18</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/09/18/Git/Git命令备忘/">Git命令备忘</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="Context">Context</h2><p>一些Git命令虽然会用到, 但是用的不频繁 .导致经常手写的时候就忘记是怎么样了, 每次都要查 ,浪费时间 .所以制作这么一个速查本 .</p>
-<h2 id="分支相关">分支相关</h2><ul>
-<li>推送本地分支到远程</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin branch_name</span><br></pre></td></tr></table></figure>
-<ul>
-<li>拉取远程分支</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin branch_name</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/09/18/Git/Git命令备忘/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -713,7 +709,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>14</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>15</small></li>
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
   
@@ -743,6 +739,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 <div class="widget tag">
   <h3 class="title">标签</h3>
   <ul class="entry">
+  
+    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
   
     <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
   
