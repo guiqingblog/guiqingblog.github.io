@@ -785,26 +785,35 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-07-01T07:25:24.000Z"><a href="/2016/07/01/React Native/一个React-Native项目-项目介绍/">2016-07-01</a></time>
+        <time datetime="2016-07-02T07:39:39.000Z"><a href="/2016/07/02/React Native/一个React Native项目-一些注意点/">2016-07-02</a></time>
       
       
   
-    <h1 class="title"><a href="/2016/07/01/React Native/一个React-Native项目-项目介绍/">一个React Native项目-项目介绍</a></h1>
+    <h1 class="title"><a href="/2016/07/02/React Native/一个React Native项目-一些注意点/">一个React Native项目-一些注意点</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="背景">背景</h2><p>从<code>ReactNative</code>诞生的那天开始,就对它非常关注.一方面是欢喜可以有个靠谱的方案来实现跨平台开发了,另一方面也是担心它虎头蛇尾.好在,到现在看来,它势头还是很猛的.</p>
-<p>现在接触<code>ReactNative</code>也有一定时间了,知识比较零散,所以想借助一个练手项目来串一下知识.</p>
-<p>项目使用<code>ES6语法</code> ,最终效果如下:</p>
-<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/84917shopping.gif" alt="84917shopping.gif"></p>
-<h2 id="代码">代码</h2><p>代码已经开源到 <a href="https://github.com/guiqingblog/GUIShopping" target="_blank" rel="external">github</a></p>
-<h2 id="说明">说明</h2><p>因为代码已经上传,所以就不在赘述,主要分开说说一些注意点.这些我将分文章阐述.</p>
-<h2 id="一些资料">一些资料</h2><p><a href="http://reactnative.cn/" target="_blank" rel="external">Reat Native中文官网</a> 这上面关于环境配置和基础控件的使用都非常全面,是必不可少的参考资料.</p>
-<p><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="external">Flexbox</a> ReactNative中大量使用了Flexbox进行布局,所以这方面的知识必不可少</p>
-<p><a href="http://www.oschina.net/news/61214/11-react-native-ui-components" target="_blank" rel="external">11款ReactNative开源组件</a> 研究别人的代码是一种非常好的提升方式</p>
-<p><strong>版权声明: 灵感和素材均来源于广州小码哥的跨平台项目</strong></p>
+        <h2 id="对http网络请求的支持">对http网络请求的支持</h2><p>由于在iOS9开始,Apple强制了https的请求.但是如果服务器还不支持,那么应该在plist中添加以下字段:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/29000QQ20160901-2.png" alt="29000QQ20160901-2.png"></p>
+<p>这步要注意,ReactNative并没有聪明替你配置好这个<code>iOS的环境</code>,我是在各种网络请求都异常后,才发现的这个问题.</p>
+<h2 id="提取文件">提取文件</h2><p>因为要同时支持iOS和Android, 那么我们就不应该将布局代码写到<code>index.android.js</code>或者<code>index.ios.js</code>中,当然也不应该写好一个,然后copy到另一个,无论怎么说,如果分散,我们将面临维护多份代码的窘境.所以好的方式是,将实现提取出来,在<code>index.android.js</code>和<code>index.ios.js</code>中,只保持对接口文件的引用.类似下面:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class GUIShopping extends Component &#123;&#10;  render() &#123;&#10;    return (&#10;      &#60;Main/&#62;&#10;    );&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Android的启动页面">Android的启动页面</h2><p>Android本身没有像iOS那么方便的配置启动页的方式,原生的方式是通过<code>Activity</code>来制造假象,同理,利用<code>ReactNative</code>还是要做这个处理.<br>代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class GUIShopping extends Component &#123;&#10;  render() &#123;&#10;    return (&#10;        &#60;Navigator&#10;            initialRoute=&#123;&#123;name:&#39;&#21551;&#21160;&#39029;&#39;,component:LaunchImage&#125;&#125;&#10;            configureScene=&#123;()=&#62;&#123; return Navigator.SceneConfigs.PushFromRight; &#125;&#125;&#10;            renderScene=&#123;(route,navigator)=&#62;&#123;&#10;                            let Component = route.component;&#10;                            return &#60;Component &#123;...route.passProps&#125; navigator=&#123;navigator&#125;/&#62;&#10;                        &#125;&#125; /&#62;&#10;    );&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>而LaunchImage就是一个普通的Component,里面有个定时器,在规定时间内切换到主页,看起来效果和iOS是一样的,主要代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class LaunchImage extends Component &#123;&#10;    render() &#123;&#10;        return (&#10;                &#60;Image source = &#123;&#123;uri:&#39;launchimage&#39;&#125;&#125; style=&#123;styles.launchImage&#125;/&#62;&#10;        );&#10;    &#125;&#10;&#10;    componentDidMount() &#123;&#10;        setTimeout(()=&#62;&#123;&#10;            //&#39029;&#38754;&#30340;&#20999;&#25442;&#10;            this.props.navigator.replace(&#123;&#10;                component:Main,&#10;            &#125;);&#10;        &#125;,2000);&#10;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="ListView横向排版的实现">ListView横向排版的实现</h2><p>默认的<code>ListView</code>是和<code>iOS</code>的<code>TableView</code>类似的,也就是上下滑动,如果想要实现类似<code>CollectionView</code>的布局效果,那么需要做一些配置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;ListView&#10;              dataSource=&#123;this.state.dataSource&#125;&#10;              renderRow=&#123;this.renderRow&#125;&#10;              contentContainerStyle=&#123;styles.contentView&#125;&#10;              scrollEnabled=&#123;false&#125;&#10;          &#62;&#10;&#10;          &#60;/ListView&#62;</span><br></pre></td></tr></table></figure>
+<p>contentView的实现如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">contentView:&#123;&#10;       flexDirection:&#39;row&#39;,&#10;       flexWrap:&#39;wrap&#39;,&#10;       width:width,&#10;   &#125;,</span><br></pre></td></tr></table></figure>
+<p> 要点:</p>
+<ol>
+<li>要指定<code>ListView</code>的宽度</li>
+<li><p>cell应该具备宽高(特别坑)</p>
+<p>其中第二条没有发现有资料提及,但是自己编码的时候发现,只有设置好cell的宽度和高度,才能实现预想的效果.<br>最终效果如下:</p>
+<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/93550QQ20160901-3.png" alt="93550QQ20160901-3.png"></p>
+</li>
+</ol>
 
       
     </div>
@@ -843,32 +852,26 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-06-18T15:28:19.000Z"><a href="/2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/">2016-06-18</a></time>
+        <time datetime="2016-07-01T07:25:24.000Z"><a href="/2016/07/01/React Native/一个React-Native项目-项目介绍/">2016-07-01</a></time>
       
       
   
-    <h1 class="title"><a href="/2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/">RACObserve 和 rac_textSignal 的搭配使用</a></h1>
+    <h1 class="title"><a href="/2016/07/01/React Native/一个React-Native项目-项目介绍/">一个React Native项目-项目介绍</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>项目中有个小需求,文本框与按钮绑定.当文本框内容符合规则的时候,按钮才会可用.把判定条件修改一下,代码如下:</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> RAC(self.loginButton,enabled)  = [self.textFiled.rac_textSignal  map:^id(NSString *value) &#123;&#10;    return @(value.length&#62;3);&#10;&#125;];</span><br></pre></td></tr></table></figure>
-<p>但是如果在发送请求之后,通过代码清除了文本框的内容,按钮并不会改变状态. </p>
-<p> 想到了, 应该是这个 <code>rac_textSignal</code> 出现问题了.<br> 看一下它的实现:<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> - (RACSignal *)rac_textSignal &#123;&#10;&#9;@weakify(self);&#10;&#9;return [[[[[RACSignal&#10;&#9;&#9;defer:^&#123;&#10;&#9;&#9;&#9;@strongify(self);&#10;&#9;&#9;&#9;return [RACSignal return:self];&#10;&#9;&#9;&#125;]&#10;&#9;&#9;concat:[self rac_signalForControlEvents:UIControlEventAllEditingEvents]]&#10;&#9;&#9;map:^(UITextField *x) &#123;&#10;&#9;&#9;&#9;return x.text;&#10;&#9;&#9;&#125;]&#10;&#9;&#9;takeUntil:self.rac_willDeallocSignal]&#10;&#9;&#9;setNameWithFormat:@&#34;%@ -rac_textSignal&#34;, self.rac_description];&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>几个关键词的解释:<br><code>defer</code> : 将代码的创建推迟到信号被订阅<br><code>concat</code>: 连接信号,第一个信号必须发送完成，第二个信号才会被激活<br><code>map</code> : 映射,将信号内容转换<br><code>takeUtil</code> :  signalA takeUntil:signalB 当signalB激活之后,停止signalA 的订阅</p>
-<p>其实主要的是, 这个 <code>signal</code> 是监听的: <code>UIControlEventAllEditingEvents</code> . 那么也就是说对<code>setter</code> 方式不会触发信号 </p>
-<p><code>RACObserve</code> 是一个常用的宏,我们都知道是监听属性值改变的.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define RACObserve(TARGET, KEYPATH) \&#10;&#9;(&#123; \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic push&#34;) \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic ignored \&#34;-Wreceiver-is-weak\&#34;&#34;) \&#10;&#9;&#9;__weak id target_ = (TARGET); \&#10;&#9;&#9;[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self]; \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic pop&#34;) \&#10;&#9;&#125;)</span><br></pre></td></tr></table></figure>
-<p>主要代码是:<code>[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self];</code><br>然后这个<code>rac_valuesForKeyPath</code>的实现如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (RACSignal *)rac_valuesForKeyPath:(NSString *)keyPath observer:(__weak NSObject *)observer &#123;&#10;&#9;return [[[self&#10;&#9;&#9;rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]&#10;&#9;&#9;map:^(RACTuple *value) &#123;&#10;&#9;&#9;&#9;// -map: because it doesn&#39;t require the block trampoline that -reduceEach: uses&#10;&#9;&#9;&#9;return value[0];&#10;&#9;&#9;&#125;]&#10;&#9;&#9;setNameWithFormat:@&#34;RACObserve(%@, %@)&#34;, self.rac_description, keyPath];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>主要代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]</span><br></pre></td></tr></table></figure>
-<p>也就是这个是通过 <code>KVO</code> 实现的. 而 <code>KVO</code> 得实现是通过临时生成一个子类,并重写父类的 <code>setter</code> 方法.这个在官方文档中有说明:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Key-Value Observing Implementation Details&#10;&#10;Automatic key-value observing is implemented using a technique called&#160;isa-swizzling.&#160;&#10;The&#160;isa&#160;pointer, as the name suggests, points to the object&#39;s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.&#160;&#10;When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.&#160;&#10;You should never rely on the&#160;isa&#160;pointer to determine class membership. Instead, you should use the&#160;class&#160;method to determine the class of an object instance.</span><br></pre></td></tr></table></figure>
-<h3 id="最终实现">最终实现</h3><p>了解了两者的实现,就可以很容易实现代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RAC(self.loginButton,enabled) =[ [RACObserve(self.textFiled, text)  merge:self.textFiled.rac_textSignal ] map:^id(NSString *value) &#123;&#10;     return @(value.length&#62;3);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+        <h2 id="背景">背景</h2><p>从<code>ReactNative</code>诞生的那天开始,就对它非常关注.一方面是欢喜可以有个靠谱的方案来实现跨平台开发了,另一方面也是担心它虎头蛇尾.好在,到现在看来,它势头还是很猛的.</p>
+<p>现在接触<code>ReactNative</code>也有一定时间了,知识比较零散,所以想借助一个练手项目来串一下知识.</p>
+<p>项目使用<code>ES6语法</code> ,最终效果如下:</p>
+<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/84917shopping.gif" alt="84917shopping.gif"></p>
+<h2 id="代码">代码</h2><p>代码已经开源到 <a href="https://github.com/guiqingblog/GUIShopping" target="_blank" rel="external">github</a></p>
+<h2 id="说明">说明</h2><p>因为代码已经上传,所以就不在赘述,主要分开说说一些注意点.这些我将分文章阐述.</p>
+<h2 id="一些资料">一些资料</h2><p><a href="http://reactnative.cn/" target="_blank" rel="external">Reat Native中文官网</a> 这上面关于环境配置和基础控件的使用都非常全面,是必不可少的参考资料.</p>
+<p><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="external">Flexbox</a> ReactNative中大量使用了Flexbox进行布局,所以这方面的知识必不可少</p>
+<p><a href="http://www.oschina.net/news/61214/11-react-native-ui-components" target="_blank" rel="external">11款ReactNative开源组件</a> 研究别人的代码是一种非常好的提升方式</p>
+<p><strong>版权声明: 灵感和素材均来源于广州小码哥的跨平台项目</strong></p>
 
       
     </div>
@@ -922,7 +925,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/React-Native/">React Native</a><small>1</small></li>
+    <li><a href="/categories/React-Native/">React Native</a><small>2</small></li>
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
   

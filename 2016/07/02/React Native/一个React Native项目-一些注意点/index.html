@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>关于我 | Kenny 肉桂的主页</title>
+  <title>一个React Native项目-一些注意点 | Kenny 肉桂的主页</title>
   <meta name="author" content="桂庆">
   
   <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="关于我"/>
+  <meta property="og:title" content="一个React Native项目-一些注意点"/>
   <meta property="og:site_name" content="Kenny 肉桂的主页"/>
 
   
@@ -44,64 +44,52 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="page">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
+        <div class="icon"></div>
+        <time datetime="2016-07-02T07:39:39.000Z"><a href="/2016/07/02/React Native/一个React Native项目-一些注意点/">2016-07-02</a></time>
+      
       
   
-    <h1 class="title">关于我</h1>
+    <h1 class="title">一个React Native项目-一些注意点</h1>
   
 
     </header>
     <div class="entry">
       
-        <h3 id="基本信息">基本信息</h3><p>曲阜师范大学 软件工程专业 本科<br>开发经验： 三年<br>英语能力： 六级<br>邮箱       ： Katsurake@foxmail.com<br>QQ        ： 2360286796<br>技术博客： www.guiqingblog.com</p>
-<h3 id="技术能力">技术能力</h3><ul>
-<li><p>熟悉企业应用的基本分层架构，并应用到iOS开发中</p>
+        <h2 id="对http网络请求的支持">对http网络请求的支持</h2><p>由于在iOS9开始,Apple强制了https的请求.但是如果服务器还不支持,那么应该在plist中添加以下字段:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/29000QQ20160901-2.png" alt="29000QQ20160901-2.png"></p>
+<p>这步要注意,ReactNative并没有聪明替你配置好这个<code>iOS的环境</code>,我是在各种网络请求都异常后,才发现的这个问题.</p>
+<h2 id="提取文件">提取文件</h2><p>因为要同时支持iOS和Android, 那么我们就不应该将布局代码写到<code>index.android.js</code>或者<code>index.ios.js</code>中,当然也不应该写好一个,然后copy到另一个,无论怎么说,如果分散,我们将面临维护多份代码的窘境.所以好的方式是,将实现提取出来,在<code>index.android.js</code>和<code>index.ios.js</code>中,只保持对接口文件的引用.类似下面:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class GUIShopping extends Component &#123;&#10;  render() &#123;&#10;    return (&#10;      &#60;Main/&#62;&#10;    );&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Android的启动页面">Android的启动页面</h2><p>Android本身没有像iOS那么方便的配置启动页的方式,原生的方式是通过<code>Activity</code>来制造假象,同理,利用<code>ReactNative</code>还是要做这个处理.<br>代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class GUIShopping extends Component &#123;&#10;  render() &#123;&#10;    return (&#10;        &#60;Navigator&#10;            initialRoute=&#123;&#123;name:&#39;&#21551;&#21160;&#39029;&#39;,component:LaunchImage&#125;&#125;&#10;            configureScene=&#123;()=&#62;&#123; return Navigator.SceneConfigs.PushFromRight; &#125;&#125;&#10;            renderScene=&#123;(route,navigator)=&#62;&#123;&#10;                            let Component = route.component;&#10;                            return &#60;Component &#123;...route.passProps&#125; navigator=&#123;navigator&#125;/&#62;&#10;                        &#125;&#125; /&#62;&#10;    );&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>而LaunchImage就是一个普通的Component,里面有个定时器,在规定时间内切换到主页,看起来效果和iOS是一样的,主要代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class LaunchImage extends Component &#123;&#10;    render() &#123;&#10;        return (&#10;                &#60;Image source = &#123;&#123;uri:&#39;launchimage&#39;&#125;&#125; style=&#123;styles.launchImage&#125;/&#62;&#10;        );&#10;    &#125;&#10;&#10;    componentDidMount() &#123;&#10;        setTimeout(()=&#62;&#123;&#10;            //&#39029;&#38754;&#30340;&#20999;&#25442;&#10;            this.props.navigator.replace(&#123;&#10;                component:Main,&#10;            &#125;);&#10;        &#125;,2000);&#10;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="ListView横向排版的实现">ListView横向排版的实现</h2><p>默认的<code>ListView</code>是和<code>iOS</code>的<code>TableView</code>类似的,也就是上下滑动,如果想要实现类似<code>CollectionView</code>的布局效果,那么需要做一些配置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;ListView&#10;              dataSource=&#123;this.state.dataSource&#125;&#10;              renderRow=&#123;this.renderRow&#125;&#10;              contentContainerStyle=&#123;styles.contentView&#125;&#10;              scrollEnabled=&#123;false&#125;&#10;          &#62;&#10;&#10;          &#60;/ListView&#62;</span><br></pre></td></tr></table></figure>
+<p>contentView的实现如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">contentView:&#123;&#10;       flexDirection:&#39;row&#39;,&#10;       flexWrap:&#39;wrap&#39;,&#10;       width:width,&#10;   &#125;,</span><br></pre></td></tr></table></figure>
+<p> 要点:</p>
+<ol>
+<li>要指定<code>ListView</code>的宽度</li>
+<li><p>cell应该具备宽高(特别坑)</p>
+<p>其中第二条没有发现有资料提及,但是自己编码的时候发现,只有设置好cell的宽度和高度,才能实现预想的效果.<br>最终效果如下:</p>
+<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/93550QQ20160901-3.png" alt="93550QQ20160901-3.png"></p>
 </li>
-<li><p>熟悉常见的设计模式，并可在编码中灵活运用</p>
-</li>
-<li><p>熟悉代码重构的技巧，能找出系统中潜在的问题代码，并进行重构</p>
-</li>
-<li><p>熟悉iOS 性能分析和调优技巧</p>
-</li>
-<li><p>熟悉 iOS 的调试技巧, 如编辑断点 ,LLDB调试</p>
-</li>
-<li><p>熟悉 iOS 动画效果的实现，熟练运用Core Animation，UIView动画，Pop 动画框架实现动画效果</p>
-</li>
-<li><p>熟练编写界面，屏幕适配。 可纯手写和利用Interface Builder，可熟练自定义控件，利用Core Graphics对控件进行自定义。</p>
-</li>
-<li><p>熟悉iOS APNs 推送机制，可利用原生和JPush实现推送功能</p>
-</li>
-<li><p>了解iOS Runtime 机制，并实现开发中一些高级功能</p>
-</li>
-<li><p>熟悉Sqlite ，Core Data 持久化方式，了解基于以上两者yapDatabase 和 Magical Record</p>
-</li>
-<li><p>熟悉iOS多线程的实现方式，并可以根据实际需求选择合理的实现</p>
-</li>
-<li><p>英语能力良好,熟练阅读 Apple 官方文档和英文技术文章</p>
-</li>
-</ul>
-<h3 id="个人优势">个人优势</h3><ul>
-<li><p>曾从事服务器开发，能更好地与服务器端人员配合。</p>
-</li>
-<li><p>早期接触的项目复杂度高，更好地理解了项目架构，设计模式的重要性</p>
-</li>
-<li><p>在工作中，积累了大量提高开发效率的插件、软件、代码片段和三方框架，能够迅速实现需求</p>
-</li>
-<li><p>长期关注国内外技术网站，跟踪最新技术。</p>
-</li>
-<li><p>坚持阅读经典技术书籍，理解编程的艺术</p>
-</li>
-</ul>
+</ol>
 
       
     </div>
     <footer>
       
         
+  
+  <div class="categories">
+    <a href="/categories/React-Native/">React Native</a>
+  </div>
+
         
         
       
@@ -111,7 +99,7 @@
 </article>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="about/index.html" data-title="关于我" data-url="http://yoursite.com/about/index.html"></div>
+  <div class="ds-thread" data-thread-key="2016/07/02/React Native/一个React Native项目-一些注意点/" data-title="一个React Native项目-一些注意点" data-url="http://yoursite.com/2016/07/02/React Native/一个React Native项目-一些注意点/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">

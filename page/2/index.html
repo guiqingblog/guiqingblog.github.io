@@ -51,6 +51,70 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-06-18T15:28:19.000Z"><a href="/2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/">2016-06-18</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/">RACObserve 和 rac_textSignal 的搭配使用</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>项目中有个小需求,文本框与按钮绑定.当文本框内容符合规则的时候,按钮才会可用.把判定条件修改一下,代码如下:</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> RAC(self.loginButton,enabled)  = [self.textFiled.rac_textSignal  map:^id(NSString *value) &#123;&#10;    return @(value.length&#62;3);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<p>但是如果在发送请求之后,通过代码清除了文本框的内容,按钮并不会改变状态. </p>
+<p> 想到了, 应该是这个 <code>rac_textSignal</code> 出现问题了.<br> 看一下它的实现:<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> - (RACSignal *)rac_textSignal &#123;&#10;&#9;@weakify(self);&#10;&#9;return [[[[[RACSignal&#10;&#9;&#9;defer:^&#123;&#10;&#9;&#9;&#9;@strongify(self);&#10;&#9;&#9;&#9;return [RACSignal return:self];&#10;&#9;&#9;&#125;]&#10;&#9;&#9;concat:[self rac_signalForControlEvents:UIControlEventAllEditingEvents]]&#10;&#9;&#9;map:^(UITextField *x) &#123;&#10;&#9;&#9;&#9;return x.text;&#10;&#9;&#9;&#125;]&#10;&#9;&#9;takeUntil:self.rac_willDeallocSignal]&#10;&#9;&#9;setNameWithFormat:@&#34;%@ -rac_textSignal&#34;, self.rac_description];&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>几个关键词的解释:<br><code>defer</code> : 将代码的创建推迟到信号被订阅<br><code>concat</code>: 连接信号,第一个信号必须发送完成，第二个信号才会被激活<br><code>map</code> : 映射,将信号内容转换<br><code>takeUtil</code> :  signalA takeUntil:signalB 当signalB激活之后,停止signalA 的订阅</p>
+<p>其实主要的是, 这个 <code>signal</code> 是监听的: <code>UIControlEventAllEditingEvents</code> . 那么也就是说对<code>setter</code> 方式不会触发信号 </p>
+<p><code>RACObserve</code> 是一个常用的宏,我们都知道是监听属性值改变的.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define RACObserve(TARGET, KEYPATH) \&#10;&#9;(&#123; \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic push&#34;) \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic ignored \&#34;-Wreceiver-is-weak\&#34;&#34;) \&#10;&#9;&#9;__weak id target_ = (TARGET); \&#10;&#9;&#9;[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self]; \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic pop&#34;) \&#10;&#9;&#125;)</span><br></pre></td></tr></table></figure>
+<p>主要代码是:<code>[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self];</code><br>然后这个<code>rac_valuesForKeyPath</code>的实现如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (RACSignal *)rac_valuesForKeyPath:(NSString *)keyPath observer:(__weak NSObject *)observer &#123;&#10;&#9;return [[[self&#10;&#9;&#9;rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]&#10;&#9;&#9;map:^(RACTuple *value) &#123;&#10;&#9;&#9;&#9;// -map: because it doesn&#39;t require the block trampoline that -reduceEach: uses&#10;&#9;&#9;&#9;return value[0];&#10;&#9;&#9;&#125;]&#10;&#9;&#9;setNameWithFormat:@&#34;RACObserve(%@, %@)&#34;, self.rac_description, keyPath];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>主要代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]</span><br></pre></td></tr></table></figure>
+<p>也就是这个是通过 <code>KVO</code> 实现的. 而 <code>KVO</code> 得实现是通过临时生成一个子类,并重写父类的 <code>setter</code> 方法.这个在官方文档中有说明:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Key-Value Observing Implementation Details&#10;&#10;Automatic key-value observing is implemented using a technique called&#160;isa-swizzling.&#160;&#10;The&#160;isa&#160;pointer, as the name suggests, points to the object&#39;s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.&#160;&#10;When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.&#160;&#10;You should never rely on the&#160;isa&#160;pointer to determine class membership. Instead, you should use the&#160;class&#160;method to determine the class of an object instance.</span><br></pre></td></tr></table></figure>
+<h3 id="最终实现">最终实现</h3><p>了解了两者的实现,就可以很容易实现代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RAC(self.loginButton,enabled) =[ [RACObserve(self.textFiled, text)  merge:self.textFiled.rac_textSignal ] map:^id(NSString *value) &#123;&#10;     return @(value.length&#62;3);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-06-15T06:51:18.000Z"><a href="/2016/06/15/Swift/Swift3-新特性/">2016-06-15</a></time>
       
       
@@ -652,60 +716,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-09-05T01:08:14.000Z"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">2015-09-05</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">ReactiveCocoa 使用速查</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="Context">Context</h2><p>反复接触 <code>ReactiveCocoa</code> ,这次真的准备把它应用到实际开发中了.为了以后使用方便,这里列出一些常用关键字的使用方法,以备查询.</p>
-<h2 id="常用方法">常用方法</h2><h3 id="简单订阅_subscribeNext">简单订阅 subscribeNext</h3><p>使用场景:<br>“ 如果你改变了,让我知道 “</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.usernameTextField.rac_textSignal subscribeNext:^(id x) &#123;&#10;   NSLog(@&#34;%@&#34;, x);&#10; &#125;];</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -729,7 +739,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/React-Native/">React Native</a><small>1</small></li>
+    <li><a href="/categories/React-Native/">React Native</a><small>2</small></li>
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
   
