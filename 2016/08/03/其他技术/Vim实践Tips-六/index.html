@@ -1,0 +1,285 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Vim实践Tips(六) | Kenny 肉桂的主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Vim实践Tips(六)"/>
+  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Kenny 肉桂的主页</a></h1>
+  <h2><a href="/">记录自己的进步</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-08-03T09:05:25.000Z"><a href="/2016/08/03/其他技术/Vim实践Tips-六/">2016-08-03</a></time>
+      
+      
+  
+    <h1 class="title">Vim实践Tips(六)</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Tip_27_遇见Vim的命令行">Tip 27 遇见Vim的命令行</h2><p>当我们按下<code>:</code>,Vim就切换到了底行模式.这个模式和shell的命令行有些类似.我们只要输入点命令,然后按下<code>&lt;CR&gt;</code>就能执行.使用<code>&lt;Esc&gt;</code>可以从底行模式切换到命令行模式.</p>
+<p>由于一些历史原因,我们执行的命令叫做 <code>Ex Commands</code> .当我们按下<code>/</code>之后,或者使用<code>&lt;C-r&gt;=</code>访问表达式寄存器的时候,也都会进入底行模式.这章中提到的一些小技巧也都适用于不同的情况,但是在这个章节,我们先讨论<code>Ex commands</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  &#21629;&#20196;                     &#25928;&#26524;&#10;:[range]delete[x]          &#21024;&#38500;&#29305;&#23450;&#30340;&#34892;(&#25918;&#21040;&#23492;&#23384;&#22120;x&#20013;)&#10;:[range]yank[x]            &#22797;&#21046;&#29305;&#23450;&#30340;&#34892;(&#25918;&#21040;&#23492;&#23384;&#22120;x&#20013;)&#10;:[line]put[x]              &#25226;&#23492;&#23384;&#22120;x&#20013;&#30340;&#20869;&#23481;&#25918;&#21040;&#29305;&#23450;&#30340;&#34892;&#21518;&#38754;&#10;:[range]copy&#123;address&#125;      &#22797;&#21046;&#29305;&#23450;&#30340;&#34892;&#21040;&#36890;&#36807;&#22320;&#22336;&#25351;&#23450;&#30340;&#34892;&#30340;&#19979;&#38754;&#10;:[range]move&#123;address&#125;      &#31227;&#21160;&#29305;&#23450;&#30340;&#34892;&#21040;&#36890;&#36807;&#22320;&#22336;&#25351;&#23450;&#30340;&#34892;&#30340;&#19979;&#38754;&#10;:[range]join               &#36830;&#25509;&#25351;&#23450;&#30340;&#34892;&#10;:[range]normal &#123;commands&#125;  &#23545;&#29305;&#23450;&#30340;&#33539;&#22260;&#25191;&#34892;&#21629;&#20196;&#27169;&#24335;&#19979;&#30340;&#21629;&#20196;&#10;:[range]substitute/&#123;pattern&#125;&#10;/&#123;string&#125;/&#123;flags&#125;&#10;                           &#22312;&#29305;&#23450;&#30340;&#34892;&#37324;&#38754;,&#25226;&#31526;&#21512;&#26465;&#20214;&#30340;&#21305;&#37197;&#20351;&#29992;&#23383;&#31526;&#20018;&#26367;&#25442;&#25481;.&#10;:[range]global/&#123;pattern&#125;/[cmd] &#22312;&#25152;&#26377;&#21305;&#37197;&#21040;pattern&#30340;&#34892;&#20013;,&#25191;&#34892;Ex&#21629;&#20196;</span><br></pre></td></tr></table></figure>
+<p>我们可以Ex命令读写文件(<code>:read</code>和<code>:write</code>),或者使用<code>:tabnew</code>命令创建Tab页,或者使用<code>:split</code>命令创建窗口.</p>
+<h2 id="Tip_28_在一到多个连续行中执行命令">Tip 28 在一到多个连续行中执行命令</h2><p>许多Ex命令都可以接受一个{range},我们可以通过行号,标记,或者是一个Pattern来提供范围.<br>假设有下面一段代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;html&#62;&#10;  &#60;head&#62;&#60;title&#62;Practical Vim&#60;/title&#62;&#60;/head&#62;&#10;  &#60;body&#62;&#60;h1&#62;Practical Vim&#60;/h1&#62;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure></p>
+<p>为了说明,我们使用<code>:print</code>命令,这个命令可以简单的通过这个命令将特定的行打印到Vim的底行之下.<br>这个命令没有什么特定的功能.但是可以用来做说明.当然,你也可以通过<code>:delete</code>,<code>:join</code>,<code>:substitude</code>,<code>:normal</code>这几个命令来测试.通过测试,你就可以知道怎么使用Ex命令了.</p>
+<h3 id="使用行号作为地址">使用行号作为地址</h3><p>如果我们输入一个仅由数字组成的Ex命令.Vim就会把这个命令当做地址,然后将光标移动到那一行.所以,我们就能通过下面的这个命令跳转到文件顶部:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:1&#10;:print</span><br></pre></td></tr></table></figure></p>
+<p>你也可以使用<code>:p</code>来打印,这个是<code>:print</code>的缩写形式.你也可以将两个命令合并到一起.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:3p</span><br></pre></td></tr></table></figure></p>
+<p>这个命令移动到第3行,然后打印该行的内容.我们只是通过<code>:p</code>命令来说明问题,下面你可以试试这个命令.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:3d</span><br></pre></td></tr></table></figure></p>
+<p>这个命令跳转到第3行,然后执行删除命令.它相当于在命令模式下执行:<code>3Gdd</code>.这个命令比命令行模式下的要快点.</p>
+<h3 id="通过地址指定一个范围">通过地址指定一个范围</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:2,5p</span><br></pre></td></tr></table></figure>
+<p>这个命令可以打印从第2行到第5行,并且最后光标停留在第5行.通常来说,范围可以表现为这个形式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:&#123;start&#125;,&#123;end&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意,这个<code>start</code>和<code>end</code>都是地址,目前我们知道的地址是行号.在后面的我们将见到通过匹配和标记指定的地址.</p>
+<p><code>.</code>可以用来表达为当前行,所以,我们可以通过下面的命令打印从当前行到文件末尾<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:2&#10;:.,$p</span><br></pre></td></tr></table></figure></p>
+<p><code>%</code>这个符号也有特别的意义,它代表了当前文件中的所有行.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%p</span><br></pre></td></tr></table></figure></p>
+<p>它相当于<code>:1,$p</code>这个命令.</p>
+<h3 id="通过在可视化模式下的选择指定范围">通过在可视化模式下的选择指定范围</h3><p>首先通过命令<code>2G</code>跳转到第2行,然后<code>VG</code>可以选择从2行到文件结尾.此时,我们按下<code>:</code>.这时候,底行上出现了<code>:&#39;&lt;,&#39;&gt;</code>,看起来有点怪怪的,但是你可以简单的认为,它就代表了可视化模式的选区.然后,我们就能指定Ex命令.例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:&#39;&#60;,&#39;&#62;p</span><br></pre></td></tr></table></figure></p>
+<h3 id="通过匹配指定范围">通过匹配指定范围</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/&#60;html&#62;/,/&#60;\/html&#62;/p</span><br></pre></td></tr></table></figure>
+<p>打印结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;html&#62;&#10;  &#60;head&#62;&#60;title&#62;Practical Vim&#60;/title&#62;&#60;/head&#62;&#10;  &#60;body&#62;&#60;h1&#62;Practical Vim&#60;/h1&#62;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure></p>
+<p>看起来有点复杂,但是,它还是遵循了<code>:{start},{end}</code>的形式.这个<code>start</code>和刚刚的<code>/&lt;html&gt;/</code>相对应.而<code>end</code>和<code>/&lt;\/html&gt;/</code>相对应.</p>
+<p>在这个例子中,我们可以通过<code>:2,5</code>指定范围,这个方式更简洁.而通过标签形式的方式,可以直接匹配标签,不论中间有多少行.</p>
+<h3 id="通过偏移来指定地址">通过偏移来指定地址</h3><p>假设我们有需求:<code>打印所有的&lt;html&gt;标签内的内容,但是不打印包含&lt;html&gt;的行.</code><br>我们可以指定偏移:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/&#60;html&#62;/+1,/&#60;\/html&#62;/-1p</span><br></pre></td></tr></table></figure></p>
+<p>打印结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;head&#62;&#60;title&#62;Practical Vim&#60;/title&#62;&#60;/head&#62;&#10;&#60;body&#62;&#60;h1&#62;Practical Vim&#60;/h1&#62;&#60;/body&#62;</span><br></pre></td></tr></table></figure></p>
+<p>这个语法的一般形式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;address&#125;+n</span><br></pre></td></tr></table></figure></p>
+<p>如果<code>n</code>省略,那么它默认是1.这个<code>address</code>可以是<code>行号</code>或者是<code>标记</code>或者是<code>模式匹配</code><br>那么我们可以实现,从当前行打印后面3行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:.,.+3p</span><br></pre></td></tr></table></figure></p>
+<h3 id="讨论">讨论</h3><p>指定范围的语法非常灵活.我们可以混合使用<code>行号</code> <code>标记</code> <code>模式匹配</code>,也可以通过应用偏移来修改范围.<br>下面的表格可以作为一个参考:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#31526;&#21495;      &#20195;&#34920;&#30340;&#22320;&#22336;&#10;1         &#25991;&#20214;&#30340;&#31532;&#19968;&#34892;&#10;$         &#25991;&#20214;&#30340;&#26368;&#21518;&#19968;&#34892;&#10;.         &#20809;&#26631;&#25152;&#22312;&#34892;&#10;&#39;m        &#26631;&#35760;m&#25152;&#22312;&#30340;&#34892;&#10;&#39;&#60;        &#21487;&#35270;&#21270;&#36873;&#21306;&#30340;&#24320;&#22987;&#10;&#39;&#62;        &#21487;&#35270;&#21270;&#36873;&#21306;&#30340;&#32467;&#23614;&#10;%         &#25991;&#20214;&#25152;&#26377;&#34892; ( :1,$ &#30340;&#24555;&#25463;&#26041;&#24335;)&#10;0         &#31532;0&#34892;</span><br></pre></td></tr></table></figure></p>
+<p>第0行并不真实存在,但是在特定的情况下,这个地址还是很有用的.例如,在<code>:copy {address}</code>和<code>:move {address}</code>中,我们想复制或者移动从文件开头的范围.在后面的两个Tip中,我们将看到具体的例子.</p>
+<p>当我们指定一个<code>[range]</code>,它总是表示一些连续的行.我们也能通过模式匹配应用Ex命令到一系列非连续的行,通过<code>:global</code>这个命令就能做到.</p>
+<h2 id="Tip_29_通过t和m复制和移动行">Tip 29 通过t和m复制和移动行</h2><p><code>:copy</code>命令(快捷方式是<code>:t</code>)让我们可以复制1到多行,而<code>:move</code>命令可以移动1到多行.</p>
+<p>为了说明,我们使用下面的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Shopping list&#10;    Hardware Store&#10;        Buy new hammer&#10;    Beauty Parlor&#10;        Buy nail polish remover&#10;        Buy nails</span><br></pre></td></tr></table></figure></p>
+<h3 id="通过:t命令复制行">通过:t命令复制行</h3><p>我们的购物清单还不完整.假设我们也需要在<code>Hardware Store</code>买<code>nails</code>.为了修正这个清单,我们重用文件的最后一行.我们可以简单的使用<code>:copy</code>命令完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Shopping list&#10;    Hardware Store&#10;        Buy nails&#10;        Buy new hammer&#10;    Beauty Parlor&#10;        Buy nail polish remover&#10;        Buy nails</span><br></pre></td></tr></table></figure>
+<p>上述命令是通过<code>:160copy.</code>完成的(在我编写这个文档的时候,Buy nails 是第160行`)</p>
+<p>copy命令的一般格式是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:[range]copy &#123;address&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在我们的例子中,<code>[range]</code>是<code>160</code>行.<code>{address}</code>在这个例子中是<code>.</code>,代表了当前行.所以这个<code>:160copy.</code>的意义是:<code>复制160行,并且放置到当前行的下面</code>.</p>
+<p>我们也可以简写<code>:copy</code>成<code>:co</code>,也可以更简洁的写成<code>:t</code>.为了辅助记忆,你可以理解<code>t</code>为:<code>copy To</code>.下面的表格中列举了一些<code>:t</code>的用法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#21629;&#20196;             &#25928;&#26524;&#10;:6t.            &#22797;&#21046;&#31532;6&#34892;&#21040;&#24403;&#21069;&#34892;&#30340;&#19979;&#38754;&#10;:t6             &#22797;&#21046;&#24403;&#21069;&#34892;&#21040;&#31532;6&#34892;&#19979;&#38754;&#10;:t.             &#22797;&#21046;&#24403;&#21069;&#34892;(&#30456;&#24403;&#20110;&#21629;&#20196;&#27169;&#24335;&#19979;&#30340;yyp)&#10;:t$             &#22797;&#21046;&#24403;&#21069;&#34892;&#21040;&#25991;&#20214;&#32467;&#23614;&#10;:&#39;&#60;,&#39;&#62;t0        &#22797;&#21046;&#21487;&#35270;&#21270;&#36873;&#21306;&#21040;&#25991;&#20214;&#24320;&#22836;</span><br></pre></td></tr></table></figure></p>
+<p>注意: <code>:t.</code>复制当前行.作为选择,我们也可以通过命令模式下的<code>yyp</code>实现同样的效果.一个值得注意的区别就是<code>yyp</code>使用寄存器,而<code>:t.</code>不这样.有时候,为了避免覆盖默认寄存器的内容,我使用<code>:t.</code>复制当前行.</p>
+<p>在这个例子中,我们使用<code>yyp</code>的变体复制我们想要的行,但是,它需要一些额外的移动.我们需要先跳转到到我们想复制的行<code>6G</code>,复制<code>yy</code>,回到我们开始的地方<code>&lt;C-o&gt;</code>,然后<code>p</code>粘贴.所以,在这种比较远的复制操作,<code>:t</code>这种命令更高效.</p>
+<h3 id="通过:m命令移动行">通过:m命令移动行</h3><p>语法是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:[range]move &#123;address&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以简写成<code>:m</code><br>如果已经选择好了分区.我们可以直接运行命令<code>:&#39;&lt;,&#39;&gt;m$</code>,作为选择,我们也可以使用<code>dGp</code>命令.这个命令可以分解为:<code>d</code>删除,同时复制到寄存器,<code>G</code>跳转到文件结尾,<code>p</code>粘贴内容.</p>
+<p>重复上个Ex命令: <code>@:</code></p>
+<h2 id="Tip_30_在一个范围上使用命令模式的命令">Tip 30 在一个范围上使用命令模式的命令</h2><p>在Tip 2 中,我们在每行的后面追加一个分号,当时我们使用的<code>.</code>命令做的重复.当时只有几行,那么做可以,但是如果有2000行需要追加呢? 显然,用<code>j.</code>的方式就不靠谱了.</p>
+<p>使用<code>normal</code>命令可以对一个范围使用命令模式下的命令.</p>
+<p>我们使用下面的代码来说明问题:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1&#10;var bar = &#39;a&#39;&#10;var baz = &#39;z&#39;&#10;var foobar = foo + bar&#10;var foobarbaz = foo + bar + baz</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><code>A;&lt;Esc&gt;</code> 跳转到行结尾,输入<code>;</code>,退出插入模式</li>
+<li><code>jVG</code> 选中除了第一行的的后面所有行</li>
+<li><code>&#39;&lt;,&#39;&gt;normal.</code> normal执行命令模式,<code>.</code>重复</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;&#10;var bar = &#39;a&#39;;&#10;var baz = &#39;z&#39;;&#10;var foobar = foo + bar;&#10;var foobarbaz = foo + bar + baz;</span><br></pre></td></tr></table></figure>
+<p>使用了上面的步骤,不管是5行还是5000行,都能正常工作.<br>其实不仅仅是<code>.</code>这个命令,使用了<code>normal</code>这个标记之后,我们可以执行任何命令模式下命令.</p>
+<p>在这个例子中,我们可以通过一个命令完成操作.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%normal A;</span><br></pre></td></tr></table></figure></p>
+<p><code>%</code>这个命令表示整个文件范围的行.所以上面的命令的意思是:<code>在文件的每一行后面都追加一个;</code>,而且Vim会在完成之后,自动切换到命令模式</p>
+<p>既然可以通过<code>:normal</code>这个命令使用所有的命令模式命令.那么下面这个命令也很同意理解.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%normal i//</span><br></pre></td></tr></table></figure>
+<p>在所有行的开始加入<code>//</code>.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/Vim/">Vim</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/Vim/">Vim</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2016/08/03/其他技术/Vim实践Tips-六/" data-title="Vim实践Tips(六)" data-url="http://yoursite.com/2016/08/03/其他技术/Vim实践Tips-六/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
+  
+    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/其他技术/">其他技术</a><small>2</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>5</small></li>
+  
+    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/tags/Vim/">Vim</a><small>2</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>4</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/其他技术/">其他技术</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
+  
+    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2016 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

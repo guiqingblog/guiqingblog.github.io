@@ -1,0 +1,273 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Classy官方文档翻译:Properties | Kenny 肉桂的主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Classy官方文档翻译:Properties"/>
+  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Kenny 肉桂的主页</a></h1>
+  <h2><a href="/">记录自己的进步</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-09-20T02:26:10.000Z"><a href="/2015/09/20/UI相关/Classy官方文档翻译-Properties/">2015-09-20</a></time>
+      
+      
+  
+    <h1 class="title">Classy官方文档翻译:Properties</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="支持的属性">支持的属性</h2><p><code>Classy</code> 支持所有 <code>UIAppearance</code> 的属性和方法,还支持一些<code>UIAppearence</code>没有提到的属性. 因为<code>Classy</code>的属性名和<code>OC</code>中的是一致的,所以,其实你不用关心哪个属性对应哪个.</p>
+<p>比如下面 <code>UIPageControl</code>的属性:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic,retain) UIColor *pageIndicatorTintColor;&#10;@property (nonatomic,retain) UIColor *currentPageIndicatorTintColor;</span><br></pre></td></tr></table></figure>
+<p>在 <code>Classy</code>中的应用是这样子的:<br><a id="more"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIPageControl &#123;&#10;  pageIndicatorTintColor black&#10;  currentPageIndicatorTintColor purple&#10;  &#125;</span><br></pre></td></tr></table></figure>
+<p>你也可以用折线,两者是完全一样的:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIPageControl &#123;&#10;  page-indicator-tint-color black&#10;  current-page-indicator-tint-color purple&#10;  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="参数">参数</h3><p>有时候, 你需要给<code>UIApearence</code> 传递参数来完成属性的设置. 比如下面的 <code>UIToolBar</code> :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;- (void)setBackgroundImage:(UIImage *)backgroundImage &#10;        forToolbarPosition:(UIBarPosition)topOrBottom&#10;                barMetrics:(UIBarMetrics)barMetrics;&#10;&#10;- (void)setShadowImage:(UIImage *)shadowImage&#10;    forToolbarPosition:(UIBarPosition)topOrBottom;</span><br></pre></td></tr></table></figure>
+<p>对应到 <code>Classy</code> 中,格式是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;propertyName&#62; [&#60;argumentName&#62; : &#60;argumentValue&#62;, ... ]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>参数的顺序无所谓</li>
+<li>删除 前缀 <code>for</code> ,比如  <code>forToolbarPosition</code> 变成 <code>toolbarPosition</code></li>
+</ul>
+<p>例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIToolBar&#10;UIToolBar &#123;&#10;  background-image[barMetrics:landscape-phone, toolbarPosition:top] test_image_4&#10;  shadow-image[barMetrics:landscape-phone, toolbarPosition:bottom] test_image_3&#10; &#125;</span><br></pre></td></tr></table></figure>
+<p>如果你省略了枚举,那么将使用枚举的默认值:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIToolBar &#123;&#10;  background-image[toolbarPosition:top] test_image_4&#10;  shadow-image[barMetrics:landscape-phone] test_image_3&#10;  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="变量">变量</h3><p>避免重复的做法总是好的. <code>Classy</code>允许定义变量来避免重复 .你可以在整个样式表中使用定义的变量.</p>
+<p>变量的规则:</p>
+<ul>
+<li>字母(大小写均可) 或者 <code>$</code> 开头</li>
+<li>数字 字母 <code>_ -</code> 组成</li>
+</ul>
+<p>前缀 <code>$</code> 是帮助区分变量的, 你可以用或者不用, 比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$brand-color = #e1e1e1&#10;insets = 5, 10, 5, 10&#10;UIButton &#123;&#10;  background-color $brand-color&#10;  contentEdgeInsets insets&#10;  background-image[state:selected] bg_button insets&#10;  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="等式">等式</h3><p>变量和样式属性的值可以包含简单的数学表达式,例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$corner-radius = 2 + 2$insets = 5, 10, 5, 10UIButton &#123;&#10;  layer @&#123;&#10;    border-width 10 - 5&#10;    corner-radius $corner-radius + 2&#10;  &#125;&#10;  contentEdgeInsets $insets * 2&#10; &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="嵌套">嵌套</h2><p>Classy允许使用嵌套的方式表达对象属性的嵌套关系,例如:<br>“view.layer.borderWidth” 或者 “navigationBar.titleTextAttributes.font”</p>
+<p>为了避免选择器和嵌套属性的歧义, 我们需要在嵌套的属性名的后面添加 <code>@</code> 符号.</p>
+<p>例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UINavigationBar &#123;&#10;  title-text-attributes: @&#123;&#10;    font: HelveticaNeue 21&#10;    foreground-color: magenta&#10;    background-color: red&#10;    ligature: 6&#10;    kern: 0.6&#10;    strikethrough-style: single&#10;    underline-style: double&#10;    stroke-color: blue&#10;    paragraph-style: @&#123;&#10;      line-spacing: 20&#10;      paragraph-spacing: 15&#10;      line-break-mode:truncatingTail&#10;      alignment:center&#10;    &#125;&#10;    shadow: @&#123;&#10;      shadow-offset: 1,2&#10;      shadow-blur-radius: 10&#10;      shadow-color: purple&#10;    &#125;&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>关于 <code>TextAttributes</code>的特别示例</li>
+</ul>
+<p>如果一个属性是字典,并且这个属性有 “TextAttributes”后缀. 那么这个属性将被认为是<br><code>CASTextAttributes</code></p>
+<p><code>{</code> 和 <code>}</code> 是可选的. 例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIView&#10;  background-color #A2A2A2&#10;  layer @&#10;    border-width   2&#10;    border-color   #A1A1A1&#10;    corner-radius  8&#10;    shadow-color   black&#10;    shadow-offset  9,3&#10;    shadow-opacity 0.6&#10;    shadow-radius  4</span><br></pre></td></tr></table></figure>
+<h3 id="基本值类型对照表">基本值类型对照表</h3><p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Classy-PropertiesQQ20150920-2@2x.png"></p>
+<p>逗号分隔符</p>
+<p>逗号分隔符也是可选的,也就是说: <code>12,13</code>和<code>12 13</code>是一个效果的.</p>
+<h3 id="对象值转换表">对象值转换表</h3><p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Classy-PropertiesQQ20150920-3@2x.png"></p>
+<h3 id="枚举值">枚举值</h3><p>使用下面的方式匹配枚举值,比如下面的 <code>UIControlStateNormal</code>,删除枚举名称 <code>UIControlState</code>,换成小写开头,最后变成了 <code>normal</code><br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/Classy-PropertiesQQ20150920-4@2x.png"></p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/UI相关/">UI相关</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/UI相关/">UI相关</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2015/09/20/UI相关/Classy官方文档翻译-Properties/" data-title="Classy官方文档翻译:Properties" data-url="http://yoursite.com/2015/09/20/UI相关/Classy官方文档翻译-Properties/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
+  
+    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/其他技术/">其他技术</a><small>2</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>5</small></li>
+  
+    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/tags/Vim/">Vim</a><small>2</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>4</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/其他技术/">其他技术</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
+  
+    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2016 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

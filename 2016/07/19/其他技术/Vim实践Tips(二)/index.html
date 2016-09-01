@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Vim实践Tips(二) | Kenny 肉桂的主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Vim实践Tips(二)"/>
+  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Kenny 肉桂的主页</a></h1>
+  <h2><a href="/">记录自己的进步</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-07-19T09:40:15.000Z"><a href="/2016/07/19/其他技术/Vim实践Tips(二)/">2016-07-19</a></time>
+      
+      
+  
+    <h1 class="title">Vim实践Tips(二)</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Tip_5_手动查找和替换">Tip 5 手动查找和替换</h2><p>下面每一行中都有 <code>content</code> 这个单词</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;...We&#39;re waiting for content before the site can go live...&#10;&#10;...If you are content with this, let&#39;s go ahead with it...&#10;&#10;...We&#39;ll launch as soon as we have the content...</span><br></pre></td></tr></table></figure>
+<p>如果我们想把所有的 <code>content</code> 替换成 <code>copy</code>, 那么可以很简单的想到替换命令.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;:%s/content/copy/g</span><br></pre></td></tr></table></figure>
+<p> 但是有时候我们并不想全局替换掉.</p>
+<h3 id="懒惰点:不做输入的查找">懒惰点:不做输入的查找</h3><p> 你也许已经猜到<code>.</code>是我最喜欢的单键<code>Vim</code>命令.第二喜欢的是 <code>*</code>,它可以搜索处于光标下面的单词.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;...We&#39;re waiting for copy before the site can go live...&#10;&#10;...If you are copy with this, let&#39;s go ahead with it...&#10;&#10;...We&#39;ll launch as soon as we have the content...</span><br></pre></td></tr></table></figure>
+<p> 首先将光标置于 <code>content</code> 上面,然后用<code>*</code>命令去查找它,这时候将发生两个事情:</p>
+<ol>
+<li><p>光标将跳转到下个匹配处(即下个 <code>content</code> 单词) </p>
+</li>
+<li><p>所有出现匹配项的地方将高亮显示 (如果没有,使用 <code>:set hls</code> .</p>
+</li>
+</ol>
+<p>上面两件事情发生之后,我们就可以使用 <code>n</code> 命令跳转到下一个.这时候,使用 <code>*nn</code> 可以循环所有匹配,然后光标转到我们开始进行搜索的地方</p>
+<h3 id="让更改变得可重复">让更改变得可重复</h3><p>当我们的光标置于 <code>content</code> 的开始位置的时候,我们准备去更改它.这包含两个步骤:</p>
+<ol>
+<li><p>删除单词 <code>content</code> </p>
+</li>
+<li><p>输入修改的内容. <code>cw</code> 删除到单词结尾命令,并且进入插入模式.</p>
+</li>
+</ol>
+<p>然后我们输入 <code>copy</code> 这个单词. Vim 将记录我们的键盘点击,直到我们离开插入模式,所以, <code>cwcopy&lt;Esc&gt;</code> 将会被记录为一个单个命令.通过使用<code>.</code>就可以重复上面的操作.</p>
+<h2 id="Tip6_Dot公式">Tip6 Dot公式</h2><p>在 Tip2中,我们试着将每个句子后面加<code>;</code> 最后,我们通过 <code>j.</code> 进行重复操作.</p>
+<p>在 Tip3中,我们将每个<code>+</code>前后添加空格.  最后,我们通过 <code>;.</code> 进行重复操作</p>
+<p>在 Tip5中,我们将 <code>content</code> 替换成 <code>copy</code>,最后,我们通过 <code>n.</code> 进行重复操作.</p>
+<h3 id="理想的状态:_一个按键负责移动,一个按键负责执行操作-">理想的状态: 一个按键负责移动,一个按键负责执行操作.</h3><p> 在上面所有的操作中 . 重复最后的更改.这不是他们全部的共同点,我们都还用了一个键去移动光标.这已经是一个不能再好的情况了.我们在将来的编辑中,可以反复看到这个编辑模式.为了方便,我们把这个模式成为 Dot公式 (Dot Formula)</p>
+<h2 id="Tip7_拿开你的笔刷">Tip7 拿开你的笔刷</h2><p><code>Normal Mode</code> (命令模式) 可以类比为一个画家,把笔刷离开画布.这时候,他可以休息,可以构思.同理,程序员也可以在 <code>Normal Mode</code> 中进行思考,组织自己的思路.当我们要改变的时候,也不用非得进入插入模式.在 <code>Normal Mode</code>中,我们可以格式化我们的代码,复制,或者移动他们.</p>
+<h2 id="Tip8_强化你的撤销">Tip8 强化你的撤销</h2><p>在其他编辑器中,通过在输入一些东西之后进行撤销,可以撤销我们最后输入的单词或者字符.然后在 Vim 中,我们设置可以调整撤销命令的粒度.</p>
+<p><code>u</code> 这个命令可以触发撤销命令.它可以撤销包括Normal,Visual还有 Command-Line 模式的更改.当然,也包括在插入模式下的文本输入或者删除.所以我们可以说: <code>i{ 插入一些更改}&lt; Esc&gt;</code>  构成了一个改变. 然后一次<code>u</code> 就可以撤销这个改变.</p>
+<p>另外,插入模式中,如果使用了上下左右箭头,那么就相当于在 NormalMode下使用了 <code>hjkl</code>.区别就是我们不用离开插入模式,但是这些操作,会被记录到点公式 (Dot Fomula)中.</p>
+<h2 id="Tip9_创建可重复的改变">Tip9 创建可重复的改变</h2><p>vim将重复操作进行了优化,为了利用这个特性.我们需要留心怎么创建可重复的改变</p>
+<p>在 Vim 中,做一件事通常有很多方式.但是衡量”好”的方式的机制就是:更少的键盘敲击.</p>
+<p>假设我们的光标在 <code>h</code> 这个字母上,我们想要删除单词 <code>nigh</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;The end is nigh</span><br></pre></td></tr></table></figure>
+<h3 id="1-_向后删除">1. 向后删除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;The end is nigh &#34;&#24320;&#22987;&#10;&#10;The end is h &#34;db  &#20174;&#20809;&#26631;&#20301;&#32622;&#21024;&#38500;&#21333;&#35789;&#30340;&#21069;&#38754;&#37096;&#20998;&#10;&#10;The end is  &#34;x &#21024;&#38500;&#24403;&#21069;&#20809;&#26631;&#30340;&#23383;&#31526;</span><br></pre></td></tr></table></figure>
+<h3 id="2-_向前删除">2. 向前删除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;The end is nigh   &#34;&#24320;&#22987;&#10;&#10;The end is nigh   &#34;b  &#21521;&#21518;&#31227;&#21160;&#20809;&#26631;&#19968;&#20010;&#21333;&#35789;&#10;&#10;The end is        &#34;dw &#21521;&#21069;&#21024;&#38500;&#19968;&#20010;&#21333;&#35789;</span><br></pre></td></tr></table></figure>
+<h3 id="3-_删除整个单词">3. 删除整个单词</h3><p>上面两个解决方案都牵涉到了一些准备工作,例如移动.其实,利用<code>aw</code> 命令可以更精准高效的完成我们的需求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;The end ais nigh   &#34;&#24320;&#22987;&#10;&#10;The end is &#34;daw</span><br></pre></td></tr></table></figure>
+<h3 id="4-_哪一个是最可重复的">4. 哪一个是最可重复的</h3><p>上面我们使用了三种方式进行删除一个单词.每种方式中,我们都是按了三个键,那么那种方式是更好的呢?</p>
+<p>记住, Vim 优化了重复.那么检验好坏的标准就是重复.下面使用dot 命令来检验三种方式,通过测试发现:</p>
+<ul>
+<li><p>第一种方式: <code>.</code> 等价于 <code>x</code> (<code>db</code> 是改变操作. <code>x</code> 也是改变操作)</p>
+</li>
+<li><p>第二种方式: <code>.</code> 等价于 <code>dw</code> (<code>b</code> 是纯移动, <code>dw</code> 是改变操作)</p>
+</li>
+<li><p>第三种方式: <code>.</code> 等价于 <code>daw</code> (<code>daw</code>是改变操作)</p>
+</li>
+</ul>
+<p>看起来<code>2</code> <code>3</code> 都是挺有用的,但是有个细节 <code>2</code>删除一个单词,但是不会删除对应的空格,表象上来看就是不会移动光标到下个单词上,那么这时候, <code>.</code>这个命令就没什么意义. <code>3</code> 会把要删除的单词附带空格删除,同时光标停留在 <code>is</code> 的结尾.那么<code>.</code>这个操作就能继续删除一个单词. (我强烈建议自己动手试试看)</p>
+<p>﻿</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/Vim/">Vim</a>
+  </div>
+
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2016/07/19/其他技术/Vim实践Tips(二)/" data-title="Vim实践Tips(二)" data-url="http://yoursite.com/2016/07/19/其他技术/Vim实践Tips(二)/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
+  
+    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/其他技术/">其他技术</a><small>2</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>5</small></li>
+  
+    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
+  
+    <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/tags/Vim/">Vim</a><small>2</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>4</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/其他技术/">其他技术</a><small>2</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
+  
+    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2016 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

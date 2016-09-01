@@ -51,172 +51,6 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-09-18T06:30:01.000Z"><a href="/2015/09/18/Git/Git命令备忘/">2015-09-18</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/09/18/Git/Git命令备忘/">Git命令备忘</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="Context">Context</h2><p>一些Git命令虽然会用到, 但是用的不频繁 .导致经常手写的时候就忘记是怎么样了, 每次都要查 ,浪费时间 .所以制作这么一个速查本 .</p>
-<h2 id="分支相关">分支相关</h2><ul>
-<li>推送本地分支到远程</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin branch_name</span><br></pre></td></tr></table></figure>
-<ul>
-<li>拉取远程分支</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin branch_name</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/09/18/Git/Git命令备忘/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-09-05T01:08:14.000Z"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">2015-09-05</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">ReactiveCocoa 使用速查</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="Context">Context</h2><p>反复接触 <code>ReactiveCocoa</code> ,这次真的准备把它应用到实际开发中了.为了以后使用方便,这里列出一些常用关键字的使用方法,以备查询.</p>
-<h2 id="常用方法">常用方法</h2><h3 id="简单订阅_subscribeNext">简单订阅 subscribeNext</h3><p>使用场景:<br>“ 如果你改变了,让我知道 “</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.usernameTextField.rac_textSignal subscribeNext:^(id x) &#123;&#10;   NSLog(@&#34;%@&#34;, x);&#10; &#125;];</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-28T23:37:53.000Z"><a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/">2015-08-29</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/">简单实现控制器过渡动画</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>自己实现控制器动画的方法,还是比较常见的. 这个是    <code>UINavigationController</code>的 <code>Push</code> 和 <code>Dismiss</code> 动画.<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
         <time datetime="2015-08-26T06:55:16.000Z"><a href="/2015/08/26/iOS Tips/关于代码控制屏幕方向/">2015-08-26</a></time>
       
       
@@ -541,11 +375,11 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-08-13T08:03:42.000Z"><a href="/2015/08/13/开发环境相关/自用提高效率的三方框架/">2015-08-13</a></time>
+        <time datetime="2015-08-13T08:03:42.000Z"><a href="/2015/08/13/环境、配置相关/自用提高效率的三方框架/">2015-08-13</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/08/13/开发环境相关/自用提高效率的三方框架/">自用提高效率的三方框架</a></h1>
+    <h1 class="title"><a href="/2015/08/13/环境、配置相关/自用提高效率的三方框架/">自用提高效率的三方框架</a></h1>
   
 
     </header>
@@ -610,6 +444,220 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-12T08:49:26.000Z"><a href="/2015/08/12/重构、模式、架构/我项目中Layout模块的解析/">2015-08-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/12/重构、模式、架构/我项目中Layout模块的解析/">我项目中Layout模块的解析</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>从上次确定使用抽象工厂模式, 到最终项目实现,采用了建造者模式. 因为如果使用抽象工厂模式,将每个模块的layout抽象, 会导致产品体系非常复杂, 难以使用和维护.</p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/12/重构、模式、架构/我项目中Layout模块的解析/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-10T00:48:58.000Z"><a href="/2015/08/10/重构、模式、架构/从简单工厂到工厂模式/">2015-08-10</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/10/重构、模式、架构/从简单工厂到工厂模式/">从简单工厂到工厂模式</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>上次的文章,用简单工厂,解决了生产布局类的问题. 但是,上次的方式针对一个模块是可以的,当模块多了,每个类负责的属性就太多了.这是一个需要重构的点.</p>
+<h2 id="准备工作">准备工作</h2><p>首先,将类重命名, 比如 原来的: </p>
+<p>GUILayoutFactory -&gt; GUILoginLayoutFactory</p>
+<p>原来的布局产品名称也是应该修改的,但是就不贴出来了,一个原则就是:不要让类名把你自己弄迷糊了即可.</p>
+<h2 id="重构">重构</h2><p>下面是我工厂模式的结构图,目前工厂只有 Login这一个,项目中有更多,但是没必要都在此列举.</p>
+<p><img src="" alt=""></p>
+<p>文件说明图</p>
+<p><img src="" alt=""></p>
+<p>当把图画出来, 很容易看出来, 需要进行重构了. 因为在 <code>GUILoginLayoutFactory</code> 存在着逻辑判断代码,如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;&#10;typedef NS_ENUM(NSUInteger, GUIDeviceType) &#123;&#10;    &#10;    GUIDeviceType4S = 1,&#10;    GUIDeviceType5,&#10;    GUIDeviceType6,&#10;    GUIDeviceType6P,&#10;    GUIDeviceTypeNotFound&#10;&#10;&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面的代码是当时在应用简单工厂的时候,将逻辑下放到工厂中得.现在它存在于我们的 <code>GUILoginLayoutFactory</code>中,这个工厂还会有同级的兄弟工厂.它们也需要这种判断来生产具体的 layou产品,比如<code>GUIDiaryLayoutFactory</code>,那么,现在应该采用将这些代码提升到父类的重构手法.  <code>GUILoginLayoutFactory</code> 的父类是我们的 “ 总工厂 “ 也就是 <code>GUILayoutFactory</code></p>
+<p>现在 <code>GUILayoutFactory</code>的头文件代码是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;@class GUILayout;&#10;&#10;#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;&#10;typedef NS_ENUM(NSUInteger, GUIDeviceType) &#123;&#10;    &#10;    GUIDeviceType4S = 1,&#10;    GUIDeviceType5,&#10;    GUIDeviceType6,&#10;    GUIDeviceType6P,&#10;    GUIDeviceTypeNotFound&#10;    &#10;&#125;;&#10;&#10;@interface GUILayoutFactory : NSObject&#10;&#10;-(GUILayout *)layout;&#10;+(GUILayout *)layout;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>养成好习惯,每次小重构后都进行编译.</p>
+<p>客户端调用代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;&#10;    [super viewDidLoad];&#10;    &#10;    GUILayoutFactory * layoutFactory = [GUILoginLayoutFactory new];&#10;    GUILayout * layout = [layoutFactory layout];&#10;    &#10;    NSLog(@&#34;\n %f \n %f \n %f \n %f&#34;,layout.textFieldWidth,layout.textFieldHeight,layout.loginButtonWidth,layout.loginButtonHeight);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>是的, 调用端需要知晓具体的工厂.比如这里的 <code>GUILoginFactory</code>才能拿到具体的产品.</p>
+<h2 id="对比简单工厂">对比简单工厂</h2><p>原来使用简单工厂实现的时候,如果要增加新产品.那么需要:</p>
+<ol>
+<li>添加具体的产品(Layout类)</li>
+<li>在工厂类中增加一个分支语句</li>
+</ol>
+<p>客户端是无需修改和知道工厂内部的细节的.</p>
+<p>现在使用工厂模式,如果要增加新产品:</p>
+<ol>
+<li>添加具体的产品(Layout类)</li>
+<li>添加具体产品的工厂类(LayoutFactory类)</li>
+<li>客户端进行判断和需要知晓新的工厂类</li>
+</ol>
+<p>加重了客户端的负担.</p>
+<p>总结来说: </p>
+<ul>
+<li><p>简单工厂最大的优点在于工厂类中包含了必要的逻辑判断,根据客户端的选择(或者是其他条件)动态实例化相关的类,对于客户端来说,去除了与具体产品的依赖 .</p>
+</li>
+<li><p>但是如果添加新产品,要修改工厂类,违背了”开放-封闭原则”</p>
+</li>
+<li><p>工厂模式让子类工厂决定实例化哪个类.让产品类的实例化延迟到了子工厂.</p>
+</li>
+<li><p>新增加产品的时候, 整个工厂的体系是没有修改的,只是扩展出一个子类.</p>
+</li>
+<li><p>工厂模式,客户端需要知晓具体的工厂子类</p>
+</li>
+</ul>
+<p>两者没有好坏, 我们需要根据自己的实际情景来选择模式进行应用.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-09T04:02:36.000Z"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/">2015-08-09</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/">当遇到严格要求的UI-实现</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="说明">说明</h2><p>因为公司项目负责,所以这个代码将用Demo的形式建立,然后引入到项目中.然后对项目的调用进行重构.</p>
+<h2 id="创建项目文件">创建项目文件</h2><p>文件清单:</p>
+<ul>
+<li>产品父类 <code>GUILayout</code> 包含各种属性</li>
+<li>iPhone4s/4 布局类 <code>GUIIP4SLayout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone5s/5 布局类 <code>GUIIP5Layout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone6 布局类  <code>GUIIP6Layout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone6 plus 布局类 <code>GUIIP6PLayout</code> 继承 <code>GUILayout</code></li>
+<li>工厂类 <code>GUILayoutFactory</code></li>
+</ul>
+<h2 id="代码详解">代码详解</h2><p>首先是     <code>GUILayout</code>,它定义了所有需要的属性.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;UIKit/UIKit.h&#62;&#10;&#10;@interface GUILayout : NSObject&#10;&#10;@property (assign, nonatomic) CGFloat textFieldHeight;&#10;@property (assign, nonatomic) CGFloat textFieldWidth;&#10;@property (assign, nonatomic) CGFloat loginButtonWidth;&#10;@property (assign, nonatomic) CGFloat loginButtonHeight;&#10;&#10;@end&#10;&#10;#import &#34;GUILayout.h&#34;&#10;&#10;@implementation GUILayout&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>它的布局子类,在 <code>init</code>方法中,对布局属性进行了初始化,因为代码几乎一样,所以拿一个类说明:(为了以后区分,我给不同的布局类不同的值:<br>4/4s 值都是 4 ,5/5s 值都是5 ,6 值都是6 ,6 plus值都是 60)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;GUILayout.h&#34;&#10;&#10;@interface GUIIP4SLayout : GUILayout&#10;&#10;@end&#10;&#10;#import &#34;GUIIP4SLayout.h&#34;&#10;&#10;@implementation GUIIP4SLayout&#10;&#10;- (instancetype)init &#123;&#10;    if (self = [super init]) &#123;&#10;&#10;        self.textFieldHeight   = 4;&#10;        self.textFieldWidth    = 4;&#10;        self.loginButtonHeight = 4;&#10;        self.loginButtonWidth  = 4;&#10;&#10;    &#125;&#10;    return self;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>然后是工厂类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;@class GUILayout;&#10;@interface GUILayoutFactory : NSObject&#10;&#10;-(GUILayout*)createLayout;&#10;+(GUILayout*)createLayout;&#10;&#10;&#10;@end&#10;&#10;&#10;#import &#34;GUILayoutFactory.h&#34;&#10;#import &#34;GUIIP4SLayout.h&#34;&#10;#import &#34;GUIIP6Layout.h&#34;&#10;#import &#34;GUIIP6PLayout.h&#34;&#10;#import &#34;GUIIP5Layout.h&#34;&#10;&#10;#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;&#10;typedef NS_ENUM(NSUInteger, GUIDeviceType) &#123;&#10;    &#10;    GUIDeviceType4S = 1,&#10;    GUIDeviceType5,&#10;    GUIDeviceType6,&#10;    GUIDeviceType6P,&#10;    GUIDeviceTypeNotFound&#10;&#10;&#125;;&#10;&#10;@implementation GUILayoutFactory&#10;&#10;-(GUILayout*)createLayout&#123;&#10;    &#10;   switch ([self deviceType]) &#123;&#10;        case GUIDeviceType4S:&#10;            return [GUIIP4SLayout new];&#10;            break;&#10;        case GUIDeviceType6:&#10;            return [GUIIP6Layout new];&#10;            break;&#10;        case GUIDeviceType6P:&#10;            return [GUIIP6PLayout new];&#10;            break;&#10;        case GUIDeviceType5:&#10;            return [GUIIP5Layout new];&#10;        case GUIDeviceTypeNotFound:&#10;            return nil;&#10; &#10;    &#125;&#10;    &#10;    return nil;&#10;&#10;&#10;&#125;&#10;&#10;+(GUILayout*)createLayout&#123;&#10;&#10;    return  [[GUILayoutFactory new] createLayout];&#10;&#10;&#125;&#10;&#10;-(GUIDeviceType)deviceType&#123;&#10;    &#10;    if (kisiPhone4) &#123;&#10;        return GUIDeviceType4S;&#10;    &#125;else if(kisiPhone5)&#123;&#10;        return GUIDeviceType5;&#10;    &#125;else if(kisiPhone6)&#123;&#10;        return GUIDeviceType6;&#10;    &#125;else if(kisiPhone6Plus)&#123;&#10;        return GUIDeviceType6P;&#10;    &#125;else&#123;&#10;        return GUIDeviceTypeNotFound;&#10;    &#125;&#10;   &#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将判断逻辑下放到工厂类中,简化了控制器的调用</li>
+<li>定义根据屏幕尺寸判断设备类型的宏</li>
+<li>根据枚举类型决定返回的<code>layout</code>类型</li>
+</ul>
+<h2 id="结语">结语</h2><p>好了,这就是完整的代码了.根据自己的需求,修改参数名,可以方便的用到自己的系统中.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
 
 <nav id="pagination">
   
@@ -633,11 +681,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
-  
     <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
-  
-    <li><a href="/categories/Git/">Git</a><small>1</small></li>
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
   
@@ -645,11 +689,15 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
+    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
+  
     <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>15</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/其他技术/">其他技术</a><small>2</small></li>
   
     <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
@@ -657,17 +705,11 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/悟/">悟</a><small>1</small></li>
   
-    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
-  
-    <li><a href="/categories/算法专题/">算法专题</a><small>1</small></li>
+    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>5</small></li>
   
     <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
   
-    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
-  
     <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
-  
-    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
   
   </ul>
 </div>
@@ -680,11 +722,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
   
-    <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
-  
     <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
-  
-    <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
   
     <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
   
@@ -696,37 +734,35 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
   
+    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
+  
     <li><a href="/tags/Vim/">Vim</a><small>2</small></li>
   
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>4</small></li>
   
     <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
   
-    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+    <li><a href="/tags/其他技术/">其他技术</a><small>2</small></li>
   
-    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
   
     <li><a href="/tags/悟/">悟</a><small>1</small></li>
   
-    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
-  
     <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
   
-    <li><a href="/tags/算法专题-字符串/">算法专题 字符串</a><small>1</small></li>
+    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
   
     <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
   
     <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
   
-    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
-  
     <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
   
-    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
   
-    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
   
   </ul>
 </div>

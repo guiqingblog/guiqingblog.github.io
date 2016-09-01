@@ -176,11 +176,11 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-05-12T07:05:37.000Z"><a href="/2016/05/12/开发环境相关/手把手教你创建自己的Cocoapods库/">2016-05-12</a></time>
+        <time datetime="2016-05-12T07:05:37.000Z"><a href="/2016/05/12/环境、配置相关/手把手教你创建自己的Cocoapods库/">2016-05-12</a></time>
       
       
   
-    <h1 class="title"><a href="/2016/05/12/开发环境相关/手把手教你创建自己的Cocoapods库/">手把手教你创建自己的Cocoapods库</a></h1>
+    <h1 class="title"><a href="/2016/05/12/环境、配置相关/手把手教你创建自己的Cocoapods库/">手把手教你创建自己的Cocoapods库</a></h1>
   
 
     </header>
@@ -261,11 +261,11 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-05-12T03:06:35.000Z"><a href="/2016/05/12/开发环境相关/升级-Chisel-遇到的问题和解决记录/">2016-05-12</a></time>
+        <time datetime="2016-05-12T03:06:35.000Z"><a href="/2016/05/12/环境、配置相关/升级-Chisel-遇到的问题和解决记录/">2016-05-12</a></time>
       
       
   
-    <h1 class="title"><a href="/2016/05/12/开发环境相关/升级-Chisel-遇到的问题和解决记录/">升级 Chisel 遇到的问题和解决记录</a></h1>
+    <h1 class="title"><a href="/2016/05/12/环境、配置相关/升级-Chisel-遇到的问题和解决记录/">升级 Chisel 遇到的问题和解决记录</a></h1>
   
 
     </header>
@@ -294,69 +294,6 @@ nothing to commit, working directory clean</code></p>
 <p>重新安装<br><figure class="highlight"><figcaption><span>brew install chisel</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">==&#62; Downloading https://github.com/facebook/chisel/archive/1.4.0.tar.gz&#10;==&#62; Downloading from https://codeload.github.com/facebook/chisel/tar.gz/1.4.0</span><br></pre></td></tr></table></figure></p>
 <p>可以看到,现在升级到了1.4了.</p>
 <p>到 Xcode 中测试,发现也欢乐的好用了 !</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-04-27T08:49:05.000Z"><a href="/2016/04/27/算法专题/变形字符串问题/">2016-04-27</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/04/27/算法专题/变形字符串问题/">变形字符串问题</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="题目">题目</h2><p>给定两个字符串 <code>str1</code> 和 <code>str2</code>, 如果两个字符串中出现的字符的<strong>种类</strong> 和每种字符出现的<strong>次数</strong>也一样, 那么可以说 <code>str1</code> 和 <code>str2</code> 互为变形词.</p>
-<p>例如:</p>
-<p>“abc” 和 “acb”  返回  <code>true</code></p>
-<p>“abc” 和 “aabc” 返回  <code>false</code></p>
-<h2 id="思考">思考</h2><p>如果两个字符串的长度不一样,那么直接返回<code>false</code><br>使用一个数组对第一个字符串进行统计,然后和第二个字符串进行运算.得出结果</p>
-<h2 id="代码">代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import UIKit&#10;&#10;func isMutualTansformString(firstString:String,secondString:String)-&#62;Bool&#123;&#10;    &#10;    if firstString.characters.count != secondString.characters.count &#123;&#10;        return false&#10;    &#125;&#10;    &#10;    var map:[Int] = Array&#60;Int&#62;(count:256,repeatedValue:0);&#10;    &#10;    for char in firstString.unicodeScalars&#123;&#10;        map[Int(char.value)] += 1;&#10;    &#125;&#10;    &#10;    &#10;    for char in secondString.unicodeScalars&#123;&#10;         map[Int(char.value)] -= 1&#10;        if  map[Int(char.value)] == -1 &#123;&#10;            return false;&#10;        &#125;&#10;    &#125;&#10;    &#10;    &#10;    return true;&#10;&#125;&#10;&#10;&#10;isMutualTansformString(&#34;1223&#34;, secondString: &#34;3221&#34;)</span><br></pre></td></tr></table></figure>
-<h2 id="更多">更多</h2><p>现在字符串字数比较少,可以使用数组来进行处理. 但是如果存在多种字符,长度显然不够.而分配太多,又太浪费空间. 那么应该怎么处理呢?</p>
-<p>其实更好的方式可以使用 hash表或者字典. 鉴于:</p>
-<ol>
-<li>我们只是单线程访问</li>
-<li>需要借助字典的泛型的优势</li>
-<li>字典默认是存在顺序的(这种顺序只有在删除某个字典元素后,才会被打乱)</li>
-</ol>
-<p>所以这里采用字典进行处理.</p>
-<h2 id="代码-1">代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func isMutualTansformString(firstString:String,secondString:String)-&#62;Bool&#123;&#10;    &#10;    if firstString.characters.count != secondString.characters.count &#123;&#10;        return false&#10;    &#125;&#10;    &#10;    var resultDict:Dictionary&#60;String,Int&#62; = [&#34;&#34;:0];&#10;    &#10;    &#10;    for char in firstString.unicodeScalars&#123;&#10;        if resultDict[&#34;\(char)&#34;]==nil &#123;&#10;           resultDict[&#34;\(char)&#34;] = 0&#10;        &#125;&#10;        resultDict[&#34;\(char)&#34;]! += 1;&#10;    &#125;&#10;    &#10;    for char in secondString.unicodeScalars &#123;&#10;        &#10;        if resultDict[&#34;\(char)&#34;] == nil &#123;&#10;            return false;&#10;        &#125;&#10;        &#10;        resultDict[&#34;\(char)&#34;]! -= 1&#10;       &#10;        if resultDict[&#34;\(char)&#34;] == -1 &#123;&#10;            return false&#10;        &#125;&#10;        &#10;    &#125;&#10;        &#10;    return true;&#10;&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -557,11 +494,11 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-09-20T02:26:10.000Z"><a href="/2015/09/20/ClassyLiveLayout/Classy官方文档翻译-Properties/">2015-09-20</a></time>
+        <time datetime="2015-09-20T02:26:10.000Z"><a href="/2015/09/20/UI相关/Classy官方文档翻译-Properties/">2015-09-20</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/09/20/ClassyLiveLayout/Classy官方文档翻译-Properties/">Classy官方文档翻译:Properties</a></h1>
+    <h1 class="title"><a href="/2015/09/20/UI相关/Classy官方文档翻译-Properties/">Classy官方文档翻译:Properties</a></h1>
   
 
     </header>
@@ -577,7 +514,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
       
         
           <div class="alignleft">
-            <a href="/2015/09/20/ClassyLiveLayout/Classy官方文档翻译-Properties/#more" class="more-link">Read More</a>
+            <a href="/2015/09/20/UI相关/Classy官方文档翻译-Properties/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -612,39 +549,79 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-09-18T12:04:28.000Z"><a href="/2015/09/18/ClassyLiveLayout/Classy手记/">2015-09-18</a></time>
+        <time datetime="2015-09-05T01:08:14.000Z"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">2015-09-05</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/09/18/ClassyLiveLayout/Classy手记/">Classy手记</a></h1>
+    <h1 class="title"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">ReactiveCocoa 使用速查</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="context">context</h2><p>我一直在寻找一款良好的autolayout框架,这个良好的定义至少要包括:</p>
-<ol>
-<li>能够实现效果,没有深坑<br>如果够优秀,那么最好能够 2. 实时调试</li>
-</ol>
-<p>今天刷博客,偶尔发现了一款 <code>ClassyLiveLayout</code> 它能够结合 <code>Masonry</code> 和 <code>Classy</code> 完成实时调试 (有没有坑待验证)</p>
-<p><code>Mansory</code>自己一直在用 , <code>Classy</code>需要了解 .所以从它入手.</p>
-<h2 id="Selectors">Selectors</h2><p>样式选择器是用来指定某个视图或者视图模型,来应用你的样式表. 有三种指定的方式:</p>
-<ol>
-<li><p>类</p>
-</li>
-<li><p>视图层级</p>
-</li>
-<li><p>样式Class</p>
-</li>
-</ol>
-<p>我们可以三种一起用:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/* &#21305;&#37197;&#35270;&#22270;&#10; *&#10; * &#31867;  UIButton&#25110;&#32773;&#20854;&#23376;&#31867;&#10; * &#26679;&#24335;&#31867;  large&#10; * &#29238;&#35270;&#22270;&#31867; UITabBar&#10; */&#10; &#10;UITabBar &#62; ^UIButton.large &#123; &#125;</span><br></pre></td></tr></table></figure>
-<p>下面分别说明:</p>
-<h2 id="类">类</h2>
+        <h2 id="Context">Context</h2><p>反复接触 <code>ReactiveCocoa</code> ,这次真的准备把它应用到实际开发中了.为了以后使用方便,这里列出一些常用关键字的使用方法,以备查询.</p>
+<h2 id="常用方法">常用方法</h2><h3 id="简单订阅_subscribeNext">简单订阅 subscribeNext</h3><p>使用场景:<br>“ 如果你改变了,让我知道 “</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.usernameTextField.rac_textSignal subscribeNext:^(id x) &#123;&#10;   NSLog(@&#34;%@&#34;, x);&#10; &#125;];</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer>
       
+        
+          <div class="alignleft">
+            <a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-28T23:37:53.000Z"><a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/">2015-08-29</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/">简单实现控制器过渡动画</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>自己实现控制器动画的方法,还是比较常见的. 这个是    <code>UINavigationController</code>的 <code>Push</code> 和 <code>Dismiss</code> 动画.<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/#more" class="more-link">Read More</a>
+          </div>
         
         
       
@@ -695,11 +672,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
-  
     <li><a href="/categories/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
-  
-    <li><a href="/categories/Git/">Git</a><small>1</small></li>
   
     <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
   
@@ -707,11 +680,15 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
+    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
+  
     <li><a href="/categories/Vim/">Vim</a><small>5</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>15</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/其他技术/">其他技术</a><small>2</small></li>
   
     <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
@@ -719,17 +696,11 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/悟/">悟</a><small>1</small></li>
   
-    <li><a href="/categories/知识技巧总结/">知识技巧总结</a><small>1</small></li>
-  
-    <li><a href="/categories/算法专题/">算法专题</a><small>1</small></li>
+    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>5</small></li>
   
     <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
   
-    <li><a href="/categories/辅助编程技能/">辅助编程技能</a><small>7</small></li>
-  
     <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
-  
-    <li><a href="/categories/高效OC编程/">高效OC编程</a><small>1</small></li>
   
   </ul>
 </div>
@@ -742,11 +713,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
   
-    <li><a href="/tags/ClassyLiveLayout/">ClassyLiveLayout</a><small>1</small></li>
-  
     <li><a href="/tags/Core-Aniamtion深入探讨/">Core Aniamtion深入探讨</a><small>15</small></li>
-  
-    <li><a href="/tags/Git-命令/">Git 命令</a><small>1</small></li>
   
     <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
   
@@ -758,37 +725,35 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
   
+    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
+  
     <li><a href="/tags/Vim/">Vim</a><small>2</small></li>
   
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>3</small></li>
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>4</small></li>
   
     <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
   
-    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+    <li><a href="/tags/其他技术/">其他技术</a><small>2</small></li>
   
-    <li><a href="/tags/小脚本大智慧/">小脚本大智慧</a><small>1</small></li>
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
   
     <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
   
     <li><a href="/tags/悟/">悟</a><small>1</small></li>
   
-    <li><a href="/tags/正则表达式/">正则表达式</a><small>2</small></li>
-  
     <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
   
-    <li><a href="/tags/算法专题-字符串/">算法专题 字符串</a><small>1</small></li>
+    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
   
     <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
   
     <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
   
-    <li><a href="/tags/辅助编程技能/">辅助编程技能</a><small>2</small></li>
-  
     <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
   
-    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>5</small></li>
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
   
-    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>4</small></li>
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
   
   </ul>
 </div>
