@@ -51,6 +51,60 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-04-15T04:47:38.000Z"><a href="/2015/04/15/iOS Tips/在类的头文件中尽量少引入其他头文件/">2015-04-15</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/04/15/iOS Tips/在类的头文件中尽量少引入其他头文件/">高效OC编程-在类的头文件中尽量少引入其他头文件</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>与C 和C++ 一样，Objective-C 也使用“头文件”（header file） 与“实现文件”（implementation file）来区隔代码。用Objective-C 语言编写“类”（class）的标准方式为：以类名做文件名，分别创建两个文件，头文件后缀用.h，实现文件后缀用.m。创建好一个类之后，其代码看上去如下所示:   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// EOCPerson.h&#10;#import &#60;Foundation/Foundation.h&#62;&#10;@interface EOCPerson : NSObject&#10;@property (nonatomic, copy) NSString *firstName;&#10;@property (nonatomic, copy) NSString *lastName;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// EOCPerson.m&#10;#import &#34;EOCPerson.h&#34;&#10;@implementation EOCPerson&#10;// Implementation of methods&#10;@end</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/04/15/iOS Tips/在类的头文件中尽量少引入其他头文件/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/6/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-04-14T04:54:11.000Z"><a href="/2015/04/14/环境、配置相关/git问题汇总/">2015-04-14</a></time>
       
       
@@ -223,26 +277,25 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/">2015-04-12</a></time>
+        <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">2015-04-12</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/">25条提升iOS App性能的建议-iOS 方法论</a></h1>
+    <h1 class="title"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">高效OC编程-在对象内部尽量直接访问实例变量</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="25条提高_iOS_App_性能的建议">25条提高 iOS App 性能的建议</h2><p>性能关系到用户体验,所以它对于我们的开发来说是至关重要的.  </p>
-<h3 id="特别注意:">特别注意:</h3><p>在优化代码之后,必须保证有个需要解决的问题!不要陷入”pre-optimizing(预优化)”你的代码.用Instruments分析你的代码,来发现需要提高的地方.</p>
-<p>下面是一些值得预先考虑的地方,分为三个不同的级别-基础,中级,高级<br>
+        <p>在对象之外访问实例变量时,应该总是通过属性来做.在那么在对象内部访问实例变量的时候,又该如何呢?  </p>
+<p>这是 OCer们一直激烈讨论的问题.有人认为,无论什么情况,都应该通过属性来访问实例变量;也有人说,”通过属性访问”和”直接访问”应该搭配着用. 除了几种特殊情况之外, 笔者强烈建议大家在读取实例变量的时候采用直接访问的形式,而在设置实例变量的时候通过属性来做.<br>
       
     </div>
     <footer>
       
         
           <div class="alignleft">
-            <a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/#more" class="more-link">Read More</a>
+            <a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -277,25 +330,26 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">2015-04-12</a></time>
+        <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/">2015-04-12</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">高效OC编程-在对象内部尽量直接访问实例变量</a></h1>
+    <h1 class="title"><a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/">25条提升iOS App性能的建议-iOS 方法论</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>在对象之外访问实例变量时,应该总是通过属性来做.在那么在对象内部访问实例变量的时候,又该如何呢?  </p>
-<p>这是 OCer们一直激烈讨论的问题.有人认为,无论什么情况,都应该通过属性来访问实例变量;也有人说,”通过属性访问”和”直接访问”应该搭配着用. 除了几种特殊情况之外, 笔者强烈建议大家在读取实例变量的时候采用直接访问的形式,而在设置实例变量的时候通过属性来做.<br>
+        <h2 id="25条提高_iOS_App_性能的建议">25条提高 iOS App 性能的建议</h2><p>性能关系到用户体验,所以它对于我们的开发来说是至关重要的.  </p>
+<h3 id="特别注意:">特别注意:</h3><p>在优化代码之后,必须保证有个需要解决的问题!不要陷入”pre-optimizing(预优化)”你的代码.用Instruments分析你的代码,来发现需要提高的地方.</p>
+<p>下面是一些值得预先考虑的地方,分为三个不同的级别-基础,中级,高级<br>
       
     </div>
     <footer>
       
         
           <div class="alignleft">
-            <a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/#more" class="more-link">Read More</a>
+            <a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/#more" class="more-link">Read More</a>
           </div>
         
         
@@ -553,80 +607,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
           <div class="alignleft">
             <a href="/2015/03/07/其他技术/从开一个手机号码开始/#more" class="more-link">Read More</a>
           </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/6/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-02-28T01:32:47.000Z"><a href="/2015/02/28/环境、配置相关/使用-Homebrew-管理你的mac开发包/">2015-02-28</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/02/28/环境、配置相关/使用-Homebrew-管理你的mac开发包/">使用 Homebrew 管理你的mac开发包</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>很多人可能不了解 Homebrew, 其实它相当于开发软件界的 Appstore.</p>
-<p>比如,如果我要安装 python 的最新版本,那么传统的做法是</p>
-<ol>
-<li>到官方网站下载 python 的最新版本 </li>
-<li>极其麻烦和小心翼翼的删除自带的 python 版本 </li>
-<li>安装新的版本 </li>
-<li>设置环境变量</li>
-</ol>
-<p>而借助 <code>Homebrew</code>, 需要做的仅仅是:<br><code>brew uninstall python</code><br>然后<br><code>brew install python</code></p>
-<p>整个过程只是等待而已,不需要百度 <code>python</code> 的官方网址,不需要找卸载安装配置环境变量教程…</p>
-<h2 id="安装_Homebrew">安装 Homebrew</h2><p>更多的好处就会在你以后的使用中被发掘.<br>下面我们进行 Homebrew 的安装.</p>
-<p>打开终端,输入以下命令:<br><code>ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</code></p>
-<p>注意:</p>
-<ul>
-<li><p>因网络的原因,可能会不成功,请多尝试几次,一直到成功安装.</p>
-</li>
-<li><p>中间会出现一个 Press RETURN to continue or any other key to abort,请及时回车,并输入密码,不要傻等着…</p>
-</li>
-<li><p>不要加 sudo, 加了也没关系,待会会提示你 Don’t run as root</p>
-</li>
-<li><p>如果出现了某个包导致的安装失败,你仅需要按照提示进行操作即可</p>
-</li>
-</ul>
-<p>当看到下面的内容时 ,证明已经安装成功了.</p>
-<p><img src="http://ww4.sinaimg.cn/large/9e446dffjw1essytoxlv1j20ka0dhtf0.jpg"></p>
-<p>注: 本文来自本人早期在 csdn 上撰写的文章,内容为原创</p>
-
-      
-    </div>
-    <footer>
-      
         
         
       

@@ -51,6 +51,64 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-06-04T06:10:47.000Z"><a href="/2015/06/04/iOS Tips/Tip9 以类族模式隐藏实现细节/">2015-06-04</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/06/04/iOS Tips/Tip9 以类族模式隐藏实现细节/">Tip9 以类族模式隐藏实现细节</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.</p>
+<p>一个例子: UIButton<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIButton * button = [UIButton buttonWithType];</span><br></pre></td></tr></table></figure></p>
+<p>该方法返回的对象类型取决于传入的 <code>type</code> ,不同的<code>type</code>决定了这个 button 将来的一些属性的不同(或者说可供设置的属性的不同)</p>
+<p>要实现类似的功能,如果不用类族,那么还可能是一个类中的枚举.比如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void) drawRect:(CGRect)rect&#123;&#10;&#9;if(_type == typeA)&#123;&#10;&#9;&#9;//&#32472;&#21046;&#19968;&#20010; typeA &#31867;&#22411;&#30340; Button&#10;&#9;&#125;else if (_type == typeB)&#123;&#10;&#9;&#9;//&#32472;&#21046;&#19968;&#20010; typeB &#31867;&#22411;&#30340; Button&#10;&#9;&#125;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个简单的类型,这么看来没有问题,但是如果类型太多,这样就显得非常笨拙了.</p>
+<p>稍微聪明一点的程序员,会把这样的代码重构.不同的实现放到子类中,父类中存放公共代码.但是这样也有一个缺点,就是开发者需要知道所有的子类.</p>
+<p>现在类族的好处就显而易见了.</p>
+<h2 id="一个自定义的类族">一个自定义的类族</h2><p>假设我们有一个 Person 类,Person 分为不同的职业.有老师,学生,医生.那么类族的实现应该是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger,PersonType) &#123;&#10;    PersonTypeDoctor,&#10;    PersonTypeTeacher,&#10;    PersonTypeStudent&#10;&#125;;&#10;&#10;+ (Person *) personWithType:(PersonType)type&#123;&#10;    switch(type)&#123;&#10;        case PersonTypeDoctor:&#10;            return [[PersonDoctor alloc]init];&#10;            break;&#10;        case PersonTypeTeacher:&#10;            return [[PersonTypeTeacher alloc]init];&#10;            break;&#10;        case PersonTypeStudent:&#10;            return [[PersonTypeStudent alloc]init];&#10;            break;&#10;            &#10;    &#125;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/5/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-06-03T09:06:06.000Z"><a href="/2015/06/03/Swift/Currying/">2015-06-03</a></time>
       
       
@@ -623,60 +681,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     </div>
     <footer>
       
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/5/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-04-15T04:47:38.000Z"><a href="/2015/04/15/iOS Tips/在类的头文件中尽量少引入其他头文件/">2015-04-15</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/04/15/iOS Tips/在类的头文件中尽量少引入其他头文件/">高效OC编程-在类的头文件中尽量少引入其他头文件</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>与C 和C++ 一样，Objective-C 也使用“头文件”（header file） 与“实现文件”（implementation file）来区隔代码。用Objective-C 语言编写“类”（class）的标准方式为：以类名做文件名，分别创建两个文件，头文件后缀用.h，实现文件后缀用.m。创建好一个类之后，其代码看上去如下所示:   </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// EOCPerson.h&#10;#import &#60;Foundation/Foundation.h&#62;&#10;@interface EOCPerson : NSObject&#10;@property (nonatomic, copy) NSString *firstName;&#10;@property (nonatomic, copy) NSString *lastName;&#10;@end</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// EOCPerson.m&#10;#import &#34;EOCPerson.h&#34;&#10;@implementation EOCPerson&#10;// Implementation of methods&#10;@end</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/04/15/iOS Tips/在类的头文件中尽量少引入其他头文件/#more" class="more-link">Read More</a>
-          </div>
         
         
       

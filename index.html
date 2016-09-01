@@ -785,32 +785,26 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-06-18T15:28:19.000Z"><a href="/2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/">2016-06-18</a></time>
+        <time datetime="2016-07-01T07:25:24.000Z"><a href="/2016/07/01/React Native/一个React-Native项目-项目介绍/">2016-07-01</a></time>
       
       
   
-    <h1 class="title"><a href="/2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/">RACObserve 和 rac_textSignal 的搭配使用</a></h1>
+    <h1 class="title"><a href="/2016/07/01/React Native/一个React-Native项目-项目介绍/">一个React Native项目-项目介绍</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>项目中有个小需求,文本框与按钮绑定.当文本框内容符合规则的时候,按钮才会可用.把判定条件修改一下,代码如下:</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> RAC(self.loginButton,enabled)  = [self.textFiled.rac_textSignal  map:^id(NSString *value) &#123;&#10;    return @(value.length&#62;3);&#10;&#125;];</span><br></pre></td></tr></table></figure>
-<p>但是如果在发送请求之后,通过代码清除了文本框的内容,按钮并不会改变状态. </p>
-<p> 想到了, 应该是这个 <code>rac_textSignal</code> 出现问题了.<br> 看一下它的实现:<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> - (RACSignal *)rac_textSignal &#123;&#10;&#9;@weakify(self);&#10;&#9;return [[[[[RACSignal&#10;&#9;&#9;defer:^&#123;&#10;&#9;&#9;&#9;@strongify(self);&#10;&#9;&#9;&#9;return [RACSignal return:self];&#10;&#9;&#9;&#125;]&#10;&#9;&#9;concat:[self rac_signalForControlEvents:UIControlEventAllEditingEvents]]&#10;&#9;&#9;map:^(UITextField *x) &#123;&#10;&#9;&#9;&#9;return x.text;&#10;&#9;&#9;&#125;]&#10;&#9;&#9;takeUntil:self.rac_willDeallocSignal]&#10;&#9;&#9;setNameWithFormat:@&#34;%@ -rac_textSignal&#34;, self.rac_description];&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>几个关键词的解释:<br><code>defer</code> : 将代码的创建推迟到信号被订阅<br><code>concat</code>: 连接信号,第一个信号必须发送完成，第二个信号才会被激活<br><code>map</code> : 映射,将信号内容转换<br><code>takeUtil</code> :  signalA takeUntil:signalB 当signalB激活之后,停止signalA 的订阅</p>
-<p>其实主要的是, 这个 <code>signal</code> 是监听的: <code>UIControlEventAllEditingEvents</code> . 那么也就是说对<code>setter</code> 方式不会触发信号 </p>
-<p><code>RACObserve</code> 是一个常用的宏,我们都知道是监听属性值改变的.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define RACObserve(TARGET, KEYPATH) \&#10;&#9;(&#123; \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic push&#34;) \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic ignored \&#34;-Wreceiver-is-weak\&#34;&#34;) \&#10;&#9;&#9;__weak id target_ = (TARGET); \&#10;&#9;&#9;[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self]; \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic pop&#34;) \&#10;&#9;&#125;)</span><br></pre></td></tr></table></figure>
-<p>主要代码是:<code>[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self];</code><br>然后这个<code>rac_valuesForKeyPath</code>的实现如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (RACSignal *)rac_valuesForKeyPath:(NSString *)keyPath observer:(__weak NSObject *)observer &#123;&#10;&#9;return [[[self&#10;&#9;&#9;rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]&#10;&#9;&#9;map:^(RACTuple *value) &#123;&#10;&#9;&#9;&#9;// -map: because it doesn&#39;t require the block trampoline that -reduceEach: uses&#10;&#9;&#9;&#9;return value[0];&#10;&#9;&#9;&#125;]&#10;&#9;&#9;setNameWithFormat:@&#34;RACObserve(%@, %@)&#34;, self.rac_description, keyPath];&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>主要代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]</span><br></pre></td></tr></table></figure>
-<p>也就是这个是通过 <code>KVO</code> 实现的. 而 <code>KVO</code> 得实现是通过临时生成一个子类,并重写父类的 <code>setter</code> 方法.这个在官方文档中有说明:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Key-Value Observing Implementation Details&#10;&#10;Automatic key-value observing is implemented using a technique called&#160;isa-swizzling.&#160;&#10;The&#160;isa&#160;pointer, as the name suggests, points to the object&#39;s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.&#160;&#10;When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.&#160;&#10;You should never rely on the&#160;isa&#160;pointer to determine class membership. Instead, you should use the&#160;class&#160;method to determine the class of an object instance.</span><br></pre></td></tr></table></figure>
-<h3 id="最终实现">最终实现</h3><p>了解了两者的实现,就可以很容易实现代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RAC(self.loginButton,enabled) =[ [RACObserve(self.textFiled, text)  merge:self.textFiled.rac_textSignal ] map:^id(NSString *value) &#123;&#10;     return @(value.length&#62;3);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+        <h2 id="背景">背景</h2><p>从<code>ReactNative</code>诞生的那天开始,就对它非常关注.一方面是欢喜可以有个靠谱的方案来实现跨平台开发了,另一方面也是担心它虎头蛇尾.好在,到现在看来,它势头还是很猛的.</p>
+<p>现在接触<code>ReactNative</code>也有一定时间了,知识比较零散,所以想借助一个练手项目来串一下知识.</p>
+<p>项目使用<code>ES6语法</code> ,最终效果如下:</p>
+<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/84917shopping.gif" alt="84917shopping.gif"></p>
+<h2 id="代码">代码</h2><p>代码已经开源到 <a href="https://github.com/guiqingblog/GUIShopping" target="_blank" rel="external">github</a></p>
+<h2 id="说明">说明</h2><p>因为代码已经上传,所以就不在赘述,主要分开说说一些注意点.这些我将分文章阐述.</p>
+<h2 id="一些资料">一些资料</h2><p><a href="http://reactnative.cn/" target="_blank" rel="external">Reat Native中文官网</a> 这上面关于环境配置和基础控件的使用都非常全面,是必不可少的参考资料.</p>
+<p><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="external">Flexbox</a> ReactNative中大量使用了Flexbox进行布局,所以这方面的知识必不可少</p>
+<p><a href="http://www.oschina.net/news/61214/11-react-native-ui-components" target="_blank" rel="external">11款ReactNative开源组件</a> 研究别人的代码是一种非常好的提升方式</p>
+<p><strong>版权声明: 灵感和素材均来源于广州小码哥的跨平台项目</strong></p>
 
       
     </div>
@@ -849,77 +843,32 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-06-15T06:51:18.000Z"><a href="/2016/06/15/Swift/Swift3-新特性/">2016-06-15</a></time>
+        <time datetime="2016-06-18T15:28:19.000Z"><a href="/2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/">2016-06-18</a></time>
       
       
   
-    <h1 class="title"><a href="/2016/06/15/Swift/Swift3-新特性/">Swift3 新特性 </a></h1>
+    <h1 class="title"><a href="/2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/">RACObserve 和 rac_textSignal 的搭配使用</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>看了一下刚出的 Session 406,简单记录一下关于 Swift3.0相比2.2的改动. 能力有限,若有谬误,欢迎指正 .</p>
-<h3 id="简化的_API">简化的 API</h3><ul>
-<li>优化将方法名切分,将操作中的动词提取,作为方法名.将其余部分作为参数名.</li>
-<li>在不引起歧义的情况下,去掉了重复性的名词.</li>
-</ul>
-<p>Swift 2.2</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var array:Array = [1,2]&#10;&#10;array.appendContentsOf([2,3,4])&#10;array.insert(1, atIndex: 0)&#10;&#10;var url = NSURL(string: &#34;randomLoacation&#34;)!&#10;&#10;if url.fileURL &#123;&#125;&#10;var x = url.URLByAppendingPathComponent(&#34;file.txt&#34;)</span><br></pre></td></tr></table></figure>
-<p>Swift 3.0</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//Swift.Array&#10;var array:Array = [1,2]&#10;&#10;array.append(contentsOf: [2,3,4])&#10;array.insert(1, at: 0) //index&#27809;&#26377;&#20160;&#20040;&#29305;&#23450;&#20449;&#24687;,&#21482;&#26159;&#37325;&#22797;&#10;&#10;//Foudation.NSURL&#10;var url = NSURL(string: &#34;randomLoacation&#34;)!&#10;if url.isFileURL &#123;&#125; //&#24847;&#24605;&#26356;&#26126;&#30830;&#10;var x = url.appendingPathComponent(&#34;file.txt&#34;)</span><br></pre></td></tr></table></figure>
-<h3 id="一致的函数参数标签">一致的函数参数标签</h3><p>原来2.2中, 第一个参数标签可以省略.类似这样:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;func myFunction(a: Int , b: Int , c: Int)&#123;&#10;&#10;&#125;&#10;&#10;myFunction(42, b: 57, c: 39)</span><br></pre></td></tr></table></figure>
-<p>在 3.0 中,上面的用法会报错. 需要显式写出标签,类似这样:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;func myFunction(a: Int , b: Int , c: Int)&#123;&#10;    &#10;&#125;&#10;&#10;myFunction(a: 10, b: 10, c: 10)</span><br></pre></td></tr></table></figure>
-<p>当然,如果实在不想写,可以在声明的时候使用 <code>_</code> .</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;func myFunction(_ a: Int , b: Int , c: Int)&#123;&#10;    &#10;&#125;&#10;&#10;myFunction(10, b: 10, c: 10)</span><br></pre></td></tr></table></figure>
-<h3 id="移动_Where_语句到函数声明的结尾">移动 Where 语句到函数声明的结尾</h3><p>在 Swift2.2中,泛型约束语句<code>Where</code>需要放到泛型的<code>&lt;&gt;</code>中.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func anyCommon&#60;T: SequenceType, U: SequenceType&#10;    where T.Generator.Element : Equatable,&#10;    T.Generator.Element == U.Generator.Element&#62;(lhs: T, rhs: U) -&#62; Bool&#123;&#10;    print(&#34;here&#34;)&#10;    return true;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在 Swift3.0中,将其提取到声明之后:<br>代码是参考的 Session 中的代码,但是本人用 Xcode8.0的 Playground 报错.但是主旨不会错,就是将<code>Where</code>语句提取出来.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func anyCommons&#60;T: Sequence, U: Sequence&#62;(lhs: T, rhs: U) -&#62; Bool&#10;    where T.Element: Equatable,T.Element == U.Element&#10;&#123;&#10;    print(&#34;here&#34;)&#10;    return true;&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="结果未使用警告的方法">结果未使用警告的方法</h3><p>对于一个没有使用的函数返回值(或者自定义的变量值),编译器都会给你一个警告.因为既然你认为有返回值, 而你却没有使用.这可能就是你忘记了.这种操作可能会造成你编码的 bug</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func plusOne(_ a : Int) -&#62;Int&#123;&#10;         print(a)&#10;         return a+1&#10;     &#125;&#10;     &#10;     plusOne(3) //&#24471;&#21040;&#35686;&#21578; Result of call to &#39;plusOne&#39; is unused</span><br></pre></td></tr></table></figure>
-<p>但是一些情况下.我们确实不需要用到这个返回值,而且仅仅是为了函数的一个副作用( side effect) 而去调用函数. 例如,上面代码中的<code>print(a)</code>.这就是我调用函数的目的.<br>为了消除警告,可以使用如下方式:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;func plusOne(_ a : Int) -&#62;Int&#123;&#10;    print(a)&#10;    return a+1&#10;&#125;&#10;&#10;_ =  plusOne(3)</span><br></pre></td></tr></table></figure>
-<p>或者使用标记 <code>@discardableResult</code>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@discardableResult&#10;func plusOne(_ a : Int) -&#62;Int&#123;&#10;    print(a)&#10;    return a+1&#10;&#125;&#10;&#10;plusOne(3)</span><br></pre></td></tr></table></figure>
-<h3 id="索引集合">索引集合</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let collection = [&#34;a&#34;,&#34;b&#34;,&#34;c&#34;,&#34;d&#34;]&#10;&#10;var i = collection.startIndex</span><br></pre></td></tr></table></figure>
-<p>在 Swift 2.2 中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swift 2 : var next = i.successor()</span><br></pre></td></tr></table></figure>
-<p>在 Swift 3.0 中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var next = collection.index(after: 2)</span><br></pre></td></tr></table></figure>
-<h3 id="浮点型和数值型">浮点型和数值型</h3><ul>
-<li>Float,Double,Float80 和 CGFloat统一使用新的浮点协议( Floating Point Protocol )</li>
-<li>提供 IEEE-754 相关的属性和方法 (IEEE 754 标准是IEEE二进位浮点数算术标准（IEEE Standard for Floating-Point Arithmetic）的标准编号  ，等同于国际标准ISO/IEC/IEEE 60559[2])</li>
-<li>允许在所有的浮点类型上使用算法泛型(水平有限,原文是:permits algrithms to be gerneric over all floating point types)</li>
-</ul>
-<p>用 PI 来举个例子:<br>Swift 2.2</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let v = 2 * Float(M_PI)</span><br></pre></td></tr></table></figure>
-<p>而在 Swift3.0中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let v = 2 * Float.pi</span><br></pre></td></tr></table></figure>
-<p>如果第一个操作数是浮点数,还可以这样写:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let anotherV = 2.0 * .pi / 180</span><br></pre></td></tr></table></figure>
-<h3 id="隐式解包可选">隐式解包可选</h3><p>在 Swift2.2中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func f(value: Int!)&#123;&#10;    let x = value + 1 // x &#26159; Int &#31867;&#22411; - &#24378;&#21046;&#35299;&#21253;&#10;    let y = value     // y &#26159; Int!&#10;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在 Swift 3.0 中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func f(value: Int!)&#123;&#10;    let x = value + 1 // x &#26159; Int &#31867;&#22411; - &#24378;&#21046;&#35299;&#21253;&#10;    let y = value     // y &#26159; Int?&#10;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>具体参考:<br><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0054-abolish-iuo.md" target="_blank" rel="external">SE-0054</a></p>
-<h3 id="一些细节的增强">一些细节的增强</h3><ul>
-<li>当前文件访问级别,新增的权限控制关键字 <code>fileprivate</code> <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md" target="_blank" rel="external">SE-0025</a></li>
-<li><code>case</code>中的标签可以使用多种模式 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0043-declare-variables-in-case-labels-with-multiple-patterns.md" target="_blank" rel="external">SE-0043</a></li>
-<li>泛型别名 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0048-generic-typealias.md" target="_blank" rel="external">SE-0048</a></li>
-<li>引用Objective-C 的 key-paths <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0062-objc-keypaths.md" target="_blank" rel="external">SE-0062</a></li>
-<li>引用 Objective-C中属性的 getter 和 setter <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0064-property-selectors.md" target="_blank" rel="external">SE-0064</a></li>
-<li>协议和协议拓展的别名 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0092-typealiases-in-protocols.md" target="_blank" rel="external">SE-0092</a><h3 id="移除的功能">移除的功能</h3></li>
-</ul>
-<ol>
-<li>函数柯里化<a href="http://www.cocoachina.com/ios/20141110/10166.html" target="_blank" rel="external">Currying介绍</a></li>
-<li>函数参数中的 <code>var</code> <a href="http://www.swiftcafe.io/2016/05/05/swift3-var/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">详细介绍</a></li>
-<li>去掉 <code>++</code> 和 <code>--</code> 操作符</li>
-<li>C 风格的for循环</li>
-<li>通过元组的形式传递函数参数列表 .<a href="http://www.paulrobinson.net/function-parameters-are-tuples-in-swift/" target="_blank" rel="external">详细介绍</a></li>
-</ol>
-<p>对第5条做一个说明:<br>在 swift 2.2 中,我们可以:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let param = (20,&#34;kenny&#34;,&#34;male&#34;)&#10;&#10;func personInfo(age: Int ,_ name: String ,_ gender: String)&#123;&#10;&#10;&#125;&#10;&#10;personInfo(param)&#10;&#10;//&#20063;&#21487;&#20197;&#19981;&#30465;&#30053;&#26631;&#31614;&#10;&#10;let param = (age:20, name:&#34;kenny&#34;, gender:&#34;male&#34;)&#10;&#10;func personInfo(age age: Int , name: String , gender: String)&#123;&#10;&#10;&#125;&#10;&#10;personInfo(param)</span><br></pre></td></tr></table></figure>
-<p>这个语法在 Swift3.0中被去掉了.原因是这么传递,可能会和有一个元组类型参数的函数混淆.</p>
-<p>参考 : WWDC 2016 Session 402 What’s new in Swift</p>
+        <p>项目中有个小需求,文本框与按钮绑定.当文本框内容符合规则的时候,按钮才会可用.把判定条件修改一下,代码如下:</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> RAC(self.loginButton,enabled)  = [self.textFiled.rac_textSignal  map:^id(NSString *value) &#123;&#10;    return @(value.length&#62;3);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<p>但是如果在发送请求之后,通过代码清除了文本框的内容,按钮并不会改变状态. </p>
+<p> 想到了, 应该是这个 <code>rac_textSignal</code> 出现问题了.<br> 看一下它的实现:<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> - (RACSignal *)rac_textSignal &#123;&#10;&#9;@weakify(self);&#10;&#9;return [[[[[RACSignal&#10;&#9;&#9;defer:^&#123;&#10;&#9;&#9;&#9;@strongify(self);&#10;&#9;&#9;&#9;return [RACSignal return:self];&#10;&#9;&#9;&#125;]&#10;&#9;&#9;concat:[self rac_signalForControlEvents:UIControlEventAllEditingEvents]]&#10;&#9;&#9;map:^(UITextField *x) &#123;&#10;&#9;&#9;&#9;return x.text;&#10;&#9;&#9;&#125;]&#10;&#9;&#9;takeUntil:self.rac_willDeallocSignal]&#10;&#9;&#9;setNameWithFormat:@&#34;%@ -rac_textSignal&#34;, self.rac_description];&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>几个关键词的解释:<br><code>defer</code> : 将代码的创建推迟到信号被订阅<br><code>concat</code>: 连接信号,第一个信号必须发送完成，第二个信号才会被激活<br><code>map</code> : 映射,将信号内容转换<br><code>takeUtil</code> :  signalA takeUntil:signalB 当signalB激活之后,停止signalA 的订阅</p>
+<p>其实主要的是, 这个 <code>signal</code> 是监听的: <code>UIControlEventAllEditingEvents</code> . 那么也就是说对<code>setter</code> 方式不会触发信号 </p>
+<p><code>RACObserve</code> 是一个常用的宏,我们都知道是监听属性值改变的.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define RACObserve(TARGET, KEYPATH) \&#10;&#9;(&#123; \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic push&#34;) \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic ignored \&#34;-Wreceiver-is-weak\&#34;&#34;) \&#10;&#9;&#9;__weak id target_ = (TARGET); \&#10;&#9;&#9;[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self]; \&#10;&#9;&#9;_Pragma(&#34;clang diagnostic pop&#34;) \&#10;&#9;&#125;)</span><br></pre></td></tr></table></figure>
+<p>主要代码是:<code>[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self];</code><br>然后这个<code>rac_valuesForKeyPath</code>的实现如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (RACSignal *)rac_valuesForKeyPath:(NSString *)keyPath observer:(__weak NSObject *)observer &#123;&#10;&#9;return [[[self&#10;&#9;&#9;rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]&#10;&#9;&#9;map:^(RACTuple *value) &#123;&#10;&#9;&#9;&#9;// -map: because it doesn&#39;t require the block trampoline that -reduceEach: uses&#10;&#9;&#9;&#9;return value[0];&#10;&#9;&#9;&#125;]&#10;&#9;&#9;setNameWithFormat:@&#34;RACObserve(%@, %@)&#34;, self.rac_description, keyPath];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>主要代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rac_valuesAndChangesForKeyPath:keyPath options:NSKeyValueObservingOptionInitial observer:observer]</span><br></pre></td></tr></table></figure>
+<p>也就是这个是通过 <code>KVO</code> 实现的. 而 <code>KVO</code> 得实现是通过临时生成一个子类,并重写父类的 <code>setter</code> 方法.这个在官方文档中有说明:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Key-Value Observing Implementation Details&#10;&#10;Automatic key-value observing is implemented using a technique called&#160;isa-swizzling.&#160;&#10;The&#160;isa&#160;pointer, as the name suggests, points to the object&#39;s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.&#160;&#10;When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.&#160;&#10;You should never rely on the&#160;isa&#160;pointer to determine class membership. Instead, you should use the&#160;class&#160;method to determine the class of an object instance.</span><br></pre></td></tr></table></figure>
+<h3 id="最终实现">最终实现</h3><p>了解了两者的实现,就可以很容易实现代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RAC(self.loginButton,enabled) =[ [RACObserve(self.textFiled, text)  merge:self.textFiled.rac_textSignal ] map:^id(NSString *value) &#123;&#10;     return @(value.length&#62;3);&#10;&#125;];</span><br></pre></td></tr></table></figure>
 
       
     </div>
