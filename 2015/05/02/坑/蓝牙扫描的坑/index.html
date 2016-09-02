@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>蓝牙扫描的坑 | Kenny 肉桂的主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="蓝牙扫描的坑"/>
+  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Kenny 肉桂的主页</a></h1>
+  <h2><a href="/">记录自己的进步</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-05-02T06:27:38.000Z"><a href="/2015/05/02/坑/蓝牙扫描的坑/">2015-05-02</a></time>
+      
+      
+  
+    <h1 class="title">蓝牙扫描的坑</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>今天公司有同事要求手机连接一个蓝牙设备, 要求是手机自动连接过去.简单翻了一下Apple的文档还找了几个网页,觉得了然于心了.于是先写出了进行扫描的代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#import &#34;ViewController.h&#34;&#10;#import &#60;CoreBluetooth/CoreBluetooth.h&#62;&#10;@interface ViewController () &#60;CBCentralManagerDelegate&#62; &#123;&#10;    CBCentralManager *bleManager_;&#10;&#125;&#10;@end&#10;&#10;@implementation ViewController&#10;&#10;- (void)viewDidLoad &#123;&#10;    [super viewDidLoad];&#10;    bleManager_ = [[CBCentralManager alloc] initWithDelegate:self queue:nil];&#10;    [bleManager_ scanForPeripheralsWithServices:nil options:nil];&#10;&#125;&#10;&#10;- (void)touchesBegan:(NSSet&#60;UITouch *&#62; *)touches withEvent:(UIEvent *)event &#123;&#10;    [bleManager_ stopScan];&#10;&#125;&#10;&#10;- (void)centralManagerDidUpdateState:(CBCentralManager *)central &#123;&#10;    NSLog( @&#34;%@&#34;, central );&#10;    switch ( central.state ) &#123;&#10;    case CBCentralManagerStateUnknown: &#123;&#10;        NSLog( @&#34;%@&#34;, @&#34;CBCentralManagerStateUnknown&#34; );&#10;        break;&#10;    &#125;&#10;    case CBCentralManagerStateResetting: &#123;&#10;        NSLog( @&#34;%@&#34;, @&#34;CBCentralManagerStateResetting&#34; );&#10;        break;&#10;    &#125;&#10;    case CBCentralManagerStateUnsupported: &#123;&#10;        NSLog( @&#34;%@&#34;, @&#34;CBCentralManagerStateUnsupported&#34; );&#10;        break;&#10;    &#125;&#10;    case CBCentralManagerStateUnauthorized: &#123;&#10;        NSLog( @&#34;%@&#34;, @&#34;CBCentralManagerStateUnauthorized&#34; );&#10;        break;&#10;    &#125;&#10;    case CBCentralManagerStatePoweredOff: &#123;&#10;        NSLog( @&#34;%@&#34;, @&#34;CBCentralManagerStatePoweredOff&#34; );&#10;        break;&#10;    &#125;&#10;    case CBCentralManagerStatePoweredOn: &#123;&#10;        NSLog( @&#34;%@&#34;, @&#34;CBCentralManagerStatePoweredOn&#34; );&#10;&#10;        break;&#10;    &#125;&#10;    &#125;&#10;&#125;&#10;&#10;- (void)centralManager:(CBCentralManager *)central&#10; didDiscoverPeripheral:(CBPeripheral *)peripheral&#10;     advertisementData:(NSDictionary&#60;NSString *, id&#62; *)advertisementData&#10;                  RSSI:(NSNumber *)RSSI &#123;&#10;    NSLog( @&#34;BLE found  %@&#34;, peripheral.name );&#10;&#125;&#10;&#10;- (void)centralManager:(CBCentralManager *)central&#10;  didConnectPeripheral:(CBPeripheral *)peripheral &#123;&#10;    NSLog( @&#34;BLE connected  %@&#34;, peripheral.name );&#10;&#125;&#10;&#10;- (void)centralManager:(CBCentralManager *)central&#10;    didFailToConnectPeripheral:(CBPeripheral *)peripheral&#10;                         error:(nullable NSError *)error &#123;&#10;    NSLog( @&#34;BLE connected  %@ faild %@&#34;, peripheral.name, error );&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>真机运行, 发现打印了 <code>CBCentralManagerStatePoweredOn</code> ,但是之后就没有后文了. 发现外设的代理方法没有调用.但是直接通过手机进行扫描,能够发现设备.反复尝试,还是没有得到预期的结果.</p>
+<p>后来想到,自己尝试在手机上反复开关蓝牙让列表刷新,注意到蓝牙开关是有一定时间的.结合自己在代码中:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bleManager_ = [[CBCentralManager alloc] initWithDelegate:self queue:nil];&#10;[bleManager_ scanForPeripheralsWithServices:nil options:nil];</span><br></pre></td></tr></table></figure>
+<p>初始化了直接就开始扫描, 可能是由于蓝牙的Manager还没有准备好吧,于是尝试修改这个开始扫描到判定Manager的状态为PowerOn中:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">case CBCentralManagerStatePoweredOn: &#123;&#10;    NSLog( @&#34;%@&#34;, @&#34;CBCentralManagerStatePoweredOn&#34; );&#10;    [bleManager_ scanForPeripheralsWithServices:nil options:nil];&#10;&#10;    break;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>再进行打印,发现终于出现了各个外设了.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/坑/">坑</a>
+  </div>
+
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2015/05/02/坑/蓝牙扫描的坑/" data-title="蓝牙扫描的坑" data-url="http://yoursite.com/2015/05/02/坑/蓝牙扫描的坑/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/React-Native/">React Native</a><small>2</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
+  
+    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>16</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/其他技术/">其他技术</a><small>8</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/坑/">坑</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
+  
+    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
+  
+    <li><a href="/tags/React-Native/">React Native</a><small>1</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>4</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/其他技术/">其他技术</a><small>4</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
+  
+    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2016 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
