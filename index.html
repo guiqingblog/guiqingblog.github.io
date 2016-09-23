@@ -51,6 +51,69 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-09-23T06:48:47.000Z"><a href="/2016/09/23/Xcode&环境配置/Xcode-8-必要配置/">2016-09-23</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/09/23/Xcode&环境配置/Xcode-8-必要配置/">Xcode 8 适配</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>相信很多小伙伴都升级了Xcode 8 ,但是发现很多恶心的地方.下面是自己这几天的积累,解决了一部分问题.希望能帮到大家.</p>
+<h2 id="注释快捷键失效">注释快捷键失效</h2><p>我们常用的<code>cmd+/</code>失效了了.</p>
+<h2 id="解决方案">解决方案</h2><p>终端输入:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/libexec/xpccachectl</span><br></pre></td></tr></table></figure></p>
+<p>然后重启mac</p>
+<h2 id="去掉多余打印">去掉多余打印</h2><p>当你开开心心的想去控制台看Log的时候,发现这样:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/2016092374983截图 2016-09-23 14时52分35秒.jpg" alt="2016092374983截图 2016-09-23 14时52分35秒.jpg"></p>
+<h2 id="解决方法">解决方法</h2><p>到<code>Target</code>中添加如下键值对:<br><code>OS_ACTIVITY_MODE disable</code><br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461373922375.jpg?imageView2/0/format/jpg" alt="20160923147461373922375.jpg"></p>
+<h2 id="插件失效">插件失效</h2><p>每次升级,都会面临插件失效的情况. 以前比较简单的可以通过修改插件plist的方法来完成修复.<br>1.打开终端，输入以下代码获取到<code>DVTPlugInCompatibilityUUID</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID</span><br></pre></td></tr></table></figure></p>
+<p>2.然后输入如下命令 【最后一项是获取到的DVTPlugInCompatibilityUUID】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins -name Info.plist -maxdepth 3 | xargs -I&#123;&#125; defaults write &#123;&#125; DVTPlugInCompatibilityUUIDs -array-add 9F75337B-21B4-4ADC-B558-F9CADF7073A7</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://blog.csdn.net/u014536527/article/details/45022747" target="_blank" rel="external">来源网址</a><br>但是Xcode 8 却不行了,甚至明确说支持Xcode8的插件也不正常工作.这是因为Xcode8要求<code>code sign</code></p>
+<h2 id="解决方法-1">解决方法</h2><p>因为我一直很依赖<code>xvim</code>这个插件,所以一直关注等着更新.今天意外发现有个适配Xcode8的说明:</p>
+<p>1.打开<code>Keychain Access</code>,在左边栏中选择<code>login</code>这个条目<br>2.选择<code>Create a Certificate</code><br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461457298237.jpg?imageView2/0/format/jpg" alt="20160923147461457298237.jpg"><br>3.输入名字,然后选择<code>Code Signing</code>这个类型<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461461158577.jpg?imageView2/0/format/jpg" alt="20160923147461461158577.jpg"><br>4.退出Xode,然后终端中输入:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo codesign -f -s XcodeSigner /Applications/Xcode.app</span><br></pre></td></tr></table></figure></p>
+<p>具体Xcode路径看自己放哪.<br>5.然后可以依靠旧的方法去使用,或者去获取最新版本.</p>
+<p><a href="https://github.com/XVimProject/XVim/blob/master/INSTALL_Xcode8.md" target="_blank" rel="external">来源网址</a></p>
+<h2 id="切换Swift版本">切换Swift版本</h2><p>目前Xcode8中支持Swift3.0 ,但是不幸的是,很多三方库还不支持. 我们可以通过配置,切换为Swift的2.3版本.</p>
+<h2 id="修改配置">修改配置</h2><p>配置如下图,设置为NO表示使用 Swift 3.0. YES表示使用Swift2.3<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461514664286.jpg?imageView2/0/format/jpg" alt="20160923147461514664286.jpg"></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-08-18T06:19:06.000Z"><a href="/2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/">2016-08-18</a></time>
       
       
@@ -846,63 +909,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-07-01T07:25:24.000Z"><a href="/2016/07/01/React Native/一个React-Native项目-项目介绍/">2016-07-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/07/01/React Native/一个React-Native项目-项目介绍/">一个React Native项目-项目介绍</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="背景">背景</h2><p>从<code>ReactNative</code>诞生的那天开始,就对它非常关注.一方面是欢喜可以有个靠谱的方案来实现跨平台开发了,另一方面也是担心它虎头蛇尾.好在,到现在看来,它势头还是很猛的.</p>
-<p>现在接触<code>ReactNative</code>也有一定时间了,知识比较零散,所以想借助一个练手项目来串一下知识,粗略的模仿了美团的客户端.</p>
-<p>项目使用<code>ES6语法</code> ,最终效果如下:</p>
-<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/32248shopping.gif" alt="32248shopping.gif"></p>
-<h2 id="代码">代码</h2><p>代码已经开源到 <a href="https://github.com/guiqingblog/GUIShopping" target="_blank" rel="external">github</a></p>
-<h2 id="说明">说明</h2><p>因为代码已经上传,所以就不在赘述,主要分开说说一些注意点.这些我将分文章阐述.</p>
-<h2 id="一些资料">一些资料</h2><p><a href="http://reactnative.cn/" target="_blank" rel="external">Reat Native中文官网</a> 这上面关于环境配置和基础控件的使用都非常全面,是必不可少的参考资料.</p>
-<p><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="external">Flexbox</a> ReactNative中大量使用了Flexbox进行布局,所以这方面的知识必不可少</p>
-<p><a href="http://www.oschina.net/news/61214/11-react-native-ui-components" target="_blank" rel="external">11款ReactNative开源组件</a> 研究别人的代码是一种非常好的提升方式</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -933,6 +939,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
   
     <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/categories/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
   
     <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>16</small></li>
   
@@ -978,6 +986,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
   
     <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/tags/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
   
     <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>4</small></li>
   
