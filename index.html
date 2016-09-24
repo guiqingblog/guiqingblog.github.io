@@ -51,6 +51,81 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-09-24T02:49:05.000Z"><a href="/2016/09/24/iOS Tips/GCD实现线程同步的三种方式/">2016-09-24</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/09/24/iOS Tips/GCD实现线程同步的三种方式/">GCD实现线程同步的三种方式</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>写这篇文章的原因是自己几天前的一个面试,当时面试官问这个线程同步的问题,感觉自己回答的不好,知识接触过,却不系统条理.所以这次特地整理一下</p>
+<h2 id="什么是线程同步">什么是线程同步</h2><p>同步就是协同步调，按预定的先后次序进行运行。如：你说完，我再说。<br>“同”字从字面上容易理解为一起动作<br>其实不是，“同”字应是指协同、协助、互相配合。<br>如进程、线程同步，可理解为进程或线程A和B一块配合，A执行到一定程度时要依靠B的某个结果，于是停下来，示意B运行；B依言执行，再将结果给A；A再继续操作。</p>
+<p><strong>以上内容来自百度百科</strong></p>
+<h2 id="GCD中实现线程同步的方式">GCD中实现线程同步的方式</h2><h3 id="dispatch_group">dispatch_group</h3><p><code>dispatch_group</code>是GCD中经常使用的线程同步方式,具体用法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&#34;cc.imguiqing&#34;, DISPATCH_QUEUE_CONCURRENT);&#10;dispatch_group_t group = dispatch_group_create();&#10;dispatch_group_async(group, queue, ^&#123;&#10;    NSLog(@&#34;task 1 on %@&#34;,[NSThread currentThread]);&#10;&#125;);&#10;&#10;dispatch_group_async(group, queue, ^&#123;&#10;    NSLog(@&#34;task 2 on %@&#34;,[NSThread currentThread]);&#10;&#125;);&#10;&#10;dispatch_group_async(group, queue, ^&#123;&#10;    NSLog(@&#34;task 3 on %@&#34;,[NSThread currentThread]);&#10;&#125;);</span><br></pre></td></tr></table></figure>
+<p>可以看出,这个和普通的GCD任务相比,每个API都多了一个group参数.但是如果仅仅是像上面的方式使用,就没有什么必要了.我们使用Group的原因,更多是想要知道这个Group中的执行情况.借此来获得时机做一些逻辑操作.所以<code>dispatch_group</code>提供了两个API:</p>
+<ol>
+<li>通知Group中的任务都执行完毕</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;dispatch_group_notify(group, queue, ^&#123;&#10;    NSLog(@&#34;all task done&#34;);&#10;&#125;);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>阻塞式的等待Group中的任务都执行完毕</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_group_wait(group, DISPATCH_TIME_FOREVER);&#10;NSLog(@&#34;since all done , I move on&#34;);</span><br></pre></td></tr></table></figure>
+<h4 id="更常见的写法">更常见的写法</h4><p>上面的写法虽然简单,但是如果看过一些三方库的代码,发现那么用的并不多.更多的是利用<code>dispatch_group_enter(group)</code>和<code>dispatch_group_leave(group)</code>来包装任务,本质上两者没有区别,多说这些仅仅是让你别以后看代码的时候感到疑惑,<br>代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_get_global_queue( 0, 0 );&#10;dispatch_group_t group = dispatch_group_create();&#10;&#10;dispatch_group_enter(group);&#10;dispatch_async( queue, ^&#123;&#10;    NSLog( @&#34;task 1 --- %@&#34;, [NSThread currentThread] );&#10;    dispatch_group_leave(group);&#10;&#125; );&#10;dispatch_group_enter(group);&#10;dispatch_async( queue, ^&#123;&#10;    NSLog( @&#34;task 2 --- %@&#34;, [NSThread currentThread] );&#10;    dispatch_group_leave(group);&#10;&#125; );&#10;dispatch_group_notify( group, queue, ^&#123;&#10;    NSLog( @&#34;all task done %@&#34;, [NSThread currentThread] );&#10;&#125; );</span><br></pre></td></tr></table></figure>
+<h3 id="信号量">信号量</h3><p>信号量可以理解为一个特殊的变量.程序对它的访问都是原子性的,我们通过PV操作来修改信号量.<br>使用代码简单说明:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_semaphore_t sem = &#9;dispatch_semaphore_create(0);&#10;[networkManager requestWithDelay:5 completion:^&#123;&#10;    dispatch_semaphore_signal(sem);//+1&#10;&#125;];&#10;dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);//-1&#10;NSLog(@&#34;five sectonds&#34;);</span><br></pre></td></tr></table></figure>
+<p>信号量创建的时候, 可以给他指定一个值.<code>dispatch_semaphore_signal(sem)</code>对信号进行<code>+1</code>操作.<code>dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER)</code>对信号进行<code>-1</code>操作.当进行<code>-1</code>时,如果发现信号结果会小于0,那么线程进入阻塞状态.只有当信号<code>&gt;=0</code>才能通过.</p>
+<p>那么上面的代码段就容易明白了: 一直等到一个异步的网络请求结束,才继续执行<code>NSLog(@&quot;five sectonds&quot;);</code>,也是就其他的逻辑</p>
+<h3 id="Barrier">Barrier</h3><p>相比上面两种方式,Barrier知道的人相对少一些.但是Barrier用起来相对上面两种更加简单.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&#34;cc.imguiqing&#34;, DISPATCH_QUEUE_CONCURRENT);&#10;dispatch_async(queue, ^&#123;&#10;    NSLog(@&#34;task 1 on %@&#34;,[NSThread currentThread]);&#10;&#125;);&#10;dispatch_async(queue, ^&#123;&#10;    NSLog(@&#34;task 2 on %@&#34;,[NSThread currentThread]);&#10;&#125;);&#10;dispatch_barrier_async(queue, ^&#123;&#10;    NSLog(@&#34;barrier ==========&#34;);&#10;&#125;);&#10;dispatch_async(queue, ^&#123;&#10;    NSLog(@&#34;task 3 on %@&#34;,[NSThread currentThread]);&#10;&#125;);</span><br></pre></td></tr></table></figure>
+<p>上面的代码,<code>task 1</code>和<code>task 2</code>会并发执行,然后执行<code>barrier</code>,最后是<code>task 3</code>,用图来说明:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160924147468717647516.jpg?imageView2/0/format/jpg" alt="20160924147468717647516.jpg"></p>
+<p>这个 barrier就相当于一个栅栏,将不同的任务区分开来.从代码中也不难看出,这个barrier函数不需要依赖其它的变量,没有侵入性.所以非常好用.和Group也是非常好搭配.例如下面的代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&#34;cc.imguiqing&#34;, DISPATCH_QUEUE_CONCURRENT);&#10;dispatch_group_t group = dispatch_group_create();&#10;dispatch_group_async(group, queue, ^&#123;&#10;    for (int i = 0 ; i &#60; 500000000; i++) &#123;&#10;    &#125;&#10;    NSLog(@&#34;task 1 on %@&#34;,[NSThread currentThread]);&#10;&#125;);&#10;dispatch_barrier_async(queue, ^&#123;&#10;    NSLog(@&#34;======&#34;);&#10;&#125;);&#10;dispatch_group_async(group, queue, ^&#123;&#10;    for (int i = 0 ; i &#60; 500000000; i++) &#123;&#10;    &#125;&#10;    NSLog(@&#34;task 2 on %@&#34;,[NSThread currentThread]);&#10;&#125;);&#10;dispatch_barrier_async(queue, ^&#123;&#10;    NSLog(@&#34;======&#34;);&#10;&#125;);&#10;dispatch_group_async(group, queue, ^&#123;&#10;    NSLog(@&#34;task 3 on %@&#34;,[NSThread currentThread]);&#10;&#125;);&#10;dispatch_group_notify(group, queue, ^&#123;&#10;    NSLog(@&#34;all task done&#34;);&#10;&#125;);&#10;dispatch_group_wait(group, DISPATCH_TIME_FOREVER);&#10;NSLog(@&#34;since all done , I move on&#34;);</span><br></pre></td></tr></table></figure>
+<p>能保证 <code>task 1 2 3</code>顺序执行,同时,由于使用了Group,也能知道执行结束的时机. 但是仅仅是为了说明问题,如果要顺序执行,那么还是使用GCD中同步队列更加合适.</p>
+<p><strong>注意点: 这个barrier函数只能用于并发队列,且不能是<code>global queue</code>.</strong></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-09-23T06:48:47.000Z"><a href="/2016/09/23/Xcode&环境配置/Xcode-8-必要配置/">2016-09-23</a></time>
       
       
@@ -842,73 +917,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-07-02T07:39:39.000Z"><a href="/2016/07/02/React Native/一个React Native项目-一些注意点/">2016-07-02</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/07/02/React Native/一个React Native项目-一些注意点/">一个React Native项目-一些注意点</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="对http网络请求的支持">对http网络请求的支持</h2><p>由于在iOS9开始,Apple强制了https的请求.但是如果服务器还不支持,那么应该在plist中添加以下字段:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/29000QQ20160901-2.png" alt="29000QQ20160901-2.png"></p>
-<p>这步要注意,ReactNative并没有聪明替你配置好这个<code>iOS的环境</code>,我是在各种网络请求都异常后,才发现的这个问题.</p>
-<h2 id="提取文件">提取文件</h2><p>因为要同时支持iOS和Android, 那么我们就不应该将布局代码写到<code>index.android.js</code>或者<code>index.ios.js</code>中,当然也不应该写好一个,然后copy到另一个,无论怎么说,如果分散,我们将面临维护多份代码的窘境.所以好的方式是,将实现提取出来,在<code>index.android.js</code>和<code>index.ios.js</code>中,只保持对接口文件的引用.类似下面:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class GUIShopping extends Component &#123;&#10;  render() &#123;&#10;    return (&#10;      &#60;Main/&#62;&#10;    );&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Android的启动页面">Android的启动页面</h2><p>Android本身没有像iOS那么方便的配置启动页的方式,原生的方式是通过<code>Activity</code>来制造假象,同理,利用<code>ReactNative</code>还是要做这个处理.<br>代码如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class GUIShopping extends Component &#123;&#10;  render() &#123;&#10;    return (&#10;        &#60;Navigator&#10;            initialRoute=&#123;&#123;name:&#39;&#21551;&#21160;&#39029;&#39;,component:LaunchImage&#125;&#125;&#10;            configureScene=&#123;()=&#62;&#123; return Navigator.SceneConfigs.PushFromRight; &#125;&#125;&#10;            renderScene=&#123;(route,navigator)=&#62;&#123;&#10;                            let Component = route.component;&#10;                            return &#60;Component &#123;...route.passProps&#125; navigator=&#123;navigator&#125;/&#62;&#10;                        &#125;&#125; /&#62;&#10;    );&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p>而LaunchImage就是一个普通的Component,里面有个定时器,在规定时间内切换到主页,看起来效果和iOS是一样的,主要代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class LaunchImage extends Component &#123;&#10;    render() &#123;&#10;        return (&#10;                &#60;Image source = &#123;&#123;uri:&#39;launchimage&#39;&#125;&#125; style=&#123;styles.launchImage&#125;/&#62;&#10;        );&#10;    &#125;&#10;&#10;    componentDidMount() &#123;&#10;        setTimeout(()=&#62;&#123;&#10;            //&#39029;&#38754;&#30340;&#20999;&#25442;&#10;            this.props.navigator.replace(&#123;&#10;                component:Main,&#10;            &#125;);&#10;        &#125;,2000);&#10;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="ListView横向排版的实现">ListView横向排版的实现</h2><p>默认的<code>ListView</code>是和<code>iOS</code>的<code>TableView</code>类似的,也就是上下滑动,如果想要实现类似<code>CollectionView</code>的布局效果,那么需要做一些配置:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;ListView&#10;              dataSource=&#123;this.state.dataSource&#125;&#10;              renderRow=&#123;this.renderRow&#125;&#10;              contentContainerStyle=&#123;styles.contentView&#125;&#10;              scrollEnabled=&#123;false&#125;&#10;          &#62;&#10;&#10;          &#60;/ListView&#62;</span><br></pre></td></tr></table></figure>
-<p>contentView的实现如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">contentView:&#123;&#10;       flexDirection:&#39;row&#39;,&#10;       flexWrap:&#39;wrap&#39;,&#10;       width:width,&#10;   &#125;,</span><br></pre></td></tr></table></figure>
-<p> 要点:</p>
-<ol>
-<li>要指定<code>ListView</code>的宽度</li>
-<li><p>cell应该具备宽高(特别坑)</p>
-<p>其中第二条没有发现有资料提及,但是自己编码的时候发现,只有设置好cell的宽度和高度,才能实现预想的效果.<br>最终效果如下:</p>
-<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/93550QQ20160901-3.png" alt="93550QQ20160901-3.png"></p>
-</li>
-</ol>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -942,7 +950,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>16</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
   
@@ -989,7 +997,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
   
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>4</small></li>
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>5</small></li>
   
     <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
   

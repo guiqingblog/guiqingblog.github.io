@@ -51,6 +51,73 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-07-02T07:39:39.000Z"><a href="/2016/07/02/React Native/一个React Native项目-一些注意点/">2016-07-02</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/07/02/React Native/一个React Native项目-一些注意点/">一个React Native项目-一些注意点</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="对http网络请求的支持">对http网络请求的支持</h2><p>由于在iOS9开始,Apple强制了https的请求.但是如果服务器还不支持,那么应该在plist中添加以下字段:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/29000QQ20160901-2.png" alt="29000QQ20160901-2.png"></p>
+<p>这步要注意,ReactNative并没有聪明替你配置好这个<code>iOS的环境</code>,我是在各种网络请求都异常后,才发现的这个问题.</p>
+<h2 id="提取文件">提取文件</h2><p>因为要同时支持iOS和Android, 那么我们就不应该将布局代码写到<code>index.android.js</code>或者<code>index.ios.js</code>中,当然也不应该写好一个,然后copy到另一个,无论怎么说,如果分散,我们将面临维护多份代码的窘境.所以好的方式是,将实现提取出来,在<code>index.android.js</code>和<code>index.ios.js</code>中,只保持对接口文件的引用.类似下面:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class GUIShopping extends Component &#123;&#10;  render() &#123;&#10;    return (&#10;      &#60;Main/&#62;&#10;    );&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Android的启动页面">Android的启动页面</h2><p>Android本身没有像iOS那么方便的配置启动页的方式,原生的方式是通过<code>Activity</code>来制造假象,同理,利用<code>ReactNative</code>还是要做这个处理.<br>代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class GUIShopping extends Component &#123;&#10;  render() &#123;&#10;    return (&#10;        &#60;Navigator&#10;            initialRoute=&#123;&#123;name:&#39;&#21551;&#21160;&#39029;&#39;,component:LaunchImage&#125;&#125;&#10;            configureScene=&#123;()=&#62;&#123; return Navigator.SceneConfigs.PushFromRight; &#125;&#125;&#10;            renderScene=&#123;(route,navigator)=&#62;&#123;&#10;                            let Component = route.component;&#10;                            return &#60;Component &#123;...route.passProps&#125; navigator=&#123;navigator&#125;/&#62;&#10;                        &#125;&#125; /&#62;&#10;    );&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>而LaunchImage就是一个普通的Component,里面有个定时器,在规定时间内切换到主页,看起来效果和iOS是一样的,主要代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class LaunchImage extends Component &#123;&#10;    render() &#123;&#10;        return (&#10;                &#60;Image source = &#123;&#123;uri:&#39;launchimage&#39;&#125;&#125; style=&#123;styles.launchImage&#125;/&#62;&#10;        );&#10;    &#125;&#10;&#10;    componentDidMount() &#123;&#10;        setTimeout(()=&#62;&#123;&#10;            //&#39029;&#38754;&#30340;&#20999;&#25442;&#10;            this.props.navigator.replace(&#123;&#10;                component:Main,&#10;            &#125;);&#10;        &#125;,2000);&#10;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="ListView横向排版的实现">ListView横向排版的实现</h2><p>默认的<code>ListView</code>是和<code>iOS</code>的<code>TableView</code>类似的,也就是上下滑动,如果想要实现类似<code>CollectionView</code>的布局效果,那么需要做一些配置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;ListView&#10;              dataSource=&#123;this.state.dataSource&#125;&#10;              renderRow=&#123;this.renderRow&#125;&#10;              contentContainerStyle=&#123;styles.contentView&#125;&#10;              scrollEnabled=&#123;false&#125;&#10;          &#62;&#10;&#10;          &#60;/ListView&#62;</span><br></pre></td></tr></table></figure>
+<p>contentView的实现如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">contentView:&#123;&#10;       flexDirection:&#39;row&#39;,&#10;       flexWrap:&#39;wrap&#39;,&#10;       width:width,&#10;   &#125;,</span><br></pre></td></tr></table></figure>
+<p> 要点:</p>
+<ol>
+<li>要指定<code>ListView</code>的宽度</li>
+<li><p>cell应该具备宽高(特别坑)</p>
+<p>其中第二条没有发现有资料提及,但是自己编码的时候发现,只有设置好cell的宽度和高度,才能实现预想的效果.<br>最终效果如下:</p>
+<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/93550QQ20160901-3.png" alt="93550QQ20160901-3.png"></p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-07-01T07:25:24.000Z"><a href="/2016/07/01/React Native/一个React-Native项目-项目介绍/">2016-07-01</a></time>
       
       
@@ -663,61 +730,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-10-08T11:07:48.000Z"><a href="/2015/10/08/ReactiveCocoa/ReactiveCocoa代替Target-Action/">2015-10-08</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/10/08/ReactiveCocoa/ReactiveCocoa代替Target-Action/">ReactiveCocoa代替Target-Action</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>从入职新公司到现在, 都在给”友商”的硬件填坑 .什么RTSP,H264… 我和安卓小伙伴都快忘记自己是应用开发的了… 好在最近回过神来了. 继续可爱的 <code>ReactiveCocoa</code></p>
-<h2 id="context">context</h2><p>我们传统的使用 <code>UIButton</code>的方式,都是 <code>Target-Action</code>的方式. 但是有几个问题:</p>
-<ol>
-<li><p>局部变量共享 </p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/10/08/ReactiveCocoa/ReactiveCocoa代替Target-Action/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -753,7 +765,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
   
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>16</small></li>
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
   
     <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
   
@@ -800,7 +812,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
   
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>4</small></li>
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>5</small></li>
   
     <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
   
