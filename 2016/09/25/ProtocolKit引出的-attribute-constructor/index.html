@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ProtocolKit引出的__attribute__((constructor)) | Kenny 肉桂的主页</title>
+  <meta name="author" content="桂庆">
+  
+  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="ProtocolKit引出的__attribute__((constructor))"/>
+  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Kenny 肉桂的主页</a></h1>
+  <h2><a href="/">记录自己的进步</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">主页</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-09-25T10:26:29.000Z"><a href="/2016/09/25/ProtocolKit引出的-attribute-constructor/">2016-09-25</a></time>
+      
+      
+  
+    <h1 class="title">ProtocolKit引出的__attribute__((constructor))</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>今天在看ProtocolKit的源码,看到了这么一行代码.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((constructor)) static void _pk_extension_inject_entry(void) &#123;</span><br></pre></td></tr></table></figure>
+<p>主要造成疑惑的是 <code>__attribute__((constructor))</code>,以前看过关于<code>__attribute__</code>这个关键字的,大概还记得就是可以修饰类型,函数什么的.类似一个编译标记.但是具体用法忘记了.</p>
+<a id="more"></a>
+<h2 id="attribute"><strong>attribute</strong></h2><p>GNU C 的一大特色就是<code>__attribute__</code> 机制。<code>__attribute__</code> 可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute ）。</p>
+<p><code>__attribute__</code> 书写特征是：<code>__attribute__</code> 前后都有两个下划线，并切后面会紧跟一对原括弧，括弧里面是相应的<code>__attribute__</code> 参数。</p>
+<p><code>__attribute__</code> 语法格式为：<code>__attribute__ ((attribute-list))</code></p>
+<p>以上内容来自<a href="http://www.cnblogs.com/astwish/p/3460618.html" target="_blank" rel="external">这篇文章</a> ,作者在文章里也说了很多详细的用法.我在这就不再重复了.下面主要说说刚刚提出的那个问题</p>
+<h2 id="attribute((constructor))"><strong>attribute</strong>((constructor))</h2><p>既然搞不懂,我的习惯是写Demo,将不懂得东西抽取出来,便于排除其他因素,<br>新建一个工程,将<code>main.m</code>改写如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char * argv[]) &#123;&#10;    @autoreleasepool &#123;&#10;        printf(&#34;main function&#34;);&#10;        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));&#10;    &#125;&#10;&#125;&#10;__attribute__((constructor)) static void beforeFunction()&#10;&#123;&#10;    printf(&#34;beforeFunction\n&#34;);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>然后运行,发现打印如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">beforeFunction&#10;main function</span><br></pre></td></tr></table></figure>
+<p>所以这个<code>__attribute__((constructor))</code>应该是在<code>main</code>函数之前,执行一个函数,便于我们做一些准备工作.后来,查阅了<a href="https://gcc.gnu.org/onlinedocs/gcc-6.2.0/gcc/Common-Function-Attributes.html#Common-Function-Attributes" target="_blank" rel="external">GNU的文档</a>,印证了我的想法.</p>
+<p>另外在文档中,还有提及,还有这么一个写法<code>__attribute__((destructor))</code>.文档中关于这两个用法的说明如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The constructor attribute causes the function to be called automatically before execution enters main (). Similarly, the destructor attribute causes the function to be called automatically after main () completes or exit () is called. Functions with these attributes are useful for initializing data that is used implicitly during the execution of the program.</span><br></pre></td></tr></table></figure>
+<p>大概意思是:</p>
+<p><code>constructor</code>参数让系统执行<code>main()</code>函数之前调用函数(被<code>__attribute__((constructor))</code>修饰的函数).同理, <code>destructor</code>让系统在<code>main()</code>函数退出或者调用了<code>exit()</code>之后,调用我们的函数.带有这些修饰属性的函数,对于我们初始化一些在程序中使用的数据非常有用.</p>
+<h2 id="带有优先级的参数">带有优先级的参数</h2><p>按照文档中所说,我们还可以给属性设置优先级.这些函数并不非要写到<code>main.m</code>文件中,无论写到哪里,结果都是一样的.但是,为了更显式的让阅读者看到这些定义,至少,还是在<code>main.m</code>文件中留个声明.</p>
+<p>声明和实现分离的写法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//&#22768;&#26126;&#10;__attribute__((constructor(101))) void before1();&#10;&#10;//&#23454;&#29616;&#10;void before1()&#10;&#123;&#10;    printf(&#34;before1\n&#34;);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>下面我仅仅用作测试,就不分开写了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static  __attribute__((constructor(101))) void before1()&#10;&#123;&#10;    &#10;    printf(&#34;before1\n&#34;);&#10;&#125;&#10;static  __attribute__((constructor(102))) void before2()&#10;&#123;&#10;    &#10;    printf(&#34;before2\n&#34;);&#10;&#125;&#10;static  __attribute__((constructor(102))) void before3()&#10;&#123;&#10;    &#10;    printf(&#34;before3\n&#34;);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码没有什么疑问.以上三个函数会依照优先级的顺序调用.另外,我以前看过,这个<code>1-100</code>的范围是保留的,所以,最好从100之后开始用.(但是实际上,我在项目中测试100以内的,也没有得到警告)</p>
+<h2 id="关于格式">关于格式</h2><p>按照文档中的说法,<code>__attribute__</code>应该放在函数声明之后,在<code>;</code>之前,不过这应该是个格式问题,从我之前那么多写法,也没有出错,可以得出这个结论.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/研究随笔/">研究随笔</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/研究随笔/">研究随笔</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="2016/09/25/ProtocolKit引出的-attribute-constructor/" data-title="ProtocolKit引出的__attribute__((constructor))" data-url="http://yoursite.com/2016/09/25/ProtocolKit引出的-attribute-constructor/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/React-Native/">React Native</a><small>2</small></li>
+  
+    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
+  
+    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/categories/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
+  
+    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
+  
+    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
+  
+    <li><a href="/categories/其他技术/">其他技术</a><small>8</small></li>
+  
+    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/categories/坑/">坑</a><small>1</small></li>
+  
+    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
+  
+    <li><a href="/categories/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
+  
+    <li><a href="/categories/研究随笔/">研究随笔</a><small>1</small></li>
+  
+    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
+  
+    <li><a href="/tags/React-Native/">React Native</a><small>1</small></li>
+  
+    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
+  
+    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
+  
+    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
+  
+    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
+  
+    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
+  
+    <li><a href="/tags/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
+  
+    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>5</small></li>
+  
+    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
+  
+    <li><a href="/tags/其他技术/">其他技术</a><small>4</small></li>
+  
+    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
+  
+    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
+  
+    <li><a href="/tags/悟/">悟</a><small>1</small></li>
+  
+    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
+  
+    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
+  
+    <li><a href="/tags/研究随笔/">研究随笔</a><small>1</small></li>
+  
+    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
+  
+    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
+  
+    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
+  
+    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2016 桂庆
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
