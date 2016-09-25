@@ -51,60 +51,6 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-08-13T09:58:35.000Z"><a href="/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/">2015-08-13</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/">由一个正则引出的 NSPredicate</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>今天需要用到一个正则,正则本身很简单,就是功能是限制<code>UITextField</code>只能输入数字,仅仅限制键盘类型是不够的.</p>
-<p>正则 <code>^[0-9]*$</code> ,说到这里了,顺便记录一下,匹配中文的正则表达式是: <code>[\u4e00-\u9fa5]</code></p>
-<p>根据自己以前的知识,iOS有专门的正则表达式类. 一般的步骤是这样的:<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/4/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
         <time datetime="2015-08-13T08:03:42.000Z"><a href="/2015/08/13/环境、配置相关/自用提高效率的三方框架/">2015-08-13</a></time>
       
       
@@ -683,6 +629,72 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-07-30T07:14:47.000Z"><a href="/2015/07/30/Swift/func的参数修饰符/">2015-07-30</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/07/30/Swift/func的参数修饰符/">func的参数修饰符</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="参数默认是_let_类型的">参数默认是 let 类型的</h3><p>一般省略函数参数的修饰符 ,我们并没有指定它是什么类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(variable: Int) -&#62;Int&#123;&#10;    return variable + 1&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>默认是  let ,比如下面的是错误代码 , 因为 let 不可变</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>仔细看错误提示:<br><code>Mark parameter with &#39;var&#39; to make it mutable</code></p>
+<p>需要显式写 var </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(var variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="inout">inout</h3><p>函数参数是值传递,就是说,不会改变外部参数的值,比如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var number = 7&#10;let newNumber =  incrementor(number)&#10;number</span><br></pre></td></tr></table></figure>
+<p>newNumber是 8 , number 还是 7 .</p>
+<p>如果想要修改,那么就应该加上 inout修饰参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(inout variable: Int) -&#62;Int&#123;&#10;    return ++variable&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>现在是引用传递, 那么 ,我们在传递的时候,应该传递的是引用(地址)而不是参数.用法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newNumber =  incrementor(&#38;number)</span><br></pre></td></tr></table></figure>
+<p>一般的,这样的函数,是不用返回值的.因为已经直接修改了参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(inout variable: Int)&#123;&#10;   ++variable&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>函数的参数修饰是有传递限制的,就是说对于跨越层级的调用,需要保证同一参数的修饰符是统一的,比如我们基于上一个方法进行拓展,实现 +N 的方法.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func makeIncrementor(addNumber: Int) -&#62;((inout Int)-&#62;())&#123;&#10;    func incrementor(inout variable: Int)&#123;&#10;        variable += addNumber&#10;    &#125;&#10;    return incrementor;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>外层 makeIncrementor 的返回里也需要在参数的类型前面明确指出修饰词,让它和内部的定义一致,否则编译不通过.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/4/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
 
 <nav id="pagination">
   
@@ -734,8 +746,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
   
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>1</small></li>
-  
     <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
   
     <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
@@ -782,8 +792,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
   
     <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
-  
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>1</small></li>
   
     <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
   

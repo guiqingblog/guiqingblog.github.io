@@ -51,72 +51,6 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-05-06T07:53:04.000Z"><a href="/2015/05/06/iOS Tips/Tableview相关/">2015-05-06</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/05/06/iOS Tips/Tableview相关/">Tableview相关-iOS开发 Tips</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <ul>
-<li>在使用Tableview的时候,即使只是设置了几条数据,但是多余的部分还是会出现<code>cell</code>,就是出现了多余的分割线.</li>
-</ul>
-<p>解决方案:  </p>
-<p>在<code>TableViewController</code>中添加一行代码即可  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.tableView.tableFooterView = [UIView alloc initWithFrame:CGRectZero];</span><br></pre></td></tr></table></figure>
-<ul>
-<li>有时候用Tableview做布局的时候,我们并不希望它是可以滚动的.所以,可以使用如下代码禁止滚动</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.tableView.scrollEnabled = NO ;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>设置不让cell选中时高亮</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.selectionStyle = UITableViewCellSelectionStyleNone;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>去掉表格之间的分割线</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataTableview.separatorStyle = UITableViewCellSeparatorStyleNone;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/6/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
         <time datetime="2015-05-05T06:15:50.000Z"><a href="/2015/05/05/环境、配置相关/管理代码片段/">2015-05-05</a></time>
       
       
@@ -585,6 +519,59 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">2015-04-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">高效OC编程-在对象内部尽量直接访问实例变量</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>在对象之外访问实例变量时,应该总是通过属性来做.在那么在对象内部访问实例变量的时候,又该如何呢?  </p>
+<p>这是 OCer们一直激烈讨论的问题.有人认为,无论什么情况,都应该通过属性来访问实例变量;也有人说,”通过属性访问”和”直接访问”应该搭配着用. 除了几种特殊情况之外, 笔者强烈建议大家在读取实例变量的时候采用直接访问的形式,而在设置实例变量的时候通过属性来做.<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/6/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/">2015-04-12</a></time>
       
       
@@ -684,8 +671,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
   
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>1</small></li>
-  
     <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
   
     <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
@@ -732,8 +717,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
   
     <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
-  
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>1</small></li>
   
     <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
   
