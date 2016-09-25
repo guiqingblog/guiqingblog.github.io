@@ -51,6 +51,60 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-09-25T11:54:37.000Z"><a href="/2016/09/25/研究随笔/attribute-constructor-用法探究/">2016-09-25</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/09/25/研究随笔/attribute-constructor-用法探究/">__attribute__((constructor))用法探究</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>今天在看ProtocolKit的源码,看到了这么一行代码.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((constructor)) static void _pk_extension_inject_entry(void) &#123;</span><br></pre></td></tr></table></figure>
+<p>主要造成疑惑的是 <code>__attribute__((constructor))</code>,以前看过关于<code>__attribute__</code>这个关键字的,大概还记得就是可以修饰类型,函数什么的.类似一个编译标记.但是具体用法忘记了.</p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2016/09/25/研究随笔/attribute-constructor-用法探究/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-09-24T02:49:05.000Z"><a href="/2016/09/24/iOS Tips/GCD实现线程同步的三种方式/">2016-09-24</a></time>
       
       
@@ -851,72 +905,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-07-14T07:25:06.000Z"><a href="/2016/07/14/视频相关/视频裁剪/">2016-07-14</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/07/14/视频相关/视频裁剪/">视频裁剪</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h3 id="AVAsset">AVAsset</h3><p>AVAsset是一个表现音视频媒体的抽象类.AVAsset对象给我们开发提供了媒体文件的访问接口.<br>这个 AVAsset 可以通过文件创建,也可以是来自用户相册目录的.如果获得了一个视频文件的 AVAsset,我们就可以从中获取静态图片,转换格式,或者是裁剪内容.</p>
-<p>通过以下代码,获得特定位置的视频文件:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString * videoPath = @&#34;a video file path&#34;;&#10;AVAsset *anAsset = [[AVURLAsset alloc] initWithURL:[NSURL fileURLWithPath:videoPath] options:nil];</span><br></pre></td></tr></table></figure>
-<p>其中 options 是一个字典,这个字典只有一个 key-value:<br><code>AVURLAssetPreferPreciseDurationAndTimingKey</code> value 是 <code>YES</code> 或者 <code>NO</code></p>
-<p>这个是设置时间精确度的,如果设置为 YES, 那么会造成很大的开销,但是可以保证操作的精度,对于我的裁剪操作,不用设置.因为我的业务中,裁剪范围是用户滑块操作的,本来精度就要求不高.<br>传递 nil 和 传递 NO, 两者等效.<br>特别的,当进行视频合成操作的时候,需要设置这个字典,并将 value 设置为 <code>YES</code>,因为如果精度不够,可能造成音视频不同步等问题.</p>
-<h3 id="AVAssetExportSession">AVAssetExportSession</h3><p>AVAssetExportSession 是一个控制 Asset 异步导出的对象.可以实现裁剪视频,转换格式等需求. 代码如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exportSession_ = [[AVAssetExportSession alloc]&#10;                            initWithAsset:anAsset presetName:AVAssetExportPreset960x540]</span><br></pre></td></tr></table></figure>
-<p>这个<code>presetName</code> 是系统提供的预设,有一些常用的视频分辨率和视频质量控制的选项.可以按住<code>command</code>自行查看.另外.如果预设的分辨率不能满足需求,我们还可以自定义任意分辨率,这个将在我以后的文章中进行说明.</p>
-<p>然后就是配置<code>AVAssetExportSession</code>,下面分别配置了<code>导出路径</code>,<code>导出文件格式</code>,<code>截取范围</code>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exportSession_.outputURL = tempVideoURL;&#10;exportSession_.outputFileType = AVFileTypeMPEG4;&#10;exportSession_.timeRange = [self videoTimeRange:anAsset];</span><br></pre></td></tr></table></figure>
-<p>需要说明的是这个截取范围的实现:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(CMTimeRange)videoTimeRange:(AVAsset*)anAsset&#123;&#10;    CMTime start = CMTimeMakeWithSeconds(self.videoRange.startTime, anAsset.duration.timescale);&#10;    CMTime duration = CMTimeMakeWithSeconds(self.videoRange.duration, anAsset.duration.timescale);&#10;    CMTimeRange range = CMTimeRangeMake(start, duration);&#10;    return range;&#10;&#125;</span><br></pre></td></tr></table></figure>
-<p><code>CMTime</code> 是一个结构体对象,常用的两个值是: <code>value</code> 和 <code>timescale</code>. 两者的关系可以表示为: <code>value/timescale=seconds</code>.</p>
-<p>在上面的方法中,我将来自滑块的值(秒为单位),转换成了<code>CMTime</code>然后构造了一个<code>CMTimeRange</code> 对象.</p>
-<p>最后进行导出:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[exportSession_ exportAsynchronouslyWithCompletionHandler:^&#123;&#10;                switch (exportSession_.status) &#123;&#10;                   case AVAssetExportSessionStatusUnknown: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;                   case AVAssetExportSessionStatusWaiting: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;                   case AVAssetExportSessionStatusExporting: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;                   case AVAssetExportSessionStatusCompleted: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;                   case AVAssetExportSessionStatusFailed: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;                   case AVAssetExportSessionStatusCancelled: &#123;&#10;                       &#10;                       break;&#10;                   &#125;&#10;               &#125;&#10;           &#125;];</span><br></pre></td></tr></table></figure>
-<p>可以对各种状态进行判断.进而采取不同的操作.通常关心的是<code>Failed</code> 和<code>Completed</code> ,前者给用户提示,后者进行后续操作.</p>
-<p>到此,就完成了一段视频的裁剪操作.</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -966,6 +954,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
   
+    <li><a href="/categories/研究随笔/">研究随笔</a><small>1</small></li>
+  
     <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
   
     <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
@@ -1012,6 +1002,8 @@ var duoshuoQuery = {short_name:"guiqingblog"};
     <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
   
     <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
+  
+    <li><a href="/tags/研究随笔/">研究随笔</a><small>1</small></li>
   
     <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
   
