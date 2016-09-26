@@ -51,6 +51,61 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-11-18T01:32:20.000Z"><a href="/2015/11/18/iOS Tips/iOS正则表达式类/">2015-11-18</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/11/18/iOS Tips/iOS正则表达式类/">iOS正则表达式类 NSRegularExpression 详解</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="context">context</h2><p>因目前手头的项目与不成熟的硬件工作,可能出现两个Json拼接到一起的情况,需要使用到正则表达式进行拆分.</p>
+<h2 id="现状">现状</h2><p>提到 iOS中的正则表达式 ,大家容易想到的有三种方式:</p>
+<h3 id="RangeOfString:_option:">RangeOfString: option:</h3><p>这种是最简单粗暴的方式,使用方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString *testString = @&#34;&#123;this is regex&#125;&#34;;&#10;&#10;NSRange range = [testString rangeOfString:@&#34;[a-z]&#34; options:NSRegularExpressionSearch];&#10;&#10;if (range.location != NSNotFound) &#123;&#10;    NSLog(@&#34;%@&#34;, [testString substringWithRange:range]);&#10;&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/11/18/iOS Tips/iOS正则表达式类/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-10-20T11:04:22.000Z"><a href="/2015/10/20/重构、模式、架构/方法封装的基本步骤/">2015-10-20</a></time>
       
       
@@ -529,60 +584,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-18T09:45:17.000Z"><a href="/2015/08/18/Swift/Swift的编译标记/">2015-08-18</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/08/18/Swift/Swift的编译标记/">Swift的编译标记</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="Context">Context</h2><p>在OC 中, 我经常使用 <code>#Param</code>来给控制器划分代码结构 , 比如 ,一个控制器,我经常分为如下的结构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark -life cycle&#10;&#10;#pragma mark - &#60;#name#&#62; delegate&#10;&#10;#pragma mark -event response&#10;&#10;#pragma mark -private methods&#10;&#10;#pragma mark -getters and setters</span><br></pre></td></tr></table></figure>
-<p>这样的好处是, 每个控制器的结构都是规范的. 如图, 方法都分类了(对于我这样的Vim控 ,还能实现在标签之间的跳转)<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/08/18/Swift/Swift的编译标记/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/3/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -634,7 +635,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
   
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>1</small></li>
+    <li><a href="/categories/研究随笔/">研究随笔</a><small>2</small></li>
   
     <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
   
@@ -683,7 +684,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
   
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>1</small></li>
+    <li><a href="/tags/研究随笔/">研究随笔</a><small>2</small></li>
   
     <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
   

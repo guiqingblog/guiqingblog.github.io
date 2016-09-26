@@ -51,6 +51,99 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-07-18T07:12:36.000Z"><a href="/2016/07/18/其他技术/Vim实践Tips(一)/">2016-07-18</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/07/18/其他技术/Vim实践Tips(一)/">Vim实践Tips(一)</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Tip_1_dot_命令">Tip 1 dot 命令</h1><p>说明: . dot 重复上个命令的使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">line one&#10;&#10;line two&#10;&#10;line three &#10;&#10;line four</span><br></pre></td></tr></table></figure>
+<p><code>x</code> :删除当前光标下的字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> one &#34; x . . .  x &#21024;&#38500;, . &#37325;&#22797;&#10;&#10;line two&#10;&#10;line three &#10;&#10;line four</span><br></pre></td></tr></table></figure>
+<p>如图:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/1xdotdot.gif" alt="dot 命令的使用"></p>
+<h2 id="几个小提示:">几个小提示:</h2><h3 id=":set_nu_显示行号_:set_nonu_关闭行号显示">:set nu 显示行号 :set nonu 关闭行号显示</h3><p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/2setnu.gif" alt="显示和关闭行号"></p>
+<h3 id=":3,5_co_8_将9到12行的内容输出到8行">:3,5 co 8 将9到12行的内容输出到8行</h3><p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/003line_copy.gif" alt="输出范围到领一行"></p>
+<h3 id=":3,5_de_删除3到5行的内容">:3,5 de 删除3到5行的内容</h3><p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/004delete.gif" alt="删除范围"></p>
+<p><code>&gt;G</code> 增加从当前行到文件末尾所有行的缩进.同理,使用 . 可以重复增加缩进</p>
+<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/005_intent.gif" alt="重复缩进"></p>
+<p>还可以利用 j. 做成下面的布局</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">line one&#10;&#10;&#9;line two&#10;&#10;&#9;&#9;line three &#10;&#10;&#9;&#9;&#9;line four</span><br></pre></td></tr></table></figure>
+<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/007_jdot.gif" alt="梯形缩进"></p>
+<h1 id="Tip_2_不要重复">Tip 2 不要重复</h1><p>例如,我们想要在下面所有的行后面加一个分号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1&#10;&#10;var bar = &#39;bar&#39;&#10;&#10;var foobar = foo + bar</span><br></pre></td></tr></table></figure>
+<p>使用 <code>$</code> 移动到行末尾,<code>a</code>追加然后输入<code>;</code> ,然后按<code>&lt;Esc&gt;</code>返回命令模式.这算完成了第一行</p>
+<p>如果对下面两行也应用这个,就应该: <code>j$.</code> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;&#10;&#10;var bar = &#39;bar&#39;; &#34;j$.&#10;&#10;var foobar = foo + bar; &#34;j$.</span><br></pre></td></tr></table></figure>
+<p>虽然这样也能完成,但是还是差点意思.还是有提升空间的.</p>
+<h3 id="减少无关的移动">减少无关的移动</h3><p><code>a</code> 是在当前光标位置后面追加,并自动切换到插入模式</p>
+<p><code>A</code> 是在当前行末进行追加,并自动切换到插入模式 相当于 <code>$a</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;&#9;&#34; A;&#60;Esc&#62;&#10;&#10;var bar = &#39;bar&#39;; &#34; j.&#10;&#10;var foobar = foo + bar; &#34; j.</span><br></pre></td></tr></table></figure>
+<p><code>d</code> 删除，不能单独用，得跟后续操作符，比如 <code>dd</code> 是删除一整行，<code>d$</code> 是删除直到行的末尾</p>
+<p><code>x</code> 删除当前光标下的单个字符</p>
+<p><code>c</code> 跟 <code>d</code> 类次，但是删除完成后会进入插入模式</p>
+<p><code>c</code> 和 <code>d</code> 都要加入<code>motion</code> <code>motion</code>类似是 <code>w</code> <code>b</code> 等这些</p>
+<p><code>23,35 co 66</code> 复制</p>
+<p><code>23,35 m 66</code> 剪切</p>
+<p><code>23,35 de</code> 删除</p>
+<p>几个一个顶俩的快捷键</p>
+<p><code>C c$</code> 删除到行末尾,并进入插入模式</p>
+<p><code>s cl</code> 替换当前字符: c加motion,l 一个字符</p>
+<p><code>S ^C</code> 删除整个行 ^移动到行首,C删除整行</p>
+<p><code>I ^i</code> 到行首进行插入</p>
+<p><code>A $a</code> 到行尾进行插入</p>
+<p><code>o A&lt;CR&gt;</code> 进入下一行,并进入插入模式 <cr>是回车的意思</cr></p>
+<p><code>O ko</code> 进入上一行,然后插入</p>
+<h2 id="Tip_3_退一步,进三步">Tip 3 退一步,进三步</h2><figure class="highlight"><figcaption><span>foo = "method("+argument1+","+argument2+")";```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#19978;&#38754;&#30340;&#20195;&#30721;&#30475;&#30528;&#19981;&#22826;&#33298;&#26381;,&#22240;&#20026;&#22312;&#25105;&#20204;&#21360;&#35937;&#20013;,&#21152;&#21495;&#20004;&#36793;&#24212;&#35813;&#26377;&#31354;&#26684;.&#37027;&#20040;&#25105;&#20204;&#26469;&#30475;&#24590;&#20040;&#20197;Vim&#30340;&#26041;&#24335;&#23436;&#25104;&#36825;&#20010;&#20219;&#21153;:&#10;&#10;`f+` &#26597;&#25214;&#26368;&#36817;&#30340;`+` , `s` &#26367;&#25442;`+` &#20026; `&#31354;&#26684;+&#31354;&#26684;`&#10;&#10;```var foo = &#34;method(&#34; + argument1+&#34;,&#34;+argument2+&#34;)&#34;;</span><br></pre></td></tr></table></figure>
+<p>对于后面的,我们当然可以使用 <code>f+</code> 然后 <code>.</code> 重复替换,完成任务.</p>
+<p>但是这里有个新的操作符 <code>;</code> 这个 <code>;</code> 可以重复执行最近的查找操作.<code>f+</code>就是一个查找操作.所以,对于后面的<code>+</code> ,我们可以通过 <code>;.</code> 依次完成替换.</p>
+<h2 id="Tip4_操作,重复,撤销">Tip4 操作,重复,撤销</h2><p>通过以上的几个tip,我们学会了,先操作,然后另其重复执行,借此完成一些重复任务.</p>
+<p>但是有时候,我们可能在反复的重复操作中,按多了.例如 tip2 中的 j.j.j. 很可能顺序按错了. 如果出现错误,那么我们就可以在出错的时候按 u 来撤销操作.又或者,Tip3中的;按多了(意味着移动的太过了)那么可以使用,来跳回去.</p>
+<p>通过以上的描述,能看出来,不同的误操作,对应着不同的撤销方式.下面是个参考表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#24847;&#22270;&#9;&#9;&#9;&#9;&#25805;&#20316;&#9;&#9;&#9;&#9;&#37325;&#22797;&#9;&#9;&#25764;&#38144;&#10;&#10;&#25913;&#21464;&#28857;&#19996;&#35199;&#9;&#9;&#9;&#123;edit&#125;&#9;&#9;&#9;.&#9;&#9;u&#10;&#10;&#34892;&#20869;&#26597;&#25214;&#19979;&#20010;&#23383;&#31526;&#9;f&#123;char&#125;/t&#123;char&#125;&#9;&#9;;&#9;&#9;,&#10;&#10;&#34892;&#20869;&#26597;&#25214;&#21069;&#19968;&#20010;&#23383;&#31526;&#9;F&#123;char&#125;/T&#123;char&#125;&#9;&#9;;&#9;&#9;,&#10;&#10;&#22312;&#25991;&#26723;&#20869;&#26597;&#25214;&#19979;&#20010;&#21305;&#37197;&#9;/pattern&#60;CR&#62; &#9;&#9;n&#9;&#9;N&#10;&#10;&#22312;&#25991;&#26723;&#20869;&#26597;&#25214;&#21069;&#20010;&#21305;&#37197;&#9;?pattern&#60;CR&#62;&#9;&#9;n&#9;&#9;N&#10;&#10;&#25191;&#34892;&#26367;&#25442;&#9;&#9;:s/target/replacement&#9;&#38;&#9;&#9;u&#10;&#10;&#25191;&#34892;&#19968;&#31995;&#21015;&#25913;&#21464;&#9;&#9;qx&#123;changes&#125;q&#9;&#9;@x&#9;&#9;  u</span><br></pre></td></tr></table></figure>
+<p><code>f</code> 和 <code>t</code> 的区别是 <code>f</code> 停留光标在查找字符,<code>t</code>光标停留在查找字符之前</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-07-14T07:25:06.000Z"><a href="/2016/07/14/视频相关/视频裁剪/">2016-07-14</a></time>
       
       
@@ -689,61 +782,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-11-18T01:32:20.000Z"><a href="/2015/11/18/iOS Tips/iOS正则表达式类/">2015-11-18</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/11/18/iOS Tips/iOS正则表达式类/">iOS正则表达式类 NSRegularExpression 详解</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="context">context</h2><p>因目前手头的项目与不成熟的硬件工作,可能出现两个Json拼接到一起的情况,需要使用到正则表达式进行拆分.</p>
-<h2 id="现状">现状</h2><p>提到 iOS中的正则表达式 ,大家容易想到的有三种方式:</p>
-<h3 id="RangeOfString:_option:">RangeOfString: option:</h3><p>这种是最简单粗暴的方式,使用方法:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString *testString = @&#34;&#123;this is regex&#125;&#34;;&#10;&#10;NSRange range = [testString rangeOfString:@&#34;[a-z]&#34; options:NSRegularExpressionSearch];&#10;&#10;if (range.location != NSNotFound) &#123;&#10;    NSLog(@&#34;%@&#34;, [testString substringWithRange:range]);&#10;&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/11/18/iOS Tips/iOS正则表达式类/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -795,7 +833,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
   
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>1</small></li>
+    <li><a href="/categories/研究随笔/">研究随笔</a><small>2</small></li>
   
     <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
   
@@ -844,7 +882,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
   
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>1</small></li>
+    <li><a href="/tags/研究随笔/">研究随笔</a><small>2</small></li>
   
     <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
   

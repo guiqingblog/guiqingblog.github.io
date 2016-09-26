@@ -51,6 +51,59 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">2015-04-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/">高效OC编程-在对象内部尽量直接访问实例变量</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>在对象之外访问实例变量时,应该总是通过属性来做.在那么在对象内部访问实例变量的时候,又该如何呢?  </p>
+<p>这是 OCer们一直激烈讨论的问题.有人认为,无论什么情况,都应该通过属性来访问实例变量;也有人说,”通过属性访问”和”直接访问”应该搭配着用. 除了几种特殊情况之外, 笔者强烈建议大家在读取实例变量的时候采用直接访问的形式,而在设置实例变量的时候通过属性来做.<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/7/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-04-12T12:11:09.000Z"><a href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/">2015-04-12</a></time>
       
       
@@ -616,64 +669,13 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-04-14T02:31:12.000Z"><a href="/2014/04/14/iOS Tips/解决TableView重用机制带来的数据混乱问题/">2014-04-14</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/04/14/iOS Tips/解决TableView重用机制带来的数据混乱问题/">解决TableView重用机制带来的数据混乱问题</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h3 id="问题描述">问题描述</h3><p>在开发一个项目中,本地用 TableView 进行服务器的数据展示.但是最后发现,数据每隔几条就重复.通过<br>charles 抓取服务器端返回的数据.没有任何问题.也就是说是本地的处理方式出了问题.  </p>
-<h3 id="问题定位">问题定位</h3><p>本地的 UI 逻辑比较简单.所以可以很轻松的断定是 UITableView 的重用机制导致了这个问题.以下是核心代码:  </p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/04/14/iOS Tips/解决TableView重用机制带来的数据混乱问题/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/7/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
     <a href="/page/6/" class="alignleft prev">上一页</a>
   
+  
+    <a href="/page/8/" class="alignright next">下一页</a>
   
   <div class="clearfix"></div>
 </nav></div></div>
@@ -718,7 +720,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
   
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>1</small></li>
+    <li><a href="/categories/研究随笔/">研究随笔</a><small>2</small></li>
   
     <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
   
@@ -767,7 +769,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
   
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>1</small></li>
+    <li><a href="/tags/研究随笔/">研究随笔</a><small>2</small></li>
   
     <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
   
