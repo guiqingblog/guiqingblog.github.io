@@ -51,6 +51,105 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2016-07-19T09:40:15.000Z"><a href="/2016/07/19/其他技术/Vim实践Tips(二)/">2016-07-19</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/07/19/其他技术/Vim实践Tips(二)/">Vim实践Tips(二)</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Tip_5_手动查找和替换">Tip 5 手动查找和替换</h2><p>下面每一行中都有 <code>content</code> 这个单词</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;...We&#39;re waiting for content before the site can go live...&#10;&#10;...If you are content with this, let&#39;s go ahead with it...&#10;&#10;...We&#39;ll launch as soon as we have the content...</span><br></pre></td></tr></table></figure>
+<p>如果我们想把所有的 <code>content</code> 替换成 <code>copy</code>, 那么可以很简单的想到替换命令.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;:%s/content/copy/g</span><br></pre></td></tr></table></figure>
+<p> 但是有时候我们并不想全局替换掉.</p>
+<h3 id="懒惰点:不做输入的查找">懒惰点:不做输入的查找</h3><p> 你也许已经猜到<code>.</code>是我最喜欢的单键<code>Vim</code>命令.第二喜欢的是 <code>*</code>,它可以搜索处于光标下面的单词.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;...We&#39;re waiting for copy before the site can go live...&#10;&#10;...If you are copy with this, let&#39;s go ahead with it...&#10;&#10;...We&#39;ll launch as soon as we have the content...</span><br></pre></td></tr></table></figure>
+<p> 首先将光标置于 <code>content</code> 上面,然后用<code>*</code>命令去查找它,这时候将发生两个事情:</p>
+<ol>
+<li><p>光标将跳转到下个匹配处(即下个 <code>content</code> 单词) </p>
+</li>
+<li><p>所有出现匹配项的地方将高亮显示 (如果没有,使用 <code>:set hls</code> .</p>
+</li>
+</ol>
+<p>上面两件事情发生之后,我们就可以使用 <code>n</code> 命令跳转到下一个.这时候,使用 <code>*nn</code> 可以循环所有匹配,然后光标转到我们开始进行搜索的地方</p>
+<h3 id="让更改变得可重复">让更改变得可重复</h3><p>当我们的光标置于 <code>content</code> 的开始位置的时候,我们准备去更改它.这包含两个步骤:</p>
+<ol>
+<li><p>删除单词 <code>content</code> </p>
+</li>
+<li><p>输入修改的内容. <code>cw</code> 删除到单词结尾命令,并且进入插入模式.</p>
+</li>
+</ol>
+<p>然后我们输入 <code>copy</code> 这个单词. Vim 将记录我们的键盘点击,直到我们离开插入模式,所以, <code>cwcopy&lt;Esc&gt;</code> 将会被记录为一个单个命令.通过使用<code>.</code>就可以重复上面的操作.</p>
+<h2 id="Tip6_Dot公式">Tip6 Dot公式</h2><p>在 Tip2中,我们试着将每个句子后面加<code>;</code> 最后,我们通过 <code>j.</code> 进行重复操作.</p>
+<p>在 Tip3中,我们将每个<code>+</code>前后添加空格.  最后,我们通过 <code>;.</code> 进行重复操作</p>
+<p>在 Tip5中,我们将 <code>content</code> 替换成 <code>copy</code>,最后,我们通过 <code>n.</code> 进行重复操作.</p>
+<h3 id="理想的状态:_一个按键负责移动,一个按键负责执行操作-">理想的状态: 一个按键负责移动,一个按键负责执行操作.</h3><p> 在上面所有的操作中 . 重复最后的更改.这不是他们全部的共同点,我们都还用了一个键去移动光标.这已经是一个不能再好的情况了.我们在将来的编辑中,可以反复看到这个编辑模式.为了方便,我们把这个模式成为 Dot公式 (Dot Formula)</p>
+<h2 id="Tip7_拿开你的笔刷">Tip7 拿开你的笔刷</h2><p><code>Normal Mode</code> (命令模式) 可以类比为一个画家,把笔刷离开画布.这时候,他可以休息,可以构思.同理,程序员也可以在 <code>Normal Mode</code> 中进行思考,组织自己的思路.当我们要改变的时候,也不用非得进入插入模式.在 <code>Normal Mode</code>中,我们可以格式化我们的代码,复制,或者移动他们.</p>
+<h2 id="Tip8_强化你的撤销">Tip8 强化你的撤销</h2><p>在其他编辑器中,通过在输入一些东西之后进行撤销,可以撤销我们最后输入的单词或者字符.然后在 Vim 中,我们设置可以调整撤销命令的粒度.</p>
+<p><code>u</code> 这个命令可以触发撤销命令.它可以撤销包括Normal,Visual还有 Command-Line 模式的更改.当然,也包括在插入模式下的文本输入或者删除.所以我们可以说: <code>i{ 插入一些更改}&lt; Esc&gt;</code>  构成了一个改变. 然后一次<code>u</code> 就可以撤销这个改变.</p>
+<p>另外,插入模式中,如果使用了上下左右箭头,那么就相当于在 NormalMode下使用了 <code>hjkl</code>.区别就是我们不用离开插入模式,但是这些操作,会被记录到点公式 (Dot Fomula)中.</p>
+<h2 id="Tip9_创建可重复的改变">Tip9 创建可重复的改变</h2><p>vim将重复操作进行了优化,为了利用这个特性.我们需要留心怎么创建可重复的改变</p>
+<p>在 Vim 中,做一件事通常有很多方式.但是衡量”好”的方式的机制就是:更少的键盘敲击.</p>
+<p>假设我们的光标在 <code>h</code> 这个字母上,我们想要删除单词 <code>nigh</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;The end is nigh</span><br></pre></td></tr></table></figure>
+<h3 id="1-_向后删除">1. 向后删除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;The end is nigh &#34;&#24320;&#22987;&#10;&#10;The end is h &#34;db  &#20174;&#20809;&#26631;&#20301;&#32622;&#21024;&#38500;&#21333;&#35789;&#30340;&#21069;&#38754;&#37096;&#20998;&#10;&#10;The end is  &#34;x &#21024;&#38500;&#24403;&#21069;&#20809;&#26631;&#30340;&#23383;&#31526;</span><br></pre></td></tr></table></figure>
+<h3 id="2-_向前删除">2. 向前删除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;The end is nigh   &#34;&#24320;&#22987;&#10;&#10;The end is nigh   &#34;b  &#21521;&#21518;&#31227;&#21160;&#20809;&#26631;&#19968;&#20010;&#21333;&#35789;&#10;&#10;The end is        &#34;dw &#21521;&#21069;&#21024;&#38500;&#19968;&#20010;&#21333;&#35789;</span><br></pre></td></tr></table></figure>
+<h3 id="3-_删除整个单词">3. 删除整个单词</h3><p>上面两个解决方案都牵涉到了一些准备工作,例如移动.其实,利用<code>aw</code> 命令可以更精准高效的完成我们的需求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;The end ais nigh   &#34;&#24320;&#22987;&#10;&#10;The end is &#34;daw</span><br></pre></td></tr></table></figure>
+<h3 id="4-_哪一个是最可重复的">4. 哪一个是最可重复的</h3><p>上面我们使用了三种方式进行删除一个单词.每种方式中,我们都是按了三个键,那么那种方式是更好的呢?</p>
+<p>记住, Vim 优化了重复.那么检验好坏的标准就是重复.下面使用dot 命令来检验三种方式,通过测试发现:</p>
+<ul>
+<li><p>第一种方式: <code>.</code> 等价于 <code>x</code> (<code>db</code> 是改变操作. <code>x</code> 也是改变操作)</p>
+</li>
+<li><p>第二种方式: <code>.</code> 等价于 <code>dw</code> (<code>b</code> 是纯移动, <code>dw</code> 是改变操作)</p>
+</li>
+<li><p>第三种方式: <code>.</code> 等价于 <code>daw</code> (<code>daw</code>是改变操作)</p>
+</li>
+</ul>
+<p>看起来<code>2</code> <code>3</code> 都是挺有用的,但是有个细节 <code>2</code>删除一个单词,但是不会删除对应的空格,表象上来看就是不会移动光标到下个单词上,那么这时候, <code>.</code>这个命令就没什么意义. <code>3</code> 会把要删除的单词附带空格删除,同时光标停留在 <code>is</code> 的结尾.那么<code>.</code>这个操作就能继续删除一个单词. (我强烈建议自己动手试试看)</p>
+<p>﻿</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2016-07-18T07:12:36.000Z"><a href="/2016/07/18/其他技术/Vim实践Tips(一)/">2016-07-18</a></time>
       
       
@@ -711,77 +810,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-05-12T03:06:35.000Z"><a href="/2016/05/12/环境、配置相关/升级-Chisel-遇到的问题和解决记录/">2016-05-12</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/05/12/环境、配置相关/升级-Chisel-遇到的问题和解决记录/">升级 Chisel 遇到的问题和解决记录</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>升级了 Xcode7.3后，发现 Chisel 突然不好使了，于是再度打开<a href="https://github.com/facebook/chisel" target="_blank" rel="external">主页</a>，想升级一下应该能解决问题. </p>
-<p>安装官方说明，需要首先升级 homebrew ，其实知道 ，这一步不是必须的。但是为了后面不出现问题,还是顺手一并升级吧!</p>
-<p>然后,开始了问题之旅:</p>
-<p>使用 <code>brew update</code>,结果得到了以下提示:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">warning: unable to unlink CONTRIBUTING.md: Permission denied&#10;warning: unable to unlink SUPPORTERS.md: Permission denied&#10;fatal: cannot create directory at &#39;.github&#39;: Permission denied</span><br></pre></td></tr></table></figure>
-<p>不难看出,是权限问题,修改权限</p>
-<p><code>sudo chmod -R 777 /usr/local</code></p>
-<p>相关知识：<br>可以不必修改为 777 的, 关于权限的更多,感兴趣的可以自行 google<br>r表示读权限，4 , w表示写权限，2 , x表示执行权限， 1</p>
-<p>可是修改之后,仍然不好用.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/rubygems/core_ext/kernel_require.rb:55:in `require&#39;: cannot load such file -- mach (LoadError)</span><br></pre></td></tr></table></figure></p>
-<p>一不做,二不休,干脆尝试重新安装 homebrew</p>
-<p>在终端输入<br><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</code><br>然后得到了下面的提示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kenny@kenny:~|&#8658;  /usr/bin/ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&#34;&#10;-e:77: warning: Insecure world writable dir /usr/local/bin in PATH, mode 040777&#10;It appears Homebrew is already installed. If your intent is to reinstall you&#10;should do the following before running this installer again:&#10;    ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)&#34;&#10;The current contents of /usr/local are bin Cellar CODEOFCONDUCT.md CONTRIBUTING.md etc include lib Library LICENSE.txt opt README.md sbin share SUPPORTERS.md var .git .gitignore</span><br></pre></td></tr></table></figure>
-<p>提示的是 git 的错误<br>尝试 cd 到<code>/usr/local</code>目录下，<br><code>git status</code><br>果然有一堆修改内容,这些应该是之前各种操作没有成功完成,导致修改没有被妥善处理<br>然后：<br><code>git reset --hard</code></p>
-<p><code>kenny@kenny:/usr/local|master⇒  git status
-On branch master
-nothing to commit, working directory clean</code></p>
-<p>可能还需要执行：<br><code>git clean -df</code></p>
-<p>第一个是放弃已经 stage 的文件的更改<br>第二个是对没有 stage 的文件进行放弃</p>
-<p>执行安装<br><figure class="highlight"><figcaption><span>brew install chisel</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: chisel-1.2.0 already installed&#10;To install this version, first `brew unlink chisel`</span><br></pre></td></tr></table></figure></p>
-<p>卸载旧版<br><figure class="highlight"><figcaption><span>brew unlink chisel</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unlinking /usr/local/Cellar/chisel/1.2.0... 0 symlinks removed</span><br></pre></td></tr></table></figure></p>
-<p>重新安装<br><figure class="highlight"><figcaption><span>brew install chisel</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">==&#62; Downloading https://github.com/facebook/chisel/archive/1.4.0.tar.gz&#10;==&#62; Downloading from https://codeload.github.com/facebook/chisel/tar.gz/1.4.0</span><br></pre></td></tr></table></figure></p>
-<p>可以看到,现在升级到了1.4了.</p>
-<p>到 Xcode 中测试,发现也欢乐的好用了 !</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/2/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -833,7 +861,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
   
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>2</small></li>
+    <li><a href="/categories/研究随笔/">研究随笔</a><small>3</small></li>
   
     <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
   
@@ -882,7 +910,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
   
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>2</small></li>
+    <li><a href="/tags/研究随笔/">研究随笔</a><small>3</small></li>
   
     <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
   

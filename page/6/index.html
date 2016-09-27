@@ -51,6 +51,63 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-06-01T09:57:26.000Z"><a href="/2015/06/01/iOS Tips/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/">2015-06-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/06/01/iOS Tips/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/">2015-06-01滚动监听 触摸点获取 Tranform RecealApp</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="概要">概要</h2><ul>
+<li>UITableView 滚动行为的监听,触摸点的获取</li>
+<li>CGAffineTransformMakeTranslation和CGAffineTransformTranslate</li>
+<li>reveal app 的项目集成</li>
+<li>inputAccessoryView 遇到的几个问题</li>
+</ul>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2015/06/01/iOS Tips/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="page/6/index.html" data-title="undefined" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"guiqingblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-05-20T02:01:14.000Z"><a href="/2015/05/20/iOS Tips/关于-property中NSString的copy/">2015-05-20</a></time>
       
       
@@ -602,60 +659,6 @@ var duoshuoQuery = {short_name:"guiqingblog"};
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-04-13T14:25:14.000Z"><a href="/2015/04/13/iOS Tips/UIApplication-tips/">2015-04-13</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/04/13/iOS Tips/UIApplication-tips/">UIApplication tips -给新手的笔记</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h3 id="UIApplication_对象是应用程序的象征">UIApplication 对象是应用程序的象征</h3><p>每一个应用程序都有自己的 UIApplication对象,而且是单例的.<br>通过 [UIApplication sharedApplication]可以获得这个单例对象<br>一个iOS程序启动后创建的第一个对象就是 UIApplication 对象<br>一个iOS程序启动后创建的第一个对象就是 UIApplication 对象<br>利用 UIApplication 对象,能进行一些应用级别的操作 </p>
-<p>验证单例操作:  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;&#10;&#9;    [super viewDidLoad];&#10;    &#10;    UIApplication *app  = [UIApplication sharedApplication];&#10;    UIApplication *app2 = [UIApplication sharedApplication];&#10;    UIApplication *app3 = [[UIApplication alloc] init];&#10;    &#10;    NSLog(@&#34;%p,%p,%p&#34;,app,app2,app3);&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2015/04/13/iOS Tips/UIApplication-tips/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="page/6/index.html" data-title="undefined" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
 
 <nav id="pagination">
   
@@ -707,7 +710,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
   
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>2</small></li>
+    <li><a href="/categories/研究随笔/">研究随笔</a><small>3</small></li>
   
     <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
   
@@ -756,7 +759,7 @@ var duoshuoQuery = {short_name:"guiqingblog"};
   
     <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
   
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>2</small></li>
+    <li><a href="/tags/研究随笔/">研究随笔</a><small>3</small></li>
   
     <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
   
