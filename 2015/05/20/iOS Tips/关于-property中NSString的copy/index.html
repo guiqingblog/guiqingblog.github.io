@@ -1,64 +1,307 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
 <head>
-  <meta charset="utf-8">
-  
-  <title>关于@property中NSString的copy-深入细节 | Kenny 肉桂的主页</title>
-  <meta name="author" content="桂庆">
-  
-  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <meta property="og:title" content="关于@property中NSString的copy-深入细节"/>
-  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta property="og:image" content="undefined"/>
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
   
 
-  <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+    
+    
   
 
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Kenny, 肉桂" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前几天和东盟君讨论关于在 @property(nonatomic,copy)NSString * string;中 copy的使用问题. 虽然自己很明白,见到NSString,果断用 copy,但是却说不出个道道.
+今天偶尔在一片国外论坛的文章上看到了关于这个的内容(因为在pad上看的,具体地址没法引用了).所以简单记录一下.
+因为类似 NSString这样的不可变父类,它们有可变的子类(比如 N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于@property中NSString的copy-深入细节">
+<meta property="og:url" content="http://yoursite.com/2015/05/20/iOS Tips/关于-property中NSString的copy/index.html">
+<meta property="og:site_name" content="Kenny 肉桂的主页">
+<meta property="og:description" content="前几天和东盟君讨论关于在 @property(nonatomic,copy)NSString * string;中 copy的使用问题. 虽然自己很明白,见到NSString,果断用 copy,但是却说不出个道道.
+今天偶尔在一片国外论坛的文章上看到了关于这个的内容(因为在pad上看的,具体地址没法引用了).所以简单记录一下.
+因为类似 NSString这样的不可变父类,它们有可变的子类(比如 N">
+<meta property="og:updated_time" content="2016-09-27T09:55:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于@property中NSString的copy-深入细节">
+<meta name="twitter:description" content="前几天和东盟君讨论关于在 @property(nonatomic,copy)NSString * string;中 copy的使用问题. 虽然自己很明白,见到NSString,果断用 copy,但是却说不出个道道.
+今天偶尔在一片国外论坛的文章上看到了关于这个的内容(因为在pad上看的,具体地址没法引用了).所以简单记录一下.
+因为类似 NSString这样的不可变父类,它们有可变的子类(比如 N">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/05/20/iOS Tips/关于-property中NSString的copy/"/>
+
+  <title> 关于@property中NSString的copy-深入细节 | Kenny 肉桂的主页 </title>
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-<body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">Kenny 肉桂的主页</a></h1>
-  <h2><a href="/">记录自己的进步</a></h2>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kenny 肉桂的主页</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录自己的进步</p>
 </div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">主页</a></li>
-    
-      <li><a href="/about">关于我</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-05-20T02:01:14.000Z"><a href="/2015/05/20/iOS Tips/关于-property中NSString的copy/">2015-05-20</a></time>
-      
-      
-  
-    <h1 class="title">关于@property中NSString的copy-深入细节</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
   
 
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
     </header>
-    <div class="entry">
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                关于@property中NSString的copy-深入细节
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-20T10:01:14+08:00" content="2015-05-20">
+              2015-05-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p>前几天和东盟君讨论关于在 <code>@property(nonatomic,copy)NSString * string;</code>中 <code>copy</code>的使用问题. 虽然自己很明白,见到<code>NSString</code>,果断用 <code>copy</code>,但是却说不出个道道.</p>
 <p>今天偶尔在一片国外论坛的文章上看到了关于这个的内容(因为在pad上看的,具体地址没法引用了).所以简单记录一下.</p>
@@ -68,7 +311,7 @@
 <p>那么开始解释一开始的话:</p>
 <p>假设我有一个 <code>Person</code> 类,他有一个 <code>name</code>属性,它是<code>NSString</code>类型的.不可变对象对吧.</p>
 <p>那么问题来了,下面的语法是成立的:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> NSMutableString * mutableString = [[NSMutableString alloc]initWithString:@&#34;gg&#34;];&#10; //1&#10;per.name = mutableString;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">NSMutableString</span> * mutableString = [[<span class="built_in">NSMutableString</span> alloc]initWithString:<span class="string">@"gg"</span>];</span><br><span class="line"> <span class="comment">//1</span></span><br><span class="line">per<span class="variable">.name</span> = mutableString;</span><br></pre></td></tr></table></figure>
 <p>上面1处首先语法没有问题, NSString是 NSMutableString的父类.<br>然后这个时候,如果 <code>name</code>属性是 <code>@property</code> 是 <code>strong</code>的,<br>那么 <code>per.name</code> 和 <code>mutableString</code> 指向的是同一块内存区域,<br>那么,我就可以通过修改 <code>mutableString</code>来修改<code>per.name</code>了,而当初我们既然选择了 <code>NSString</code>,那么就是考虑到不会对其进行修改的.所以,这样违背了我们的初衷.</p>
 <p>如果是<code>copy</code>,<code>per.name</code>在使用前会复制一份出来,这样使用的其实是它的副本,即使修改了<code>mutableString</code>也不会对<code>per.name</code>的本尊造成影响.</p>
 <h3 id="关于_copy_和_mutableCopy">关于 copy 和 mutableCopy</h3><p>现在我说的这两者是在代码中使用的时候,就是对象创建和赋值时候的.<br>苹果的设计是:</p>
@@ -83,177 +326,308 @@
 <li>不管调用者类型是可变与否,mutableCopy到得就是可变对象</li>
 </ul>
 <h3 id="关于创建可变类型">关于创建可变类型</h3><p>以前都是用类似 <code>NSMutableString * string = [ NSMutableString string ];</code>这样的方式创建,但是在和东盟君讨论的时候,打印了一下,发现 <code>string</code>的class是:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString * string = [NSString stringWithFormat:@&#34;string&#34;];&#10; NSLog(@&#34;string is %@&#34;,[string class]);&#10; &#10; NSMutableString * mutableString = [NSMutableString string];&#10; NSLog(@&#34;mutable string is %@&#34;,[mutableString class]);</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> * string = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"string"</span>];</span><br><span class="line"> <span class="built_in">NSLog</span>(<span class="string">@"string is %@"</span>,[string class]);</span><br><span class="line"> </span><br><span class="line"> <span class="built_in">NSMutableString</span> * mutableString = [<span class="built_in">NSMutableString</span> string];</span><br><span class="line"> <span class="built_in">NSLog</span>(<span class="string">@"mutable string is %@"</span>,[mutableString class]);</span><br></pre></td></tr></table></figure>
 <p>打印结果:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2015-05-20 10:36:43.549 TestNsstring[10993:1874316] string is __NSCFString&#10;2015-05-20 10:36:43.550 TestNsstring[10993:1874316] mutable string is __NSCFString</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2015</span>-<span class="number">05</span>-<span class="number">20</span> <span class="number">10</span>:<span class="number">36</span>:<span class="number">43.549</span> TestNsstring[<span class="number">10993</span>:<span class="number">1874316</span>] string is __<span class="built_in">NSCFString</span></span><br><span class="line"><span class="number">2015</span>-<span class="number">05</span>-<span class="number">20</span> <span class="number">10</span>:<span class="number">36</span>:<span class="number">43.550</span> TestNsstring[<span class="number">10993</span>:<span class="number">1874316</span>] <span class="keyword">mutable</span> string is __<span class="built_in">NSCFString</span></span><br></pre></td></tr></table></figure>
 <p>究其原因, NSString是一个类簇,具体的实现都会找到合适的类,这个不用纠结了.</p>
 <p>不久之后,在 <strong>iOS6 by Tutorial</strong>中一书中看到关于 <code>[@[] mutableCopy]</code> 和 <code>[@{} mutableCopy]</code> 这样的用法.</p>
 <p>也符合 copy 和 mutableCopy 的准则</p>
 
       
     </div>
-    <footer>
-      
-        
-  
-  <div class="categories">
-    <a href="/categories/iOS-Tips/">iOS Tips</a>
-  </div>
 
-        
-        
+    <div>
       
-      <div class="clearfix"></div>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/05/06/iOS Tips/Tableview相关/" rel="next" title="Tableview相关-iOS开发 Tips">
+                <i class="fa fa-chevron-left"></i> Tableview相关-iOS开发 Tips
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/01/iOS Tips/2015-06-01滚动监听-触摸点获取-Tranform-RecealApp/" rel="prev" title="2015-06-01滚动监听 触摸点获取 Tranform RecealApp">
+                2015-06-01滚动监听 触摸点获取 Tranform RecealApp <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/05/20/iOS Tips/关于-property中NSString的copy/" data-title="关于@property中NSString的copy-深入细节" data-url="http://yoursite.com/2015/05/20/iOS Tips/关于-property中NSString的copy/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="搜索">
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
-
-  
-<div class="widget tag">
-  <h3 class="title">分类</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/React-Native/">React Native</a><small>2</small></li>
-  
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
-  
-    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/categories/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
-  
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
-  
-    <li><a href="/categories/其他技术/">其他技术</a><small>8</small></li>
-  
-    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/categories/坑/">坑</a><small>1</small></li>
-  
-    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
-  
-    <li><a href="/categories/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
-  
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
-  
-  </ul>
-</div>
 
 
-  
-<div class="widget tag">
-  <h3 class="title">标签</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
-  
-    <li><a href="/tags/React-Native/">React Native</a><small>1</small></li>
-  
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
-  
-    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/tags/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>5</small></li>
-  
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
-  
-    <li><a href="/tags/其他技术/">其他技术</a><small>4</small></li>
-  
-    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
-  
-    <li><a href="/tags/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
-  
-    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
-  
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
-  
-    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
-  
-    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
-  
-    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
-  
-  </ul>
-</div>
+          </div>
+          
 
-</aside>
-    <div class="clearfix"></div>
+
+          
+  <div class="comments" id="comments">
+    
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+
+
+        </div>
+        
+          
   
-  &copy; 2016 桂庆
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="桂庆" />
+          <p class="site-author-name" itemprop="name">桂庆</p>
+          <p class="site-description motion-element" itemprop="description">Kenny 肉桂的主页 记录自己的进步</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2655284735/profile?rightmod=1&wvr=6&mod=personnumber&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于_copy_和_mutableCopy"><span class="nav-number">1.</span> <span class="nav-text">关于 copy 和 mutableCopy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于创建可变类型"><span class="nav-number">2.</span> <span class="nav-text">关于创建可变类型</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">桂庆</span>
 </div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
 
+        
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
 <script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>

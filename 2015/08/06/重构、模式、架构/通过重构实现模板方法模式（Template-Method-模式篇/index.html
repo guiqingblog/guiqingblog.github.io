@@ -1,67 +1,305 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
 <head>
-  <meta charset="utf-8">
-  
-  <title>通过重构实现模板方法模式（Template Method ) 模式篇 | Kenny 肉桂的主页</title>
-  <meta name="author" content="桂庆">
-  
-  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <meta property="og:title" content="通过重构实现模板方法模式（Template Method ) 模式篇"/>
-  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta property="og:image" content="undefined"/>
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
   
 
-  <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+    
+    
   
 
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Kenny, 肉桂" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="书接上文上次使用了一些简单地重构方法,得到的最终代码如下:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过重构实现模板方法模式（Template Method ) 模式篇">
+<meta property="og:url" content="http://yoursite.com/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/index.html">
+<meta property="og:site_name" content="Kenny 肉桂的主页">
+<meta property="og:description" content="书接上文上次使用了一些简单地重构方法,得到的最终代码如下:">
+<meta property="og:image" content="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-8@2x.png">
+<meta property="og:updated_time" content="2016-09-27T09:55:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过重构实现模板方法模式（Template Method ) 模式篇">
+<meta name="twitter:description" content="书接上文上次使用了一些简单地重构方法,得到的最终代码如下:">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/"/>
+
+  <title> 通过重构实现模板方法模式（Template Method ) 模式篇 | Kenny 肉桂的主页 </title>
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-<body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">Kenny 肉桂的主页</a></h1>
-  <h2><a href="/">记录自己的进步</a></h2>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kenny 肉桂的主页</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录自己的进步</p>
 </div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">主页</a></li>
-    
-      <li><a href="/about">关于我</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-06T03:26:58.000Z"><a href="/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/">2015-08-06</a></time>
-      
-      
-  
-    <h1 class="title">通过重构实现模板方法模式（Template Method ) 模式篇</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
   
 
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
     </header>
-    <div class="entry">
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                通过重构实现模板方法模式（Template Method ) 模式篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-06T11:26:58+08:00" content="2015-08-06">
+              2015-08-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/重构、模式、架构/" itemprop="url" rel="index">
+                    <span itemprop="name">重构、模式、架构</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <h2 id="书接上文">书接上文</h2><p>上次使用了一些简单地重构方法,得到的最终代码如下:<br><a id="more"></a><br>.h 未做改动,文件省略<br>.m 文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;GUIResetPasswordController.h&#34;&#10;#import &#34;GUIChangePasswordController.h&#34;&#10;#import &#60;SMS_SDK/SMS_SDK.h&#62;&#10;#import &#34;GUIHeader.h&#34;&#10;&#10;&#10;&#10;@interface GUIResetPasswordController ()&#10;&#10;@property (nonatomic, weak) UITextField *phonenumberTextfield;&#10;@property (nonatomic, weak) UITextField *verifyCodeTextfield;&#10;@property (nonatomic, weak) UIButton    *getVerifyCodeButton;&#10;@property (nonatomic, weak) UIButton    *submitButton;&#10;&#10;@end&#10;&#10;static NSInteger secondsCoutDown;&#10;static NSTimer   *countDownTimer;&#10;&#10;static CGFloat const kLeftViewHeight = 40;&#10;static CGFloat const kLeftViewWidth  = 40;&#10;&#10;&#10;@implementation GUIResetPasswordController&#10;&#10;&#10;&#10;&#10;&#10;#pragma mark -life cycle&#10;- (void)viewDidLoad &#123;&#10;    [super viewDidLoad];&#10;&#10;    self.view.backgroundColor = kcMainGrayBackgroud;&#10;&#10;    [self setupPhoneNumberTextField];&#10;&#10;    [self setupVerifiedCodeTextField];&#10;&#10;    [self setupGetVerifiyCodeButton];&#10;&#10;    [self setupSubmitButton];&#10;&#10;&#10;&#125;&#10;&#10;- (void)viewWillLayoutSubviews &#123;&#10;    [super viewWillLayoutSubviews];&#10;&#10;    WSE(ws);&#10;&#10;    static const CGFloat kTextFieldHeight = 50;&#10;    [self.phonenumberTextfield mas_makeConstraints:^(MASConstraintMaker *make) &#123;&#10;         make.top.mas_equalTo(ws.view);&#10;         make.leading.mas_equalTo(ws.view);&#10;         make.trailing.mas_equalTo(ws.view);&#10;         make.height.mas_equalTo(kTextFieldHeight);&#10;     &#125;];&#10;&#10;    [self.verifyCodeTextfield mas_makeConstraints:^(MASConstraintMaker *make) &#123;&#10;         make.top.mas_equalTo(ws.phonenumberTextfield.mas_bottom).with.offset(1);&#10;         make.leading.mas_equalTo(ws.view);&#10;         make.trailing.mas_equalTo(ws.view).with.offset(-GUIScreenWidth/3);&#10;         make.height.mas_equalTo(kTextFieldHeight);&#10;     &#125;];&#10;&#10;    [self.getVerifyCodeButton mas_makeConstraints:^(MASConstraintMaker *make) &#123;&#10;         make.size.mas_equalTo(CGSizeMake(GUIScreenWidth/3, kTextFieldHeight));&#10;         make.leading.mas_equalTo(ws.verifyCodeTextfield.mas_trailing);&#10;         make.bottom.mas_equalTo(ws.verifyCodeTextfield);&#10;     &#125;];&#10;&#10;    [self.submitButton mas_makeConstraints:^(MASConstraintMaker *make) &#123;&#10;         make.size.mas_equalTo(CGSizeMake(GUIScreenWidth/3, 30));&#10;         make.leading.mas_equalTo((GUIScreenWidth-(GUIScreenWidth/3))/2);&#10;         make.top.mas_equalTo(ws.verifyCodeTextfield.mas_bottom).with.offset(60);&#10;     &#125;];&#10;&#10;&#10;&#125;&#10;&#10;#pragma mark -  delegate&#10;&#10;#pragma mark -event response&#10;- (void)getTheCodeAgain &#123;&#10;&#10;    secondsCoutDown                  = 60;&#10;    self.getVerifyCodeButton.enabled = NO;&#10;    countDownTimer                   = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeDown) userInfo:nil repeats:YES];&#10;&#10;&#125;&#10;&#10;- (void)nextStep:(UIButton *)button &#123;&#10;&#10;    [SMS_SDK commitVerifyCode:self.verifyCodeTextfield.text result:^(enum SMS_ResponseState state) &#123;&#10;         if (state == SMS_ResponseStateSuccess) &#123;&#10;             [MBProgressHUD showMessage:@&#34;&#27491;&#22312;&#39564;&#35777; ... &#34;];&#10;             [self.navigationController pushViewController:[[GUIChangePasswordController alloc]init] animated:YES];&#10;             [MBProgressHUD hideHUD];&#10;         &#125; else &#123;&#10;             [MBProgressHUD showError:@&#34;&#39564;&#35777;&#22833;&#36133;&#34;];&#10;         &#125;&#10;     &#125;];&#10;#warning temp code ,remember to delete&#10;    [self.navigationController pushViewController:[[GUIChangePasswordController alloc]init] animated:YES];&#10;&#10;&#125;&#10;&#10;#pragma  mark - share sdk sms&#10;- (void)getVerifyCode:(UIButton *)button &#123;&#10;&#10;    if (self.phonenumberTextfield.text == nil) &#123;&#10;        [MBProgressHUD showError:@&#34;&#35831;&#20808;&#22635;&#20889;&#25163;&#26426;&#21495;&#30721;&#34;];&#10;        return;&#10;    &#125;&#10;&#10;&#10;    NSString *phoneNumber = self.phonenumberTextfield.text;&#10;&#10;#warning temp code ,remember to delete&#10;    NSArray  *paths        = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);&#10;    NSString *documentPath = [paths lastObject];&#10;    NSString *filePath     = [documentPath stringByAppendingPathComponent:@&#34;resetPhoneNumber.plist&#34;];&#10;    [phoneNumber writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];&#10;&#10;    [SMS_SDK getVerificationCodeBySMSWithPhone:phoneNumber zone:@&#34;86&#34; result:^(SMS_SDKError *error) &#123;&#10;         //save phone number to file&#10;         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);&#10;         NSString *documentPath = [paths lastObject];&#10;         NSString *filePath = [documentPath stringByAppendingPathComponent:@&#34;resetPhoneNumber.plist&#34;];&#10;         [phoneNumber writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];&#10;     &#125;];&#10;&#10;    [self getTheCodeAgain];&#10;&#125;&#10;&#10;#pragma mark -private methods&#10;&#10;- (void)timeDown &#123;&#10;    secondsCoutDown--;&#10;    if (secondsCoutDown == 0) &#123;&#10;        [countDownTimer invalidate];&#10;        self.getVerifyCodeButton.enabled = YES;&#10;    &#125;&#10;    [self.getVerifyCodeButton setTitle:[NSString stringWithFormat:@&#34;&#35831;&#31561;&#24453; %ld &#31186;&#34;, (long)secondsCoutDown] forState:UIControlStateDisabled];&#10;&#125;&#10;&#10;- (UIImageView *)textLeftViewWithImage:(UIImage *)leftImage &#123;&#10;    UIImageView *containerView = [[UIImageView alloc] init];&#10;    UIImageView *iconView      = [[UIImageView alloc]init];&#10;    iconView.image = leftImage;&#10;    [containerView addSubview:iconView];&#10;&#10;    UIImageView *seperatorView = [[UIImageView alloc]init];&#10;    seperatorView.backgroundColor = [UIColor redColor];&#10;    [containerView addSubview:seperatorView];&#10;    //set frame&#10;    containerView.bounds = CGRectMake(0, 0, kLeftViewWidth+20, kLeftViewWidth);&#10;&#10;    CGFloat iconViewWH = 20;&#10;    CGFloat iconViewX  = (kLeftViewWidth - iconViewWH)/2;&#10;    CGFloat iconViewY  = (kLeftViewHeight - iconViewWH)/2;&#10;&#10;    iconView.frame = CGRectMake(iconViewX, iconViewY, iconViewWH, iconViewWH);&#10;&#10;    CGFloat seperatorW = 1;&#10;    CGFloat seperatorH = 20;&#10;    CGFloat seperatorX = kLeftViewWidth-seperatorW;&#10;    CGFloat seperatorY = (kLeftViewHeight-seperatorH)/2;&#10;&#10;    seperatorView.frame = CGRectMake(seperatorX, seperatorY, seperatorW, seperatorH);&#10;&#10;    return containerView;&#10;&#125;&#10;&#10;- (void)setupPhoneNumberTextField &#123;&#10;&#10;    UITextField *phonenumberTextfield = [[UITextField alloc]init];&#10;    phonenumberTextfield.leftView        = [self textLeftViewWithImage:[UIImage imageNamed:@&#34;zhuce_dianhua&#34;]];&#10;    phonenumberTextfield.leftViewMode    = UITextFieldViewModeAlways;&#10;    phonenumberTextfield.placeholder     = @&#34;&#24744;&#30340;&#25163;&#26426;&#21495;&#34;;&#10;    phonenumberTextfield.backgroundColor = [UIColor whiteColor];&#10;    phonenumberTextfield.clearButtonMode = UITextFieldViewModeWhileEditing;&#10;    [self.view addSubview:phonenumberTextfield];&#10;    self.phonenumberTextfield = phonenumberTextfield;&#10;&#10;&#125;&#10;&#10;- (void)setupVerifiedCodeTextField &#123;&#10;&#10;    UITextField *verifyCodeTextfield = [[UITextField alloc]init];&#10;    verifyCodeTextfield.leftView        = [self textLeftViewWithImage:[UIImage imageNamed:@&#34;zhuce_yanzhengma&#34;]];&#10;    verifyCodeTextfield.leftViewMode    = UITextFieldViewModeAlways;&#10;    verifyCodeTextfield.placeholder     = @&#34;&#36755;&#20837;&#39564;&#35777;&#30721;&#34;;&#10;    verifyCodeTextfield.backgroundColor = [UIColor whiteColor];&#10;    [self.view addSubview:verifyCodeTextfield];&#10;    self.verifyCodeTextfield = verifyCodeTextfield;&#10;&#10;&#10;&#125;&#10;&#10;- (void)setupGetVerifiyCodeButton &#123;&#10;&#10;    UIButton *getVerifyCodeButton = [[UIButton alloc]init];&#10;    [getVerifyCodeButton setTitle:@&#34;&#33719;&#21462;&#39564;&#35777;&#30721;&#34; forState:UIControlStateNormal];&#10;    [getVerifyCodeButton setBackgroundColor:kcMainRed];&#10;    [getVerifyCodeButton setTitleColor:kcMainGrayBackgroud forState:UIControlStateNormal];&#10;    [getVerifyCodeButton addTarget:self action:@selector(getVerifyCode:) forControlEvents:UIControlEventTouchUpInside];&#10;    [self.view addSubview:getVerifyCodeButton];&#10;    self.getVerifyCodeButton = getVerifyCodeButton;&#10;&#10;&#125;&#10;&#10;- (void)setupSubmitButton &#123;&#10;&#10;    UIButton *submitButton = [[UIButton alloc] init];&#10;    [submitButton setTitle:@&#34;&#19979;&#19968;&#27493;&#34; forState:UIControlStateNormal];&#10;    [submitButton setBackgroundColor:[UIColor whiteColor]];&#10;    submitButton.layer.cornerRadius = 3;&#10;    [submitButton setTitleColor:kcMainRed forState:UIControlStateNormal];&#10;    [submitButton addTarget:self action:@selector(nextStep:) forControlEvents:UIControlEventTouchUpInside];&#10;    [self.view addSubview:submitButton];&#10;    self.submitButton = submitButton;&#10;&#10;&#125;&#10;&#10;#pragma mark -getters and setters&#10;&#10;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">"GUIResetPasswordController.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIChangePasswordController.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;SMS_SDK/SMS_SDK.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIHeader.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUIResetPasswordController</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UITextField</span> *phonenumberTextfield;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UITextField</span> *verifyCodeTextfield;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UIButton</span>    *getVerifyCodeButton;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UIButton</span>    *submitButton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">NSInteger</span> secondsCoutDown;</span><br><span class="line"><span class="keyword">static</span> <span class="built_in">NSTimer</span>   *countDownTimer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">CGFloat</span> <span class="keyword">const</span> kLeftViewHeight = <span class="number">40</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="built_in">CGFloat</span> <span class="keyword">const</span> kLeftViewWidth  = <span class="number">40</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUIResetPasswordController</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -life cycle</span></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = kcMainGrayBackgroud;</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span> setupPhoneNumberTextField];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span> setupVerifiedCodeTextField];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span> setupGetVerifiyCodeButton];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span> setupSubmitButton];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewWillLayoutSubviews &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewWillLayoutSubviews];</span><br><span class="line"></span><br><span class="line">    WSE(ws);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="built_in">CGFloat</span> kTextFieldHeight = <span class="number">50</span>;</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.phonenumberTextfield</span> mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">         make<span class="variable">.top</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.view</span>);</span><br><span class="line">         make<span class="variable">.leading</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.view</span>);</span><br><span class="line">         make<span class="variable">.trailing</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.view</span>);</span><br><span class="line">         make<span class="variable">.height</span><span class="variable">.mas_equalTo</span>(kTextFieldHeight);</span><br><span class="line">     &#125;];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.verifyCodeTextfield</span> mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">         make<span class="variable">.top</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.phonenumberTextfield</span><span class="variable">.mas_bottom</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">1</span>);</span><br><span class="line">         make<span class="variable">.leading</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.view</span>);</span><br><span class="line">         make<span class="variable">.trailing</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.view</span>)<span class="variable">.with</span><span class="variable">.offset</span>(-G<span class="built_in">UIScreenWidth</span>/<span class="number">3</span>);</span><br><span class="line">         make<span class="variable">.height</span><span class="variable">.mas_equalTo</span>(kTextFieldHeight);</span><br><span class="line">     &#125;];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.getVerifyCodeButton</span> mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">         make<span class="variable">.size</span><span class="variable">.mas_equalTo</span>(<span class="built_in">CGSizeMake</span>(G<span class="built_in">UIScreenWidth</span>/<span class="number">3</span>, kTextFieldHeight));</span><br><span class="line">         make<span class="variable">.leading</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.verifyCodeTextfield</span><span class="variable">.mas_trailing</span>);</span><br><span class="line">         make<span class="variable">.bottom</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.verifyCodeTextfield</span>);</span><br><span class="line">     &#125;];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.submitButton</span> mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">         make<span class="variable">.size</span><span class="variable">.mas_equalTo</span>(<span class="built_in">CGSizeMake</span>(G<span class="built_in">UIScreenWidth</span>/<span class="number">3</span>, <span class="number">30</span>));</span><br><span class="line">         make<span class="variable">.leading</span><span class="variable">.mas_equalTo</span>((G<span class="built_in">UIScreenWidth</span>-(G<span class="built_in">UIScreenWidth</span>/<span class="number">3</span>))/<span class="number">2</span>);</span><br><span class="line">         make<span class="variable">.top</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.verifyCodeTextfield</span><span class="variable">.mas_bottom</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">60</span>);</span><br><span class="line">     &#125;];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -  delegate</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -event response</span></span><br><span class="line">- (<span class="keyword">void</span>)getTheCodeAgain &#123;</span><br><span class="line"></span><br><span class="line">    secondsCoutDown                  = <span class="number">60</span>;</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.getVerifyCodeButton</span><span class="variable">.enabled</span> = <span class="literal">NO</span>;</span><br><span class="line">    countDownTimer                   = [<span class="built_in">NSTimer</span> scheduledTimerWithTimeInterval:<span class="number">1</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timeDown) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)nextStep:(<span class="built_in">UIButton</span> *)button &#123;</span><br><span class="line"></span><br><span class="line">    [SMS_SDK commitVerifyCode:<span class="keyword">self</span><span class="variable">.verifyCodeTextfield</span><span class="variable">.text</span> result:^(<span class="keyword">enum</span> SMS_ResponseState state) &#123;</span><br><span class="line">         <span class="keyword">if</span> (state == SMS_ResponseStateSuccess) &#123;</span><br><span class="line">             [MBProgressHUD showMessage:<span class="string">@"正在验证 ... "</span>];</span><br><span class="line">             [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:[[G<span class="built_in">UIChangePasswordController</span> alloc]init] animated:<span class="literal">YES</span>];</span><br><span class="line">             [MBProgressHUD hideHUD];</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             [MBProgressHUD showError:<span class="string">@"验证失败"</span>];</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;];</span><br><span class="line"><span class="preprocessor">#warning temp code ,remember to delete</span></span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:[[G<span class="built_in">UIChangePasswordController</span> alloc]init] animated:<span class="literal">YES</span>];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma  mark - share sdk sms</span></span><br><span class="line">- (<span class="keyword">void</span>)getVerifyCode:(<span class="built_in">UIButton</span> *)button &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span><span class="variable">.phonenumberTextfield</span><span class="variable">.text</span> == <span class="literal">nil</span>) &#123;</span><br><span class="line">        [MBProgressHUD showError:<span class="string">@"请先填写手机号码"</span>];</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSString</span> *phoneNumber = <span class="keyword">self</span><span class="variable">.phonenumberTextfield</span><span class="variable">.text</span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#warning temp code ,remember to delete</span></span><br><span class="line">    <span class="built_in">NSArray</span>  *paths        = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>);</span><br><span class="line">    <span class="built_in">NSString</span> *documentPath = [paths lastObject];</span><br><span class="line">    <span class="built_in">NSString</span> *filePath     = [documentPath stringByAppendingPathComponent:<span class="string">@"resetPhoneNumber.plist"</span>];</span><br><span class="line">    [phoneNumber writeToFile:filePath atomically:<span class="literal">YES</span> encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line">    [SMS_SDK getVerificationCodeBySMSWithPhone:phoneNumber zone:<span class="string">@"86"</span> result:^(SMS_SDKError *error) &#123;</span><br><span class="line">         <span class="comment">//save phone number to file</span></span><br><span class="line">         <span class="built_in">NSArray</span> *paths = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>);</span><br><span class="line">         <span class="built_in">NSString</span> *documentPath = [paths lastObject];</span><br><span class="line">         <span class="built_in">NSString</span> *filePath = [documentPath stringByAppendingPathComponent:<span class="string">@"resetPhoneNumber.plist"</span>];</span><br><span class="line">         [phoneNumber writeToFile:filePath atomically:<span class="literal">YES</span> encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">nil</span>];</span><br><span class="line">     &#125;];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span> getTheCodeAgain];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -private methods</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)timeDown &#123;</span><br><span class="line">    secondsCoutDown--;</span><br><span class="line">    <span class="keyword">if</span> (secondsCoutDown == <span class="number">0</span>) &#123;</span><br><span class="line">        [countDownTimer invalidate];</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.getVerifyCodeButton</span><span class="variable">.enabled</span> = <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.getVerifyCodeButton</span> setTitle:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"请等待 %ld 秒"</span>, (<span class="keyword">long</span>)secondsCoutDown] forState:<span class="built_in">UIControlStateDisabled</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIImageView</span> *)textLeftViewWithImage:(<span class="built_in">UIImage</span> *)leftImage &#123;</span><br><span class="line">    <span class="built_in">UIImageView</span> *containerView = [[<span class="built_in">UIImageView</span> alloc] init];</span><br><span class="line">    <span class="built_in">UIImageView</span> *iconView      = [[<span class="built_in">UIImageView</span> alloc]init];</span><br><span class="line">    iconView<span class="variable">.image</span> = leftImage;</span><br><span class="line">    [containerView addSubview:iconView];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UIImageView</span> *seperatorView = [[<span class="built_in">UIImageView</span> alloc]init];</span><br><span class="line">    seperatorView<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> redColor];</span><br><span class="line">    [containerView addSubview:seperatorView];</span><br><span class="line">    <span class="comment">//set frame</span></span><br><span class="line">    containerView<span class="variable">.bounds</span> = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, kLeftViewWidth+<span class="number">20</span>, kLeftViewWidth);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CGFloat</span> iconViewWH = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">CGFloat</span> iconViewX  = (kLeftViewWidth - iconViewWH)/<span class="number">2</span>;</span><br><span class="line">    <span class="built_in">CGFloat</span> iconViewY  = (kLeftViewHeight - iconViewWH)/<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    iconView<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>(iconViewX, iconViewY, iconViewWH, iconViewWH);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CGFloat</span> seperatorW = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">CGFloat</span> seperatorH = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">CGFloat</span> seperatorX = kLeftViewWidth-seperatorW;</span><br><span class="line">    <span class="built_in">CGFloat</span> seperatorY = (kLeftViewHeight-seperatorH)/<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    seperatorView<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>(seperatorX, seperatorY, seperatorW, seperatorH);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> containerView;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setupPhoneNumberTextField &#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UITextField</span> *phonenumberTextfield = [[<span class="built_in">UITextField</span> alloc]init];</span><br><span class="line">    phonenumberTextfield<span class="variable">.leftView</span>        = [<span class="keyword">self</span> textLeftViewWithImage:[<span class="built_in">UIImage</span> imageNamed:<span class="string">@"zhuce_dianhua"</span>]];</span><br><span class="line">    phonenumberTextfield<span class="variable">.leftViewMode</span>    = <span class="built_in">UITextFieldViewModeAlways</span>;</span><br><span class="line">    phonenumberTextfield<span class="variable">.placeholder</span>     = <span class="string">@"您的手机号"</span>;</span><br><span class="line">    phonenumberTextfield<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];</span><br><span class="line">    phonenumberTextfield<span class="variable">.clearButtonMode</span> = <span class="built_in">UITextFieldViewModeWhileEditing</span>;</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:phonenumberTextfield];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.phonenumberTextfield</span> = phonenumberTextfield;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setupVerifiedCodeTextField &#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UITextField</span> *verifyCodeTextfield = [[<span class="built_in">UITextField</span> alloc]init];</span><br><span class="line">    verifyCodeTextfield<span class="variable">.leftView</span>        = [<span class="keyword">self</span> textLeftViewWithImage:[<span class="built_in">UIImage</span> imageNamed:<span class="string">@"zhuce_yanzhengma"</span>]];</span><br><span class="line">    verifyCodeTextfield<span class="variable">.leftViewMode</span>    = <span class="built_in">UITextFieldViewModeAlways</span>;</span><br><span class="line">    verifyCodeTextfield<span class="variable">.placeholder</span>     = <span class="string">@"输入验证码"</span>;</span><br><span class="line">    verifyCodeTextfield<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:verifyCodeTextfield];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.verifyCodeTextfield</span> = verifyCodeTextfield;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setupGetVerifiyCodeButton &#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UIButton</span> *getVerifyCodeButton = [[<span class="built_in">UIButton</span> alloc]init];</span><br><span class="line">    [getVerifyCodeButton setTitle:<span class="string">@"获取验证码"</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [getVerifyCodeButton setBackgroundColor:kcMainRed];</span><br><span class="line">    [getVerifyCodeButton setTitleColor:kcMainGrayBackgroud forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [getVerifyCodeButton addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(getVerifyCode:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:getVerifyCodeButton];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.getVerifyCodeButton</span> = getVerifyCodeButton;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setupSubmitButton &#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UIButton</span> *submitButton = [[<span class="built_in">UIButton</span> alloc] init];</span><br><span class="line">    [submitButton setTitle:<span class="string">@"下一步"</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [submitButton setBackgroundColor:[<span class="built_in">UIColor</span> whiteColor]];</span><br><span class="line">    submitButton<span class="variable">.layer</span><span class="variable">.cornerRadius</span> = <span class="number">3</span>;</span><br><span class="line">    [submitButton setTitleColor:kcMainRed forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [submitButton addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(nextStep:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:submitButton];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.submitButton</span> = submitButton;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -getters and setters</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <h2 id="模板方法">模板方法</h2><p><code>模板方法</code>设计模式是最常用来避免<code>直接复制代码</code>的设计模式.</p>
 <h3 id="1-_隔离变化">1. 隔离变化</h3><p> 所谓的隔离变化,概括起来说就是: </p>
 <ul>
@@ -80,30 +318,30 @@
 <li>将差异抽取,并在子类中分别实现</li>
 </ul>
 <p>拷贝完毕的代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#import &#34;GUIVaiidationTemplateController.h&#34;&#10;#import &#60;SMS_SDK/SMS_SDK.h&#62;&#10;#import &#34;GUIHeader.h&#34;&#10;&#10;&#10;static NSInteger secondsCoutDown;&#10;static NSTimer   *countDownTimer;&#10;&#10;static CGFloat const kLeftViewHeight = 40;&#10;static CGFloat const kLeftViewWidth  = 40;&#10;&#10;&#10;@interface GUIVaiidationTemplateController ()&#10;&#10;@property (nonatomic, weak) UITextField *phonenumberTextfield;&#10;@property (nonatomic, weak) UITextField *verifyCodeTextfield;&#10;@property (nonatomic, weak) UIButton    *getVerifyCodeButton;&#10;@property (nonatomic, weak) UIButton    *submitButton;&#10;&#10;@end&#10;&#10;&#10;@implementation GUIVaiidationTemplateController&#10;&#10;&#10;#pragma mark -life cycle&#10;- (void)viewDidLoad &#123;&#10;    [super viewDidLoad];&#10;    &#10;    self.view.backgroundColor = kcMainGrayBackgroud;&#10;    &#10;    [self setupPhoneNumberTextField];&#10;    &#10;    [self setupVerifiedCodeTextField];&#10;    &#10;    [self setupGetVerifiyCodeButton];&#10;    &#10;    [self setupSubmitButton];&#10;    &#10;    &#10;&#125;&#10;&#10;- (void)viewWillLayoutSubviews &#123;&#10;    [super viewWillLayoutSubviews];&#10;    &#10;    WSE(ws);&#10;    &#10;    static const CGFloat kTextFieldHeight = 50;&#10;    [self.phonenumberTextfield mas_makeConstraints:^(MASConstraintMaker *make) &#123;&#10;        make.top.mas_equalTo(ws.view);&#10;        make.leading.mas_equalTo(ws.view);&#10;        make.trailing.mas_equalTo(ws.view);&#10;        make.height.mas_equalTo(kTextFieldHeight);&#10;    &#125;];&#10;    &#10;    [self.verifyCodeTextfield mas_makeConstraints:^(MASConstraintMaker *make) &#123;&#10;        make.top.mas_equalTo(ws.phonenumberTextfield.mas_bottom).with.offset(1);&#10;        make.leading.mas_equalTo(ws.view);&#10;        make.trailing.mas_equalTo(ws.view).with.offset(-GUIScreenWidth/3);&#10;        make.height.mas_equalTo(kTextFieldHeight);&#10;    &#125;];&#10;    &#10;    [self.getVerifyCodeButton mas_makeConstraints:^(MASConstraintMaker *make) &#123;&#10;        make.size.mas_equalTo(CGSizeMake(GUIScreenWidth/3, kTextFieldHeight));&#10;        make.leading.mas_equalTo(ws.verifyCodeTextfield.mas_trailing);&#10;        make.bottom.mas_equalTo(ws.verifyCodeTextfield);&#10;    &#125;];&#10;    &#10;    [self.submitButton mas_makeConstraints:^(MASConstraintMaker *make) &#123;&#10;        make.size.mas_equalTo(CGSizeMake(GUIScreenWidth/3, 30));&#10;        make.leading.mas_equalTo((GUIScreenWidth-(GUIScreenWidth/3))/2);&#10;        make.top.mas_equalTo(ws.verifyCodeTextfield.mas_bottom).with.offset(60);&#10;    &#125;];&#10;    &#10;    &#10;&#125;&#10;&#10;#pragma mark -  delegate&#10;&#10;#pragma mark -event response&#10;- (void)getTheCodeAgain &#123;&#10;    &#10;    secondsCoutDown                  = 60;&#10;    self.getVerifyCodeButton.enabled = NO;&#10;    countDownTimer                   = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeDown) userInfo:nil repeats:YES];&#10;    &#10;&#125;&#10;&#10;- (void)nextStep:(UIButton *)button &#123;&#10;    &#10;    [SMS_SDK commitVerifyCode:self.verifyCodeTextfield.text result:^(enum SMS_ResponseState state) &#123;&#10;        if (state == SMS_ResponseStateSuccess) &#123;&#10;            [MBProgressHUD showMessage:@&#34;&#27491;&#22312;&#39564;&#35777; ... &#34;];&#10;            [self.navigationController pushViewController:[[GUIChangePasswordController alloc]init] animated:YES];&#10;            [MBProgressHUD hideHUD];&#10;        &#125; else &#123;&#10;            [MBProgressHUD showError:@&#34;&#39564;&#35777;&#22833;&#36133;&#34;];&#10;        &#125;&#10;    &#125;];&#10;#warning temp code ,remember to delete&#10;    [self.navigationController pushViewController:[[GUIChangePasswordController alloc]init] animated:YES];&#10;    &#10;&#125;&#10;&#10;#pragma  mark - share sdk sms&#10;- (void)getVerifyCode:(UIButton *)button &#123;&#10;    &#10;    if (self.phonenumberTextfield.text == nil) &#123;&#10;        [MBProgressHUD showError:@&#34;&#35831;&#20808;&#22635;&#20889;&#25163;&#26426;&#21495;&#30721;&#34;];&#10;        return;&#10;    &#125;&#10;    &#10;    &#10;    NSString *phoneNumber = self.phonenumberTextfield.text;&#10;    &#10;#warning temp code ,remember to delete&#10;    NSArray  *paths        = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);&#10;    NSString *documentPath = [paths lastObject];&#10;    NSString *filePath     = [documentPath stringByAppendingPathComponent:@&#34;resetPhoneNumber.plist&#34;];&#10;    [phoneNumber writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];&#10;    &#10;    [SMS_SDK getVerificationCodeBySMSWithPhone:phoneNumber zone:@&#34;86&#34; result:^(SMS_SDKError *error) &#123;&#10;        //save phone number to file&#10;        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);&#10;        NSString *documentPath = [paths lastObject];&#10;        NSString *filePath = [documentPath stringByAppendingPathComponent:@&#34;resetPhoneNumber.plist&#34;];&#10;        [phoneNumber writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];&#10;    &#125;];&#10;    &#10;    [self getTheCodeAgain];&#10;&#125;&#10;&#10;#pragma mark -private methods&#10;&#10;- (void)timeDown &#123;&#10;    secondsCoutDown--;&#10;    if (secondsCoutDown == 0) &#123;&#10;        [countDownTimer invalidate];&#10;        self.getVerifyCodeButton.enabled = YES;&#10;    &#125;&#10;    [self.getVerifyCodeButton setTitle:[NSString stringWithFormat:@&#34;&#35831;&#31561;&#24453; %ld &#31186;&#34;, (long)secondsCoutDown] forState:UIControlStateDisabled];&#10;&#125;&#10;&#10;- (UIImageView *)textLeftViewWithImage:(UIImage *)leftImage &#123;&#10;    UIImageView *containerView = [[UIImageView alloc] init];&#10;    UIImageView *iconView      = [[UIImageView alloc]init];&#10;    iconView.image = leftImage;&#10;    [containerView addSubview:iconView];&#10;    &#10;    UIImageView *seperatorView = [[UIImageView alloc]init];&#10;    seperatorView.backgroundColor = [UIColor redColor];&#10;    [containerView addSubview:seperatorView];&#10;    //set frame&#10;    containerView.bounds = CGRectMake(0, 0, kLeftViewWidth+20, kLeftViewWidth);&#10;    &#10;    CGFloat iconViewWH = 20;&#10;    CGFloat iconViewX  = (kLeftViewWidth - iconViewWH)/2;&#10;    CGFloat iconViewY  = (kLeftViewHeight - iconViewWH)/2;&#10;    &#10;    iconView.frame = CGRectMake(iconViewX, iconViewY, iconViewWH, iconViewWH);&#10;    &#10;    CGFloat seperatorW = 1;&#10;    CGFloat seperatorH = 20;&#10;    CGFloat seperatorX = kLeftViewWidth-seperatorW;&#10;    CGFloat seperatorY = (kLeftViewHeight-seperatorH)/2;&#10;    &#10;    seperatorView.frame = CGRectMake(seperatorX, seperatorY, seperatorW, seperatorH);&#10;    &#10;    return containerView;&#10;&#125;&#10;&#10;- (void)setupPhoneNumberTextField &#123;&#10;    &#10;    UITextField *phonenumberTextfield = [[UITextField alloc]init];&#10;    phonenumberTextfield.leftView        = [self textLeftViewWithImage:[UIImage imageNamed:@&#34;zhuce_dianhua&#34;]];&#10;    phonenumberTextfield.leftViewMode    = UITextFieldViewModeAlways;&#10;    phonenumberTextfield.placeholder     = @&#34;&#24744;&#30340;&#25163;&#26426;&#21495;&#34;;&#10;    phonenumberTextfield.backgroundColor = [UIColor whiteColor];&#10;    phonenumberTextfield.clearButtonMode = UITextFieldViewModeWhileEditing;&#10;    [self.view addSubview:phonenumberTextfield];&#10;    self.phonenumberTextfield = phonenumberTextfield;&#10;    &#10;&#125;&#10;&#10;- (void)setupVerifiedCodeTextField &#123;&#10;    &#10;    UITextField *verifyCodeTextfield = [[UITextField alloc]init];&#10;    verifyCodeTextfield.leftView        = [self textLeftViewWithImage:[UIImage imageNamed:@&#34;zhuce_yanzhengma&#34;]];&#10;    verifyCodeTextfield.leftViewMode    = UITextFieldViewModeAlways;&#10;    verifyCodeTextfield.placeholder     = @&#34;&#36755;&#20837;&#39564;&#35777;&#30721;&#34;;&#10;    verifyCodeTextfield.backgroundColor = [UIColor whiteColor];&#10;    [self.view addSubview:verifyCodeTextfield];&#10;    self.verifyCodeTextfield = verifyCodeTextfield;&#10;    &#10;    &#10;&#125;&#10;&#10;- (void)setupGetVerifiyCodeButton &#123;&#10;    &#10;    UIButton *getVerifyCodeButton = [[UIButton alloc]init];&#10;    [getVerifyCodeButton setTitle:@&#34;&#33719;&#21462;&#39564;&#35777;&#30721;&#34; forState:UIControlStateNormal];&#10;    [getVerifyCodeButton setBackgroundColor:kcMainRed];&#10;    [getVerifyCodeButton setTitleColor:kcMainGrayBackgroud forState:UIControlStateNormal];&#10;    [getVerifyCodeButton addTarget:self action:@selector(getVerifyCode:) forControlEvents:UIControlEventTouchUpInside];&#10;    [self.view addSubview:getVerifyCodeButton];&#10;    self.getVerifyCodeButton = getVerifyCodeButton;&#10;    &#10;&#125;&#10;&#10;- (void)setupSubmitButton &#123;&#10;    &#10;    UIButton *submitButton = [[UIButton alloc] init];&#10;    [submitButton setTitle:@&#34;&#19979;&#19968;&#27493;&#34; forState:UIControlStateNormal];&#10;    [submitButton setBackgroundColor:[UIColor whiteColor]];&#10;    submitButton.layer.cornerRadius = 3;&#10;    [submitButton setTitleColor:kcMainRed forState:UIControlStateNormal];&#10;    [submitButton addTarget:self action:@selector(nextStep:) forControlEvents:UIControlEventTouchUpInside];&#10;    [self.view addSubview:submitButton];&#10;    self.submitButton = submitButton;&#10;    &#10;&#125;&#10;&#10;#pragma mark -getters and setters&#10;&#10;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIVaiidationTemplateController.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;SMS_SDK/SMS_SDK.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIHeader.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">NSInteger</span> secondsCoutDown;</span><br><span class="line"><span class="keyword">static</span> <span class="built_in">NSTimer</span>   *countDownTimer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">CGFloat</span> <span class="keyword">const</span> kLeftViewHeight = <span class="number">40</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="built_in">CGFloat</span> <span class="keyword">const</span> kLeftViewWidth  = <span class="number">40</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUIVaiidationTemplateController</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UITextField</span> *phonenumberTextfield;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UITextField</span> *verifyCodeTextfield;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UIButton</span>    *getVerifyCodeButton;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UIButton</span>    *submitButton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUIVaiidationTemplateController</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -life cycle</span></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = kcMainGrayBackgroud;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> setupPhoneNumberTextField];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> setupVerifiedCodeTextField];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> setupGetVerifiyCodeButton];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> setupSubmitButton];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewWillLayoutSubviews &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewWillLayoutSubviews];</span><br><span class="line">    </span><br><span class="line">    WSE(ws);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="built_in">CGFloat</span> kTextFieldHeight = <span class="number">50</span>;</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.phonenumberTextfield</span> mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make<span class="variable">.top</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.view</span>);</span><br><span class="line">        make<span class="variable">.leading</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.view</span>);</span><br><span class="line">        make<span class="variable">.trailing</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.view</span>);</span><br><span class="line">        make<span class="variable">.height</span><span class="variable">.mas_equalTo</span>(kTextFieldHeight);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.verifyCodeTextfield</span> mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make<span class="variable">.top</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.phonenumberTextfield</span><span class="variable">.mas_bottom</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">1</span>);</span><br><span class="line">        make<span class="variable">.leading</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.view</span>);</span><br><span class="line">        make<span class="variable">.trailing</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.view</span>)<span class="variable">.with</span><span class="variable">.offset</span>(-G<span class="built_in">UIScreenWidth</span>/<span class="number">3</span>);</span><br><span class="line">        make<span class="variable">.height</span><span class="variable">.mas_equalTo</span>(kTextFieldHeight);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.getVerifyCodeButton</span> mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make<span class="variable">.size</span><span class="variable">.mas_equalTo</span>(<span class="built_in">CGSizeMake</span>(G<span class="built_in">UIScreenWidth</span>/<span class="number">3</span>, kTextFieldHeight));</span><br><span class="line">        make<span class="variable">.leading</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.verifyCodeTextfield</span><span class="variable">.mas_trailing</span>);</span><br><span class="line">        make<span class="variable">.bottom</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.verifyCodeTextfield</span>);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.submitButton</span> mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make<span class="variable">.size</span><span class="variable">.mas_equalTo</span>(<span class="built_in">CGSizeMake</span>(G<span class="built_in">UIScreenWidth</span>/<span class="number">3</span>, <span class="number">30</span>));</span><br><span class="line">        make<span class="variable">.leading</span><span class="variable">.mas_equalTo</span>((G<span class="built_in">UIScreenWidth</span>-(G<span class="built_in">UIScreenWidth</span>/<span class="number">3</span>))/<span class="number">2</span>);</span><br><span class="line">        make<span class="variable">.top</span><span class="variable">.mas_equalTo</span>(ws<span class="variable">.verifyCodeTextfield</span><span class="variable">.mas_bottom</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">60</span>);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -  delegate</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -event response</span></span><br><span class="line">- (<span class="keyword">void</span>)getTheCodeAgain &#123;</span><br><span class="line">    </span><br><span class="line">    secondsCoutDown                  = <span class="number">60</span>;</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.getVerifyCodeButton</span><span class="variable">.enabled</span> = <span class="literal">NO</span>;</span><br><span class="line">    countDownTimer                   = [<span class="built_in">NSTimer</span> scheduledTimerWithTimeInterval:<span class="number">1</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timeDown) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)nextStep:(<span class="built_in">UIButton</span> *)button &#123;</span><br><span class="line">    </span><br><span class="line">    [SMS_SDK commitVerifyCode:<span class="keyword">self</span><span class="variable">.verifyCodeTextfield</span><span class="variable">.text</span> result:^(<span class="keyword">enum</span> SMS_ResponseState state) &#123;</span><br><span class="line">        <span class="keyword">if</span> (state == SMS_ResponseStateSuccess) &#123;</span><br><span class="line">            [MBProgressHUD showMessage:<span class="string">@"正在验证 ... "</span>];</span><br><span class="line">            [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:[[G<span class="built_in">UIChangePasswordController</span> alloc]init] animated:<span class="literal">YES</span>];</span><br><span class="line">            [MBProgressHUD hideHUD];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            [MBProgressHUD showError:<span class="string">@"验证失败"</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"><span class="preprocessor">#warning temp code ,remember to delete</span></span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:[[G<span class="built_in">UIChangePasswordController</span> alloc]init] animated:<span class="literal">YES</span>];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma  mark - share sdk sms</span></span><br><span class="line">- (<span class="keyword">void</span>)getVerifyCode:(<span class="built_in">UIButton</span> *)button &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span><span class="variable">.phonenumberTextfield</span><span class="variable">.text</span> == <span class="literal">nil</span>) &#123;</span><br><span class="line">        [MBProgressHUD showError:<span class="string">@"请先填写手机号码"</span>];</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSString</span> *phoneNumber = <span class="keyword">self</span><span class="variable">.phonenumberTextfield</span><span class="variable">.text</span>;</span><br><span class="line">    </span><br><span class="line"><span class="preprocessor">#warning temp code ,remember to delete</span></span><br><span class="line">    <span class="built_in">NSArray</span>  *paths        = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>);</span><br><span class="line">    <span class="built_in">NSString</span> *documentPath = [paths lastObject];</span><br><span class="line">    <span class="built_in">NSString</span> *filePath     = [documentPath stringByAppendingPathComponent:<span class="string">@"resetPhoneNumber.plist"</span>];</span><br><span class="line">    [phoneNumber writeToFile:filePath atomically:<span class="literal">YES</span> encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">nil</span>];</span><br><span class="line">    </span><br><span class="line">    [SMS_SDK getVerificationCodeBySMSWithPhone:phoneNumber zone:<span class="string">@"86"</span> result:^(SMS_SDKError *error) &#123;</span><br><span class="line">        <span class="comment">//save phone number to file</span></span><br><span class="line">        <span class="built_in">NSArray</span> *paths = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>);</span><br><span class="line">        <span class="built_in">NSString</span> *documentPath = [paths lastObject];</span><br><span class="line">        <span class="built_in">NSString</span> *filePath = [documentPath stringByAppendingPathComponent:<span class="string">@"resetPhoneNumber.plist"</span>];</span><br><span class="line">        [phoneNumber writeToFile:filePath atomically:<span class="literal">YES</span> encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">nil</span>];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> getTheCodeAgain];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -private methods</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)timeDown &#123;</span><br><span class="line">    secondsCoutDown--;</span><br><span class="line">    <span class="keyword">if</span> (secondsCoutDown == <span class="number">0</span>) &#123;</span><br><span class="line">        [countDownTimer invalidate];</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.getVerifyCodeButton</span><span class="variable">.enabled</span> = <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.getVerifyCodeButton</span> setTitle:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"请等待 %ld 秒"</span>, (<span class="keyword">long</span>)secondsCoutDown] forState:<span class="built_in">UIControlStateDisabled</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIImageView</span> *)textLeftViewWithImage:(<span class="built_in">UIImage</span> *)leftImage &#123;</span><br><span class="line">    <span class="built_in">UIImageView</span> *containerView = [[<span class="built_in">UIImageView</span> alloc] init];</span><br><span class="line">    <span class="built_in">UIImageView</span> *iconView      = [[<span class="built_in">UIImageView</span> alloc]init];</span><br><span class="line">    iconView<span class="variable">.image</span> = leftImage;</span><br><span class="line">    [containerView addSubview:iconView];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIImageView</span> *seperatorView = [[<span class="built_in">UIImageView</span> alloc]init];</span><br><span class="line">    seperatorView<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> redColor];</span><br><span class="line">    [containerView addSubview:seperatorView];</span><br><span class="line">    <span class="comment">//set frame</span></span><br><span class="line">    containerView<span class="variable">.bounds</span> = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, kLeftViewWidth+<span class="number">20</span>, kLeftViewWidth);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">CGFloat</span> iconViewWH = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">CGFloat</span> iconViewX  = (kLeftViewWidth - iconViewWH)/<span class="number">2</span>;</span><br><span class="line">    <span class="built_in">CGFloat</span> iconViewY  = (kLeftViewHeight - iconViewWH)/<span class="number">2</span>;</span><br><span class="line">    </span><br><span class="line">    iconView<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>(iconViewX, iconViewY, iconViewWH, iconViewWH);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">CGFloat</span> seperatorW = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">CGFloat</span> seperatorH = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">CGFloat</span> seperatorX = kLeftViewWidth-seperatorW;</span><br><span class="line">    <span class="built_in">CGFloat</span> seperatorY = (kLeftViewHeight-seperatorH)/<span class="number">2</span>;</span><br><span class="line">    </span><br><span class="line">    seperatorView<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>(seperatorX, seperatorY, seperatorW, seperatorH);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> containerView;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setupPhoneNumberTextField &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UITextField</span> *phonenumberTextfield = [[<span class="built_in">UITextField</span> alloc]init];</span><br><span class="line">    phonenumberTextfield<span class="variable">.leftView</span>        = [<span class="keyword">self</span> textLeftViewWithImage:[<span class="built_in">UIImage</span> imageNamed:<span class="string">@"zhuce_dianhua"</span>]];</span><br><span class="line">    phonenumberTextfield<span class="variable">.leftViewMode</span>    = <span class="built_in">UITextFieldViewModeAlways</span>;</span><br><span class="line">    phonenumberTextfield<span class="variable">.placeholder</span>     = <span class="string">@"您的手机号"</span>;</span><br><span class="line">    phonenumberTextfield<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];</span><br><span class="line">    phonenumberTextfield<span class="variable">.clearButtonMode</span> = <span class="built_in">UITextFieldViewModeWhileEditing</span>;</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:phonenumberTextfield];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.phonenumberTextfield</span> = phonenumberTextfield;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setupVerifiedCodeTextField &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UITextField</span> *verifyCodeTextfield = [[<span class="built_in">UITextField</span> alloc]init];</span><br><span class="line">    verifyCodeTextfield<span class="variable">.leftView</span>        = [<span class="keyword">self</span> textLeftViewWithImage:[<span class="built_in">UIImage</span> imageNamed:<span class="string">@"zhuce_yanzhengma"</span>]];</span><br><span class="line">    verifyCodeTextfield<span class="variable">.leftViewMode</span>    = <span class="built_in">UITextFieldViewModeAlways</span>;</span><br><span class="line">    verifyCodeTextfield<span class="variable">.placeholder</span>     = <span class="string">@"输入验证码"</span>;</span><br><span class="line">    verifyCodeTextfield<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:verifyCodeTextfield];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.verifyCodeTextfield</span> = verifyCodeTextfield;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setupGetVerifiyCodeButton &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIButton</span> *getVerifyCodeButton = [[<span class="built_in">UIButton</span> alloc]init];</span><br><span class="line">    [getVerifyCodeButton setTitle:<span class="string">@"获取验证码"</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [getVerifyCodeButton setBackgroundColor:kcMainRed];</span><br><span class="line">    [getVerifyCodeButton setTitleColor:kcMainGrayBackgroud forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [getVerifyCodeButton addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(getVerifyCode:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:getVerifyCodeButton];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.getVerifyCodeButton</span> = getVerifyCodeButton;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setupSubmitButton &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIButton</span> *submitButton = [[<span class="built_in">UIButton</span> alloc] init];</span><br><span class="line">    [submitButton setTitle:<span class="string">@"下一步"</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [submitButton setBackgroundColor:[<span class="built_in">UIColor</span> whiteColor]];</span><br><span class="line">    submitButton<span class="variable">.layer</span><span class="variable">.cornerRadius</span> = <span class="number">3</span>;</span><br><span class="line">    [submitButton setTitleColor:kcMainRed forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [submitButton addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(nextStep:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:submitButton];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.submitButton</span> = submitButton;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -getters and setters</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>好的,现在开始对比两个子类. 两个子类的代码和上面的代码类似,就不上代码了. </p>
 <p>以上面的代码为例,首先提取变化.</p>
 <p>我粘贴完毕之后,发现在跳转控制器的地方,需要有这个控制器 <code>GUIChangePasswordController</code> ,而另一个注册的子类没有,所以这就是一个变化,应该将这个变化放到一个方法中.</p>
 <p>在子类和模板类的方法有所不同, 模板类做的只是把方法提取出来,同时要求子类必须实现,自己不需要写具体的实现.</p>
 <p>模板类中原代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[SMS_SDK commitVerifyCode:self.verifyCodeTextfield.text result:^(enum SMS_ResponseState state) &#123;&#10;       if (state == SMS_ResponseStateSuccess) &#123;&#10;           [MBProgressHUD showMessage:@&#34;&#27491;&#22312;&#39564;&#35777; ... &#34;];&#10;           [self.navigationController pushViewController:[[GUIChangePasswordController alloc]init] animated:YES];&#10;           [MBProgressHUD hideHUD];&#10;       &#125; else &#123;&#10;           [MBProgressHUD showError:@&#34;&#39564;&#35777;&#22833;&#36133;&#34;];&#10;       &#125;&#10;   &#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[SMS_SDK commitVerifyCode:<span class="keyword">self</span><span class="variable">.verifyCodeTextfield</span><span class="variable">.text</span> result:^(<span class="keyword">enum</span> SMS_ResponseState state) &#123;</span><br><span class="line">       <span class="keyword">if</span> (state == SMS_ResponseStateSuccess) &#123;</span><br><span class="line">           [MBProgressHUD showMessage:<span class="string">@"正在验证 ... "</span>];</span><br><span class="line">           [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:[[G<span class="built_in">UIChangePasswordController</span> alloc]init] animated:<span class="literal">YES</span>];</span><br><span class="line">           [MBProgressHUD hideHUD];</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           [MBProgressHUD showError:<span class="string">@"验证失败"</span>];</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;];</span><br></pre></td></tr></table></figure>
 <p>隔离变化后代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[SMS_SDK commitVerifyCode:self.verifyCodeTextfield.text result:^(enum SMS_ResponseState state) &#123;&#10;    if (state == SMS_ResponseStateSuccess) &#123;&#10;        [MBProgressHUD showMessage:@&#34;&#27491;&#22312;&#39564;&#35777; ... &#34;];&#10;        [self.navigationController pushViewController:[self pushTargetController] animated:YES];&#10;        [MBProgressHUD hideHUD];&#10;    &#125; else &#123;&#10;        [MBProgressHUD showError:@&#34;&#39564;&#35777;&#22833;&#36133;&#34;];&#10;    &#125;&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[SMS_SDK commitVerifyCode:<span class="keyword">self</span><span class="variable">.verifyCodeTextfield</span><span class="variable">.text</span> result:^(<span class="keyword">enum</span> SMS_ResponseState state) &#123;</span><br><span class="line">    <span class="keyword">if</span> (state == SMS_ResponseStateSuccess) &#123;</span><br><span class="line">        [MBProgressHUD showMessage:<span class="string">@"正在验证 ... "</span>];</span><br><span class="line">        [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:[<span class="keyword">self</span> pushTargetController] animated:<span class="literal">YES</span>];</span><br><span class="line">        [MBProgressHUD hideHUD];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        [MBProgressHUD showError:<span class="string">@"验证失败"</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
 <p>重头戏来了 ! OC中没有任何关键字能要求子类必须重写父类的方法.那么很多的设计模式是不是对OC就不适用了呢 ? 其实还是有方法的.</p>
 <p>在OC 2.0之后 , 大家都用 @throw了,更符合规范,但是1.0的 NSAssert 更加简洁,谁优谁劣,自己选择.</p>
 <p>对应的要求子类必须实现的代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(id)pushTargetController&#123;&#10;    //&#19981;&#20889;&#23454;&#29616;,&#23376;&#31867;&#24517;&#39035;&#37325;&#20889;&#27492;&#26041;&#27861;&#10;    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@&#34;&#26041;&#27861;: %@ &#24517;&#39035;&#34987;&#23376;&#31867;&#23454;&#29616;&#34;,NSStringFromSelector(_cmd)] userInfo:nil];&#10; &#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="keyword">id</span>)pushTargetController&#123;</span><br><span class="line">    <span class="comment">//不写实现,子类必须重写此方法</span></span><br><span class="line">    <span class="keyword">@throw</span> [<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInternalInconsistencyException</span> reason:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"方法: %@ 必须被子类实现"</span>,<span class="built_in">NSStringFromSelector</span>(_cmd)] userInfo:<span class="literal">nil</span>];</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到,写了异常代码之后,返回值也不是必须的了,爽 !</p>
 <p>到两个子类中实现跳转代码,为了方便,我称呼为 子类A 和 子类B</p>
-<p>子类A<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(id)pushTargetController&#123;&#10;   &#10;    return [[GUIChangePasswordController alloc]init];&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>子类A<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="keyword">id</span>)pushTargetController&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">return</span> [[G<span class="built_in">UIChangePasswordController</span> alloc]init];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>子类B</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(id)pushTargetController&#123;&#10;    &#10;    return [[GUISignupPasswordController alloc]init];&#10;    &#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="keyword">id</span>)pushTargetController&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> [[G<span class="built_in">UISignupPasswordController</span> alloc]init];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="最后一步">最后一步</h2><p>接下来的工作就比较简单暴力了. 把两个子类中完全相同的代码删掉.<br>将差异的部分提取到父类,抽取方法. 重复进行.</p>
 <h2 id="收尾">收尾</h2><p>运行,测试.</p>
 <p>子类A完整代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;GUIResetPasswordController.h&#34;&#10;#import &#34;GUIChangePasswordController.h&#34;&#10;&#10;&#10;@implementation GUIResetPasswordController&#10;&#10;#pragma mark -life cycle&#10;- (void)viewDidLoad &#123;&#10;    [super viewDidLoad];&#10;    self.title = @&#34;&#37325;&#32622;&#23494;&#30721;&#34;;&#10;&#125;&#10;&#10;#pragma mark -  delegate&#10;&#10;#pragma mark -event response&#10;&#10;#pragma mark -private methods&#10;&#10;-(id)pushTargetController&#123;&#10;   &#10;    return [[GUIChangePasswordController alloc]init];&#10;    &#10;&#125;&#10;#pragma mark -getters and setters&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">"GUIResetPasswordController.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIChangePasswordController.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUIResetPasswordController</span></span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -life cycle</span></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"重置密码"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -  delegate</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -event response</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -private methods</span></span><br><span class="line"></span><br><span class="line">-(<span class="keyword">id</span>)pushTargetController&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">return</span> [[G<span class="built_in">UIChangePasswordController</span> alloc]init];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">#pragma mark -getters and setters</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>子类B 代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@implementation GUISignupPasswordController&#10;&#10;-(void)viewDidLoad&#10;&#123;&#10;    [super viewDidLoad];&#10;    self.title = @&#34;&#29992;&#25143;&#27880;&#20876;&#34;;&#10;    &#10;&#125;&#10;&#10;&#10;#pragma mark -life cycle&#10;&#10;#pragma mark -  delegate&#10;&#10;#pragma mark -event response&#10;&#10;#pragma mark -private methods&#10;-(id)pushTargetController&#123;&#10;    &#10;    return [[GUISignupPasswordController alloc]init];&#10;    &#10;&#125;&#10;&#10;#pragma mark -getters and setters&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUISignupPasswordController</span></span></span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)viewDidLoad</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"用户注册"</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -life cycle</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -  delegate</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -event response</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -private methods</span></span><br><span class="line">-(<span class="keyword">id</span>)pushTargetController&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> [[G<span class="built_in">UISignupPasswordController</span> alloc]init];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#pragma mark -getters and setters</span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>清爽吧 ?</p>
 <h2 id="结语">结语</h2><h3 id="注意点">注意点</h3><ul>
 <li>要养成随手编译的好习惯,尤其是在重构代码的过程中,随时发现问题.</li>
@@ -114,168 +352,299 @@
 
       
     </div>
-    <footer>
-      
-        
-  
-  <div class="categories">
-    <a href="/categories/重构、模式、架构/">重构、模式、架构</a>
-  </div>
 
-        
-        
+    <div>
       
-      <div class="clearfix"></div>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/" rel="next" title="通过重构实现模板方法模式（Template Method）: 重构篇">
+                <i class="fa fa-chevron-left"></i> 通过重构实现模板方法模式（Template Method）: 重构篇
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/" rel="prev" title="当遇到严格要求的UI-模式选择">
+                当遇到严格要求的UI-模式选择 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/" data-title="通过重构实现模板方法模式（Template Method ) 模式篇" data-url="http://yoursite.com/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="搜索">
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
-
-  
-<div class="widget tag">
-  <h3 class="title">分类</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/React-Native/">React Native</a><small>2</small></li>
-  
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
-  
-    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/categories/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
-  
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
-  
-    <li><a href="/categories/其他技术/">其他技术</a><small>8</small></li>
-  
-    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/categories/坑/">坑</a><small>1</small></li>
-  
-    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
-  
-    <li><a href="/categories/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
-  
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
-  
-  </ul>
-</div>
 
 
-  
-<div class="widget tag">
-  <h3 class="title">标签</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
-  
-    <li><a href="/tags/React-Native/">React Native</a><small>1</small></li>
-  
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
-  
-    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/tags/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>5</small></li>
-  
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
-  
-    <li><a href="/tags/其他技术/">其他技术</a><small>4</small></li>
-  
-    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
-  
-    <li><a href="/tags/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
-  
-    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
-  
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
-  
-    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
-  
-    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
-  
-    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
-  
-  </ul>
-</div>
+          </div>
+          
 
-</aside>
-    <div class="clearfix"></div>
+
+          
+  <div class="comments" id="comments">
+    
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+
+
+        </div>
+        
+          
   
-  &copy; 2016 桂庆
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="桂庆" />
+          <p class="site-author-name" itemprop="name">桂庆</p>
+          <p class="site-description motion-element" itemprop="description">Kenny 肉桂的主页 记录自己的进步</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2655284735/profile?rightmod=1&wvr=6&mod=personnumber&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#书接上文"><span class="nav-number">1.</span> <span class="nav-text">书接上文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模板方法"><span class="nav-number">2.</span> <span class="nav-text">模板方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-_隔离变化"><span class="nav-number">2.1.</span> <span class="nav-text">1. 隔离变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建模板类"><span class="nav-number">2.2.</span> <span class="nav-text">2.创建模板类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后一步"><span class="nav-number">3.</span> <span class="nav-text">最后一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#收尾"><span class="nav-number">4.</span> <span class="nav-text">收尾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">5.</span> <span class="nav-text">结语</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意点"><span class="nav-number">5.1.</span> <span class="nav-text">注意点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不要再拷贝代码了"><span class="nav-number">5.2.</span> <span class="nav-text">不要再拷贝代码了</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">桂庆</span>
 </div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
 
+        
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
 <script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>

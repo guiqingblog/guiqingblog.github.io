@@ -1,249 +1,624 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
 <head>
-  <meta charset="utf-8">
-  
-  <title>由一个正则引出的 NSPredicate | Kenny 肉桂的主页</title>
-  <meta name="author" content="桂庆">
-  
-  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <meta property="og:title" content="由一个正则引出的 NSPredicate"/>
-  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta property="og:image" content="undefined"/>
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
   
 
-  <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+    
+    
   
 
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS Tips," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="context今天需要用到一个正则,正则本身很简单,就是功能是限制UITextField只能输入数字,仅仅限制键盘类型是不够的.
+正则 ^[0-9]*$ ,说到这里了,顺便记录一下,匹配中文的正则表达式是: [\u4e00-\u9fa5]
+根据自己以前的知识,iOS有专门的正则表达式类. 一般的步骤是这样的:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="由一个正则引出的 NSPredicate">
+<meta property="og:url" content="http://yoursite.com/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/index.html">
+<meta property="og:site_name" content="Kenny 肉桂的主页">
+<meta property="og:description" content="context今天需要用到一个正则,正则本身很简单,就是功能是限制UITextField只能输入数字,仅仅限制键盘类型是不够的.
+正则 ^[0-9]*$ ,说到这里了,顺便记录一下,匹配中文的正则表达式是: [\u4e00-\u9fa5]
+根据自己以前的知识,iOS有专门的正则表达式类. 一般的步骤是这样的:">
+<meta property="og:updated_time" content="2016-09-27T09:55:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="由一个正则引出的 NSPredicate">
+<meta name="twitter:description" content="context今天需要用到一个正则,正则本身很简单,就是功能是限制UITextField只能输入数字,仅仅限制键盘类型是不够的.
+正则 ^[0-9]*$ ,说到这里了,顺便记录一下,匹配中文的正则表达式是: [\u4e00-\u9fa5]
+根据自己以前的知识,iOS有专门的正则表达式类. 一般的步骤是这样的:">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/"/>
+
+  <title> 由一个正则引出的 NSPredicate | Kenny 肉桂的主页 </title>
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-<body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">Kenny 肉桂的主页</a></h1>
-  <h2><a href="/">记录自己的进步</a></h2>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kenny 肉桂的主页</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录自己的进步</p>
 </div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">主页</a></li>
-    
-      <li><a href="/about">关于我</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-13T09:58:35.000Z"><a href="/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/">2015-08-13</a></time>
-      
-      
-  
-    <h1 class="title">由一个正则引出的 NSPredicate</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
   
 
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
     </header>
-    <div class="entry">
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                由一个正则引出的 NSPredicate
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-13T17:58:35+08:00" content="2015-08-13">
+              2015-08-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <h2 id="context">context</h2><p>今天需要用到一个正则,正则本身很简单,就是功能是限制<code>UITextField</code>只能输入数字,仅仅限制键盘类型是不够的.</p>
 <p>正则 <code>^[0-9]*$</code> ,说到这里了,顺便记录一下,匹配中文的正则表达式是: <code>[\u4e00-\u9fa5]</code></p>
-<p>根据自己以前的知识,iOS有专门的正则表达式类. 一般的步骤是这样的:<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString *searchText = @&#34;source Strings &#34;;    &#10;NSError *error = NULL;&#10;NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@&#34;(?:[^,])*\\.&#34; options:NSRegularExpressionCaseInsensitive error:&#38;error];&#10;NSTextCheckingResult *result = [regex firstMatchInString:searchText options:0 range:NSMakeRange(0, [searchText length])];&#10;if (result) &#123;&#10;    NSLog(@&#34;%@\n&#34;, [searchText substringWithRange:result.range]);&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>根据自己以前的知识,iOS有专门的正则表达式类. 一般的步骤是这样的:<br><a id="more"></a><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *searchText = <span class="string">@"source Strings "</span>;    </span><br><span class="line"><span class="built_in">NSError</span> *error = <span class="literal">NULL</span>;</span><br><span class="line"><span class="built_in">NSRegularExpression</span> *regex = [<span class="built_in">NSRegularExpression</span> regularExpressionWithPattern:<span class="string">@"(?:[^,])*\\."</span> options:<span class="built_in">NSRegularExpressionCaseInsensitive</span> error:&amp;error];</span><br><span class="line"><span class="built_in">NSTextCheckingResult</span> *result = [regex firstMatchInString:searchText options:<span class="number">0</span> range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, [searchText length])];</span><br><span class="line"><span class="keyword">if</span> (result) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@\n"</span>, [searchText substringWithRange:result<span class="variable">.range</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>但是这样就为了验证是不是数字,我感觉太笨重了,后来经过查询,发现了一种好用的实现:<a href="http://my.oschina.net/pljhonglu/blog/199197" target="_blank" rel="external">来源网址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString &#65290;email &#65309; @&#8220;nijino_saki@163.com&#8221;&#65307; &#10;NSString *regex = @&#34;^[0-9]*$&#34;; &#10;NSPredicate *predicate = [NSPredicate predicateWithFormat:@&#34;SELF MATCHES %@&#34;, regex]; &#10;BOOL isValid = [predicate evaluateWithObject:email];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> ＊email ＝ @“nijino_saki@<span class="number">163.</span>com”； </span><br><span class="line"><span class="built_in">NSString</span> *regex = <span class="string">@"^[0-9]*$"</span>; </span><br><span class="line"><span class="built_in">NSPredicate</span> *predicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"SELF MATCHES %@"</span>, regex]; </span><br><span class="line"><span class="built_in">BOOL</span> isValid = [predicate evaluateWithObject:email];</span><br></pre></td></tr></table></figure>
 <p>整段代码只涉及一个 <code>NSPredicate</code>对象,条理清楚. </p>
 <p>顺带的,又发现了<code>NSString</code>自己也有一个直接使用正则的功能.对于单纯的验证是否匹配来说,这个应该是最简单的方式了.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString *searchText = @&#34;// Do any additional setup after loading the view, typically from a nib.&#34;; &#10; &#10;NSRange range = [searchText rangeOfString:@&#34;(?:[^,])*\\.&#34; options:NSRegularExpressionSearch]; &#10; &#10;if (range.location != NSNotFound) &#123; &#10;    NSLog(@&#34;%@&#34;, [searchText substringWithRange:range]); &#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *searchText = <span class="string">@"// Do any additional setup after loading the view, typically from a nib."</span>; </span><br><span class="line"> </span><br><span class="line"><span class="built_in">NSRange</span> range = [searchText rangeOfString:<span class="string">@"(?:[^,])*\\."</span> options:<span class="built_in">NSRegularExpressionSearch</span>]; </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> (range<span class="variable">.location</span> != <span class="built_in">NSNotFound</span>) &#123; </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [searchText substringWithRange:range]); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="发现新知识的快乐">发现新知识的快乐</h2><p>在使用 <code>NSPredicate</code>的实现方式中, 出现了利用格式化字符串来匹配的内容.自己对这块不了解( 虽然有在 MagicalRecord中使用过 NSPredicate ,但是只是用来判断相等),于是想把相关内容搞明白. 最后找到了<a href="http://blog.csdn.net/ztp800201/article/details/8116081" target="_blank" rel="external">这篇文章</a></p>
-<h3 id="基本用法">基本用法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSPredicate *predicate = [NSPredicate predicateWithFormat:(NSString *), ...];</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(1)&#27604;&#36739;&#36816;&#31639;&#31526;&#62;,&#60;,==,&#62;=,&#60;=,!=&#10;&#21487;&#29992;&#20110;&#25968;&#20540;&#21450;&#23383;&#31526;&#20018;&#10;&#20363;&#65306;@&#34;number &#62; 100&#34;&#10;&#10;&#10;(2)&#33539;&#22260;&#36816;&#31639;&#31526;&#65306;IN&#12289;BETWEEN&#10;&#20363;&#65306;@&#34;number BETWEEN &#123;1,5&#125;&#34;&#10;      @&#34;address IN &#123;&#39;shanghai&#39;,&#39;beijing&#39;&#125;&#34;&#10;&#10;&#10;(3)&#23383;&#31526;&#20018;&#26412;&#36523;:SELF &#10;&#20363;&#65306;@&#8220;SELF == &#8216;APPLE&#8217;&#34;&#10;&#10;&#10;(4)&#23383;&#31526;&#20018;&#30456;&#20851;&#65306;BEGINSWITH&#12289;ENDSWITH&#12289;CONTAINS&#10;&#20363;&#65306;@&#34;name CONTAIN[cd] &#39;ang&#39;&#34;   //&#21253;&#21547;&#26576;&#20010;&#23383;&#31526;&#20018;&#10;       @&#34;name BEGINSWITH[c] &#39;sh&#39;&#34;     //&#20197;&#26576;&#20010;&#23383;&#31526;&#20018;&#24320;&#22836;&#10;       @&#34;name ENDSWITH[d] &#39;ang&#39;&#34;      //&#20197;&#26576;&#20010;&#23383;&#31526;&#20018;&#32467;&#26463;&#10;        &#27880;:[c]&#19981;&#21306;&#20998;&#22823;&#23567;&#20889;[d]&#19981;&#21306;&#20998;&#21457;&#38899;&#31526;&#21495;&#21363;&#27809;&#26377;&#37325;&#38899;&#31526;&#21495;[cd]&#26082;&#19981;&#21306;&#20998;&#22823;&#23567;&#20889;&#65292;&#20063;&#19981;&#21306;&#20998;&#21457;&#38899;&#31526;&#21495;&#12290;&#10;&#10;&#10;(5)&#36890;&#37197;&#31526;&#65306;LIKE&#10;&#20363;&#65306;@&#34;name LIKE[cd] &#39;*er*&#39;&#34;    //*&#20195;&#34920;&#36890;&#37197;&#31526;,Like&#20063;&#25509;&#21463;[cd].&#10;       @&#34;name LIKE[cd] &#39;???er*&#39;&#34;&#10;&#10;(6)&#27491;&#21017;&#34920;&#36798;&#24335;&#65306;MATCHES&#10;&#20363;&#65306;NSString *regex = @&#34;^A.+e$&#34;;   //&#20197;A&#24320;&#22836;&#65292;e&#32467;&#23614;&#10;      @&#34;name MATCHES %@&#34;,regex</span><br></pre></td></tr></table></figure>
+<h3 id="基本用法">基本用法</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSPredicate</span> *predicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:(<span class="built_in">NSString</span> *), ...];</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">(1)比较运算符&gt;,&lt;,==,&gt;=,&lt;=,!=</span><br><span class="line">可用于数值及字符串</span><br><span class="line">例：@"number &gt; 100"</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(2)范围运算符：IN、BETWEEN</span><br><span class="line">例：@"number BETWEEN &#123;1,5&#125;"</span><br><span class="line">      @"address IN &#123;'shanghai','beijing'&#125;"</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(3)字符串本身:SELF </span><br><span class="line">例：@“SELF == ‘APPLE’"</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(4)字符串相关：BEGINSWITH、ENDSWITH、CONTAINS</span><br><span class="line">例：@"name CONTAIN[cd] 'ang'"   //包含某个字符串</span><br><span class="line">       @"name BEGINSWITH[c] 'sh'"     //以某个字符串开头</span><br><span class="line">       @"name ENDSWITH[d] 'ang'"      //以某个字符串结束</span><br><span class="line">        注:[c]不区分大小写[d]不区分发音符号即没有重音符号[cd]既不区分大小写，也不区分发音符号。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(5)通配符：LIKE</span><br><span class="line">例：@"name LIKE[cd] '*er*'"    //*代表通配符,Like也接受[cd].</span><br><span class="line">       @"name LIKE[cd] '???er*'"</span><br><span class="line"></span><br><span class="line">(6)正则表达式：MATCHES</span><br><span class="line">例：NSString *regex = @"^A.+e$";   //以A开头，e结尾</span><br><span class="line">      @"name MATCHES %@",regex</span><br></pre></td></tr></table></figure>
 <p>果真是一个强大而灵活的对象…</p>
 <h2 id="附录:常用正则表达式">附录:常用正则表达式</h2><p>来源网址<a href="http://www.cnblogs.com/mobiledevelopment/archive/2011/09/05/2167910.html" target="_blank" rel="external"></a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#24120;&#29992;&#30340;&#31532;&#19977;&#26041;&#27491;&#21017;&#24211;:&#10;http://regexkit.sourceforge.net/RegexKitLite/index.html&#10;&#10;&#21305;&#37197;&#20013;&#25991;&#23383;&#31526;&#30340;&#27491;&#21017;&#34920;&#36798;&#24335;&#65306; [\u4e00-\u9fa5]&#10;&#35780;&#27880;&#65306;&#21305;&#37197;&#20013;&#25991;&#36824;&#30495;&#26159;&#20010;&#22836;&#30140;&#30340;&#20107;&#65292;&#26377;&#20102;&#36825;&#20010;&#34920;&#36798;&#24335;&#23601;&#22909;&#21150;&#20102;&#10;&#10;&#21305;&#37197;&#21452;&#23383;&#33410;&#23383;&#31526;(&#21253;&#25324;&#27721;&#23383;&#22312;&#20869;)&#65306;[^\x00-\xff]&#10;&#35780;&#27880;&#65306;&#21487;&#20197;&#29992;&#26469;&#35745;&#31639;&#23383;&#31526;&#20018;&#30340;&#38271;&#24230;&#65288;&#19968;&#20010;&#21452;&#23383;&#33410;&#23383;&#31526;&#38271;&#24230;&#35745;2&#65292;ASCII&#23383;&#31526;&#35745;1&#65289;&#10;&#10;&#21305;&#37197;&#31354;&#30333;&#34892;&#30340;&#27491;&#21017;&#34920;&#36798;&#24335;&#65306;\n\s*\r&#10;&#35780;&#27880;&#65306;&#21487;&#20197;&#29992;&#26469;&#21024;&#38500;&#31354;&#30333;&#34892;&#10;&#10;&#21305;&#37197;HTML&#26631;&#35760;&#30340;&#27491;&#21017;&#34920;&#36798;&#24335;&#65306;&#60;(\S*?)[^&#62;]*&#62;.*?&#60;/\1&#62;|&#60;.*? /&#62;&#10;&#35780;&#27880;&#65306;&#32593;&#19978;&#27969;&#20256;&#30340;&#29256;&#26412;&#22826;&#31967;&#31957;&#65292;&#19978;&#38754;&#36825;&#20010;&#20063;&#20165;&#20165;&#33021;&#21305;&#37197;&#37096;&#20998;&#65292;&#23545;&#20110;&#22797;&#26434;&#30340;&#23884;&#22871;&#26631;&#35760;&#20381;&#26087;&#26080;&#33021;&#20026;&#21147;&#10;&#10;&#21305;&#37197;&#39318;&#23614;&#31354;&#30333;&#23383;&#31526;&#30340;&#27491;&#21017;&#34920;&#36798;&#24335;&#65306;^\s*|\s*$&#10;&#35780;&#27880;&#65306;&#21487;&#20197;&#29992;&#26469;&#21024;&#38500;&#34892;&#39318;&#34892;&#23614;&#30340;&#31354;&#30333;&#23383;&#31526;(&#21253;&#25324;&#31354;&#26684;&#12289;&#21046;&#34920;&#31526;&#12289;&#25442;&#39029;&#31526;&#31561;&#31561;)&#65292;&#38750;&#24120;&#26377;&#29992;&#30340;&#34920;&#36798;&#24335;&#10;&#10;&#21305;&#37197;Email&#22320;&#22336;&#30340;&#27491;&#21017;&#34920;&#36798;&#24335;&#65306;\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*&#10;&#35780;&#27880;&#65306;&#34920;&#21333;&#39564;&#35777;&#26102;&#24456;&#23454;&#29992;&#10;&#10;&#21305;&#37197;&#32593;&#22336;URL&#30340;&#27491;&#21017;&#34920;&#36798;&#24335;&#65306;[a-zA-z]+://[^\s]*&#10;&#35780;&#27880;&#65306;&#32593;&#19978;&#27969;&#20256;&#30340;&#29256;&#26412;&#21151;&#33021;&#24456;&#26377;&#38480;&#65292;&#19978;&#38754;&#36825;&#20010;&#22522;&#26412;&#21487;&#20197;&#28385;&#36275;&#38656;&#27714;&#10;&#10;&#21305;&#37197;&#24080;&#21495;&#26159;&#21542;&#21512;&#27861;(&#23383;&#27597;&#24320;&#22836;&#65292;&#20801;&#35768;5-16&#23383;&#33410;&#65292;&#20801;&#35768;&#23383;&#27597;&#25968;&#23383;&#19979;&#21010;&#32447;)&#65306;^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$&#10;&#35780;&#27880;&#65306;&#34920;&#21333;&#39564;&#35777;&#26102;&#24456;&#23454;&#29992;&#10;&#10;&#21305;&#37197;&#22269;&#20869;&#30005;&#35805;&#21495;&#30721;&#65306;\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;&#10;&#35780;&#27880;&#65306;&#21305;&#37197;&#24418;&#24335;&#22914; 0511-4405222 &#25110; 021-87888822&#10;&#10;&#21305;&#37197;&#33150;&#35759;QQ&#21495;&#65306;[1-9][0-9]&#123;4,&#125;&#10;&#35780;&#27880;&#65306;&#33150;&#35759;QQ&#21495;&#20174;10000&#24320;&#22987;&#10;&#10;&#21305;&#37197;&#20013;&#22269;&#37038;&#25919;&#32534;&#30721;&#65306;[1-9]\d&#123;5&#125;(?!\d)&#10;&#35780;&#27880;&#65306;&#20013;&#22269;&#37038;&#25919;&#32534;&#30721;&#20026;6&#20301;&#25968;&#23383;&#10;&#10;&#21305;&#37197;&#36523;&#20221;&#35777;&#65306;\d&#123;15&#125;|\d&#123;18&#125;&#10;&#35780;&#27880;&#65306;&#20013;&#22269;&#30340;&#36523;&#20221;&#35777;&#20026;15&#20301;&#25110;18&#20301;&#10;&#10;&#21305;&#37197;ip&#22320;&#22336;&#65306;\d+\.\d+\.\d+\.\d+&#10;&#35780;&#27880;&#65306;&#25552;&#21462;ip&#22320;&#22336;&#26102;&#26377;&#29992;&#10;&#10;&#21305;&#37197;&#29305;&#23450;&#25968;&#23383;&#65306;&#10;^[1-9]\d*$&#12288; &#12288; //&#21305;&#37197;&#27491;&#25972;&#25968;&#10;^-[1-9]\d*$ &#12288; //&#21305;&#37197;&#36127;&#25972;&#25968;&#10;^-?[1-9]\d*$&#12288;&#12288; //&#21305;&#37197;&#25972;&#25968;&#10;^[1-9]\d*|0$&#12288; //&#21305;&#37197;&#38750;&#36127;&#25972;&#25968;&#65288;&#27491;&#25972;&#25968; + 0&#65289;&#10;^-[1-9]\d*|0$&#12288;&#12288; //&#21305;&#37197;&#38750;&#27491;&#25972;&#25968;&#65288;&#36127;&#25972;&#25968; + 0&#65289;&#10;^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$&#12288;&#12288; //&#21305;&#37197;&#27491;&#28014;&#28857;&#25968;&#10;^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$&#12288; //&#21305;&#37197;&#36127;&#28014;&#28857;&#25968;&#10;^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$&#12288; //&#21305;&#37197;&#28014;&#28857;&#25968;&#10;^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$&#12288;&#12288; //&#21305;&#37197;&#38750;&#36127;&#28014;&#28857;&#25968;&#65288;&#27491;&#28014;&#28857;&#25968; + 0&#65289;&#10;^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$&#12288;&#12288;//&#21305;&#37197;&#38750;&#27491;&#28014;&#28857;&#25968;&#65288;&#36127;&#28014;&#28857;&#25968; + 0&#65289;&#10;&#35780;&#27880;&#65306;&#22788;&#29702;&#22823;&#37327;&#25968;&#25454;&#26102;&#26377;&#29992;&#65292;&#20855;&#20307;&#24212;&#29992;&#26102;&#27880;&#24847;&#20462;&#27491;&#10;&#10;&#21305;&#37197;&#29305;&#23450;&#23383;&#31526;&#20018;&#65306;&#10;^[A-Za-z]+$&#12288;&#12288;//&#21305;&#37197;&#30001;26&#20010;&#33521;&#25991;&#23383;&#27597;&#32452;&#25104;&#30340;&#23383;&#31526;&#20018;&#10;^[A-Z]+$&#12288;&#12288;//&#21305;&#37197;&#30001;26&#20010;&#33521;&#25991;&#23383;&#27597;&#30340;&#22823;&#20889;&#32452;&#25104;&#30340;&#23383;&#31526;&#20018;&#10;^[a-z]+$&#12288;&#12288;//&#21305;&#37197;&#30001;26&#20010;&#33521;&#25991;&#23383;&#27597;&#30340;&#23567;&#20889;&#32452;&#25104;&#30340;&#23383;&#31526;&#20018;&#10;^[A-Za-z0-9]+$&#12288;&#12288;//&#21305;&#37197;&#30001;&#25968;&#23383;&#21644;26&#20010;&#33521;&#25991;&#23383;&#27597;&#32452;&#25104;&#30340;&#23383;&#31526;&#20018;&#10;^\w+$&#12288;&#12288;//&#21305;&#37197;&#30001;&#25968;&#23383;&#12289;26&#20010;&#33521;&#25991;&#23383;&#27597;&#25110;&#32773;&#19979;&#21010;&#32447;&#32452;&#25104;&#30340;&#23383;&#31526;&#20018;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">常用的第三方正则库:</span><br><span class="line">http://regexkit.sourceforge.net/RegexKitLite/index.html</span><br><span class="line"></span><br><span class="line">匹配中文字符的正则表达式： [\u4e00-\u9fa5]</span><br><span class="line">评注：匹配中文还真是个头疼的事，有了这个表达式就好办了</span><br><span class="line"></span><br><span class="line">匹配双字节字符(包括汉字在内)：[^\x00-\xff]</span><br><span class="line">评注：可以用来计算字符串的长度（一个双字节字符长度计2，ASCII字符计1）</span><br><span class="line"></span><br><span class="line">匹配空白行的正则表达式：\n\s*\r</span><br><span class="line">评注：可以用来删除空白行</span><br><span class="line"></span><br><span class="line">匹配HTML标记的正则表达式：&lt;(\S*?)[^&gt;]*&gt;.*?&lt;/\1&gt;|&lt;.*? /&gt;</span><br><span class="line">评注：网上流传的版本太糟糕，上面这个也仅仅能匹配部分，对于复杂的嵌套标记依旧无能为力</span><br><span class="line"></span><br><span class="line">匹配首尾空白字符的正则表达式：^\s*|\s*$</span><br><span class="line">评注：可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式</span><br><span class="line"></span><br><span class="line">匹配Email地址的正则表达式：\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*</span><br><span class="line">评注：表单验证时很实用</span><br><span class="line"></span><br><span class="line">匹配网址URL的正则表达式：[a-zA-z]+://[^\s]*</span><br><span class="line">评注：网上流传的版本功能很有限，上面这个基本可以满足需求</span><br><span class="line"></span><br><span class="line">匹配帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br><span class="line">评注：表单验证时很实用</span><br><span class="line"></span><br><span class="line">匹配国内电话号码：\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br><span class="line">评注：匹配形式如 0511-4405222 或 021-87888822</span><br><span class="line"></span><br><span class="line">匹配腾讯QQ号：[1-9][0-9]&#123;4,&#125;</span><br><span class="line">评注：腾讯QQ号从10000开始</span><br><span class="line"></span><br><span class="line">匹配中国邮政编码：[1-9]\d&#123;5&#125;(?!\d)</span><br><span class="line">评注：中国邮政编码为6位数字</span><br><span class="line"></span><br><span class="line">匹配身份证：\d&#123;15&#125;|\d&#123;18&#125;</span><br><span class="line">评注：中国的身份证为15位或18位</span><br><span class="line"></span><br><span class="line">匹配ip地址：\d+\.\d+\.\d+\.\d+</span><br><span class="line">评注：提取ip地址时有用</span><br><span class="line"></span><br><span class="line">匹配特定数字：</span><br><span class="line">^[1-9]\d*$　 　 //匹配正整数</span><br><span class="line">^-[1-9]\d*$ 　 //匹配负整数</span><br><span class="line">^-?[1-9]\d*$　　 //匹配整数</span><br><span class="line">^[1-9]\d*|0$　 //匹配非负整数（正整数 + 0）</span><br><span class="line">^-[1-9]\d*|0$　　 //匹配非正整数（负整数 + 0）</span><br><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$　　 //匹配正浮点数</span><br><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$　 //匹配负浮点数</span><br><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$　 //匹配浮点数</span><br><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$　　 //匹配非负浮点数（正浮点数 + 0）</span><br><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$　　//匹配非正浮点数（负浮点数 + 0）</span><br><span class="line">评注：处理大量数据时有用，具体应用时注意修正</span><br><span class="line"></span><br><span class="line">匹配特定字符串：</span><br><span class="line">^[A-Za-z]+$　　//匹配由26个英文字母组成的字符串</span><br><span class="line">^[A-Z]+$　　//匹配由26个英文字母的大写组成的字符串</span><br><span class="line">^[a-z]+$　　//匹配由26个英文字母的小写组成的字符串</span><br><span class="line">^[A-Za-z0-9]+$　　//匹配由数字和26个英文字母组成的字符串</span><br><span class="line">^\w+$　　//匹配由数字、26个英文字母或者下划线组成的字符串</span><br></pre></td></tr></table></figure>
 
       
     </div>
-    <footer>
+
+    <div>
       
         
-  
-  <div class="categories">
-    <a href="/categories/iOS-Tips/">iOS Tips</a>
-  </div>
 
-        
-  
-  <div class="tags">
-    <a href="/tags/iOS-Tips/">iOS Tips</a>
-  </div>
-
-        
       
-      <div class="clearfix"></div>
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS-Tips/" rel="tag">#iOS Tips</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/13/环境、配置相关/自用提高效率的三方框架/" rel="next" title="自用提高效率的三方框架">
+                <i class="fa fa-chevron-left"></i> 自用提高效率的三方框架
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/18/Swift/Swift的编译标记/" rel="prev" title="Swift的编译标记">
+                Swift的编译标记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/08/13/iOS Tips/由一个正则引出的NSPredicate/" data-title="由一个正则引出的 NSPredicate" data-url="http://yoursite.com/2015/08/13/iOS Tips/由一个正则引出的NSPredicate/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="搜索">
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
-
-  
-<div class="widget tag">
-  <h3 class="title">分类</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/React-Native/">React Native</a><small>2</small></li>
-  
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
-  
-    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/categories/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
-  
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
-  
-    <li><a href="/categories/其他技术/">其他技术</a><small>8</small></li>
-  
-    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/categories/坑/">坑</a><small>1</small></li>
-  
-    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
-  
-    <li><a href="/categories/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
-  
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
-  
-  </ul>
-</div>
 
 
-  
-<div class="widget tag">
-  <h3 class="title">标签</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
-  
-    <li><a href="/tags/React-Native/">React Native</a><small>1</small></li>
-  
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
-  
-    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/tags/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>5</small></li>
-  
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
-  
-    <li><a href="/tags/其他技术/">其他技术</a><small>4</small></li>
-  
-    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
-  
-    <li><a href="/tags/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
-  
-    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
-  
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
-  
-    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
-  
-    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
-  
-    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
-  
-  </ul>
-</div>
+          </div>
+          
 
-</aside>
-    <div class="clearfix"></div>
+
+          
+  <div class="comments" id="comments">
+    
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+
+
+        </div>
+        
+          
   
-  &copy; 2016 桂庆
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="桂庆" />
+          <p class="site-author-name" itemprop="name">桂庆</p>
+          <p class="site-description motion-element" itemprop="description">Kenny 肉桂的主页 记录自己的进步</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2655284735/profile?rightmod=1&wvr=6&mod=personnumber&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#context"><span class="nav-number">1.</span> <span class="nav-text">context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发现新知识的快乐"><span class="nav-number">2.</span> <span class="nav-text">发现新知识的快乐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本用法"><span class="nav-number">2.1.</span> <span class="nav-text">基本用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附录:常用正则表达式"><span class="nav-number">3.</span> <span class="nav-text">附录:常用正则表达式</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">桂庆</span>
 </div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
 
+        
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
 <script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>

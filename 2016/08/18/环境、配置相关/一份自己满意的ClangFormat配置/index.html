@@ -1,66 +1,305 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
 <head>
-  <meta charset="utf-8">
-  
-  <title>一份自己满意的ClangFormat配置 | Kenny 肉桂的主页</title>
-  <meta name="author" content="桂庆">
-  
-  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <meta property="og:title" content="一份自己满意的ClangFormat配置"/>
-  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta property="og:image" content="undefined"/>
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
   
 
-  <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+    
+    
   
 
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Clang Format," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="对于一个团队来说,有共同的代码格式规范是非常重要的.但是,却不能保证每个细节,使用代码格式化工具可以极大的提高效率.下面是自己积累出来的一份配置,每一行都有注释,可以自己比对:123456789101112131415161718192021222324252627282930313233343536373839404142434445#基于那个配置文件BasedOnStyle: LLVM#指针的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一份自己满意的ClangFormat配置">
+<meta property="og:url" content="http://yoursite.com/2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/index.html">
+<meta property="og:site_name" content="Kenny 肉桂的主页">
+<meta property="og:description" content="对于一个团队来说,有共同的代码格式规范是非常重要的.但是,却不能保证每个细节,使用代码格式化工具可以极大的提高效率.下面是自己积累出来的一份配置,每一行都有注释,可以自己比对:123456789101112131415161718192021222324252627282930313233343536373839404142434445#基于那个配置文件BasedOnStyle: LLVM#指针的">
+<meta property="og:image" content="http://7xv9rf.com1.z0.glb.clouddn.com/82417QQ20160818-1@2x.png">
+<meta property="og:image" content="http://7xv9rf.com1.z0.glb.clouddn.com/67391QQ20160818-2@2x.png">
+<meta property="og:updated_time" content="2016-09-27T09:55:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一份自己满意的ClangFormat配置">
+<meta name="twitter:description" content="对于一个团队来说,有共同的代码格式规范是非常重要的.但是,却不能保证每个细节,使用代码格式化工具可以极大的提高效率.下面是自己积累出来的一份配置,每一行都有注释,可以自己比对:123456789101112131415161718192021222324252627282930313233343536373839404142434445#基于那个配置文件BasedOnStyle: LLVM#指针的">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/"/>
+
+  <title> 一份自己满意的ClangFormat配置 | Kenny 肉桂的主页 </title>
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-<body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">Kenny 肉桂的主页</a></h1>
-  <h2><a href="/">记录自己的进步</a></h2>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kenny 肉桂的主页</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录自己的进步</p>
 </div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">主页</a></li>
-    
-      <li><a href="/about">关于我</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-08-18T06:19:06.000Z"><a href="/2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/">2016-08-18</a></time>
-      
-      
-  
-    <h1 class="title">一份自己满意的ClangFormat配置</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
   
 
-    </header>
-    <div class="entry">
+  
+    <ul id="menu" class="menu">
       
-        <p>对于一个团队来说,有共同的代码格式规范是非常重要的.但是,却不能保证每个细节,使用代码格式化工具可以极大的提高效率.下面是自己积累出来的一份配置,每一行都有注释,可以自己比对:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#22522;&#20110;&#37027;&#20010;&#37197;&#32622;&#25991;&#20214;&#10;BasedOnStyle: LLVM&#10;#&#25351;&#38024;&#30340;*&#30340;&#25384;&#30528;&#21738;&#36793;&#10;PointerAlignment: Right&#10;#&#32553;&#36827;&#23485;&#24230;&#10;IndentWidth: 4&#10;# &#36830;&#32493;&#30340;&#31354;&#34892;&#20445;&#30041;&#20960;&#34892;&#10;MaxEmptyLinesToKeep: 1&#10;# &#22312; @property &#21518;&#38754;&#28155;&#21152;&#31354;&#26684;, \@property (readonly) &#32780;&#19981;&#26159; \@property(readonly).&#10;ObjCSpaceAfterProperty: true&#10;# OC block&#21518;&#38754;&#30340;&#32553;&#36827;&#10;ObjCBlockIndentWidth: 4&#10;# &#26159;&#21542;&#20801;&#35768;&#30701;&#26041;&#27861;&#21333;&#34892;&#10;AllowShortFunctionsOnASingleLine: true&#10;# &#26159;&#21542;&#20801;&#35768;&#30701;if&#21333;&#34892; If true, if (a) return; &#21487;&#20197;&#25918;&#21040;&#21516;&#19968;&#34892;&#10;AllowShortIfStatementsOnASingleLine: true&#10;#&#27880;&#37322;&#23545;&#40784;&#10;AlignTrailingComments: true&#10;# &#25442;&#34892;&#30340;&#26102;&#20505;&#23545;&#40784;&#25805;&#20316;&#31526;&#10;#AlignOperands: true&#10;# &#20013;&#25324;&#21495;&#20004;&#36793;&#31354;&#26684; [] &#10;SpacesInSquareBrackets: true&#10;# &#23567;&#25324;&#21495;&#20004;&#36793;&#28155;&#21152;&#31354;&#26684;&#10;SpacesInParentheses : true&#10;#&#22810;&#34892;&#22768;&#26126;&#35821;&#21477;&#25353;&#29031;=&#23545;&#40784;&#10;AlignConsecutiveDeclarations: true&#10;#&#36830;&#32493;&#30340;&#36171;&#20540;&#35821;&#21477;&#20197; = &#20026;&#20013;&#24515;&#23545;&#40784;&#10;AlignConsecutiveAssignments: true&#10;#&#31561;&#21495;&#20004;&#36793;&#30340;&#31354;&#26684;&#10;SpaceBeforeAssignmentOperators: true&#10;# &#23481;&#22120;&#31867;&#30340;&#31354;&#26684; &#20363;&#22914; OC&#30340;&#23383;&#20856;&#10;SpacesInContainerLiterals: true&#10;#&#32553;&#36827;&#10;IndentWrappedFunctionNames: true&#10;#&#22312;block&#20174;&#31354;&#34892;&#24320;&#22987;&#10;KeepEmptyLinesAtTheStartOfBlocks: true&#10;#&#22312;&#26500;&#36896;&#20989;&#25968;&#21021;&#22987;&#21270;&#26102;&#25353;&#36887;&#21495;&#26029;&#34892;&#65292;&#24182;&#20197;&#20882;&#21495;&#23545;&#40784;&#10;BreakConstructorInitializersBeforeComma: true&#10;#&#20989;&#25968;&#21442;&#25968;&#25442;&#34892;&#10;AllowAllParametersOfDeclarationOnNextLine: true&#10;#&#25324;&#21495;&#21518;&#28155;&#21152;&#31354;&#26684;&#10;SpaceAfterCStyleCast: true&#10;#tab&#38190;&#30424;&#30340;&#23485;&#24230;&#10;TabWidth: 4&#10;UseTab: Never</span><br></pre></td></tr></table></figure></p>
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一份自己满意的ClangFormat配置
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-18T14:19:06+08:00" content="2016-08-18">
+              2016-08-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/环境、配置相关/" itemprop="url" rel="index">
+                    <span itemprop="name">环境、配置相关</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>对于一个团队来说,有共同的代码格式规范是非常重要的.但是,却不能保证每个细节,使用代码格式化工具可以极大的提高效率.下面是自己积累出来的一份配置,每一行都有注释,可以自己比对:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#基于那个配置文件</span></span><br><span class="line">BasedOnStyle: LLVM</span><br><span class="line"><span class="preprocessor">#指针的*的挨着哪边</span></span><br><span class="line">PointerAlignment: Right</span><br><span class="line"><span class="preprocessor">#缩进宽度</span></span><br><span class="line">IndentWidth: <span class="number">4</span></span><br><span class="line"><span class="preprocessor"># 连续的空行保留几行</span></span><br><span class="line">MaxEmptyLinesToKeep: <span class="number">1</span></span><br><span class="line"><span class="preprocessor"># 在 @property 后面添加空格, \@property (readonly) 而不是 \@property(readonly).</span></span><br><span class="line">ObjCSpaceAfterProperty: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># OC block后面的缩进</span></span><br><span class="line">ObjCBlockIndentWidth: <span class="number">4</span></span><br><span class="line"><span class="preprocessor"># 是否允许短方法单行</span></span><br><span class="line">AllowShortFunctionsOnASingleLine: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># 是否允许短if单行 If true, if (a) return; 可以放到同一行</span></span><br><span class="line">AllowShortIfStatementsOnASingleLine: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#注释对齐</span></span><br><span class="line">AlignTrailingComments: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># 换行的时候对齐操作符</span></span><br><span class="line"><span class="preprocessor">#AlignOperands: true</span></span><br><span class="line"><span class="preprocessor"># 中括号两边空格 [] </span></span><br><span class="line">SpacesInSquareBrackets: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># 小括号两边添加空格</span></span><br><span class="line">SpacesInParentheses : <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#多行声明语句按照=对齐</span></span><br><span class="line">AlignConsecutiveDeclarations: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#连续的赋值语句以 = 为中心对齐</span></span><br><span class="line">AlignConsecutiveAssignments: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#等号两边的空格</span></span><br><span class="line">SpaceBeforeAssignmentOperators: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># 容器类的空格 例如 OC的字典</span></span><br><span class="line">SpacesInContainerLiterals: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#缩进</span></span><br><span class="line">IndentWrappedFunctionNames: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#在block从空行开始</span></span><br><span class="line">KeepEmptyLinesAtTheStartOfBlocks: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#在构造函数初始化时按逗号断行，并以冒号对齐</span></span><br><span class="line">BreakConstructorInitializersBeforeComma: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#函数参数换行</span></span><br><span class="line">AllowAllParametersOfDeclarationOnNextLine: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#括号后添加空格</span></span><br><span class="line">SpaceAfterCStyleCast: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#tab键盘的宽度</span></span><br><span class="line">TabWidth: <span class="number">4</span></span><br><span class="line">UseTab: Never</span><br></pre></td></tr></table></figure></p>
 <h2 id="使用方法">使用方法</h2><ol>
 <li>安装Clang-Format Xcode插件, <a href="https://github.com/travisjeffery/ClangFormat-Xcode" target="_blank" rel="external">地址</a></li>
 <li>在用户根目录下创建 <code>.clang-format</code>文件,将上面配置拷贝进去</li>
@@ -70,173 +309,305 @@
 
       
     </div>
-    <footer>
+
+    <div>
       
         
-  
-  <div class="categories">
-    <a href="/categories/环境、配置相关/">环境、配置相关</a>
-  </div>
 
-        
-  
-  <div class="tags">
-    <a href="/tags/Clang-Format/">Clang Format</a>
-  </div>
-
-        
       
-      <div class="clearfix"></div>
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Clang-Format/" rel="tag">#Clang Format</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/03/其他技术/Vim实践Tips-六/" rel="next" title="Vim实践Tips(六)">
+                <i class="fa fa-chevron-left"></i> Vim实践Tips(六)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/23/Xcode&环境配置/Xcode-8-必要配置/" rel="prev" title="Xcode 8 适配">
+                Xcode 8 适配 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/" data-title="一份自己满意的ClangFormat配置" data-url="http://yoursite.com/2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="搜索">
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
-
-  
-<div class="widget tag">
-  <h3 class="title">分类</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/React-Native/">React Native</a><small>2</small></li>
-  
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
-  
-    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/categories/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
-  
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
-  
-    <li><a href="/categories/其他技术/">其他技术</a><small>8</small></li>
-  
-    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/categories/坑/">坑</a><small>1</small></li>
-  
-    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
-  
-    <li><a href="/categories/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
-  
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
-  
-  </ul>
-</div>
 
 
-  
-<div class="widget tag">
-  <h3 class="title">标签</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
-  
-    <li><a href="/tags/React-Native/">React Native</a><small>1</small></li>
-  
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
-  
-    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/tags/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>5</small></li>
-  
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
-  
-    <li><a href="/tags/其他技术/">其他技术</a><small>4</small></li>
-  
-    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
-  
-    <li><a href="/tags/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
-  
-    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
-  
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
-  
-    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
-  
-    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
-  
-    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
-  
-  </ul>
-</div>
+          </div>
+          
 
-</aside>
-    <div class="clearfix"></div>
+
+          
+  <div class="comments" id="comments">
+    
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+
+
+        </div>
+        
+          
   
-  &copy; 2016 桂庆
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="桂庆" />
+          <p class="site-author-name" itemprop="name">桂庆</p>
+          <p class="site-description motion-element" itemprop="description">Kenny 肉桂的主页 记录自己的进步</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2655284735/profile?rightmod=1&wvr=6&mod=personnumber&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">1.</span> <span class="nav-text">使用方法</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">桂庆</span>
 </div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
 
+        
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
 <script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>

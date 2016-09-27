@@ -1,105 +1,348 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
 <head>
-  <meta charset="utf-8">
-  
-  <title>ReactiveCocoa 使用速查 | Kenny 肉桂的主页</title>
-  <meta name="author" content="桂庆">
-  
-  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <meta property="og:title" content="ReactiveCocoa 使用速查"/>
-  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta property="og:image" content="undefined"/>
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
   
 
-  <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+    
+    
   
 
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ReactiveCocoa," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Context反复接触 ReactiveCocoa ,这次真的准备把它应用到实际开发中了.为了以后使用方便,这里列出一些常用关键字的使用方法,以备查询.
+常用方法简单订阅 subscribeNext使用场景:“ 如果你改变了,让我知道 “
+123[self.usernameTextField.rac_textSignal subscribeNext:^(id x) &amp;#123;   NSLog(@">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReactiveCocoa 使用速查">
+<meta property="og:url" content="http://yoursite.com/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/index.html">
+<meta property="og:site_name" content="Kenny 肉桂的主页">
+<meta property="og:description" content="Context反复接触 ReactiveCocoa ,这次真的准备把它应用到实际开发中了.为了以后使用方便,这里列出一些常用关键字的使用方法,以备查询.
+常用方法简单订阅 subscribeNext使用场景:“ 如果你改变了,让我知道 “
+123[self.usernameTextField.rac_textSignal subscribeNext:^(id x) &amp;#123;   NSLog(@">
+<meta property="og:updated_time" content="2016-09-27T09:55:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ReactiveCocoa 使用速查">
+<meta name="twitter:description" content="Context反复接触 ReactiveCocoa ,这次真的准备把它应用到实际开发中了.为了以后使用方便,这里列出一些常用关键字的使用方法,以备查询.
+常用方法简单订阅 subscribeNext使用场景:“ 如果你改变了,让我知道 “
+123[self.usernameTextField.rac_textSignal subscribeNext:^(id x) &amp;#123;   NSLog(@">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/"/>
+
+  <title> ReactiveCocoa 使用速查 | Kenny 肉桂的主页 </title>
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-<body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">Kenny 肉桂的主页</a></h1>
-  <h2><a href="/">记录自己的进步</a></h2>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kenny 肉桂的主页</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录自己的进步</p>
 </div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">主页</a></li>
-    
-      <li><a href="/about">关于我</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-09-05T01:08:14.000Z"><a href="/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/">2015-09-05</a></time>
-      
-      
-  
-    <h1 class="title">ReactiveCocoa 使用速查</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
   
 
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
     </header>
-    <div class="entry">
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ReactiveCocoa 使用速查
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-05T09:08:14+08:00" content="2015-09-05">
+              2015-09-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ReactiveCocoa/" itemprop="url" rel="index">
+                    <span itemprop="name">ReactiveCocoa</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <h2 id="Context">Context</h2><p>反复接触 <code>ReactiveCocoa</code> ,这次真的准备把它应用到实际开发中了.为了以后使用方便,这里列出一些常用关键字的使用方法,以备查询.</p>
 <h2 id="常用方法">常用方法</h2><h3 id="简单订阅_subscribeNext">简单订阅 subscribeNext</h3><p>使用场景:<br>“ 如果你改变了,让我知道 “</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.usernameTextField.rac_textSignal subscribeNext:^(id x) &#123;&#10;   NSLog(@&#34;%@&#34;, x);&#10; &#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span><span class="variable">.usernameTextField</span><span class="variable">.rac_textSignal</span> subscribeNext:^(<span class="keyword">id</span> x) &#123;</span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, x);</span><br><span class="line"> &#125;];</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <h3 id="过滤条件_filter">过滤条件 filter</h3><p>使用场景:</p>
 <p>“ 如果你改变了,并且满足x条件, 那么再让我知道 “</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[self.usernameTextField.rac_textSignal&#10;&#10;    filter:^BOOL(id value) &#123;&#10;      NSString* text = value;&#10;      return text.length &#62; 4;&#10;    &#125;] subscribeNext:^(id x) &#123;&#10;  NSLog(@&#34;%@&#34;, x);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="keyword">self</span><span class="variable">.usernameTextField</span><span class="variable">.rac_textSignal</span></span><br><span class="line"></span><br><span class="line">    filter:^<span class="built_in">BOOL</span>(<span class="keyword">id</span> value) &#123;</span><br><span class="line">      <span class="built_in">NSString</span>* text = value;</span><br><span class="line">      <span class="keyword">return</span> text<span class="variable">.length</span> &gt; <span class="number">4</span>;</span><br><span class="line">    &#125;] subscribeNext:^(<span class="keyword">id</span> x) &#123;</span><br><span class="line">  <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
 <p>还有拆分的写法,因为 block层级太深 ,可读性不好:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RACSignal* usernameSourceSignal = self.usernameTextField.rac_textSignal;&#10;&#10;RACSignal* filteredUsernameSignal =&#10;    [usernameSourceSignal filter:^BOOL(id value) &#123;&#10;      NSString* text = value;&#10;      return text.length &#62; 3;&#10;    &#125;];&#10;&#10;[filteredUsernameSignal subscribeNext:^(id x) &#123;&#10;  NSLog(@&#34;%@&#34;, x);&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">RACSignal* usernameSourceSignal = <span class="keyword">self</span><span class="variable">.usernameTextField</span><span class="variable">.rac_textSignal</span>;</span><br><span class="line"></span><br><span class="line">RACSignal* filteredUsernameSignal =</span><br><span class="line">    [usernameSourceSignal filter:^<span class="built_in">BOOL</span>(<span class="keyword">id</span> value) &#123;</span><br><span class="line">      <span class="built_in">NSString</span>* text = value;</span><br><span class="line">      <span class="keyword">return</span> text<span class="variable">.length</span> &gt; <span class="number">3</span>;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">[filteredUsernameSignal subscribeNext:^(<span class="keyword">id</span> x) &#123;</span><br><span class="line">  <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
 <h3 id="类型转换_map">类型转换 map</h3><p>使用场景:</p>
 <p>当需要从输入信号中提取不同的信息时(比如这里, 从打印下个字符,到打印长度)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[self.usernameTextField.rac_textSignal&#10;    map:^id(NSString* value) &#123;&#10;   return @(value.length);&#10; &#125;] filter:^BOOL(NSNumber* value) &#123;&#10;   return [value integerValue] &#62; 4;&#10; &#125;] subscribeNext:^(id x) &#123;&#10;   NSLog(@&#34;%@&#34;, x);&#10; &#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[[[<span class="keyword">self</span><span class="variable">.usernameTextField</span><span class="variable">.rac_textSignal</span></span><br><span class="line">    map:^<span class="keyword">id</span>(<span class="built_in">NSString</span>* value) &#123;</span><br><span class="line">   <span class="keyword">return</span> @(value<span class="variable">.length</span>);</span><br><span class="line"> &#125;] filter:^<span class="built_in">BOOL</span>(<span class="built_in">NSNumber</span>* value) &#123;</span><br><span class="line">   <span class="keyword">return</span> [value integerValue] &gt; <span class="number">4</span>;</span><br><span class="line"> &#125;] subscribeNext:^(<span class="keyword">id</span> x) &#123;</span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, x);</span><br><span class="line"> &#125;];</span><br></pre></td></tr></table></figure>
 <ul>
 <li>注意: 可 map 的只能是对象</li>
 </ul>
 <h3 id="RAC_宏">RAC 宏</h3><p>使用场景:  RAC(A,b)<br>利用信号改变 A 的 b 属性值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// &#39564;&#35777;&#20449;&#21495;&#10;RACSignal *validUsernameSignal =&#10; [self.usernameTextField.rac_textSignal&#10; map:^id(NSString *text) &#123;&#10; return @([self isValidUsername:text]);&#10; &#125;]; &#10;&#10;RAC(self.usernameTextField, backgroundColor) =&#10;  [validUsernameSignal&#10;    map:^id(NSNumber *passwordValid)&#123;&#10;     return[passwordValid boolValue] ? [UIColor clearColor]:[UIColor yellowColor];&#10;   &#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 验证信号</span></span><br><span class="line">RACSignal *validUsernameSignal =</span><br><span class="line"> [<span class="keyword">self</span><span class="variable">.usernameTextField</span><span class="variable">.rac_textSignal</span></span><br><span class="line"> map:^<span class="keyword">id</span>(<span class="built_in">NSString</span> *text) &#123;</span><br><span class="line"> <span class="keyword">return</span> @([<span class="keyword">self</span> isValidUsername:text]);</span><br><span class="line"> &#125;]; </span><br><span class="line"></span><br><span class="line">RAC(<span class="keyword">self</span><span class="variable">.usernameTextField</span>, backgroundColor) =</span><br><span class="line">  [validUsernameSignal</span><br><span class="line">    map:^<span class="keyword">id</span>(<span class="built_in">NSNumber</span> *passwordValid)&#123;</span><br><span class="line">     <span class="keyword">return</span>[passwordValid boolValue] ? [<span class="built_in">UIColor</span> clearColor]:[<span class="built_in">UIColor</span> yellowColor];</span><br><span class="line">   &#125;];</span><br></pre></td></tr></table></figure>
 <h3 id="聚合信号_combineLatest">聚合信号 combineLatest</h3><p>使用场景:<br>多个信号条件同时满足, 才能产生有效信号(比如登陆的时候,用户名有效并且密码有效的时候,登陆按钮才应该有效)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RACSignal *signUpActiveSignal =&#10;  [&#10;  RACSignal combineLatest:@[validUsernameSignal, validPasswordSignal]&#10;                    reduce:^id(NSNumber *usernameValid, NSNumber *passwordValid)&#123;&#10;                      return @([usernameValid boolValue]&#38;&#38;[passwordValid boolValue]);&#10;                    &#125;&#10;  ];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">RACSignal *signUpActiveSignal =</span><br><span class="line">  [</span><br><span class="line">  RACSignal combineLatest:@[validUsernameSignal, validPasswordSignal]</span><br><span class="line">                    reduce:^<span class="keyword">id</span>(<span class="built_in">NSNumber</span> *usernameValid, <span class="built_in">NSNumber</span> *passwordValid)&#123;</span><br><span class="line">                      <span class="keyword">return</span> @([usernameValid boolValue]&amp;&amp;[passwordValid boolValue]);</span><br><span class="line">                    &#125;</span><br><span class="line">  ];</span><br></pre></td></tr></table></figure>
 <ul>
 <li>使用combineLatest:reduce:方法把validUsernameSignal和validPasswordSignal产生的最新的值聚合在一起，并生成一个新的信号。每次这两个源信号的任何一个产生新值时，reduce block都会执行，block的返回值会发给下一个信号。</li>
 </ul>
 <h3 id="事件信号">事件信号</h3><p>使用场景:<br>拿到UIKit控件的事件响应信号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[self.signInButton&#10;   rac_signalForControlEvents:UIControlEventTouchUpInside]&#10;   subscribeNext:^(id x) &#123;&#10;     NSLog(@&#34;button clicked&#34;);&#10;   &#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="keyword">self</span><span class="variable">.signInButton</span></span><br><span class="line">   rac_signalForControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>]</span><br><span class="line">   subscribeNext:^(<span class="keyword">id</span> x) &#123;</span><br><span class="line">     <span class="built_in">NSLog</span>(<span class="string">@"button clicked"</span>);</span><br><span class="line">   &#125;];</span><br></pre></td></tr></table></figure>
 <h3 id="封装方法">封装方法</h3><p>使用场景:</p>
 <p>想把一个异步的API 封装成信号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (RACSignal *)signInSignal &#123;&#10;return [RACSignal createSignal:^RACDisposable *(id&#60;RACSubscriber&#62; subscriber)&#123;&#10;   [self.signInService &#10;     signInWithUsername:self.usernameTextField.text&#10;               password:self.passwordTextField.text&#10;               complete:^(BOOL success)&#123;&#10;                    [subscriber sendNext:@(success)];&#10;                    [subscriber sendCompleted];&#10;     &#125;];&#10;   return nil;&#10;&#125;];&#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (RACSignal *)signInSignal &#123;</span><br><span class="line"><span class="keyword">return</span> [RACSignal createSignal:^RACDisposable *(<span class="keyword">id</span>&lt;RACSubscriber&gt; subscriber)&#123;</span><br><span class="line">   [<span class="keyword">self</span><span class="variable">.signInService</span> </span><br><span class="line">     signInWithUsername:<span class="keyword">self</span><span class="variable">.usernameTextField</span><span class="variable">.text</span></span><br><span class="line">               password:<span class="keyword">self</span><span class="variable">.passwordTextField</span><span class="variable">.text</span></span><br><span class="line">               complete:^(<span class="built_in">BOOL</span> success)&#123;</span><br><span class="line">                    [subscriber sendNext:@(success)];</span><br><span class="line">                    [subscriber sendCompleted];</span><br><span class="line">     &#125;];</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="拿到信号中的信号_flattenMap">拿到信号中的信号 flattenMap</h3><p>使用场景:</p>
 <p>当需要从包含信号b的信号a中拿取信号b</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[self.signInButton&#10;   rac_signalForControlEvents:UIControlEventTouchUpInside]&#10;   flattenMap:^id(id x)&#123;&#10;     return[self signInSignal];&#10;   &#125;]&#10;   subscribeNext:^(id x)&#123;&#10;     NSLog(@&#34;Sign in result: %@&#34;, x);&#10;   &#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[[[<span class="keyword">self</span><span class="variable">.signInButton</span></span><br><span class="line">   rac_signalForControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>]</span><br><span class="line">   flattenMap:^<span class="keyword">id</span>(<span class="keyword">id</span> x)&#123;</span><br><span class="line">     <span class="keyword">return</span>[<span class="keyword">self</span> signInSignal];</span><br><span class="line">   &#125;]</span><br><span class="line">   subscribeNext:^(<span class="keyword">id</span> x)&#123;</span><br><span class="line">     <span class="built_in">NSLog</span>(<span class="string">@"Sign in result: %@"</span>, x);</span><br><span class="line">   &#125;];</span><br></pre></td></tr></table></figure>
 <h3 id="添加附加操作（Adding_side-effects）">添加附加操作（Adding side-effects）</h3><p>使用场景:<br>需要进行一些准备工作的时候</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[[self.signInButton&#10;   rac_signalForControlEvents:UIControlEventTouchUpInside]&#10;   doNext:^(id x)&#123;&#10;     self.signInButton.enabled =NO;&#10;     self.signInFailureText.hidden =YES;&#10;   &#125;]&#10;   flattenMap:^id(id x)&#123;&#10;     return[self signInSignal];&#10;   &#125;]&#10;   subscribeNext:^(NSNumber*signedIn)&#123;&#10;     self.signInButton.enabled =YES;&#10;     BOOL success =[signedIn boolValue];&#10;     self.signInFailureText.hidden = success;&#10;     if(success)&#123;&#10;       [self performSegueWithIdentifier:@&#34;signInSuccess&#34; sender:self];&#10;     &#125;&#10;   &#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[[[[<span class="keyword">self</span><span class="variable">.signInButton</span></span><br><span class="line">   rac_signalForControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>]</span><br><span class="line">   doNext:^(<span class="keyword">id</span> x)&#123;</span><br><span class="line">     <span class="keyword">self</span><span class="variable">.signInButton</span><span class="variable">.enabled</span> =<span class="literal">NO</span>;</span><br><span class="line">     <span class="keyword">self</span><span class="variable">.signInFailureText</span><span class="variable">.hidden</span> =<span class="literal">YES</span>;</span><br><span class="line">   &#125;]</span><br><span class="line">   flattenMap:^<span class="keyword">id</span>(<span class="keyword">id</span> x)&#123;</span><br><span class="line">     <span class="keyword">return</span>[<span class="keyword">self</span> signInSignal];</span><br><span class="line">   &#125;]</span><br><span class="line">   subscribeNext:^(<span class="built_in">NSNumber</span>*signedIn)&#123;</span><br><span class="line">     <span class="keyword">self</span><span class="variable">.signInButton</span><span class="variable">.enabled</span> =<span class="literal">YES</span>;</span><br><span class="line">     <span class="built_in">BOOL</span> success =[signedIn boolValue];</span><br><span class="line">     <span class="keyword">self</span><span class="variable">.signInFailureText</span><span class="variable">.hidden</span> = success;</span><br><span class="line">     <span class="keyword">if</span>(success)&#123;</span><br><span class="line">       [<span class="keyword">self</span> performSegueWithIdentifier:<span class="string">@"signInSuccess"</span> sender:<span class="keyword">self</span>];</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;];</span><br></pre></td></tr></table></figure>
 <h3 id="移除订阅_dispose">移除订阅 dispose</h3><p>使用场景:</p>
 <p>当需要手动释放一个信号(当没有订阅,信号就不复存在),但是使用场景很少,仅供了解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RACSignal *backgroundColorSignal =&#10;    [self.searchText.rac_textSignal &#10;        map:^id(NSString *text) &#123; &#10;            return [self isValidSearchText:text] ? &#10;                [UIColor whiteColor] : [UIColor yellowColor]; &#10;    &#125;]; &#10;    &#10;RACDisposable *subscription = &#10;    [backgroundColorSignal &#10;        subscribeNext:^(UIColor *color) &#123;&#10;            self.searchText.backgroundColor = color; &#10;    &#125;]; &#10;    &#10;// at some point in the future ... &#10;[subscription dispose];&#65279;&#8203;</span><br></pre></td></tr></table></figure>
-<h3 id="防止循环引用">防止循环引用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@weakify(self) &#10;[[self.searchText.rac_textSignal &#10;    map:^id(NSString *text) &#123; &#10;        return [self isValidSearchText:text] ? &#10;            [UIColor whiteColor] : [UIColor yellowColor]; &#10;    &#125;] &#10;    subscribeNext:^(UIColor *color) &#123; &#10;        @strongify(self) &#10;        self.searchText.backgroundColor = color; &#10;    &#125;];&#65279;&#8203;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">RACSignal *backgroundColorSignal =</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.searchText</span><span class="variable">.rac_textSignal</span> </span><br><span class="line">        map:^<span class="keyword">id</span>(<span class="built_in">NSString</span> *text) &#123; </span><br><span class="line">            <span class="keyword">return</span> [<span class="keyword">self</span> isValidSearchText:text] ? </span><br><span class="line">                [<span class="built_in">UIColor</span> whiteColor] : [<span class="built_in">UIColor</span> yellowColor]; </span><br><span class="line">    &#125;]; </span><br><span class="line">    </span><br><span class="line">RACDisposable *subscription = </span><br><span class="line">    [backgroundColorSignal </span><br><span class="line">        subscribeNext:^(<span class="built_in">UIColor</span> *color) &#123;</span><br><span class="line">            <span class="keyword">self</span><span class="variable">.searchText</span><span class="variable">.backgroundColor</span> = color; </span><br><span class="line">    &#125;]; </span><br><span class="line">    </span><br><span class="line"><span class="comment">// at some point in the future ... </span></span><br><span class="line">[subscription dispose];﻿​</span><br></pre></td></tr></table></figure>
+<h3 id="防止循环引用">防止循环引用</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@weakify(<span class="keyword">self</span>) </span><br><span class="line">[[<span class="keyword">self</span><span class="variable">.searchText</span><span class="variable">.rac_textSignal</span> </span><br><span class="line">    map:^<span class="keyword">id</span>(<span class="built_in">NSString</span> *text) &#123; </span><br><span class="line">        <span class="keyword">return</span> [<span class="keyword">self</span> isValidSearchText:text] ? </span><br><span class="line">            [<span class="built_in">UIColor</span> whiteColor] : [<span class="built_in">UIColor</span> yellowColor]; </span><br><span class="line">    &#125;] </span><br><span class="line">    subscribeNext:^(<span class="built_in">UIColor</span> *color) &#123; </span><br><span class="line">        @strongify(<span class="keyword">self</span>) </span><br><span class="line">        <span class="keyword">self</span><span class="variable">.searchText</span><span class="variable">.backgroundColor</span> = color; </span><br><span class="line">    &#125;];﻿​</span><br></pre></td></tr></table></figure>
 <h3 id="next_error_completed">next error completed</h3><p>在signal的生命周期中，它可能不发送事件，发送一个或多个next事<br>件，在这之后还能发送一个completed事件或一个error事件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[self requestAccessToTwitterSignal] &#10;    subscribeNext:^(id x) &#123; &#10;        NSLog(@&#34;Access granted&#34;); &#10;    &#125; error:^(NSError *error) &#123; &#10;        NSLog(@&#34;An error occurred: %@&#34;, error); &#10;    &#125;];&#65279;&#8203;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="keyword">self</span> requestAccessToTwitterSignal] </span><br><span class="line">    subscribeNext:^(<span class="keyword">id</span> x) &#123; </span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"Access granted"</span>); </span><br><span class="line">    &#125; error:^(<span class="built_in">NSError</span> *error) &#123; </span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"An error occurred: %@"</span>, error); </span><br><span class="line">    &#125;];﻿​</span><br></pre></td></tr></table></figure>
 <h3 id="信号链接_then">信号链接 then</h3><p>使用场景:<br>当后面的信号需要依赖前面的信号时</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[self requestAccessToTwitterSignal] &#10;    then:^RACSignal *&#123; &#10;        @strongify(self) &#10;        return self.searchText.rac_textSignal; &#10;    &#125;] &#10;    subscribeNext:^(id x) &#123; &#10;        NSLog(@&#34;%@&#34;, x); &#10;    &#125; error:^(NSError *error) &#123; &#10;        NSLog(@&#34;An error occurred: %@&#34;, error); &#10;    &#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[[[<span class="keyword">self</span> requestAccessToTwitterSignal] </span><br><span class="line">    then:^RACSignal *&#123; </span><br><span class="line">        @strongify(<span class="keyword">self</span>) </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span><span class="variable">.searchText</span><span class="variable">.rac_textSignal</span>; </span><br><span class="line">    &#125;] </span><br><span class="line">    subscribeNext:^(<span class="keyword">id</span> x) &#123; </span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, x); </span><br><span class="line">    &#125; error:^(<span class="built_in">NSError</span> *error) &#123; </span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"An error occurred: %@"</span>, error); </span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>then方法会等待completed事件的发送，然后再订阅由then block返回的signal。这样就高效地把控制权从一个signal传递给下一个。</p>
 </li>
@@ -107,187 +350,319 @@
 </li>
 </ul>
 <h3 id="异步信号">异步信号</h3><p>使用场景:<br>后台加载资源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(RACSignal *)signalForLoadingImage:(NSString *)imageUrl &#123; &#10;&#10;    RACScheduler *scheduler = [RACScheduler &#10;        schedulerWithPriority:RACSchedulerPriorityBackground]; &#10;        &#10;    return [[RACSignal createSignal:^RACDisposable *(id subscriber) &#123; &#10;    &#10;        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]; &#10;        UIImage *image = [UIImage imageWithData:data]; &#10;    &#10;    &#10;        [subscriber sendNext:image]; &#10;        [subscriber sendCompleted]; &#10;        return nil; &#10;    &#125;] subscribeOn:scheduler]; &#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-(RACSignal *)signalForLoadingImage:(<span class="built_in">NSString</span> *)imageUrl &#123; </span><br><span class="line"></span><br><span class="line">    RACScheduler *scheduler = [RACScheduler </span><br><span class="line">        schedulerWithPriority:RACSchedulerPriorityBackground]; </span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> [[RACSignal createSignal:^RACDisposable *(<span class="keyword">id</span> subscriber) &#123; </span><br><span class="line">    </span><br><span class="line">        <span class="built_in">NSData</span> *data = [<span class="built_in">NSData</span> dataWithContentsOfURL:[<span class="built_in">NSURL</span> URLWithString:imageUrl]]; </span><br><span class="line">        <span class="built_in">UIImage</span> *image = [<span class="built_in">UIImage</span> imageWithData:data]; </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">        [subscriber sendNext:image]; </span><br><span class="line">        [subscriber sendCompleted]; </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>; </span><br><span class="line">    &#125;] subscribeOn:scheduler]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>subscribeOn：来确保signal在指定的scheduler上执行。</li>
 </ul>
-<h3 id="在主线程上更新UI">在主线程上更新UI</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cell.twitterAvatarView.image = nil; &#10; &#10;[[[self signalForLoadingImage:tweet.profileImageUrl] &#10;    deliverOn:[RACScheduler mainThreadScheduler]] &#10;    subscribeNext:^(UIImage *image) &#123; &#10;        cell.twitterAvatarView.image = image; &#10;    &#125;];</span><br></pre></td></tr></table></figure>
+<h3 id="在主线程上更新UI">在主线程上更新UI</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cell<span class="variable">.twitterAvatarView</span><span class="variable">.image</span> = <span class="literal">nil</span>; </span><br><span class="line"> </span><br><span class="line">[[[<span class="keyword">self</span> signalForLoadingImage:tweet<span class="variable">.profileImageUrl</span>] </span><br><span class="line">    deliverOn:[RACScheduler mainThreadScheduler]] </span><br><span class="line">    subscribeNext:^(<span class="built_in">UIImage</span> *image) &#123; </span><br><span class="line">        cell<span class="variable">.twitterAvatarView</span><span class="variable">.image</span> = image; </span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
 <p>针对cell的重用问题, 有种更优化的方法:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[[self signalForLoadingImage:tweet.profileImageUrl] &#10;    takeUntil:cell.rac_prepareForReuseSignal] &#10;    deliverOn:[RACScheduler mainThreadScheduler]] &#10;    subscribeNext:^(UIImage *image) &#123; &#10;        cell.twitterAvatarView.image = image; &#10;    &#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[[[[<span class="keyword">self</span> signalForLoadingImage:tweet<span class="variable">.profileImageUrl</span>] </span><br><span class="line">    takeUntil:cell<span class="variable">.rac_prepareForReuseSignal</span>] </span><br><span class="line">    deliverOn:[RACScheduler mainThreadScheduler]] </span><br><span class="line">    subscribeNext:^(<span class="built_in">UIImage</span> *image) &#123; </span><br><span class="line">        cell<span class="variable">.twitterAvatarView</span><span class="variable">.image</span> = image; </span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
 <h3 id="延时响应_throttle">延时响应 throttle</h3><p>使用场景:   </p>
 <p>当用户输入完毕, 自定进行搜索的时候,不应该用户每次改变输入,都马上搜索,应该当用户停止输入 x 秒之后,再进行搜索</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@weakify(self);&#10;[[self.passwordTextField.rac_textSignal throttle:2] subscribeNext:^(id x) &#123;&#10;  @strongify(self);&#10;  self.hintLabel.text = (NSString*)x;&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@weakify(<span class="keyword">self</span>);</span><br><span class="line">[[<span class="keyword">self</span><span class="variable">.passwordTextField</span><span class="variable">.rac_textSignal</span> throttle:<span class="number">2</span>] subscribeNext:^(<span class="keyword">id</span> x) &#123;</span><br><span class="line">  @strongify(<span class="keyword">self</span>);</span><br><span class="line">  <span class="keyword">self</span><span class="variable">.hintLabel</span><span class="variable">.text</span> = (<span class="built_in">NSString</span>*)x;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
 <p>参考网址:<br><a href="http://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1" target="_blank" rel="external">http://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1</a><br><a href="http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part1" target="_blank" rel="external">http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part1</a></p>
 
       
     </div>
-    <footer>
+
+    <div>
       
         
-  
-  <div class="categories">
-    <a href="/categories/ReactiveCocoa/">ReactiveCocoa</a>
-  </div>
 
-        
-  
-  <div class="tags">
-    <a href="/tags/ReactiveCocoa/">ReactiveCocoa</a>
-  </div>
-
-        
       
-      <div class="clearfix"></div>
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ReactiveCocoa/" rel="tag">#ReactiveCocoa</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/29/重构、模式、架构/简单实现控制器过渡动画/" rel="next" title="简单实现控制器过渡动画">
+                <i class="fa fa-chevron-left"></i> 简单实现控制器过渡动画
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/20/UI相关/Classy官方文档翻译-Properties/" rel="prev" title="Classy官方文档翻译:Properties">
+                Classy官方文档翻译:Properties <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/" data-title="ReactiveCocoa 使用速查" data-url="http://yoursite.com/2015/09/05/ReactiveCocoa/ReactiveCocoa-使用速查-1/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="搜索">
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
-
-  
-<div class="widget tag">
-  <h3 class="title">分类</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/React-Native/">React Native</a><small>2</small></li>
-  
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
-  
-    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/categories/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
-  
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
-  
-    <li><a href="/categories/其他技术/">其他技术</a><small>8</small></li>
-  
-    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/categories/坑/">坑</a><small>1</small></li>
-  
-    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
-  
-    <li><a href="/categories/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
-  
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
-  
-  </ul>
-</div>
 
 
-  
-<div class="widget tag">
-  <h3 class="title">标签</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
-  
-    <li><a href="/tags/React-Native/">React Native</a><small>1</small></li>
-  
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
-  
-    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/tags/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>5</small></li>
-  
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
-  
-    <li><a href="/tags/其他技术/">其他技术</a><small>4</small></li>
-  
-    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
-  
-    <li><a href="/tags/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
-  
-    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
-  
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
-  
-    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
-  
-    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
-  
-    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
-  
-  </ul>
-</div>
+          </div>
+          
 
-</aside>
-    <div class="clearfix"></div>
+
+          
+  <div class="comments" id="comments">
+    
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+
+
+        </div>
+        
+          
   
-  &copy; 2016 桂庆
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="桂庆" />
+          <p class="site-author-name" itemprop="name">桂庆</p>
+          <p class="site-description motion-element" itemprop="description">Kenny 肉桂的主页 记录自己的进步</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2655284735/profile?rightmod=1&wvr=6&mod=personnumber&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Context"><span class="nav-number">1.</span> <span class="nav-text">Context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用方法"><span class="nav-number">2.</span> <span class="nav-text">常用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单订阅_subscribeNext"><span class="nav-number">2.1.</span> <span class="nav-text">简单订阅 subscribeNext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤条件_filter"><span class="nav-number">2.2.</span> <span class="nav-text">过滤条件 filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型转换_map"><span class="nav-number">2.3.</span> <span class="nav-text">类型转换 map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAC_宏"><span class="nav-number">2.4.</span> <span class="nav-text">RAC 宏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合信号_combineLatest"><span class="nav-number">2.5.</span> <span class="nav-text">聚合信号 combineLatest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件信号"><span class="nav-number">2.6.</span> <span class="nav-text">事件信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#封装方法"><span class="nav-number">2.7.</span> <span class="nav-text">封装方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拿到信号中的信号_flattenMap"><span class="nav-number">2.8.</span> <span class="nav-text">拿到信号中的信号 flattenMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加附加操作（Adding_side-effects）"><span class="nav-number">2.9.</span> <span class="nav-text">添加附加操作（Adding side-effects）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移除订阅_dispose"><span class="nav-number">2.10.</span> <span class="nav-text">移除订阅 dispose</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止循环引用"><span class="nav-number">2.11.</span> <span class="nav-text">防止循环引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#next_error_completed"><span class="nav-number">2.12.</span> <span class="nav-text">next error completed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号链接_then"><span class="nav-number">2.13.</span> <span class="nav-text">信号链接 then</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步信号"><span class="nav-number">2.14.</span> <span class="nav-text">异步信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在主线程上更新UI"><span class="nav-number">2.15.</span> <span class="nav-text">在主线程上更新UI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#延时响应_throttle"><span class="nav-number">2.16.</span> <span class="nav-text">延时响应 throttle</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">桂庆</span>
 </div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
 
+        
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
 <script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>

@@ -1,261 +1,631 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
 <head>
-  <meta charset="utf-8">
-  
-  <title>我项目中Layout模块的解析 | Kenny 肉桂的主页</title>
-  <meta name="author" content="桂庆">
-  
-  <meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <meta property="og:title" content="我项目中Layout模块的解析"/>
-  <meta property="og:site_name" content="Kenny 肉桂的主页"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta property="og:image" content="undefined"/>
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
   
 
-  <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+    
+    
   
 
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="重构、模式、架构," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kenny 肉桂的主页" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="context从上次确定使用抽象工厂模式, 到最终项目实现,采用了建造者模式. 因为如果使用抽象工厂模式,将每个模块的layout抽象, 会导致产品体系非常复杂, 难以使用和维护.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我项目中Layout模块的解析">
+<meta property="og:url" content="http://yoursite.com/2015/08/12/重构、模式、架构/我项目中Layout模块的解析/index.html">
+<meta property="og:site_name" content="Kenny 肉桂的主页">
+<meta property="og:description" content="context从上次确定使用抽象工厂模式, 到最终项目实现,采用了建造者模式. 因为如果使用抽象工厂模式,将每个模块的layout抽象, 会导致产品体系非常复杂, 难以使用和维护.">
+<meta property="og:image" content="http://7xkv7m.com1.z0.glb.clouddn.com/我项目中Layout模块的解析LayoutHierarchy.jpg">
+<meta property="og:updated_time" content="2016-09-27T09:55:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我项目中Layout模块的解析">
+<meta name="twitter:description" content="context从上次确定使用抽象工厂模式, 到最终项目实现,采用了建造者模式. 因为如果使用抽象工厂模式,将每个模块的layout抽象, 会导致产品体系非常复杂, 难以使用和维护.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/08/12/重构、模式、架构/我项目中Layout模块的解析/"/>
+
+  <title> 我项目中Layout模块的解析 | Kenny 肉桂的主页 </title>
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-<body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">Kenny 肉桂的主页</a></h1>
-  <h2><a href="/">记录自己的进步</a></h2>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kenny 肉桂的主页</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录自己的进步</p>
 </div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">主页</a></li>
-    
-      <li><a href="/about">关于我</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-08-12T08:49:26.000Z"><a href="/2015/08/12/重构、模式、架构/我项目中Layout模块的解析/">2015-08-12</a></time>
-      
-      
-  
-    <h1 class="title">我项目中Layout模块的解析</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
   
 
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
     </header>
-    <div class="entry">
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                我项目中Layout模块的解析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-12T16:49:26+08:00" content="2015-08-12">
+              2015-08-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/重构、模式、架构/" itemprop="url" rel="index">
+                    <span itemprop="name">重构、模式、架构</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <h2 id="context">context</h2><p>从上次确定使用抽象工厂模式, 到最终项目实现,采用了建造者模式. 因为如果使用抽象工厂模式,将每个模块的layout抽象, 会导致产品体系非常复杂, 难以使用和维护.</p>
 <a id="more"></a>
 <h2 id="结构图">结构图</h2><p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/我项目中Layout模块的解析LayoutHierarchy.jpg" alt=""></p>
 <h3 id="说明">说明</h3><p> <code>GUILayout</code> 是一个由各个模块布局模型组合而成的复杂对象 .</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface GUILayout : NSObject&#10;&#10;&#10;@property(nonatomic,strong)GUIGeneralLayoutModel *generalLayout;&#10;&#10;@property(nonatomic,strong)GUILoginLayoutModel *loginLayout;&#10;&#10;@property(nonatomic,strong)GUIDiaryLayoutModel *diaryLayout;&#10;&#10;@property(nonatomic,strong)GUIPregnantManagerLayoutModel * pregnantLayout;&#10;&#10;@property(nonatomic,strong)GUIInfoProviewLayoutModel *infoPreviewLayout;&#10;&#10;@property(nonatomic,strong)GUIPediaLayoutModel *peidaLayout;&#10;&#10;@property(nonatomic,strong)GUIAntenatalCareLayoutModel *anteCareLayout;&#10;&#10;@property(nonatomic,strong)GUIExpertListLayoutModel * expertLayout;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUILayout</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)G<span class="built_in">UIGeneralLayoutModel</span> *generalLayout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)G<span class="built_in">UILoginLayoutModel</span> *loginLayout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)G<span class="built_in">UIDiaryLayoutModel</span> *diaryLayout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)G<span class="built_in">UIPregnantManagerLayoutModel</span> * pregnantLayout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)G<span class="built_in">UIInfoProviewLayoutModel</span> *infoPreviewLayout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)G<span class="built_in">UIPediaLayoutModel</span> *peidaLayout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)G<span class="built_in">UIAntenatalCareLayoutModel</span> *anteCareLayout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)G<span class="built_in">UIExpertListLayoutModel</span> * expertLayout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p><code>GUIDiaryLayoutModel</code> 日记模块的参数模型,内部包含了图标大小,间距等尺寸信息.其余的<code>XXXLayoutModel</code>均类似<code>GUIDiaryLayoutModel</code> ,只是内部参数根据实际UI控件有差异.其参数参考UI给出的UI文档.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface GUIDiaryLayoutModel : NSObject&#10;&#10;@property ( assign , nonatomic )CGFloat topViewHeight;&#10;@property ( assign , nonatomic )CGFloat weekLabelTopMargin;&#10;@property ( assign , nonatomic )CGFloat weekLabelLeftMargin;&#10;@property ( assign , nonatomic )CGFloat weekLabelRightMargin;&#10;@property ( assign , nonatomic )CGFloat weekLabelBottomMargin;&#10;@property ( assign , nonatomic )CGFloat weekLabelNumberFontSize;&#10;@property ( assign , nonatomic )CGFloat weekLabelTextFontSize;&#10;@property ( assign , nonatomic )CGFloat bottomBarHeight;&#10;@property ( assign , nonatomic )CGFloat addButtonLeftMargin;&#10;@property ( assign , nonatomic )CGFloat addButtonWH;&#10;@property ( assign , nonatomic )CGFloat topButtonWH;&#10;@property ( assign , nonatomic )CGFloat topButtonLeftRightMargin;&#10;@property ( assign , nonatomic )CGFloat timeLabelFontSize;&#10;@property ( assign , nonatomic )CGFloat timeLabelRightMargin;&#10;@property ( assign , nonatomic )CGFloat cellIconLeftMargin;&#10;@property ( assign , nonatomic )CGFloat cellIconRightMargin;&#10;@property ( assign , nonatomic )CGFloat cellCellDetailFontSize;&#10;@property ( assign , nonatomic )CGFloat cellCellHeight;&#10;@property ( assign , nonatomic )CGFloat cellWeekTextFontSize;&#10;@property ( assign , nonatomic )CGFloat cellWeekTextRightMargin;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUIDiaryLayoutModel</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> topViewHeight;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> weekLabelTopMargin;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> weekLabelLeftMargin;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> weekLabelRightMargin;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> weekLabelBottomMargin;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> weekLabelNumberFontSize;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> weekLabelTextFontSize;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> bottomBarHeight;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> addButtonLeftMargin;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> addButtonWH;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> topButtonWH;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> topButtonLeftRightMargin;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> timeLabelFontSize;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> timeLabelRightMargin;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> cellIconLeftMargin;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> cellIconRightMargin;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> cellCellDetailFontSize;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> cellCellHeight;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> cellWeekTextFontSize;</span><br><span class="line"><span class="keyword">@property</span> ( <span class="keyword">assign</span> , <span class="keyword">nonatomic</span> )<span class="built_in">CGFloat</span> cellWeekTextRightMargin;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p><code>LayoutBuilder</code> 建造者父类,拥有一个 <code>GUILayout</code> 对象,并规定了建造不同模块参数的方法. </p>
 <p>.h文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;#import &#34;GUILayout.h&#34;&#10;&#10;&#10;@interface LayoutBuilder : NSObject&#10;&#10;@property(nonatomic,strong)GUILayout * layout;&#10;&#10;-(LayoutBuilder*)buildLayout;&#10;-(LayoutBuilder*)configLoginLayout;&#10;-(LayoutBuilder*)configDiaryLayout;&#10;-(LayoutBuilder*)configPregnantMangerLayout;&#10;-(LayoutBuilder*)configPediaLayout;&#10;-(LayoutBuilder*)configAnteCareLayout;&#10;-(LayoutBuilder*)configExpertListLayout;&#10;-(LayoutBuilder*)configInfoPreviewLayout;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUILayout.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">LayoutBuilder</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)G<span class="built_in">UILayout</span> * layout;</span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)buildLayout;</span><br><span class="line">-(LayoutBuilder*)configLoginLayout;</span><br><span class="line">-(LayoutBuilder*)configDiaryLayout;</span><br><span class="line">-(LayoutBuilder*)configPregnantMangerLayout;</span><br><span class="line">-(LayoutBuilder*)configPediaLayout;</span><br><span class="line">-(LayoutBuilder*)configAnteCareLayout;</span><br><span class="line">-(LayoutBuilder*)configExpertListLayout;</span><br><span class="line">-(LayoutBuilder*)configInfoPreviewLayout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>.m 文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#34;LayoutBuilder.h&#34;&#10;&#10;&#10;@interface LayoutBuilder()&#10;&#10;@end&#10;&#10;@implementation LayoutBuilder&#10;&#10;&#10;-(LayoutBuilder*)buildLayout&#10;&#123;&#10;    GUILayout * layout = [GUILayout new];&#10;    _layout = layout;&#10;    return self;&#10;&#125;&#10;&#10;-(LayoutBuilder*)configLoginLayout&#123;&#10;   &#10;    return self;&#10;&#125;&#10;&#10;-(LayoutBuilder*)configDiaryLayout&#123;&#10;   &#10;    return self;&#10;&#125;&#10;&#10;-(LayoutBuilder*)configPregnantMangerLayout&#123;&#10;    &#10;    return self;&#10;&#125;&#10;&#10;-(LayoutBuilder*)configPediaLayout&#123;&#10;    return  self;&#10;&#125;&#10;-(LayoutBuilder*)configAnteCareLayout&#123;&#10;    return self;&#10;&#125;&#10;-(LayoutBuilder*)configExpertListLayout&#123;&#10;    return  self;&#10;&#125;&#10;-(LayoutBuilder*)configInfoPreviewLayout&#123;&#10;    return self;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">"LayoutBuilder.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">LayoutBuilder</span>()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">LayoutBuilder</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)buildLayout</span><br><span class="line">&#123;</span><br><span class="line">    G<span class="built_in">UILayout</span> * layout = [G<span class="built_in">UILayout</span> new];</span><br><span class="line">    _layout = layout;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)configLoginLayout&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)configDiaryLayout&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)configPregnantMangerLayout&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)configPediaLayout&#123;</span><br><span class="line">    <span class="keyword">return</span>  <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line">-(LayoutBuilder*)configAnteCareLayout&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line">-(LayoutBuilder*)configExpertListLayout&#123;</span><br><span class="line">    <span class="keyword">return</span>  <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line">-(LayoutBuilder*)configInfoPreviewLayout&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>IP4LayoutBuilder</code> , <code>IP5LayoutBuilder</code> ,<code>IP6LayoutBuilder</code> 这些类分别重写父类的建造方法,给不同的<code>XXXLayoutModel</code>赋不同值.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#import &#34;IP6LayoutBuilder.h&#34;&#10;&#10;&#10;@implementation IP6LayoutBuilder&#10;&#10;-(LayoutBuilder*)configLoginLayout&#123;&#10;   &#10;    GUILoginLayoutModel * model = [GUILoginLayoutModel new];&#10;    model.iconSize = CGSizeMake(16, 16);&#10;    model.leftViewInsets = 12;&#10;    model.welcomePageButtonWidth = 172;&#10;    model.welcomepageButtonTitleFontSize = 17;&#10;    model.welcomePageLeftMargin = 10;&#10;    model.welcomePageBottomMargin = 6;&#10;    model.welcomePageMiddleMargin = 10;&#10;    model.toSignUpFontSize = 12;&#10;    model.noAccoutStringColor = GUIColorFromRGB(0xffbebe);&#10;    model.loginButtonWidth = 295;&#10;    model.tableTopMargin = 20;&#10;    model.submitButtonWidth = 172;&#10;    model.submitTitleHeight = 17;&#10;    model.signupLeftIconLeftRightMargin = 12;&#10;    model.signupLeftIconTopBottomMargin = 17;&#10;    model.textFieldTextLeftMargin  =10;&#10;    self.layout.loginLayout = model;&#10;    return self;&#10;&#125;&#10;&#10;-(LayoutBuilder*)configPregnantMangerLayout&#123;&#10;    &#10;    GUIPregnantManagerLayoutModel * model = [GUIPregnantManagerLayoutModel new];&#10;    &#10;    model.topViewHeight = 242;&#10;    model.userIconTopMargin = 25;&#10;    model.userIconWidth = 71;&#10;    model.userIconHeight = 71;&#10;    model.usernameTopMargin = 8;&#10;    model.usernameFontSize = 17;&#10;    model.pregnantDateTopMargin = 35;&#10;    model.pregnantDateRightMargin = 35;&#10;    model.toBirthLabelFontSize = 12;&#10;    model.toBirthLabelLeftMargin = 15;&#10;    model.toBirthLabelDescFontSize = 12;&#10;    model.toBirthLabelNumberFontSize = 17;&#10;    model.editButtonTopMargin = 15;&#10;    model.editButtonRightMargin = 15;&#10;    model.editButtonBottomMargin = 15;&#10;    model.editButtonHeight = 30;&#10;    model.editButtonWidth  = 30;&#10;    model.userIconBorderWidth = 2;&#10;    model.pregnantDateLeftMargin = 40;&#10;    model.pregnantDateFontSize = 34;&#10;    &#10;    self.layout.pregnantLayout = model;&#10;    return self;&#10;&#125;&#10;&#10;-(LayoutBuilder*)configDiaryLayout&#123;&#10;   &#10;    GUIDiaryLayoutModel * model = [GUIDiaryLayoutModel new];&#10;    model.topViewHeight = 181;&#10;    model.weekLabelTopMargin = 38;&#10;    model.weekLabelLeftMargin = 55;&#10;    model.weekLabelRightMargin =55;&#10;    model.weekLabelBottomMargin =42;&#10;    model.weekLabelNumberFontSize =52;&#10;    model.weekLabelTextFontSize =26;&#10;    model.bottomBarHeight =44;&#10;    model.addButtonLeftMargin = 15;&#10;    model.timeLabelFontSize = 12;&#10;    model.timeLabelRightMargin = 15;&#10;    model.cellIconLeftMargin = 11;&#10;    model.cellIconRightMargin = 17;&#10;    model.cellCellDetailFontSize = 12;&#10;    model.cellCellHeight = 55;&#10;    model.cellWeekTextFontSize = 12;&#10;    model.cellWeekTextRightMargin = 15;&#10;    model.addButtonWH = 30;&#10;    model.topButtonWH = 30;&#10;    model.topButtonLeftRightMargin = 60;&#10;    &#10;    self.layout.diaryLayout = model;&#10;    return self;&#10;&#125;&#10;&#10;-(LayoutBuilder*)configPediaLayout&#123;&#10;    &#10;    GUIPediaLayoutModel *model = [GUIPediaLayoutModel new];&#10;    model.iconTopMargin = 25;&#10;    model.iconBorderWidth = 3;&#10;    model.iconViewWH = 100;&#10;    model.weekLabelNormalFontSize = 12;&#10;    model.weekLabelNumberFontSize = 28;&#10;    model.fruitIconWH = 26;&#10;    model.iconDescFontSize = 12;&#10;    model.babyLengthNormalFontSize = 12;&#10;    model.babyLengthValueFontSize = 17;&#10;    model.babyLengthBottomMargin = 15;&#10;    model.controllButtonWidth = 40;&#10;    model.controllBUttonHeight = 46;&#10;    model.timeLineWidth = 30;&#10;    model.cellContentViewLeftRightMargin = 10;&#10;    &#10;    &#10;    self.layout.peidaLayout = model;&#10;    return  self;&#10;&#125;&#10;-(LayoutBuilder*)configAnteCareLayout&#123;&#10;    GUIAntenatalCareLayoutModel * model = [GUIAntenatalCareLayoutModel new];&#10;    &#10;    model.contollTopMargin= 10;&#10;    model.controllleftMargin=80;&#10;    model.controlButtonSize= 20;&#10;    model.weekIconTopMargin= 25;&#10;    model.weekIconBottomMargin= 25;&#10;    model.weekIconTitleFontSize=12;&#10;    model.weekIconWeekFontSize=12;&#10;    model.cellLeftMargin=10;&#10;    model.redDotRightMargin=15;&#10;    model.cellHeight=44;&#10;    model.tagViewMiddleMargin= 10;&#10;    model.tagViewHeight=15;&#10;    model.tagViewFontSize = 12;&#10;    model.tagViewTopMargin= 44;&#10;    model.cellLineLeftMargin= 10;&#10;    model.cellLineRightMargin= 10;&#10;    model.cellNoteBottomMargin= 15;&#10;    model.cellNoteFontSize= 15;&#10;    model.cellNoteLeftMargin = 42;&#10;    &#10;    self.layout.anteCareLayout = model;&#10;    return self;&#10;&#125;&#10;&#10;-(LayoutBuilder*)configExpertListLayout&#123;&#10;    &#10;    GUIExpertListLayoutModel * model = [GUIExpertListLayoutModel new];&#10;    model.iconWH = 50;&#10;    model.iconLeftMargin = 14;&#10;    model.iconRightMargin = 14;&#10;    model.titleFontSize = 17;&#10;    model.detailTextTopMargin = 10;&#10;    model.cellHeight = 60;&#10;    model.detailFontSize = 12;&#10;    self.layout.expertLayout = model;&#10;    return  self;&#10;&#125;&#10;&#10;-(LayoutBuilder*)configInfoPreviewLayout&#123;&#10;    &#10;    GUIInfoProviewLayoutModel * model = [GUIInfoProviewLayoutModel new];&#10;    model.tableTopMargin = 20;&#10;    model.titleLeftMargin = 15;&#10;    model.iconCellHeight = 54;&#10;    model.iconWH = 41;&#10;    model.appendViewRrightMargin = 15;&#10;    model.tableHeaderHeight = 20;&#10;    &#10;    self.layout.infoPreviewLayout = model;&#10;    &#10;    return self;&#10;&#125;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"IP6LayoutBuilder.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">IP6LayoutBuilder</span></span></span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)configLoginLayout&#123;</span><br><span class="line">   </span><br><span class="line">    G<span class="built_in">UILoginLayoutModel</span> * model = [G<span class="built_in">UILoginLayoutModel</span> new];</span><br><span class="line">    model<span class="variable">.iconSize</span> = <span class="built_in">CGSizeMake</span>(<span class="number">16</span>, <span class="number">16</span>);</span><br><span class="line">    model<span class="variable">.leftViewInsets</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.welcomePageButtonWidth</span> = <span class="number">172</span>;</span><br><span class="line">    model<span class="variable">.welcomepageButtonTitleFontSize</span> = <span class="number">17</span>;</span><br><span class="line">    model<span class="variable">.welcomePageLeftMargin</span> = <span class="number">10</span>;</span><br><span class="line">    model<span class="variable">.welcomePageBottomMargin</span> = <span class="number">6</span>;</span><br><span class="line">    model<span class="variable">.welcomePageMiddleMargin</span> = <span class="number">10</span>;</span><br><span class="line">    model<span class="variable">.toSignUpFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.noAccoutStringColor</span> = G<span class="built_in">UIColorFromRGB</span>(<span class="number">0xffbebe</span>);</span><br><span class="line">    model<span class="variable">.loginButtonWidth</span> = <span class="number">295</span>;</span><br><span class="line">    model<span class="variable">.tableTopMargin</span> = <span class="number">20</span>;</span><br><span class="line">    model<span class="variable">.submitButtonWidth</span> = <span class="number">172</span>;</span><br><span class="line">    model<span class="variable">.submitTitleHeight</span> = <span class="number">17</span>;</span><br><span class="line">    model<span class="variable">.signupLeftIconLeftRightMargin</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.signupLeftIconTopBottomMargin</span> = <span class="number">17</span>;</span><br><span class="line">    model<span class="variable">.textFieldTextLeftMargin</span>  =<span class="number">10</span>;</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.layout</span><span class="variable">.loginLayout</span> = model;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)configPregnantMangerLayout&#123;</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UIPregnantManagerLayoutModel</span> * model = [G<span class="built_in">UIPregnantManagerLayoutModel</span> new];</span><br><span class="line">    </span><br><span class="line">    model<span class="variable">.topViewHeight</span> = <span class="number">242</span>;</span><br><span class="line">    model<span class="variable">.userIconTopMargin</span> = <span class="number">25</span>;</span><br><span class="line">    model<span class="variable">.userIconWidth</span> = <span class="number">71</span>;</span><br><span class="line">    model<span class="variable">.userIconHeight</span> = <span class="number">71</span>;</span><br><span class="line">    model<span class="variable">.usernameTopMargin</span> = <span class="number">8</span>;</span><br><span class="line">    model<span class="variable">.usernameFontSize</span> = <span class="number">17</span>;</span><br><span class="line">    model<span class="variable">.pregnantDateTopMargin</span> = <span class="number">35</span>;</span><br><span class="line">    model<span class="variable">.pregnantDateRightMargin</span> = <span class="number">35</span>;</span><br><span class="line">    model<span class="variable">.toBirthLabelFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.toBirthLabelLeftMargin</span> = <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.toBirthLabelDescFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.toBirthLabelNumberFontSize</span> = <span class="number">17</span>;</span><br><span class="line">    model<span class="variable">.editButtonTopMargin</span> = <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.editButtonRightMargin</span> = <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.editButtonBottomMargin</span> = <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.editButtonHeight</span> = <span class="number">30</span>;</span><br><span class="line">    model<span class="variable">.editButtonWidth</span>  = <span class="number">30</span>;</span><br><span class="line">    model<span class="variable">.userIconBorderWidth</span> = <span class="number">2</span>;</span><br><span class="line">    model<span class="variable">.pregnantDateLeftMargin</span> = <span class="number">40</span>;</span><br><span class="line">    model<span class="variable">.pregnantDateFontSize</span> = <span class="number">34</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span><span class="variable">.layout</span><span class="variable">.pregnantLayout</span> = model;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)configDiaryLayout&#123;</span><br><span class="line">   </span><br><span class="line">    G<span class="built_in">UIDiaryLayoutModel</span> * model = [G<span class="built_in">UIDiaryLayoutModel</span> new];</span><br><span class="line">    model<span class="variable">.topViewHeight</span> = <span class="number">181</span>;</span><br><span class="line">    model<span class="variable">.weekLabelTopMargin</span> = <span class="number">38</span>;</span><br><span class="line">    model<span class="variable">.weekLabelLeftMargin</span> = <span class="number">55</span>;</span><br><span class="line">    model<span class="variable">.weekLabelRightMargin</span> =<span class="number">55</span>;</span><br><span class="line">    model<span class="variable">.weekLabelBottomMargin</span> =<span class="number">42</span>;</span><br><span class="line">    model<span class="variable">.weekLabelNumberFontSize</span> =<span class="number">52</span>;</span><br><span class="line">    model<span class="variable">.weekLabelTextFontSize</span> =<span class="number">26</span>;</span><br><span class="line">    model<span class="variable">.bottomBarHeight</span> =<span class="number">44</span>;</span><br><span class="line">    model<span class="variable">.addButtonLeftMargin</span> = <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.timeLabelFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.timeLabelRightMargin</span> = <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.cellIconLeftMargin</span> = <span class="number">11</span>;</span><br><span class="line">    model<span class="variable">.cellIconRightMargin</span> = <span class="number">17</span>;</span><br><span class="line">    model<span class="variable">.cellCellDetailFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.cellCellHeight</span> = <span class="number">55</span>;</span><br><span class="line">    model<span class="variable">.cellWeekTextFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.cellWeekTextRightMargin</span> = <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.addButtonWH</span> = <span class="number">30</span>;</span><br><span class="line">    model<span class="variable">.topButtonWH</span> = <span class="number">30</span>;</span><br><span class="line">    model<span class="variable">.topButtonLeftRightMargin</span> = <span class="number">60</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span><span class="variable">.layout</span><span class="variable">.diaryLayout</span> = model;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)configPediaLayout&#123;</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UIPediaLayoutModel</span> *model = [G<span class="built_in">UIPediaLayoutModel</span> new];</span><br><span class="line">    model<span class="variable">.iconTopMargin</span> = <span class="number">25</span>;</span><br><span class="line">    model<span class="variable">.iconBorderWidth</span> = <span class="number">3</span>;</span><br><span class="line">    model<span class="variable">.iconViewWH</span> = <span class="number">100</span>;</span><br><span class="line">    model<span class="variable">.weekLabelNormalFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.weekLabelNumberFontSize</span> = <span class="number">28</span>;</span><br><span class="line">    model<span class="variable">.fruitIconWH</span> = <span class="number">26</span>;</span><br><span class="line">    model<span class="variable">.iconDescFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.babyLengthNormalFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.babyLengthValueFontSize</span> = <span class="number">17</span>;</span><br><span class="line">    model<span class="variable">.babyLengthBottomMargin</span> = <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.controllButtonWidth</span> = <span class="number">40</span>;</span><br><span class="line">    model<span class="variable">.controllBUttonHeight</span> = <span class="number">46</span>;</span><br><span class="line">    model<span class="variable">.timeLineWidth</span> = <span class="number">30</span>;</span><br><span class="line">    model<span class="variable">.cellContentViewLeftRightMargin</span> = <span class="number">10</span>;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span><span class="variable">.layout</span><span class="variable">.peidaLayout</span> = model;</span><br><span class="line">    <span class="keyword">return</span>  <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line">-(LayoutBuilder*)configAnteCareLayout&#123;</span><br><span class="line">    G<span class="built_in">UIAntenatalCareLayoutModel</span> * model = [G<span class="built_in">UIAntenatalCareLayoutModel</span> new];</span><br><span class="line">    </span><br><span class="line">    model<span class="variable">.contollTopMargin</span>= <span class="number">10</span>;</span><br><span class="line">    model<span class="variable">.controllleftMargin</span>=<span class="number">80</span>;</span><br><span class="line">    model<span class="variable">.controlButtonSize</span>= <span class="number">20</span>;</span><br><span class="line">    model<span class="variable">.weekIconTopMargin</span>= <span class="number">25</span>;</span><br><span class="line">    model<span class="variable">.weekIconBottomMargin</span>= <span class="number">25</span>;</span><br><span class="line">    model<span class="variable">.weekIconTitleFontSize</span>=<span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.weekIconWeekFontSize</span>=<span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.cellLeftMargin</span>=<span class="number">10</span>;</span><br><span class="line">    model<span class="variable">.redDotRightMargin</span>=<span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.cellHeight</span>=<span class="number">44</span>;</span><br><span class="line">    model<span class="variable">.tagViewMiddleMargin</span>= <span class="number">10</span>;</span><br><span class="line">    model<span class="variable">.tagViewHeight</span>=<span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.tagViewFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    model<span class="variable">.tagViewTopMargin</span>= <span class="number">44</span>;</span><br><span class="line">    model<span class="variable">.cellLineLeftMargin</span>= <span class="number">10</span>;</span><br><span class="line">    model<span class="variable">.cellLineRightMargin</span>= <span class="number">10</span>;</span><br><span class="line">    model<span class="variable">.cellNoteBottomMargin</span>= <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.cellNoteFontSize</span>= <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.cellNoteLeftMargin</span> = <span class="number">42</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span><span class="variable">.layout</span><span class="variable">.anteCareLayout</span> = model;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)configExpertListLayout&#123;</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UIExpertListLayoutModel</span> * model = [G<span class="built_in">UIExpertListLayoutModel</span> new];</span><br><span class="line">    model<span class="variable">.iconWH</span> = <span class="number">50</span>;</span><br><span class="line">    model<span class="variable">.iconLeftMargin</span> = <span class="number">14</span>;</span><br><span class="line">    model<span class="variable">.iconRightMargin</span> = <span class="number">14</span>;</span><br><span class="line">    model<span class="variable">.titleFontSize</span> = <span class="number">17</span>;</span><br><span class="line">    model<span class="variable">.detailTextTopMargin</span> = <span class="number">10</span>;</span><br><span class="line">    model<span class="variable">.cellHeight</span> = <span class="number">60</span>;</span><br><span class="line">    model<span class="variable">.detailFontSize</span> = <span class="number">12</span>;</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.layout</span><span class="variable">.expertLayout</span> = model;</span><br><span class="line">    <span class="keyword">return</span>  <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(LayoutBuilder*)configInfoPreviewLayout&#123;</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UIInfoProviewLayoutModel</span> * model = [G<span class="built_in">UIInfoProviewLayoutModel</span> new];</span><br><span class="line">    model<span class="variable">.tableTopMargin</span> = <span class="number">20</span>;</span><br><span class="line">    model<span class="variable">.titleLeftMargin</span> = <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.iconCellHeight</span> = <span class="number">54</span>;</span><br><span class="line">    model<span class="variable">.iconWH</span> = <span class="number">41</span>;</span><br><span class="line">    model<span class="variable">.appendViewRrightMargin</span> = <span class="number">15</span>;</span><br><span class="line">    model<span class="variable">.tableHeaderHeight</span> = <span class="number">20</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span><span class="variable">.layout</span><span class="variable">.infoPreviewLayout</span> = model;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p><code>LayoutDirector</code> 规定了<code>LayoutBuilder</code>要执行哪些方法,以及方法的执行顺序,确保最终的<code>GUILayout</code>对象能被顺利初始化.</p>
 <p>.h文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;Foundation/Foundation.h&#62;&#10;#import &#34;LayoutBuilder.h&#34;&#10;#import &#34;GUILayout.h&#34;&#10;&#10;@interface LayoutDirector : NSObject&#10;&#10;@property(nonatomic,strong)LayoutBuilder * builder;&#10;&#10;-(GUILayout*)layout;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"LayoutBuilder.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUILayout.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">LayoutDirector</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)LayoutBuilder * builder;</span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UILayout</span>*)layout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>.m 文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#import &#34;LayoutDirector.h&#34;&#10;#import &#34;IP4LayoutBuilder.h&#34;&#10;#import &#34;IP6LayoutBuilder.h&#34;&#10;#import &#34;IP5LayoutBuilder.h&#34;&#10;#import &#34;IP6PLayoutBuilder.h&#34;&#10;&#10;#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)&#10;&#10;&#10;&#10;@implementation LayoutDirector&#10;&#10;-(LayoutBuilder *)builder&#123;&#10;    &#10;    if (!_builder) &#123;&#10;        &#10;        if (kisiPhone4) &#123;&#10;            _builder = [IP4LayoutBuilder new];&#10;        &#125;else if(kisiPhone5)&#123;&#10;            _builder = [IP5LayoutBuilder new];&#10;        &#125;else if(kisiPhone6)&#123;&#10;            _builder = [IP6LayoutBuilder new];&#10;        &#125;else if(kisiPhone6Plus)&#123;&#10;            _builder = [IP6PLayoutBuilder new];&#10;        &#125;&#10;        &#10;    &#125;&#10;    return _builder;&#10;&#125;&#10;&#10;-(GUILayout*)layout&#123;&#10;    &#10;    [self.builder buildLayout];&#10;    [self.builder configLoginLayout];&#10;    [self.builder configDiaryLayout];&#10;    [self.builder configPregnantMangerLayout];&#10;    [self.builder configInfoPreviewLayout];&#10;    [self.builder configExpertListLayout];&#10;    [self.builder configPediaLayout];&#10;    [self.builder configAnteCareLayout];&#10;    return  [self.builder layout];&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"LayoutDirector.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"IP4LayoutBuilder.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"IP6LayoutBuilder.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"IP5LayoutBuilder.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"IP6PLayoutBuilder.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">LayoutDirector</span></span></span><br><span class="line"></span><br><span class="line">-(LayoutBuilder *)builder&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!_builder) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (kisiPhone4) &#123;</span><br><span class="line">            _builder = [IP4LayoutBuilder new];</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(kisiPhone5)&#123;</span><br><span class="line">            _builder = [IP5LayoutBuilder new];</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(kisiPhone6)&#123;</span><br><span class="line">            _builder = [IP6LayoutBuilder new];</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(kisiPhone6Plus)&#123;</span><br><span class="line">            _builder = [IP6PLayoutBuilder new];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _builder;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UILayout</span>*)layout&#123;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.builder</span> buildLayout];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.builder</span> configLoginLayout];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.builder</span> configDiaryLayout];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.builder</span> configPregnantMangerLayout];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.builder</span> configInfoPreviewLayout];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.builder</span> configExpertListLayout];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.builder</span> configPediaLayout];</span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.builder</span> configAnteCareLayout];</span><br><span class="line">    <span class="keyword">return</span>  [<span class="keyword">self</span><span class="variable">.builder</span> layout];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>因为这个模块的判断方式是屏幕的尺寸,故结合简单工厂模式,将原本属于调用者的判断逻辑下放到了 <code>LayoutDiretor</code>中.</p>
 <p>最后,为了调用者使用方便,在整个布局模块的上层包装了一个 <code>GUILayoutManager</code> ,并在其内部为不同模块定义了宏.方便调用</p>
 <p>.h</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &#60;UIKit/UIKit.h&#62;&#10;#import &#34;GUILayout.h&#34;&#10;#import &#34;LayoutDirector.h&#34;&#10;&#10;#define kGenralLayout [GUILayoutManager layout].generalLayout&#10;#define kLoginLayout  [GUILayoutManager layout].loginLayout&#10;#define kPregnantLayout [GUILayoutManager layout].pregnantLayout&#10;#define kInfoOverviewLayout [GUILayoutManager layout].infoPreviewLayout&#10;#define kExpertLayout [GUILayoutManager layout].expertLayout&#10;#define kDiaryLayout  [GUILayoutManager layout].diaryLayout&#10;#define kPediaLayout  [GUILayoutManager layout].peidaLayout&#10;#define kAnteLayout [GUILayoutManager layout].anteCareLayout&#10;&#10;@interface GUILayoutManager : NSObject&#10;&#10;@property(nonatomic,strong)GUILayout * layout;&#10;&#10;+(GUILayout*)layout;&#10;&#10;+(instancetype) sharedLayoutManager;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUILayout.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"LayoutDirector.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kGenralLayout [GUILayoutManager layout].generalLayout</span></span><br><span class="line"><span class="preprocessor">#define kLoginLayout  [GUILayoutManager layout].loginLayout</span></span><br><span class="line"><span class="preprocessor">#define kPregnantLayout [GUILayoutManager layout].pregnantLayout</span></span><br><span class="line"><span class="preprocessor">#define kInfoOverviewLayout [GUILayoutManager layout].infoPreviewLayout</span></span><br><span class="line"><span class="preprocessor">#define kExpertLayout [GUILayoutManager layout].expertLayout</span></span><br><span class="line"><span class="preprocessor">#define kDiaryLayout  [GUILayoutManager layout].diaryLayout</span></span><br><span class="line"><span class="preprocessor">#define kPediaLayout  [GUILayoutManager layout].peidaLayout</span></span><br><span class="line"><span class="preprocessor">#define kAnteLayout [GUILayoutManager layout].anteCareLayout</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUILayoutManager</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)G<span class="built_in">UILayout</span> * layout;</span><br><span class="line"></span><br><span class="line">+(G<span class="built_in">UILayout</span>*)layout;</span><br><span class="line"></span><br><span class="line">+(instancetype) sharedLayoutManager;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>.m</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#import &#34;GUILayoutManager.h&#34;&#10;&#10;@implementation GUILayoutManager&#10;&#10;&#10;-(GUILayout *)layout&#123;&#10;    if (!_layout) &#123;&#10;        LayoutDirector * director = [LayoutDirector new];&#10;        GUILayout *layout = [director layout];&#10;        _layout = layout;&#10;    &#125;&#10;    return  _layout;&#10;&#125;&#10;&#10;+(GUILayout*)layout&#123;&#10;    &#10;    GUILayoutManager * manager = [GUILayoutManager new];&#10;    return manager.layout;&#10;    &#10;&#125;&#10;&#10;&#10;&#10;+(instancetype)allocWithZone:(struct _NSZone *)zone&#123;&#10;    &#10;    static  dispatch_once_t onceToken;&#10;    static  id  instance = nil;&#10;    dispatch_once(&#38;onceToken, ^&#123;&#10;        instance = [super allocWithZone:zone];&#10;    &#125;);&#10;    return instance;&#10;    &#10;&#125;&#10;&#10;+(instancetype)sharedLayoutManager&#123;&#10;    &#10;    static dispatch_once_t onecToken;&#10;    static id instance;&#10;    dispatch_once(&#38;onecToken, ^&#123;&#10;        instance = [[self alloc] init];&#10;    &#125;);&#10;    return instance;&#10;    &#10;&#125;&#10;&#10;&#10;&#10;&#10;@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUILayoutManager.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUILayoutManager</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UILayout</span> *)layout&#123;</span><br><span class="line">    <span class="keyword">if</span> (!_layout) &#123;</span><br><span class="line">        LayoutDirector * director = [LayoutDirector new];</span><br><span class="line">        G<span class="built_in">UILayout</span> *layout = [director layout];</span><br><span class="line">        _layout = layout;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>  _layout;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+(G<span class="built_in">UILayout</span>*)layout&#123;</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UILayoutManager</span> * manager = [G<span class="built_in">UILayoutManager</span> new];</span><br><span class="line">    <span class="keyword">return</span> manager<span class="variable">.layout</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+(instancetype)allocWithZone:(<span class="keyword">struct</span> _<span class="built_in">NSZone</span> *)zone&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span>  <span class="built_in">dispatch_once_t</span> onceToken;</span><br><span class="line">    <span class="keyword">static</span>  <span class="keyword">id</span>  instance = <span class="literal">nil</span>;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</span><br><span class="line">        instance = [<span class="keyword">super</span> allocWithZone:zone];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+(instancetype)sharedLayoutManager&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onecToken;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">id</span> instance;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;onecToken, ^&#123;</span><br><span class="line">        instance = [[<span class="keyword">self</span> alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <h2 id="便利">便利</h2><p>如果UI出了新的尺寸,只需要在特定屏幕的的 XXXLayoutBuilder的对应方法中修改参数值即可, 项目中其它文件均无需修改.<br>例如:<br>    要加大iPhone6 下 ,百科模块的用户头像大小.<br>    <code>IP6LayoutBuilder.m</code>-&gt; <code>configPediaLayout</code> -&gt;<code>configPediaLayout</code>方法中,将<code>model.iconViewWH</code>修改即可.</p>
 
       
     </div>
-    <footer>
+
+    <div>
       
         
-  
-  <div class="categories">
-    <a href="/categories/重构、模式、架构/">重构、模式、架构</a>
-  </div>
 
-        
-  
-  <div class="tags">
-    <a href="/tags/重构、模式、架构/">重构、模式、架构</a>
-  </div>
-
-        
       
-      <div class="clearfix"></div>
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/重构、模式、架构/" rel="tag">#重构、模式、架构</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/10/重构、模式、架构/从简单工厂到工厂模式/" rel="next" title="从简单工厂到工厂模式">
+                <i class="fa fa-chevron-left"></i> 从简单工厂到工厂模式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/13/环境、配置相关/自用提高效率的三方框架/" rel="prev" title="自用提高效率的三方框架">
+                自用提高效率的三方框架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
-</article>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="2015/08/12/重构、模式、架构/我项目中Layout模块的解析/" data-title="我项目中Layout模块的解析" data-url="http://yoursite.com/2015/08/12/重构、模式、架构/我项目中Layout模块的解析/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"guiqingblog"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="搜索">
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
-
-  
-<div class="widget tag">
-  <h3 class="title">分类</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/React-Native/">React Native</a><small>2</small></li>
-  
-    <li><a href="/categories/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/categories/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/categories/Swift进阶/">Swift进阶</a><small>4</small></li>
-  
-    <li><a href="/categories/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/categories/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/categories/iOS-Tips/">iOS Tips</a><small>17</small></li>
-  
-    <li><a href="/categories/主页维护记录/">主页维护记录</a><small>4</small></li>
-  
-    <li><a href="/categories/其他技术/">其他技术</a><small>8</small></li>
-  
-    <li><a href="/categories/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/categories/坑/">坑</a><small>1</small></li>
-  
-    <li><a href="/categories/开发环境相关/">开发环境相关</a><small>5</small></li>
-  
-    <li><a href="/categories/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/categories/环境、配置相关/">环境、配置相关</a><small>6</small></li>
-  
-    <li><a href="/categories/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/categories/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/categories/重构、模式、架构/">重构、模式、架构</a><small>10</small></li>
-  
-  </ul>
-</div>
 
 
-  
-<div class="widget tag">
-  <h3 class="title">标签</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/Clang-Format/">Clang Format</a><small>1</small></li>
-  
-    <li><a href="/tags/React-Native/">React Native</a><small>1</small></li>
-  
-    <li><a href="/tags/ReactiveCocoa/">ReactiveCocoa</a><small>3</small></li>
-  
-    <li><a href="/tags/Swift/">Swift</a><small>2</small></li>
-  
-    <li><a href="/tags/Swift-进阶/">Swift 进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶/">Swift进阶</a><small>1</small></li>
-  
-    <li><a href="/tags/Swift进阶-variable-with-a-setter-must-also-have-a-getter/">Swift进阶 variable with a setter must also have a getter</a><small>1</small></li>
-  
-    <li><a href="/tags/UI相关/">UI相关</a><small>1</small></li>
-  
-    <li><a href="/tags/Xcode-环境配置/">Xcode&amp;环境配置</a><small>1</small></li>
-  
-    <li><a href="/tags/iOS-Tips/">iOS Tips</a><small>5</small></li>
-  
-    <li><a href="/tags/主页维护记录/">主页维护记录</a><small>2</small></li>
-  
-    <li><a href="/tags/其他技术/">其他技术</a><small>4</small></li>
-  
-    <li><a href="/tags/利用Runtime实现自依赖按钮/">利用Runtime实现自依赖按钮</a><small>1</small></li>
-  
-    <li><a href="/tags/开发环境相关/">开发环境相关</a><small>3</small></li>
-  
-    <li><a href="/tags/悟/">悟</a><small>1</small></li>
-  
-    <li><a href="/tags/测试小样/">测试小样</a><small>1</small></li>
-  
-    <li><a href="/tags/环境、配置相关/">环境、配置相关</a><small>3</small></li>
-  
-    <li><a href="/tags/研究随笔/">研究随笔</a><small>3</small></li>
-  
-    <li><a href="/tags/视频相关/">视频相关</a><small>1</small></li>
-  
-    <li><a href="/tags/设计模式/">设计模式</a><small>1</small></li>
-  
-    <li><a href="/tags/重构、模式、架构/">重构、模式、架构</a><small>5</small></li>
-  
-    <li><a href="/tags/问题解决和思考/">问题解决和思考</a><small>4</small></li>
-  
-    <li><a href="/tags/高效OC编程/">高效OC编程</a><small>3</small></li>
-  
-  </ul>
-</div>
+          </div>
+          
 
-</aside>
-    <div class="clearfix"></div>
+
+          
+  <div class="comments" id="comments">
+    
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+
+
+        </div>
+        
+          
   
-  &copy; 2016 桂庆
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="桂庆" />
+          <p class="site-author-name" itemprop="name">桂庆</p>
+          <p class="site-description motion-element" itemprop="description">Kenny 肉桂的主页 记录自己的进步</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2655284735/profile?rightmod=1&wvr=6&mod=personnumber&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#context"><span class="nav-number">1.</span> <span class="nav-text">context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构图"><span class="nav-number">2.</span> <span class="nav-text">结构图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-number">2.1.</span> <span class="nav-text">说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#便利"><span class="nav-number">3.</span> <span class="nav-text">便利</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">桂庆</span>
 </div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
 
+        
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
 <script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>
