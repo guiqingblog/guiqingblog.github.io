@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Kenny, 肉桂" />
+  <meta name="keywords" content="研究随笔," />
 
 
 
@@ -86,16 +86,17 @@
 
 
 
-<meta name="description" content="Kenny 肉桂的主页 记录自己的进步">
+<meta name="description" content="之前写过一篇attribute((constructor))用法探究,当时是在看代码的时候,对它产生了偶遇.而这几天,越发发现这个__attribute__的强大.作为一个iOS开发者,我试着总结了一下这个在我们日常开发中的应用.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用__Attribute__做点好玩的事情:第一篇">
-<meta property="og:url" content="http://yoursite.com/2016/09/28/用-Attribute-做点好玩的事情-第一篇/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/09/28/研究随笔/用-Attribute-做点好玩的事情-第一篇/index.html">
 <meta property="og:site_name" content="Kenny 肉桂的主页">
-<meta property="og:description" content="Kenny 肉桂的主页 记录自己的进步">
-<meta property="og:updated_time" content="2016-09-28T06:25:31.000Z">
+<meta property="og:description" content="之前写过一篇attribute((constructor))用法探究,当时是在看代码的时候,对它产生了偶遇.而这几天,越发发现这个__attribute__的强大.作为一个iOS开发者,我试着总结了一下这个在我们日常开发中的应用.">
+<meta property="og:image" content="http://7xv9rf.com1.z0.glb.clouddn.com/20160928147504628663285.jpg?imageView2/0/format/jpg">
+<meta property="og:updated_time" content="2016-09-28T09:58:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用__Attribute__做点好玩的事情:第一篇">
-<meta name="twitter:description" content="Kenny 肉桂的主页 记录自己的进步">
+<meta name="twitter:description" content="之前写过一篇attribute((constructor))用法探究,当时是在看代码的时候,对它产生了偶遇.而这几天,越发发现这个__attribute__的强大.作为一个iOS开发者,我试着总结了一下这个在我们日常开发中的应用.">
 
 
 
@@ -116,7 +117,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/09/28/用-Attribute-做点好玩的事情-第一篇/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/09/28/研究随笔/用-Attribute-做点好玩的事情-第一篇/"/>
 
   <title> 用__Attribute__做点好玩的事情:第一篇 | Kenny 肉桂的主页 </title>
 </head>
@@ -279,13 +280,32 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/研究随笔/" itemprop="url" rel="index">
+                    <span itemprop="name">研究随笔</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/28/用-Attribute-做点好玩的事情-第一篇/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/28/用-Attribute-做点好玩的事情-第一篇/" itemprop="commentsCount"></span>
+                <a href="/2016/09/28/研究随笔/用-Attribute-做点好玩的事情-第一篇/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/28/研究随笔/用-Attribute-做点好玩的事情-第一篇/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -308,7 +328,41 @@
       
 
       
-        
+        <p>之前写过一篇<a href="http://imguiqing.cc/2016/09/25/%E7%A0%94%E7%A9%B6%E9%9A%8F%E7%AC%94/attribute-constructor-%E7%94%A8%E6%B3%95%E6%8E%A2%E7%A9%B6/" target="_blank" rel="external"><strong>attribute</strong>((constructor))用法探究</a>,当时是在看代码的时候,对它产生了偶遇.而这几天,越发发现这个<code>__attribute__</code>的强大.作为一个iOS开发者,我试着总结了一下这个在我们日常开发中的应用.<br><a id="more"></a></p>
+<h2 id="从___Nonull说起">从 __Nonull说起</h2><p>苹果在Xcode6.3中引入了这个特性, 目的在于为Swift混编时,让编译器知道这个Object-C对象是不是可选的.使用方法如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="keyword">void</span>)openPath:(<span class="built_in">NSString</span> * _Nonnull)path;</span><br></pre></td></tr></table></figure>
+<p>今天在llvm的文档中,发现了一段这样的描述:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">The nonnull attribute indicates that some function parameters must not be null, and can be used in several different ways. It’<span class="function">s original <span class="title">usage</span> <span class="params">(from GCC)</span> is as a <span class="title">function</span> <span class="params">(or Objective-C method)</span> attribute that specifies which parameters of the function are nonnull in a comma-separated <span class="built_in">list</span>.</span></span><br></pre></td></tr></table></figure>
+<p>大概意思是:<br><code>nonnull</code>这个属性表示函数的参数不能为空,并且这个属性有几种不同的使用方式,最基本的用法就是用来修饰函数(或者OC的方法),使用一个用逗号分隔的参数表来表明函数或者方法的那个哪个参数非空.</p>
+<p>还是代码比较明显:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="keyword">void</span>)openFile:(<span class="built_in">NSString</span>*)file __attribute__((nonnull(<span class="number">1</span>)));</span><br></pre></td></tr></table></figure></p>
+<p>当我们这么使用时候:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span> openFile:<span class="literal">nil</span>];</span><br></pre></td></tr></table></figure>
+<p>就会得到这么一个警告:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160928147504628663285.jpg?imageView2/0/format/jpg" alt="20160928147504628663285.jpg"></p>
+<p>几个注意点:</p>
+<ul>
+<li>nonull的参数从1开始</li>
+<li>OC的隐含参数<code>self</code>和<code>_cmd</code>不计入参数范围</li>
+</ul>
+<p><code>_Nonnull</code>和<code>_Nullable</code>在文档中也有说明:</p>
+<p><code>_Nonnull</code>修饰指针类型,表示这个指针类型不会把<code>null</code>当做有意义的参数,用法如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> fetch(<span class="keyword">int</span> * _Nonnull ptr);</span><br></pre></td></tr></table></figure>
+<p><code>_Nullable</code>修饰指针类型,表示这个指针类型可以是<code>null</code>的,用法如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> fetch_or_zero(<span class="keyword">int</span> * _Nullable ptr);</span><br></pre></td></tr></table></figure>
+<p><strong>注意:它们只能修饰指针类型的参数.</strong></p>
+<h2 id="RAC中的_@onExit">RAC中的 @onExit</h2><p>用过RAC的应该对这个关键字不陌生,它实现了,当一个变量作用域结束时,调用指定的block,查看这个宏的定义:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#define onExit \</span></span><br><span class="line">    rac_keywordify \</span><br><span class="line">    __<span class="keyword">strong</span> rac_cleanupBlock_t metamacro_concat(rac_exitBlock_, __LINE__) __attribute__((cleanup(rac_executeCleanupBlock), unused)) = ^</span><br></pre></td></tr></table></figure>
+<p>这个<code>rac_keywordfiy</code>的定义如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#if DEBUG</span></span><br><span class="line"><span class="preprocessor">#define rac_keywordify autoreleasepool &#123;&#125;</span></span><br><span class="line"><span class="preprocessor">#else</span></span><br><span class="line"><span class="preprocessor">#define rac_keywordify try &#123;&#125; @catch (...) &#123;&#125;</span></span><br><span class="line"><span class="preprocessor">#endif</span></span><br></pre></td></tr></table></figure>
+<p>这也是为什么<code>onExit</code>使用的时候,前面需要添加一个<code>@</code>,因为只有这样才能凑成完整的<code>@autoreleasepool</code>或者<code>@try {}</code>.<br>言归正传,我们关注这个部分:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((cleanup(rac_executeCleanupBlock), unused))</span><br></pre></td></tr></table></figure>
+<p>先说简单的,<code>unused</code>表示函数或者变量可能不用,防止编译器产生警告.<br>而这个<code>__attribute__((cleanup(...)))</code>用来修饰变量,当变量的作用域结束的时候,就调用参数.参数是一个函数,当然,也可以是<code>block</code>,RAC里面就是这么干的.用代码来说明:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> stringCleanUp(__<span class="keyword">strong</span> <span class="built_in">NSString</span> **string) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, *string);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> cleanupBlock(__<span class="keyword">strong</span> <span class="keyword">void</span>(^*block)(<span class="keyword">void</span>)) &#123;</span><br><span class="line">    (*block)();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line"></span><br><span class="line">    __<span class="keyword">strong</span> <span class="built_in">NSString</span> * myname  __attribute__((cleanup(stringCleanUp), unused)) = <span class="string">@"kenny"</span>;</span><br><span class="line">    </span><br><span class="line">    __<span class="keyword">strong</span> <span class="keyword">void</span>(^block)(<span class="keyword">void</span>) __attribute__((cleanup(cleanupBlock), unused)) = ^&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"gonna released"</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是<code>cleanup</code>的参数方法:它的参数是修饰的变量的地址.所以会用到了<code>*block</code>和<code>**string</code>,另外:</p>
+<p>对于指向objc对象的指针(id *)，如果不强制声明<code>__strong</code>默认是<code>__autoreleasing</code>，造成类型不匹配</p>
+<p>参考链接:</p>
+<p><a href="https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html" target="_blank" rel="external">Common-Variable-Attributes</a></p>
+<p><a href="http://blog.sunnyxx.com/2014/09/15/objc-attribute-cleanup/" target="_blank" rel="external">http://blog.sunnyxx.com/2014/09/15/objc-attribute-cleanup/</a></p>
+
       
     </div>
 
@@ -327,6 +381,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/研究随笔/" rel="tag">#研究随笔</a>
+          
+        </div>
       
 
       
@@ -365,8 +425,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/09/28/用-Attribute-做点好玩的事情-第一篇/"
-           data-title="用__Attribute__做点好玩的事情:第一篇" data-url="http://yoursite.com/2016/09/28/用-Attribute-做点好玩的事情-第一篇/">
+      <div class="ds-thread" data-thread-key="2016/09/28/研究随笔/用-Attribute-做点好玩的事情-第一篇/"
+           data-title="用__Attribute__做点好玩的事情:第一篇" data-url="http://yoursite.com/2016/09/28/研究随笔/用-Attribute-做点好玩的事情-第一篇/">
       </div>
     
   </div>
@@ -475,7 +535,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从___Nonull说起"><span class="nav-number">1.</span> <span class="nav-text">从 __Nonull说起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAC中的_@onExit"><span class="nav-number">2.</span> <span class="nav-text">RAC中的 @onExit</span></a></li></ol></div>
             
           </div>
         </section>
