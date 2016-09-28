@@ -106,8 +106,8 @@
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: 0,
-      author: '博主'
+      userId: 11483783,
+      author: 'Katsura_Ke'
     }
   };
 </script>
@@ -240,8 +240,8 @@
             
               
                 
-                <a class="post-title-link" href="/2014/11/06/重构、模式、架构/架构的概念和最基本的三层架构/" itemprop="url">
-                  架构的概念和最基本的三层架构
+                <a class="post-title-link" href="/2015/07/30/Swift/func的参数修饰符/" itemprop="url">
+                  func的参数修饰符
                 </a>
               
             
@@ -254,8 +254,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-11-06T17:43:41+08:00" content="2014-11-06">
-              2014-11-06
+            <time itemprop="dateCreated" datetime="2015-07-30T15:14:47+08:00" content="2015-07-30">
+              2015-07-30
             </time>
           </span>
 
@@ -268,8 +268,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/重构、模式、架构/" itemprop="url" rel="index">
-                    <span itemprop="name">重构、模式、架构</span>
+                  <a href="/categories/Swift进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift进阶</span>
                   </a>
                 </span>
 
@@ -281,6 +281,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/30/Swift/func的参数修饰符/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/30/Swift/func的参数修饰符/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -302,15 +309,369 @@
 
       
         
-          <h2 id="架构">架构</h2><p>Martin Fowler 给”架构”这个词做了两点归纳:</p>
-<ol>
-<li>最高层次的系统分解 </li>
-<li>系统中不易改变的决定</li>
-</ol>
-<p>它包括了一些开发者希望能够及早做出的决定,因为这些决定看起来是难以改变的. 如果发现一些决定并不像你想象的那么难以改变,那么他就不再与架构相关.这么下去,架构自然就浓缩成了一些重要的东西.</p>
-<p>在架构模式中,层次是最为重要的,Martin Fowler的&lt;&lt;企业应用架构模式&gt;&gt;全书都在阐释怎么将企业应用组织成不同的层次,还有这些层次如何协同工作.<br>架构和模式<br>
+          
+            <h3 id="参数默认是_let_类型的">参数默认是 let 类型的</h3><p>一般省略函数参数的修饰符 ,我们并没有指定它是什么类型</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(variable: Int) -&gt;Int&#123;</span><br><span class="line">    <span class="keyword">return</span> variable + <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>默认是  let ,比如下面的是错误代码 , 因为 let 不可变</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(variable: Int) -&gt;Int&#123;</span><br><span class="line">    <span class="keyword">return</span> ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>仔细看错误提示:<br><code>Mark parameter with &#39;var&#39; to make it mutable</code></p>
+<p>需要显式写 var </p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(var variable: Int) -&gt;Int&#123;</span><br><span class="line">    <span class="keyword">return</span> ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="inout">inout</h3><p>函数参数是值传递,就是说,不会改变外部参数的值,比如:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var number = <span class="number">7</span></span><br><span class="line">let newNumber =  incrementor(number)</span><br><span class="line">number</span><br></pre></td></tr></table></figure>
+<p>newNumber是 8 , number 还是 7 .</p>
+<p>如果想要修改,那么就应该加上 inout修饰参数</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(<span class="keyword">inout</span> variable: Int) -&gt;Int&#123;</span><br><span class="line">    <span class="keyword">return</span> ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在是引用传递, 那么 ,我们在传递的时候,应该传递的是引用(地址)而不是参数.用法如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newNumber =  incrementor(&amp;number)</span><br></pre></td></tr></table></figure>
+<p>一般的,这样的函数,是不用返回值的.因为已经直接修改了参数<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func incrementor(<span class="keyword">inout</span> variable: Int)&#123;</span><br><span class="line">   ++variable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>函数的参数修饰是有传递限制的,就是说对于跨越层级的调用,需要保证同一参数的修饰符是统一的,比如我们基于上一个方法进行拓展,实现 +N 的方法.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">func makeIncrementor(addNumber: Int) -&gt;((<span class="keyword">inout</span> Int)-&gt;())&#123;</span><br><span class="line">    func incrementor(<span class="keyword">inout</span> variable: Int)&#123;</span><br><span class="line">        variable += addNumber</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> incrementor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>外层 makeIncrementor 的返回里也需要在参数的类型前面明确指出修饰词,让它和内部的定义一致,否则编译不通过.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/07/20/环境、配置相关/自用Xcode插件整理/" itemprop="url">
+                  自用Xcode插件整理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-20T13:49:42+08:00" content="2015-07-20">
+              2015-07-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/20/环境、配置相关/自用Xcode插件整理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/20/环境、配置相关/自用Xcode插件整理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="RTImageAssets">RTImageAssets</h2><p>根据某张图片自动生成 1x 2x 3x的图片 ,还有关于App图标的功能.</p>
+<p><a href="https://github.com/rickytan/RTImageAssets" target="_blank" rel="external">项目地址</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/07/05/环境、配置相关/xvim相关/" itemprop="url">
+                  xvim相关
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-05T14:53:05+08:00" content="2015-07-05">
+              2015-07-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/环境、配置相关/" itemprop="url" rel="index">
+                    <span itemprop="name">环境、配置相关</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/05/环境、配置相关/xvim相关/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/05/环境、配置相关/xvim相关/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="配置常用功能">配置常用功能</h2><p>用户目录下的  .xvimrc 如果没有,新建一个即可<br>touch .xvimrc</p>
+<h3 id="设置按钮映射">设置按钮映射</h3><p><code>imap zz &lt;Esc&gt;</code> 映射 zz 为 Esc 的功能<br><code>set ic</code> set ignore case 搜索的时候,忽略大小写</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/06/05/环境、配置相关/Xocde插件失效解决-转载/" itemprop="url">
+                  Xocde插件失效解决[转载]
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-05T08:56:46+08:00" content="2015-06-05">
+              2015-06-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/开发环境相关/" itemprop="url" rel="index">
+                    <span itemprop="name">开发环境相关</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/05/环境、配置相关/Xocde插件失效解决-转载/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/05/环境、配置相关/Xocde插件失效解决-转载/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="context">context</h2><p>XCode的插件大大丰富了XCode的功能，而且有了Alcatraz，插件的管理也非常容易，像我这种Vim党完全离不开XVim。但是有个非常恼人的问题：一旦升级XCode，插件就失效！<br>之前XCode升级到6.2的时候遇到过插件失效的问题，Google之后把一段很长命令复制到Terminal后运行一下即可，当时一看解决了， 顿时觉得满足感爆棚，自己可以拯救地球了~就没有再深入，结果升级到6.3时又遇到了。“同样的招式对圣斗士是不能使用第二次的！”，同样的坑对有节操的 程序员是不能掉进去第二次的！因此这一次一定要搞清楚为什么会这样，以后再次遇到了如何解决。<br>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/11/06/重构、模式、架构/架构的概念和最基本的三层架构/#more" rel="contents">
+            <a class="btn" href="/2015/06/05/环境、配置相关/Xocde插件失效解决-转载/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -361,8 +722,8 @@
             
               
                 
-                <a class="post-title-link" href="/2014/04/14/iOS Tips/解决TableView重用机制带来的数据混乱问题/" itemprop="url">
-                  解决TableView重用机制带来的数据混乱问题
+                <a class="post-title-link" href="/2015/06/04/iOS Tips/Tip9 以类族模式隐藏实现细节/" itemprop="url">
+                  Tip9 以类族模式隐藏实现细节
                 </a>
               
             
@@ -375,8 +736,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-04-14T10:31:12+08:00" content="2014-04-14">
-              2014-04-14
+            <time itemprop="dateCreated" datetime="2015-06-04T14:10:47+08:00" content="2015-06-04">
+              2015-06-04
             </time>
           </span>
 
@@ -403,6 +764,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/04/iOS Tips/Tip9 以类族模式隐藏实现细节/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/04/iOS Tips/Tip9 以类族模式隐藏实现细节/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -423,13 +791,163 @@
 
       
         
-          <h3 id="问题描述">问题描述</h3><p>在开发一个项目中,本地用 TableView 进行服务器的数据展示.但是最后发现,数据每隔几条就重复.通过<br>charles 抓取服务器端返回的数据.没有任何问题.也就是说是本地的处理方式出了问题.  </p>
-<h3 id="问题定位">问题定位</h3><p>本地的 UI 逻辑比较简单.所以可以很轻松的断定是 UITableView 的重用机制导致了这个问题.以下是核心代码:  </p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/04/14/iOS Tips/解决TableView重用机制带来的数据混乱问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
+            <h2 id="context">context</h2><p>类族是一种很有用的模式,可以隐藏抽象基类背后的细节.OC的系统框架中,普遍使用这个模式.</p>
+<p>一个例子: UIButton<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIButton</span> * button = [<span class="built_in">UIButton</span> buttonWithType];</span><br></pre></td></tr></table></figure></p>
+<p>该方法返回的对象类型取决于传入的 <code>type</code> ,不同的<code>type</code>决定了这个 button 将来的一些属性的不同(或者说可供设置的属性的不同)</p>
+<p>要实现类似的功能,如果不用类族,那么还可能是一个类中的枚举.比如:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>) drawRect:(<span class="built_in">CGRect</span>)rect&#123;</span><br><span class="line">	<span class="keyword">if</span>(_type == typeA)&#123;</span><br><span class="line">		<span class="comment">//绘制一个 typeA 类型的 Button</span></span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> (_type == typeB)&#123;</span><br><span class="line">		<span class="comment">//绘制一个 typeB 类型的 Button</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个简单的类型,这么看来没有问题,但是如果类型太多,这样就显得非常笨拙了.</p>
+<p>稍微聪明一点的程序员,会把这样的代码重构.不同的实现放到子类中,父类中存放公共代码.但是这样也有一个缺点,就是开发者需要知道所有的子类.</p>
+<p>现在类族的好处就显而易见了.</p>
+<h2 id="一个自定义的类族">一个自定义的类族</h2><p>假设我们有一个 Person 类,Person 分为不同的职业.有老师,学生,医生.那么类族的实现应该是:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSUInteger</span>,PersonType) &#123;</span><br><span class="line">    PersonTypeDoctor,</span><br><span class="line">    PersonTypeTeacher,</span><br><span class="line">    PersonTypeStudent</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">+ (Person *) personWithType:(PersonType)type&#123;</span><br><span class="line">    <span class="keyword">switch</span>(type)&#123;</span><br><span class="line">        <span class="keyword">case</span> PersonTypeDoctor:</span><br><span class="line">            <span class="keyword">return</span> [[PersonDoctor alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> PersonTypeTeacher:</span><br><span class="line">            <span class="keyword">return</span> [[PersonTypeTeacher alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> PersonTypeStudent:</span><br><span class="line">            <span class="keyword">return</span> [[PersonTypeStudent alloc]init];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/06/03/Swift/Currying/" itemprop="url">
+                  Currying
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-03T17:06:06+08:00" content="2015-06-03">
+              2015-06-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Swift进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/03/Swift/Currying/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/03/Swift/Currying/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="context">context</h2><p>最近开始读喵神的书,书是好书,就是非常概略,不利于 Swift 基础薄弱的童鞋,所以,借着自己阅读的理解和查阅的资料,把每个知识点扩充一下.</p>
+<h2 id="Currying">Currying</h2><p><strong>Currying就是把一个多参数的方法，拆解为只有第一个参数的方法，这个方法的返回值不是一个具体的值，而是一个新的方法，这个方法的参数是原先的方法刨去第一个参数后的“剩下的方法的片段”，可以理解为，把一个多参数方法只作为某一种模板</strong></p>
+<h2 id="基本写法">基本写法</h2><p>基本结构:</p>
+<p>func <code>function name</code> (<code>parameters</code>)(<code>parameters</code>)-&gt;<code>return type</code>{<br>    <code>statements</code><br>}</p>
+<p>一个 Currying<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func add(originValue: Int)(inputValue: Int) -&gt; Int &#123;</span><br><span class="line">        <span class="keyword">return</span> originValue + inputVlue</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个写法就是 <code>currying</code> 函数的基本写法,<code>originValue</code> 是他的固定的基数(或者说基础参数). <code>inputValue</code>是以后调用的不同的输入值.基础参数构建了一个类似模板的东西,而输入值构建了我们想要的最终结果.</p>
+<p>使用:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let addWith10 = add(<span class="number">10</span>)</span><br><span class="line">let addWith100 = add(<span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+<p>以上,分别构建了一个以 10 和100 为基数的方法.它们都是新的方法,但是是我们最开始方法的一部分,如果要使用:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let result1 = addWith10(inputValue: <span class="number">1</span>)</span><br><span class="line">let result2 = addWith100(inputValue: <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>result1的结果是  11<br>result2的结果是  101</p>
+<p>以上就是 Currying 的一个小剖析,下面我们从一般函数入手,看看Currying到底是怎么演化的.</p>
+<h2 id="从函数开始">从函数开始</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int,b: Int) -&gt; Int &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">sum(<span class="number">1</span>, <span class="number">2</span>)   <span class="comment">//输出3</span></span><br></pre></td></tr></table></figure>
+<p>这是一个非常简单的函数,如果用 Currying 的写法,会变成:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int) -&gt; Int &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">var sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line">sumByFirst(b: <span class="number">4</span>) <span class="comment">//输出5</span></span><br></pre></td></tr></table></figure>
+<p>只需要传入第一个参数，返回的sumByFirst是一个函数，它包含剩余的其他参数，以及刚刚传入进去的那个1，接着以它自己作为方法传入第二个参数b就行了。<br>如果是三个参数就像这样： </p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int)(c: Int) -&gt; Int &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + c</span><br><span class="line">&#125;</span><br><span class="line">var sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line">var sumBySecond = sumByFirst(b: <span class="number">4</span>)</span><br><span class="line">sumBySecond(c: <span class="number">10</span>)  <span class="comment">//输出15</span></span><br></pre></td></tr></table></figure>
+<p>除了第一个参数以外，其他的参数都要显式地写上参数标签，并且要按参数排列的顺序调用。<br>一个括号中放两个参数也可以： </p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int, c: Int) -&gt; Int &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + c</span><br><span class="line">&#125;</span><br><span class="line">var sumByFirst = sum(<span class="number">1</span>)</span><br><span class="line">sumByFirst(b: <span class="number">4</span>,c: <span class="number">10</span>)  <span class="comment">//输出15</span></span><br></pre></td></tr></table></figure>
+<p>在某些情况下，你可能会用某个相同的参数重复调用某个方法，那么利用柯里化会使代码更易于维护：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func sum(a: Int)(b: Int) -&gt; Int &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line">var sumWithFive = sum(<span class="number">5</span>)</span><br><span class="line">sumWithFive(b: <span class="number">5</span>)</span><br><span class="line">sumWithFive(b: <span class="number">10</span>)</span><br><span class="line">sumWithFive(b: <span class="number">15</span>)</span><br></pre></td></tr></table></figure>
+<p>因为 Swift 的 Selector  只能通过字符串生成,这会面临一个很严重的问题,就是难以重构,并且无法在编译期间进行检查,这是非常危险的行为.但是利用方法的 Currying ,我们可以解决这个问题.</p>
+<p>参考网址:</p>
+<p><a href="http://blog.csdn.net/zhangao0086/article/details/38851759" target="_blank" rel="external">http://blog.csdn.net/zhangao0086/article/details/38851759</a></p>
+<p><a href="http://www.tuicool.com/articles/bMBjUfn" target="_blank" rel="external">http://www.tuicool.com/articles/bMBjUfn</a></p>
+
+          
         
       
     </div>
@@ -460,7 +978,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -572,7 +1090,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2013 - 
   <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -664,9 +1182,30 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"imguiqing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
   
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
 
 
 

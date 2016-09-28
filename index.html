@@ -106,8 +106,8 @@
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: 0,
-      author: '博主'
+      userId: 11483783,
+      author: 'Katsura_Ke'
     }
   };
 </script>
@@ -282,6 +282,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/27/研究随笔/OC中的对象下标索引/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/27/研究随笔/OC中的对象下标索引/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -404,6 +411,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/26/研究随笔/Protocolkit中宏的用法分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/26/研究随笔/Protocolkit中宏的用法分析/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -543,6 +557,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/25/研究随笔/attribute-constructor-用法探究/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/25/研究随笔/attribute-constructor-用法探究/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -659,6 +680,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/24/iOS Tips/GCD实现线程同步的三种方式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/24/iOS Tips/GCD实现线程同步的三种方式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -799,6 +827,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/23/Xcode&环境配置/Xcode-8-必要配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/23/Xcode&环境配置/Xcode-8-必要配置/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -926,6 +961,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -982,688 +1024,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/03/其他技术/Vim实践Tips-六/" itemprop="url">
-                  Vim实践Tips(六)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-03T17:05:25+08:00" content="2016-08-03">
-              2016-08-03
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/其他技术/" itemprop="url" rel="index">
-                    <span itemprop="name">其他技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Tip_27_遇见Vim的命令行">Tip 27 遇见Vim的命令行</h2><p>当我们按下<code>:</code>,Vim就切换到了底行模式.这个模式和shell的命令行有些类似.我们只要输入点命令,然后按下<code>&lt;CR&gt;</code>就能执行.使用<code>&lt;Esc&gt;</code>可以从底行模式切换到命令行模式.</p>
-<p>由于一些历史原因,我们执行的命令叫做 <code>Ex Commands</code> .当我们按下<code>/</code>之后,或者使用<code>&lt;C-r&gt;=</code>访问表达式寄存器的时候,也都会进入底行模式.这章中提到的一些小技巧也都适用于不同的情况,但是在这个章节,我们先讨论<code>Ex commands</code></p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">  命令                     效果</span><br><span class="line">:[range]delete[x]          删除特定的行(放到寄存器x中)</span><br><span class="line">:[range]yank[x]            复制特定的行(放到寄存器x中)</span><br><span class="line">:[line]put[x]              把寄存器x中的内容放到特定的行后面</span><br><span class="line">:[range]<span class="keyword">copy</span>&#123;address&#125;      复制特定的行到通过地址指定的行的下面</span><br><span class="line">:[range]move&#123;address&#125;      移动特定的行到通过地址指定的行的下面</span><br><span class="line">:[range]join               连接指定的行</span><br><span class="line">:[range]normal &#123;commands&#125;  对特定的范围执行命令模式下的命令</span><br><span class="line">:[range]substitute/&#123;pattern&#125;</span><br><span class="line">/&#123;string&#125;/&#123;flags&#125;</span><br><span class="line">                           在特定的行里面,把符合条件的匹配使用字符串替换掉.</span><br><span class="line">:[range]global/&#123;pattern&#125;/[cmd] 在所有匹配到pattern的行中,执行Ex命令</span><br></pre></td></tr></table></figure>
-<p>我们可以Ex命令读写文件(<code>:read</code>和<code>:write</code>),或者使用<code>:tabnew</code>命令创建Tab页,或者使用<code>:split</code>命令创建窗口.</p>
-<h2 id="Tip_28_在一到多个连续行中执行命令">Tip 28 在一到多个连续行中执行命令</h2><p>许多Ex命令都可以接受一个{range},我们可以通过行号,标记,或者是一个Pattern来提供范围.<br>假设有下面一段代码:<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">  &lt;body&gt;&lt;h1&gt;Practical Vim&lt;/h1&gt;&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>为了说明,我们使用<code>:print</code>命令,这个命令可以简单的通过这个命令将特定的行打印到Vim的底行之下.<br>这个命令没有什么特定的功能.但是可以用来做说明.当然,你也可以通过<code>:delete</code>,<code>:join</code>,<code>:substitude</code>,<code>:normal</code>这几个命令来测试.通过测试,你就可以知道怎么使用Ex命令了.</p>
-<h3 id="使用行号作为地址">使用行号作为地址</h3><p>如果我们输入一个仅由数字组成的Ex命令.Vim就会把这个命令当做地址,然后将光标移动到那一行.所以,我们就能通过下面的这个命令跳转到文件顶部:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">1</span></span><br><span class="line">:print</span><br></pre></td></tr></table></figure></p>
-<p>你也可以使用<code>:p</code>来打印,这个是<code>:print</code>的缩写形式.你也可以将两个命令合并到一起.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">3</span>p</span><br></pre></td></tr></table></figure></p>
-<p>这个命令移动到第3行,然后打印该行的内容.我们只是通过<code>:p</code>命令来说明问题,下面你可以试试这个命令.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">3</span>d</span><br></pre></td></tr></table></figure></p>
-<p>这个命令跳转到第3行,然后执行删除命令.它相当于在命令模式下执行:<code>3Gdd</code>.这个命令比命令行模式下的要快点.</p>
-<h3 id="通过地址指定一个范围">通过地址指定一个范围</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">2</span>,<span class="number">5</span>p</span><br></pre></td></tr></table></figure>
-<p>这个命令可以打印从第2行到第5行,并且最后光标停留在第5行.通常来说,范围可以表现为这个形式:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:&#123;start&#125;,&#123;end&#125;</span><br></pre></td></tr></table></figure></p>
-<p>注意,这个<code>start</code>和<code>end</code>都是地址,目前我们知道的地址是行号.在后面的我们将见到通过匹配和标记指定的地址.</p>
-<p><code>.</code>可以用来表达为当前行,所以,我们可以通过下面的命令打印从当前行到文件末尾<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">2</span></span><br><span class="line">:.,$p</span><br></pre></td></tr></table></figure></p>
-<p><code>%</code>这个符号也有特别的意义,它代表了当前文件中的所有行.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%p</span><br></pre></td></tr></table></figure></p>
-<p>它相当于<code>:1,$p</code>这个命令.</p>
-<h3 id="通过在可视化模式下的选择指定范围">通过在可视化模式下的选择指定范围</h3><p>首先通过命令<code>2G</code>跳转到第2行,然后<code>VG</code>可以选择从2行到文件结尾.此时,我们按下<code>:</code>.这时候,底行上出现了<code>:&#39;&lt;,&#39;&gt;</code>,看起来有点怪怪的,但是你可以简单的认为,它就代表了可视化模式的选区.然后,我们就能指定Ex命令.例如:<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:'&lt;,'&gt;p</span><br></pre></td></tr></table></figure></p>
-<h3 id="通过匹配指定范围">通过匹配指定范围</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/&lt;html&gt;/,/&lt;\/html&gt;/p</span><br></pre></td></tr></table></figure>
-<p>打印结果<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">  &lt;body&gt;&lt;h1&gt;Practical Vim&lt;/h1&gt;&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>看起来有点复杂,但是,它还是遵循了<code>:{start},{end}</code>的形式.这个<code>start</code>和刚刚的<code>/&lt;html&gt;/</code>相对应.而<code>end</code>和<code>/&lt;\/html&gt;/</code>相对应.</p>
-<p>在这个例子中,我们可以通过<code>:2,5</code>指定范围,这个方式更简洁.而通过标签形式的方式,可以直接匹配标签,不论中间有多少行.</p>
-<h3 id="通过偏移来指定地址">通过偏移来指定地址</h3><p>假设我们有需求:<code>打印所有的&lt;html&gt;标签内的内容,但是不打印包含&lt;html&gt;的行.</code><br>我们可以指定偏移:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/&lt;html&gt;/+<span class="number">1</span>,/&lt;\/html&gt;/-<span class="number">1</span>p</span><br></pre></td></tr></table></figure></p>
-<p>打印结果<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;head&gt;&lt;title&gt;Practical Vim&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;&lt;h1&gt;Practical Vim&lt;/h1&gt;&lt;/body&gt;</span><br></pre></td></tr></table></figure></p>
-<p>这个语法的一般形式:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;address&#125;+n</span><br></pre></td></tr></table></figure></p>
-<p>如果<code>n</code>省略,那么它默认是1.这个<code>address</code>可以是<code>行号</code>或者是<code>标记</code>或者是<code>模式匹配</code><br>那么我们可以实现,从当前行打印后面3行<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:.,.+<span class="number">3</span>p</span><br></pre></td></tr></table></figure></p>
-<h3 id="讨论">讨论</h3><p>指定范围的语法非常灵活.我们可以混合使用<code>行号</code> <code>标记</code> <code>模式匹配</code>,也可以通过应用偏移来修改范围.<br>下面的表格可以作为一个参考:<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">符号      代表的地址</span><br><span class="line">1         文件的第一行</span><br><span class="line">$         文件的最后一行</span><br><span class="line">.         光标所在行</span><br><span class="line">'m        标记m所在的行</span><br><span class="line">'&lt;        可视化选区的开始</span><br><span class="line">'&gt;        可视化选区的结尾</span><br><span class="line">%         文件所有行 ( :1,$ 的快捷方式)</span><br><span class="line">0         第0行</span><br></pre></td></tr></table></figure></p>
-<p>第0行并不真实存在,但是在特定的情况下,这个地址还是很有用的.例如,在<code>:copy {address}</code>和<code>:move {address}</code>中,我们想复制或者移动从文件开头的范围.在后面的两个Tip中,我们将看到具体的例子.</p>
-<p>当我们指定一个<code>[range]</code>,它总是表示一些连续的行.我们也能通过模式匹配应用Ex命令到一系列非连续的行,通过<code>:global</code>这个命令就能做到.</p>
-<h2 id="Tip_29_通过t和m复制和移动行">Tip 29 通过t和m复制和移动行</h2><p><code>:copy</code>命令(快捷方式是<code>:t</code>)让我们可以复制1到多行,而<code>:move</code>命令可以移动1到多行.</p>
-<p>为了说明,我们使用下面的代码:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Shopping list</span><br><span class="line">    Hardware Store</span><br><span class="line">        Buy new hammer</span><br><span class="line">    Beauty Parlor</span><br><span class="line">        Buy nail polish remover</span><br><span class="line">        Buy nails</span><br></pre></td></tr></table></figure></p>
-<h3 id="通过:t命令复制行">通过:t命令复制行</h3><p>我们的购物清单还不完整.假设我们也需要在<code>Hardware Store</code>买<code>nails</code>.为了修正这个清单,我们重用文件的最后一行.我们可以简单的使用<code>:copy</code>命令完成</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Shopping list</span><br><span class="line">    Hardware Store</span><br><span class="line">        Buy nails</span><br><span class="line">        Buy new hammer</span><br><span class="line">    Beauty Parlor</span><br><span class="line">        Buy nail polish remover</span><br><span class="line">        Buy nails</span><br></pre></td></tr></table></figure>
-<p>上述命令是通过<code>:160copy.</code>完成的(在我编写这个文档的时候,Buy nails 是第160行`)</p>
-<p>copy命令的一般格式是:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:[range]<span class="keyword">copy</span> &#123;address&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在我们的例子中,<code>[range]</code>是<code>160</code>行.<code>{address}</code>在这个例子中是<code>.</code>,代表了当前行.所以这个<code>:160copy.</code>的意义是:<code>复制160行,并且放置到当前行的下面</code>.</p>
-<p>我们也可以简写<code>:copy</code>成<code>:co</code>,也可以更简洁的写成<code>:t</code>.为了辅助记忆,你可以理解<code>t</code>为:<code>copy To</code>.下面的表格中列举了一些<code>:t</code>的用法:<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">命令             效果</span><br><span class="line">:6t.            复制第6行到当前行的下面</span><br><span class="line">:t6             复制当前行到第6行下面</span><br><span class="line">:t.             复制当前行(相当于命令模式下的yyp)</span><br><span class="line">:t$             复制当前行到文件结尾</span><br><span class="line">:'&lt;,'&gt;t0        复制可视化选区到文件开头</span><br></pre></td></tr></table></figure></p>
-<p>注意: <code>:t.</code>复制当前行.作为选择,我们也可以通过命令模式下的<code>yyp</code>实现同样的效果.一个值得注意的区别就是<code>yyp</code>使用寄存器,而<code>:t.</code>不这样.有时候,为了避免覆盖默认寄存器的内容,我使用<code>:t.</code>复制当前行.</p>
-<p>在这个例子中,我们使用<code>yyp</code>的变体复制我们想要的行,但是,它需要一些额外的移动.我们需要先跳转到到我们想复制的行<code>6G</code>,复制<code>yy</code>,回到我们开始的地方<code>&lt;C-o&gt;</code>,然后<code>p</code>粘贴.所以,在这种比较远的复制操作,<code>:t</code>这种命令更高效.</p>
-<h3 id="通过:m命令移动行">通过:m命令移动行</h3><p>语法是:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:[range]move &#123;address&#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们可以简写成<code>:m</code><br>如果已经选择好了分区.我们可以直接运行命令<code>:&#39;&lt;,&#39;&gt;m$</code>,作为选择,我们也可以使用<code>dGp</code>命令.这个命令可以分解为:<code>d</code>删除,同时复制到寄存器,<code>G</code>跳转到文件结尾,<code>p</code>粘贴内容.</p>
-<p>重复上个Ex命令: <code>@:</code></p>
-<h2 id="Tip_30_在一个范围上使用命令模式的命令">Tip 30 在一个范围上使用命令模式的命令</h2><p>在Tip 2 中,我们在每行的后面追加一个分号,当时我们使用的<code>.</code>命令做的重复.当时只有几行,那么做可以,但是如果有2000行需要追加呢? 显然,用<code>j.</code>的方式就不靠谱了.</p>
-<p>使用<code>normal</code>命令可以对一个范围使用命令模式下的命令.</p>
-<p>我们使用下面的代码来说明问题:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var foo = <span class="number">1</span></span><br><span class="line">var bar = <span class="string">'a'</span></span><br><span class="line">var baz = <span class="string">'z'</span></span><br><span class="line">var foobar = foo + bar</span><br><span class="line">var foobarbaz = foo + bar + baz</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li><code>A;&lt;Esc&gt;</code> 跳转到行结尾,输入<code>;</code>,退出插入模式</li>
-<li><code>jVG</code> 选中除了第一行的的后面所有行</li>
-<li><code>&#39;&lt;,&#39;&gt;normal.</code> normal执行命令模式,<code>.</code>重复</li>
-</ol>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var foo = <span class="number">1</span>;</span><br><span class="line">var bar = <span class="string">'a'</span>;</span><br><span class="line">var baz = <span class="string">'z'</span>;</span><br><span class="line">var foobar = foo + bar;</span><br><span class="line">var foobarbaz = foo + bar + baz;</span><br></pre></td></tr></table></figure>
-<p>使用了上面的步骤,不管是5行还是5000行,都能正常工作.<br>其实不仅仅是<code>.</code>这个命令,使用了<code>normal</code>这个标记之后,我们可以执行任何命令模式下命令.</p>
-<p>在这个例子中,我们可以通过一个命令完成操作.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%normal A;</span><br></pre></td></tr></table></figure></p>
-<p><code>%</code>这个命令表示整个文件范围的行.所以上面的命令的意思是:<code>在文件的每一行后面都追加一个;</code>,而且Vim会在完成之后,自动切换到命令模式</p>
-<p>既然可以通过<code>:normal</code>这个命令使用所有的命令模式命令.那么下面这个命令也很同意理解.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%normal i<span class="comment">//</span></span><br></pre></td></tr></table></figure>
-<p>在所有行的开始加入<code>//</code>.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/03/其他技术/Vim实践Tips-五/" itemprop="url">
-                  Vim实践Tips(五)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-03T17:03:58+08:00" content="2016-08-03">
-              2016-08-03
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/其他技术/" itemprop="url" rel="index">
-                    <span itemprop="name">其他技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Tip_20_体验可视化模式">Tip 20 体验可视化模式</h2><p>在可视化模式下,很多命令的作用和它们在命令模式时相同.我们仍旧可以使用<code>hjkl</code>来移动光标.使用<code>f{char}</code>跳转到当前行的某个字符.然后使用<code>;</code>重复跳转,或者使用<code>,</code>反向跳转.我们甚至可以使用查找命令(包括<code>n</code>和<code>N</code>)跳转到匹配的地方.在可视化模式下,移动光标,将改变选择的范围.</p>
-<p>虽然大多数命令一样,但是也有一些细微的差别,例如<code>c</code>这个命令.在命令模式下.我们使用<code>c{motion}</code>删除内容并进入插入模式.而在可视化模式下,在选中了部分内容时,只需要一个<code>c</code>就能进入插入模式,删除的内容是高亮部分的内容.这时候,这个<code>c</code>的作用更直观了.</p>
-<p>下面看一个例子:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">March is a month</span><br></pre></td></tr></table></figure>
-<p>如果要把<code>March</code>改为<code>April</code>,假设我们已经把光标放在了<code>March</code>这个单词上的任意位置了.那么可以通过<code>viw</code>选择整个单词.这时候,我们不能直接输入<code>April</code>,因为<code>A</code>会触发Vim命令.然后只会输入剩下的<code>pril</code>.所以,我们使用<code>c</code>这个命令,删除当前选择并进入插入模式.然后输入<code>April</code>.</p>
-<h3 id="遇见选择模式">遇见选择模式</h3><p>在一般的编辑器中,当我们选中想要删除的文字时候,只要输入点内容,就能覆盖原来的文本,但是可视化模式没有遵循这个惯例.而选择模式是这样的.</p>
-<p>我们可以通过<code>&lt;C-g&gt;</code>切换可视化模式和选择模式.唯一可以看到的区别就是在屏幕的底部,可视化模式是<code>VISUAL</code>而选择模式是<code>SELECT</code>.当在选择模式下输入任意可打印的字符时候,将替换,并自动进入插入模式.当然,这个功能也能通过在可视化模式下,按<code>c</code>来实现.Vim做这个东西的作用,应该为了更符合用户的习惯.</p>
-<h2 id="Tip21_定义可视化选区">Tip21 定义可视化选区</h2><p><strong>可视化模式有三个不同的子模式,他们用来处理不同的可视化模式.</strong></p>
-<p>在字符可视化模式(character-wise Visual mode),我们可以以字符为单位选取内容.它可以是一个字符,也可以是多行.它适合于对独立的单词或者段落.<br>在行可视化模式(line-wise Visual mode),处理的单位是行<br>在块可视化模式(block-wise Visual mode),我们可以选择柱形区域</p>
-<p>这里只是粗略一说,后面有更详细的内容.</p>
-<h3 id="进入可视化模式">进入可视化模式</h3><p>使用<code>v</code>键,可以进入可视化模式.按<code>v</code>键,可以从命令模式,进入字符可视化模式.通过<code>V</code>(Shift-v),可以进入行可视化模式.通过<code>&lt;C-v&gt;</code>可以进入块可视化模式.<br>下面是简单的一个列举:</p>
-<p>命令        作用<br>v           进入字符可视化模式<br>V           进入行可视化模式</p>
-<p><c-v>       进入块可视化模式<br>gv          重新选择最后一次的选区</c-v></p>
-<p><code>gv</code>是个很好用的快捷命令.无论是什么可视化模式,<code>gv</code>都能应对自如.唯一可能有点问题的是:你已经删除了最后一次选区的内容.</p>
-<h3 id="在可视化模式中切换">在可视化模式中切换</h3><p>下面是命令参考表<br>命令          作用</p>
-<p><esc>         切换到命令模式</esc></p>
-<p><c-[>         切换到命令模式<br>v             在命令模式和字符可视化模式切换<br>V             在命令模式和行可视化模式切换</c-[></p>
-<p><c-v>         在命令模式和字符块视化模式切换<br>o             把光标在选区的两端切换.</c-v></p>
-<h3 id="切换选区的可变端">切换选区的可变端</h3><p>默认选择选区的时候,一端是固定的,另一端是可以通过各种移动命令进行移动的.可以通过<code>o</code>这个命令切换移动端.</p>
-<p>补充小知识:</p>
-<p><code>e</code>移动到下个单词的结尾.</p>
-<h2 id="Tip_22_重复行可视化模式命令">Tip 22 重复行可视化模式命令</h2><p>当我们在可视化模式下执行一个命令之后,我们就会进入命令模式.在可视化模式下选中的文字将取消选中.那么如果我们想对刚刚选中的文字重新执行一个可视化模式的命令该怎么办?</p>
-<p>假设我们有下面一段python:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def fib(n):</span><br><span class="line">  a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> a &lt; n:</span><br><span class="line">print a,</span><br><span class="line">a, b = b, a+b</span><br><span class="line">fib(<span class="number">42</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="准备工作">准备工作</h3><p>为了让<code>&lt;</code>和<code>&gt;</code>这两个命令正常工作,我们应该做下面的设置:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:set shiftwidth=<span class="number">4</span> softtabstop=<span class="number">4</span> expandtab</span><br></pre></td></tr></table></figure></p>
-<h3 id="缩进一次,然后重复">缩进一次,然后重复</h3><p>对于刚刚的python代码,缩进有问题,我们应该在可视化模式下选择.然后使用<code>&gt;</code>这个命令缩进.但是缩进要超过两次.而执行一次刚刚的命令之后,我们就会进入命令模式.</p>
-<p>有个解决方案是通过<code>gv</code>命令,然后再次执行缩进命令.但是如果你对Vim已经有了感觉,那你就应该知道这个方式是不好的.</p>
-<p>当我们需要重复,<code>.</code>这个命令是一个非常好的选择.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def fib(n):</span><br><span class="line">  a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> a &lt; n:</span><br><span class="line">    print a,</span><br><span class="line">    a, b = b, a+b</span><br><span class="line">fib(<span class="number">42</span>)</span><br></pre></td></tr></table></figure>
-<p>上面是通过 <code>Vj</code>选中两行,然后<code>&gt;.</code>完成的</p>
-<p>如果你喜欢计算,那么你可能更喜欢<code>2&gt;</code>这个命令.但是我更喜欢使用<code>.</code>这个命令.因为这个命令可以给我可视化的反馈.我也能享受到自己键盘的反馈的乐趣.之前我们也讨论过计数和重复的取舍.你可以重新看看.</p>
-<h2 id="Tip_23_在可能的时候,在可视化模式下,使用操作符">Tip 23 在可能的时候,在可视化模式下,使用操作符</h2><p>可视化模式更直观,但是它有个缺点:<code>.</code>这个命令不能完全发挥作用.我们可以通过命令模式下的命令来搞定这个缺点.</p>
-<p>假设我们有下面一段文字.我们想把下面链接设置为大写<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href="#"&gt;one&lt;/a&gt;</span><br><span class="line">&lt;a href="#"&gt;two&lt;/a&gt;</span><br><span class="line">&lt;a href="#"&gt;three&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
-<p>我们可以通过<code>vit</code>命令选中标签内部的文字,它理解为:可视化选中标签之间的文字.<code>it</code>命令是一种特别的<code>{motion}</code>命令.我们将在<code>Tip 51</code>进行更深入讨论.</p>
-<h3 id="使用可视化操作符号">使用可视化操作符号</h3><p>在可视化模式下,我们选择一段文字,然后对它进行操作.在这个案例下,我们可以使用<code>U</code>命令来让选中的文字变成大写.<br>完成了第一行之后,如果想对第二行,第三行进行操作.应该怎么办呢?<code>.</code>命令可以吗?</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href="#"&gt;ONE&lt;/a&gt;   "vit</span><br><span class="line">&lt;a href="#"&gt;TWO&lt;/a&gt;   "j.</span><br><span class="line">&lt;a href="#"&gt;THRee&lt;/a&gt; "j.</span><br></pre></td></tr></table></figure>
-<p>可以看到,<code>.</code>命令仅仅重复了三个字符.造成了最后一行的样子.这并不是我们想要的结果.</p>
-<h3 id="使用命令模式下的操作符">使用命令模式下的操作符</h3><p><code>U</code>这个可视化模式的操作符对应了一个命令模式下的版本:<code>gU{motion}</code>,但是在语义上有很大不同.<br>在可视化模式命令<code>U</code>的案例中,我们做了两件事:</p>
-<ol>
-<li><code>vit</code>选中文本</li>
-<li><code>U</code>操作文本变成大写<br>在命令模式的案例中,我们弄了一个命令,这个命令由:<code>gU</code>操作和<code>it</code>作为<code>{motion}</code>.</li>
-</ol>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href="#"&gt;ONE&lt;/a&gt; "gUit</span><br><span class="line">&lt;a href="#"&gt;TWO&lt;/a&gt; "j.</span><br><span class="line">&lt;a href="#"&gt;THREE&lt;/a&gt; "j.</span><br></pre></td></tr></table></figure>
-<p>确实,可视化模式有局限性.但是它也很有用处.因为并不是所有编辑工作都需要重复.所以可视化模式是非常适合单次的编辑.</p>
-<h2 id="Tip_24_在块可视化模式下编辑表格化数据">Tip 24 在块可视化模式下编辑表格化数据</h2><p>所有编辑器都可以以行为单位编辑数据.在Vim中,块可视化模式,提供给我们以列为单位编辑数据.</p>
-<p>假设有下面的文本</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Chapter       Page</span><br><span class="line">Normal mode     <span class="number">15</span></span><br><span class="line">Insert mode     <span class="number">31</span></span><br><span class="line">Visual mode     <span class="number">44</span></span><br></pre></td></tr></table></figure>
-<p>我们要加点东西,让上面的文字看起来更像表格.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Chapter     | Page</span><br><span class="line">==================</span><br><span class="line">Normal mode |   <span class="number">15</span></span><br><span class="line">Insert mode |   <span class="number">31</span></span><br><span class="line">Visual mode |   <span class="number">44</span></span><br></pre></td></tr></table></figure>
-<p>上面的实现步骤是:</p>
-<ol>
-<li><code>&lt;C-v&gt;3j</code>进入块可视化模式,并向下选择3行</li>
-<li><code>r|</code>将选中范围替换为 <code>|</code></li>
-<li>同理,复制一行,然后替换为<code>=</code></li>
-</ol>
-<h2 id="Tip_25_改变多列文本">Tip 25 改变多列文本</h2><p>假设有下面一段css代码<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">li.one   a&#123; background-image: url('/images/sprite.png'); &#125;</span><br><span class="line">li.two   a&#123; background-image: url('/images/sprite.png'); &#125;</span><br><span class="line">li.three a&#123; background-image: url('/images/sprite.png'); &#125;</span><br></pre></td></tr></table></figure></p>
-<p>假设<code>sprite.png</code>  已经从<code>images</code>文件夹移动到了<code>components</code>文件夹.我们需要修改三行来改变目录.这时候,我们就能使用块可视化模式了.</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">li.one   a&#123; background-image: url('/components/sprite.png'); &#125;</span><br><span class="line">li.two   a&#123; background-image: url('/components/sprite.png'); &#125;</span><br><span class="line">li.three a&#123; background-image: url('/components/sprite.png'); &#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>光标定位到images这个单词的开头.</li>
-<li><code>&lt;C-v&gt;jje</code>选中三列的images</li>
-<li><code>c</code>删除单词,并进入插入模式, 输入<code>components</code>,然后<code>&lt;Esc&gt;</code>.</li>
-</ol>
-<p>唯一一个可能造成疑惑的是,当第三步输入单词之后,只改变了第一行.但是,当按了<code>&lt;Esc&gt;</code>之后,三行都改变了.<br>确实Vim的这个功能有点不太人性化.但是,最终结果没有什么区别.习惯就好了</p>
-<h2 id="Tip_26_在参差不齐的块选区后面追加内容">Tip 26 在参差不齐的块选区后面追加内容</h2><p>假设有下面一段js代码<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var foo = <span class="number">1</span></span><br><span class="line">var bar = <span class="string">'a'</span></span><br><span class="line">var foobar = foo + bar</span><br></pre></td></tr></table></figure></p>
-<p>这三行不是一样长的,假设我们想为每一行的后面添加一个<code>,</code> 在<code>Tip2</code>我们通过<code>.</code>完成了这个操作.其实通过块可视化区域也能完成这个任务.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var foo = <span class="number">1</span>;</span><br><span class="line">var bar = <span class="string">'a'</span>;</span><br><span class="line">var foobar = foo + bar;</span><br></pre></td></tr></table></figure>
-<ol>
-<li><code>&lt;C-v&gt;jj$</code>选中全部</li>
-<li><code>A;</code>移动到结尾,进入插入模式,并输入</li>
-<li><code>&lt;Esc&gt;</code>完成</li>
-</ol>
-<p>细心可以看出,这个操作和Tip 25差不多意思.<br>主要是通过<code>$</code>改变了矩形的结尾.</p>
-<h3 id="Vim关于_i_和_a_的惯例">Vim关于 i 和 a 的惯例</h3><p>Vim有很多从命令模式切换到插入模式的按键.<code>i</code>和<code>a</code>都能完成这个操作.<code>i</code>在光标前进入插入模式,<code>a</code>在光标后进入插入模式.<code>I</code>和<code>A</code>功能类似,是在行开头和行结尾进入插入模式.</p>
-<p>在块可视化模式中,<code>A</code>和<code>I</code>的功能和在命令模式下类似.那么<code>a</code>和<code>i</code>呢?</p>
-<p>在可视化模式和操作符悬停模式下,<code>a</code>和<code>i</code>有不同的意义.这个在Tip 51会有更深入的讨论.现在记得,使用<code>A</code>和<code>I</code>替代</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/22/其他技术/Vim实践Tips-四/" itemprop="url">
-                  Vim实践Tips(四)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-22T16:20:01+08:00" content="2016-07-22">
-              2016-07-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/其他技术/" itemprop="url" rel="index">
-                    <span itemprop="name">其他技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Tip_13_在插入模式下做修改">Tip 13 在插入模式下做修改</h2><p>如果我们在插入模式下输入错误,没有必要先切换模式然后做修改.除了退格键,我们还有一些插入模式下的命令可以用.</p>
-<p>凭借触感打字不仅仅是不看键盘.而是凭借感觉输入.当输入错误的时候,甚至他们不用看到屏幕上的错误就知道自己输入错误了.因为他们指头已经知道自己刚刚按错地方了.</p>
-<p>当输入的错误在单词结尾的时候,退格键是有效的纠正方式,但是当错误出现在单词开头的时候呢?</p>
-<p>出色的打字员推荐这样一个方式: 当出现错误的时候,删除整个单词,然后重新输入.如果你一分钟能输入<code>60</code>个单词,那么重新输入总会比你单个删除字符更快.当然,如果你打字慢,就可以当成一个练习打字速度的练习.多输入正确的单词,有利于你养成输入的感觉.</p>
-<p>当然,你也可以切换到命令模式.把光标跳转到单词开头,修改错误,然后<code>A</code>跳转到句子结尾.这个行为肯定是呀看大于1秒了.重要的是,这个不会提高你对输入的感觉</p>
-<p>在插入模式下,就像你预料到的,它删除光标前的字符.下面的快捷键也是挺好的:</p>
-<ul>
-<li><code>&lt;C-h&gt;</code> 删除前面的一个字符,等于退格键</li>
-<li><code>&lt;C-w&gt;</code> 删除前面的一个单词</li>
-<li><code>&lt;C-u&gt;</code> 删除到本行开始</li>
-</ul>
-<p>上面的命令不是插入模式特有,甚至不是Vim特有的,你也可以在Bash Shell中使用它们.</p>
-<h2 id="Tip14_回到命令模式">Tip14 回到命令模式</h2><p>插入模式是特定用于文本输入的模式.命令模式才是才是我们花费时间最多的模式,它的名字是<code>normal mode</code>,这个名字说明了一切.所以,会在这两者之前切换就很重要了.</p>
-<p>经典的返回命令模式的方式是按<code>&lt;Esc&gt;</code>键,但是对于大多数键盘,这个键有点远.所以,作为备选方案,你可以按<code>Ctrl+[</code>,这个组合件和<code>&lt;Esc&gt;</code>等价.</p>
-<ul>
-<li><code>&lt;Esc&gt;</code> 切换到命令模式</li>
-<li><code>&lt;C-[&gt;</code> 切换到命令模</li>
-<li><code>&lt;C-o&gt;</code> 在插入和命令模式下切换</li>
-</ul>
-<h3 id="遇见插入命令模式">遇见插入命令模式</h3><p>插入命令模式是命令模式的一个特别版本.我们可以出发一个单独命令,之后我们就会进入插入模式.在插入模式中,我们可以通过<code>&lt;C-o&gt;</code>切换到命令模式.</p>
-<p>我们会通过<code>zz</code>命令将当前行滚动到屏幕中间.而我经常做的是在插入模式下<code>&lt;C-o&gt;zz</code>,这样会把当前行滚动到屏幕中间,并且可以继续输入.</p>
-<h2 id="Tip_15_在不离开插入模式下前提下,从寄存器粘贴">Tip 15 在不离开插入模式下前提下,从寄存器粘贴</h2><p>Vim的复制粘贴命令多数情况下是在命令模式下执行的.但是,有时候我们想在插入模式进行.</p>
-<h3 id="映射CapsLock键-">映射<code>CapsLock</code>键.</h3><p>对于Vim的使用者来说,<code>CapsLock</code>键简直就是个威胁.例如本来<code>j</code>是移动.可是当<code>CapsLock</code>之后,它成为了<code>J</code>是联合两行.很多Vimer都把<code>CapsLock</code>映射成了其他键位.例如<code>&lt;Esc&gt;</code>或者<code>Ctrl</code>.我推荐你对它进行映射.</p>
-<p>下面一段文字<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Practical Vim, by Drew Neil</span><br><span class="line">Read Drew Neil<span class="string">'s</span></span><br></pre></td></tr></table></figure></p>
-<p>我们想通过插入本书书名的方式完成第二行.本书的名字已经在第一行了.</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Practical Vim, by Drew Neil  " yt,</span><br><span class="line">Read Drew Neil's Practical Vim            "按键顺序jA &lt;C-r&gt;0.&lt;ESc&gt;</span><br></pre></td></tr></table></figure>
-<p><code>yt,</code>复制<code>,</code>之前的单词到寄存器中<br><code>&lt;C-r&gt;0</code> 粘贴寄存器中的内容到当前光标我再的位置.</p>
-<p>通用的格式是<code>&lt;C-r&gt;{register}</code>这个<code>register</code>是我们想要插入的寄存器.</p>
-<p><code>&lt;C-r&gt;{register}</code> 这个命令对于少数的字符来说,是比较好的.但是如果粘贴大量的文本,你就会感觉到了延迟.因为这个命令从寄存器中粘贴,相当于一个一个的字符进行输入.如果<code>textwidth</code>或者<code>autoindent</code>选项开启了.那么你可能会得到一些不想要的断行或者额外的缩进.</p>
-<p><code>&lt;C-r&gt;&lt;C-p&gt;{register}</code>命令更智能一些.它真实的插入文字,并且能够修正缩进问题.所以,如果要从寄存器中粘贴多行文本.我推荐你使用这个命令.</p>
-<h2 id="Tip16_在输入处进行计算">Tip16 在输入处进行计算</h2><p>表达式寄存器允许我们执行计算并插入到我们的文档中.</p>
-<p>多数Vim的寄存器既可以包含字符组成的字符串,也可以包含一整行文字.我们通过删除或者复制命令设置寄存器的内容.</p>
-<p>表达式寄存器有所不同.它可以评估一段Vim脚本代码,然后返回结果.所以,我们可以把它当做一个计算器.它的结果可以和其它的文本寄存器一样使用.</p>
-<p>在插入模式下输入<code>&lt;C-r&gt;=</code>,这样,在底行下会有提示.然后就能直接输入计算表达式了.当计算完成.<code>&lt;CR&gt;</code>一下,表达式结果就能直接插入到文档中了.</p>
-<p>假设有下面的文本</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">6</span> chairs, each costing $<span class="number">35</span>, totals $</span><br></pre></td></tr></table></figure>
-<p>使用寄存器:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">6</span> chairs, each costing $<span class="number">35</span>, totals $<span class="number">210</span>   <span class="string">"A&lt;C-r&gt;6*35&lt;CR&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="Tip17_通过字符编码插入字符">Tip17 通过字符编码插入字符</h2><p><strong>Vim可以通过字符编码插入任意字符,通过这个特性,我们可以输入键盘上找不到的字符</strong></p>
-<p>在插入模式下,输入<code>&lt;C-v&gt;{code}</code>即可,code是字符的编码.Vim要求code是三位数.所以,如果我们要输入<code>A</code>这个字符,它的字符编码是<code>65</code>,那么我们需要输入<code>&lt;C-v&gt;065</code>.</p>
-<p>但是如果我们想要插入大于三位的字符编码怎么办呢?我们可以告诉Vim,要使用十六进制输入<code>&lt;C-v&gt;u{1234}</code>.例如,我们要插入一个倒着的问号.(字符码是<code>00bf</code>) 那么我们输入<code>&lt;C-v&gt;u00bf</code></p>
-<p>使用<code>ga</code>命令可以查看文档中字符的编码.命令模式下将光标停留在想要查看的字符上,然后<code>ga</code>,文档的底部将会显示它的信息,包括字符编码,十六进制和十进制表示.</p>
-<p>另外一种场景,如果<code>&lt;C-v</code>命令后面跟了非数字键,那么它插入那个键的文字表示,例如我按下<code>&lt;C-v&gt;退格键</code>,那么输入的将是<code>&lt;BS&gt;</code></p>
-<h2 id="Tip18_通过连字插入字符-">Tip18 通过连字插入字符.</h2><p><strong>通过字符编码插入字符虽好,但是字符编码难记.通过连字插入会简单一些</strong></p>
-<p>在插入模式下,输入<code>&lt;C-k&gt;{char1}{char2}</code>即可</p>
-<p>连字通常是有一定的意义的.例如常见的<code>1/2</code>,<code>1/3</code>,我们可以输入<code>&lt;C-k&gt;12</code>,<code>&lt;C-k&gt;13</code>得到.倒置的问号可以通过<code>&lt;C-k&gt;?I</code>得到.</p>
-<p>更多的连字可以通过<code>:digraphs</code>查看.</p>
-<h2 id="使用替换模式覆盖文字">使用替换模式覆盖文字</h2><p>有下面一段文字</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Typing in Insert mode extends the line. But in Replace mode</span><br><span class="line">the line length doesn't change.</span><br></pre></td></tr></table></figure>
-<p>我们想把两句话合并成一句话.意味着:</p>
-<ol>
-<li>将<code>.</code>换成<code>,</code></li>
-<li>把<code>B</code>改成<code>b</code><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Typing in Insert mode extends the line, but in Replace mode</span><br><span class="line">the line length doesn't change.</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>我们使用<code>f.</code>定位光标到<code>.</code>的位置.然后<code>R</code>进入替换模式.然后输入<code>, b</code>替换原来的字符.完成替换之后,我们可以按<code>&lt;Esc&gt;</code>返回命令模式.</p>
-<h3 id="使用可视化替换模式">使用可视化替换模式</h3><p>一些字符会给替换模式带来麻烦,例如<code>&lt;Tab&gt;</code>产生的缩进.如果要替换,需要输入很多字符(根据你对tab的设置),这时候,使用<code>gR</code>命令是更好的选择.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/21/其他技术/Vim实践Tips-三/" itemprop="url">
-                  Vim实践Tips(三)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-21T17:43:06+08:00" content="2016-07-21">
-              2016-07-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/其他技术/" itemprop="url" rel="index">
-                    <span itemprop="name">其他技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Tip_10_使用计数做一些简单的计算">Tip 10 使用计数做一些简单的计算</h2><p>大多数命令模式下的指令能够和计数搭配使用.我们可以利用这个特性做一些简单的运算.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span> character is <span class="number">5</span></span><br></pre></td></tr></table></figure>
-<p><code>&lt;C-a&gt;</code> 增加计数 (Ctrl+a)<br><code>&lt;C-x&gt;</code> 减少计数 (Ctrl+x)<br>他们可以可数字搭配使用,例如:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span> character is <span class="number">16</span> <span class="string">" 10&lt;C-a&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这个<c-a> 如果是在数字字符上,那么就会给他增加数字.如果没有在数字上,那么它会在这行中查找数字,并且跳转到数字上.如果没有那么就不会做任何操作.</c-a></p>
-<p>例如下面有一段 css 代码:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">.blog</span>, <span class="variable">.news</span> &#123; background-image: url(/sprite<span class="variable">.png</span>); &#125;</span><br><span class="line"><span class="variable">.blog</span> &#123; background-position: <span class="number">0</span>px <span class="number">0</span>px &#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们要复制最后一行,然后做一些改变:</p>
-<ol>
-<li>把单词 <code>blog</code> 换成 <code>news</code></li>
-<li>把 <code>0px</code> 换成 <code>-180px</code></li>
-</ol>
-<p>实现1,可以使用 <code>yyp</code> 然后使用 <code>cw</code> 修改单词.<br>那么2怎么实现呢?</p>
-<p>第一种方式是: <code>f0</code>, 然后 <code>i</code> 进入插入模式,输入<code>-18</code>,然后<code>&lt;Esc&gt;</code><br>但是我们的光标不在数字上,那么需要额外的跳转.而 <code>&lt;C-x&gt;</code> 可以自动给我们找到数字.<br>所以,直接 <code>180&lt;C-x&gt;</code> 更快</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">.blog</span> &#123; background-position: -<span class="number">180</span>px <span class="number">0</span>px &#125; <span class="string">"180&lt;C-x&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="Tip_11_如果可以重复,就别计数">Tip 11 如果可以重复,就别计数</h2><p>我们可以通过提供个数字来减少完成特定任务所需要的按键.但是这不代表我们就该这么做.还是应该思考下到底该重复还是该计数.</p>
-<p>假设我们有下面的文字:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Delete more than one word</span><br></pre></td></tr></table></figure>
-<p><code>d2w</code>  和 <code>2dw</code> 都能完成任务.</p>
-<ul>
-<li><code>d2w</code> 是<code>d</code>, 然后加上<code>2w</code> 的 <code>motion</code> ,理解为: 删除两个单词</li>
-<li><code>2dw</code>是2次执行 <code>dw</code> ,理解为: 删除一个单词,执行两次</li>
-</ul>
-<p>现在让我们想想一个替换方案: <code>dw.</code> 删除一个单词,然后重复之.</p>
-<h3 id="讨论几种方式-">讨论几种方式.</h3><p>其实<code>d2w</code>和<code>2dw</code> 没有区别,如果执行之后,按 <code>u</code> ,都会恢复两个单词.如果按<code>dot</code>,将重复删除后两个单词.<br>如果我们要删除下一个单词(总共三个)那我们就需要先<code>u</code>(恢复两个单词),然后<code>d3w</code>.这还是比较麻烦的.<br><code>dw.</code> 按<code>u</code>,会恢复一个单词,如果删除下个单词,只需要重新按<code>dot</code>即可.<br>在这种情况下,重复的优势更明显.</p>
-<p>如果我要删除6个单词呢? 我可以 <code>d6w</code> 或者<code>6dw</code>.或者 <code>dw.....</code> ,当然,前者有更少的按键.但是有个问题在这:我们需要数一下单词的数量,而且如果错误了,<code>u</code>会恢复<code>6</code>个单词.而<code>dw.....</code>如果出现错误,<code>u</code>一下,只是恢复一个单词.我们可以更好的控制这个过程.</p>
-<p>记住我们的”咒语”: 操作,重复,撤销. </p>
-<h3 id="必要时使用计数">必要时使用计数</h3><p>下面的文字,如果我要把 <code>a couple of</code> 换成 <code>some more.</code><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">I have a couple of questions.</span><br><span class="line">I have some more questions. <span class="string">"按键依次是 c3wsome more</span></span><br></pre></td></tr></table></figure></p>
-<p>在这个场景下,使用dot命令没有什么意义.即使重复了,最后还要按<code>i</code>进入插入模式.这样太笨拙了,所以我还是愿意使用计数.</p>
-<p>计数还有个好处,就是能够有个条理清楚的恢复操作.比如我<code>d3w</code>,<code>u</code>就会恢复3个单词</p>
-<h1 id="Tip_12_征服结合命令">Tip 12 征服结合命令</h1><p>Vim的强大源于操作符和移动命令的结合.</p>
-<h3 id="操作符+移动=操作">操作符+移动=操作</h3><p><code>d{motion}</code> 可以使用<code>dl</code>删除一个字符,<code>daw</code>删除整个单词,<code>dap</code>删除整段.<br><code>c{motion}</code> 和 <code>y{motion}</code>和上面类似</p>
-<p>操作符和移动的结合,可以认为是一种语法.第一条规则很简单:一个动作由一个操作符和一个移动组成.学习新的操作符就像学习Vim的词汇表.只要我们遵循简单的语法,随着词汇量增加,我们就能表达更多想法.</p>
-<p>假设我们已经知道了通过 daw 删除一整个单词.然后,我们学到了 <code>gU</code>,这也是一个操作符.所以,我们就能通过gUaw把当前单词转换成大写.</p>
-<p>再假设我们知道了<code>ap</code>(一整段motion},然后我们就能合成新的操作:<br><code>dap</code> 删除一整段 <code>gUap</code> 让一整段大写.</p>
-<p><code>Vim</code>  的语法还有个规则:如果一个操作符被重复输入,那么<code>motion</code>就等于当前行.例如:<br>-<code>dd</code>   删除当前行<br>-<code>&gt;&gt;</code>  缩进当前行<br>-<code>gUgU</code> 或者 <code>gUU</code> 大写当前行 g是后面操作符的一个前缀</p>
-<p>Vim的操作符命令</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">操作符        效果</span><br><span class="line">c             Change 改变</span><br><span class="line">d             Delete 删除</span><br><span class="line">y             Yank into <span class="keyword">register</span> 复制到寄存器</span><br><span class="line">g~            Swap <span class="keyword">case</span> 切换大小写</span><br><span class="line">gu            make lowercase 小写</span><br><span class="line">gU            make upppercase 大写</span><br><span class="line">&gt;             shift right 右移</span><br><span class="line">&lt;             shift left 左移</span><br><span class="line">=             autoindent 自动缩进</span><br><span class="line">!             Filter &#123;motion&#125; lines through an external program</span><br></pre></td></tr></table></figure>
-<h3 id="拓展Vim整合的力量">拓展Vim整合的力量</h3><p>Vim标准的操作符相对来说比较少,但是我们可以定义新的.</p>
-<h3 id="使用现有的操作符自定义移动">使用现有的操作符自定义移动</h3><p>Vim标准的移动命令已经很全面,但是我们还可以增加新的移动和文本对象.</p>
-<h3 id="待决模式">待决模式</h3><p>除了明显的插入,命令和底行模式.Vim还有些容易被忽略的模式.待决模式( Operator-Pending mode )就是其中的一个.我们每天都大量使用它,但是每次都持续一小段时间.例如<code>dw</code>,这个模式仅仅持续了你按下<code>d</code>到按下<code>w</code>这中间的这个时间.</p>
-<p>如果我们把Vim看做是一个有限状态机.那么待决模式就是仅接受移动命令的状态.当一个操作符被触发的时候,这个状态被激活,在输入移动命令之前,Vim不会做任何操作.当待决模式被激活后,我们可以通过<esc>就可以中断,返回命令模式.</esc></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1775,7 +1140,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2013 - 
   <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -1867,9 +1232,30 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"imguiqing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
   
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
 
 
 

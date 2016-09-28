@@ -106,8 +106,8 @@
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: 0,
-      author: '博主'
+      userId: 11483783,
+      author: 'Katsura_Ke'
     }
   };
 </script>
@@ -240,8 +240,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/04/13/iOS Tips/UIApplication-tips/" itemprop="url">
-                  UIApplication tips -给新手的笔记
+                <a class="post-title-link" href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/" itemprop="url">
+                  当遇到严格要求的UI-实现
                 </a>
               
             
@@ -254,1124 +254,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-13T22:25:14+08:00" content="2015-04-13">
-              2015-04-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS Tips</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="UIApplication_对象是应用程序的象征">UIApplication 对象是应用程序的象征</h3><p>每一个应用程序都有自己的 UIApplication对象,而且是单例的.<br>通过 [UIApplication sharedApplication]可以获得这个单例对象<br>一个iOS程序启动后创建的第一个对象就是 UIApplication 对象<br>一个iOS程序启动后创建的第一个对象就是 UIApplication 对象<br>利用 UIApplication 对象,能进行一些应用级别的操作 </p>
-<p>验证单例操作:  </p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">	    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIApplication</span> *app  = [<span class="built_in">UIApplication</span> sharedApplication];</span><br><span class="line">    <span class="built_in">UIApplication</span> *app2 = [<span class="built_in">UIApplication</span> sharedApplication];</span><br><span class="line">    <span class="built_in">UIApplication</span> *app3 = [[<span class="built_in">UIApplication</span> alloc] init];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%p,%p,%p"</span>,app,app2,app3);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/13/iOS Tips/UIApplication-tips/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/" itemprop="url">
-                  25条提升iOS App性能的建议-iOS 方法论
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-12T20:11:09+08:00" content="2015-04-12">
-              2015-04-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS Tips</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="25条提高_iOS_App_性能的建议">25条提高 iOS App 性能的建议</h2><p>性能关系到用户体验,所以它对于我们的开发来说是至关重要的.  </p>
-<h3 id="特别注意:">特别注意:</h3><p>在优化代码之后,必须保证有个需要解决的问题!不要陷入”pre-optimizing(预优化)”你的代码.用Instruments分析你的代码,来发现需要提高的地方.</p>
-<p>下面是一些值得预先考虑的地方,分为三个不同的级别-基础,中级,高级<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/12/iOS Tips/25条提升iOS-App性能的建议/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/" itemprop="url">
-                  高效OC编程-在对象内部尽量直接访问实例变量
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-12T20:11:09+08:00" content="2015-04-12">
-              2015-04-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS Tips</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在对象之外访问实例变量时,应该总是通过属性来做.在那么在对象内部访问实例变量的时候,又该如何呢?  </p>
-<p>这是 OCer们一直激烈讨论的问题.有人认为,无论什么情况,都应该通过属性来访问实例变量;也有人说,”通过属性访问”和”直接访问”应该搭配着用. 除了几种特殊情况之外, 笔者强烈建议大家在读取实例变量的时候采用直接访问的形式,而在设置实例变量的时候通过属性来做.<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/12/iOS Tips/在对象内部尽量直接访问属性/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/05/环境、配置相关/基本配置/" itemprop="url">
-                  基本配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-05T08:44:28+08:00" content="2015-04-05">
-              2015-04-05
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/开发环境相关/" itemprop="url" rel="index">
-                    <span itemprop="name">开发环境相关</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="mac_配置">mac 配置</h3><ul>
-<li>显示隐藏文件</li>
-</ul>
-<p><code>defaults write com.apple.finder AppleShowAllFiles -bool true</code></p>
-<ul>
-<li>重启Finder</li>
-</ul>
-<p><code>killall -KILL Finder</code></p>
-<h3 id="Xcode">Xcode</h3><ul>
-<li>插件目录 (需要运行任意一个插件工程,此目录才会出现)</li>
-</ul>
-<p><code>~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins</code></p>
-<ul>
-<li>工程模板目录</li>
-</ul>
-<p><code>/Applications/Xcode-Beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\ Templates/iOS/Application</code></p>
-<ul>
-<li>模拟器路径</li>
-</ul>
-<p><code>/Users/yourUserName/ Library/Developer/CoreSimulator</code></p>
-<ul>
-<li>显示行号</li>
-</ul>
-<p><code>xcode-&gt;preferences-&gt;text editing-&gt;editing</code><br>选中 <code>show line numbers</code></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/04/环境、配置相关/提升效率的脚本/" itemprop="url">
-                  iOS开发中,用脚本实现给文件添加@xx后缀-小脚本大智慧
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-04T11:03:06+08:00" content="2015-04-04">
-              2015-04-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/环境、配置相关/" itemprop="url" rel="index">
-                    <span itemprop="name">环境、配置相关</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><em>脚本是用于执行一些重复性的操作,非常小巧方便.不需要创建工程</em></p>
-<h1 id="context">context</h1><p>自己最近手头有个项目,对方的美工是个完全的新手.所以,给的图片,虽然按照分辨率处理妥当(只有<code>@2x</code>版本),但是命名统一没有添加<code>@2x</code>,已经发过来了,让她去每个文件重新命名也是有点不近人情,自己去手动重命名更是傻瓜行为.  </p>
-<p>这种情况,脚本要粉末登场了.<br>\&lt;!—more—>  </p>
-<h2 id="shell">shell</h2><p>首先想到的是类<code>unix</code>系统的<code>shell</code>,这种强大于<code>windows</code>下<code>cmd</code>的存在.以前,自己仅仅会一些简单地命令行命令.写这种相对具有一定功能的脚本还是第一次,好在,经过各种查找资料,终于写了出来.  </p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">`<span class="preprocessor"># !/bin/bash</span></span><br><span class="line">append=<span class="string">"@2x"</span></span><br><span class="line">ext=<span class="string">"png"</span></span><br><span class="line">dir=$(eval pwd)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> $(ls $dir | grep .$oldext)</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">name=$(ls $file | cut -d. -f1)$append</span><br><span class="line">mv $file $&#123;name&#125;.$ext</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<p>`<br>可以看出,即使没有可以精简,只需要不到10行代码即可完成任务.</p>
-<h2 id="python">python</h2><p>既然想到了脚本,自己难以抑制的就取想<code>python</code>了,于是有了下面的代码  </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">`import os</span><br><span class="line"></span><br><span class="line">path = '.'</span><br><span class="line"></span><br><span class="line">for file in os.listdir(os.curdir):</span><br><span class="line">f,ext=os.path.splitext(file)</span><br><span class="line">if '.png'==ext :</span><br><span class="line">newfile = f+'@2x'+ext</span><br><span class="line">print newfile</span><br><span class="line">os.renames(file,newfile)</span><br></pre></td></tr></table></figure>
-<p>`  </p>
-<p>不出所料,也是非常简单的.  </p>
-<h2 id="更进一步">更进一步</h2><p>现在两者实现的功能都是非常简单地,而且只能命名当前目录的<code>png</code>后缀的文件.最终,我选择用<code>python</code>代码更进一步.  </p>
-<p>定义两个函数,一个递归增加后缀,一个递归删除后缀(python版本是2.7.9),具体什么操作,只要后面调用一下即可.  </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">`__author__ = 'katsura'  </span><br><span class="line">  </span><br><span class="line">import os  </span><br><span class="line">  </span><br><span class="line">def add_suffix(suffix) :  </span><br><span class="line">    for file in os.listdir(os.path.curdir) :  </span><br><span class="line">        print file  </span><br><span class="line">        if file[0:1]() == '.' :  </span><br><span class="line">            continue  </span><br><span class="line">        filename,ext = os.path.splitext(file)  </span><br><span class="line">        if '.png' == ext :  </span><br><span class="line">            newfilename =  filename+suffix+ext  </span><br><span class="line">            os.renames(file,newfilename)  </span><br><span class="line">        if os.path.isdir(file) :  </span><br><span class="line">            origindir = os.getcwd()  </span><br><span class="line">            newdir = file  </span><br><span class="line">            os.chdir(newdir)  </span><br><span class="line">            add_suffix(suffix)  </span><br><span class="line">            os.chdir(origindir)  </span><br><span class="line">  </span><br><span class="line">def remove_suffix(suffix) :  </span><br><span class="line">    for file in os.listdir(os.path.curdir) :  </span><br><span class="line">        #print file  </span><br><span class="line">        if file[0:1]() == '.' :  </span><br><span class="line">            continue  </span><br><span class="line">        filename,ext = os.path.splitext(file)  </span><br><span class="line">        if '.png' == ext :  </span><br><span class="line">            newfilename =  filename.rstrip(suffix)+ext  </span><br><span class="line">            os.renames(file,newfilename)  </span><br><span class="line">        if os.path.isdir(file) :  </span><br><span class="line">            origindir = os.getcwd()  </span><br><span class="line">            newdir = file  </span><br><span class="line">            os.chdir(newdir)  </span><br><span class="line">            remove_suffix(suffix)  </span><br><span class="line">            os.chdir(origindir)  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">add_suffix('@2x')</span><br></pre></td></tr></table></figure>
-<p>`  </p>
-<h2 id="感想">感想</h2><p>语言就应该仅仅是工具,不应该执迷于语言的学习.因为当你有一定的经验之后,你会发现,什么语言都很简单… 难点是深入下去  </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/17/其他技术/开始使用正则表达式/" itemprop="url">
-                  开始使用正则表达式-正则表达式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-17T11:05:40+08:00" content="2015-03-17">
-              2015-03-17
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/其他技术/" itemprop="url" rel="index">
-                    <span itemprop="name">其他技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="一些细节的完善">一些细节的完善</h2><p>在<a href="">上篇文章</a>中,我们简单使用了一个正则完成了一些东西,但是也发现了一些问题.那个在线工具并不怎么好用…<br>经常遇到输入之后,没有匹配.<br>这也是 web 程序经常遇到的尴尬.所以,我们使用本地应用来进行处理.<br>笔者的是 mac10.10 ,使用的工具叫做 RegExRx .大家可以选择一款合适的使用.( windows 下的正则程序更加多,功能也很强大)</p>
-<h2 id="开始正则之旅">开始正则之旅</h2><p>明确了正则的用途之后,我们开始使用正则表达式.还是从一些实际案例出发,我很讨厌一开始就摆上 N 多得概念, 列举出 N 多得符号,根本不让人好好阅读嘛!  </p>
-<h3 id="符号的延伸">符号的延伸</h3><p>上次我们使用了匹配数字的符号<code>\d</code>,这个是表示数字的意思,但是它只能表示一位数字,于是,我又使用了<code>{m,n}</code>这个符号.  </p>
-<p><code>\d</code>还有一种表示方法就是 <code>[0-9]</code> ,<code>[]</code>是字符串列举的意思.<br>比如<code>[abc]</code>表示匹配<code>a</code>或者<code>b</code>或者<code>c</code>,和<code>\d</code>一样,它只能匹配一个.  </p>
-<h3 id="常用模式的列举:">常用模式的列举:</h3><p><code>[0-9]</code> :表示数字 等价于 <code>\d</code></p>
-<p><code>[a-z]</code> :表示小写字母</p>
-<p><code>[A-Z]</code> :表示大写字母</p>
-<p>在列举的前面加上 ^即可表示 非,比如  </p>
-<p><code>[^0-9]</code> :表示非数字  </p>
-<p>简写的的形式比如 <code>\d</code>,如果要取反,则小写改大写(熟悉 Vim 的人一定亲切),如:<br><code>\D</code>:表示非数字</p>
-<p><code>\w</code> 表示单词字符,在英语环境下,等价于 <code>[_a-zA-Z0-9]</code>,就是常说的:字母数字下划线  </p>
-<p>同理,把它大写,就是取反  </p>
-<p><code>\W</code> 表示非单词字符,除掉字母数字下划线的内容</p>
-<h4 id="匹配空白字符">匹配空白字符</h4><p>\s:表示空白字符( space),它和 [ \t\n\r]等价(分别是 空格 制表符 换行符 回车符)<br>注:有些匹配工具不会高亮换行符号和回车符号<br>那么很自然的想到<br><code>\S</code> 匹配非空白字符,和<code>[ \t\n\r]</code>等价,当然,也可以 <code>[^\s]</code></p>
-<h4 id="匹配任何字符">匹配任何字符</h4><p>使用 .可以匹配任何字符,一个点只能匹配一个</p>
-<h4 id="使用量词">使用量词</h4><p>在最开始的时候,我们已经使用了量词的符号 {},用法也已经解释过了.比如:</p>
-<p><code>.{8}</code> 匹配8个任意字符<br>但是在实际应用中,我们有三个特殊的量词是大量使用的:<br><code>?</code> :表示出现0次或者1次</p>
-<p><code>*</code> :表示出现0次或者多次</p>
-<p><code>+</code> :表示出现1次或者多次<br>结语</p>
-<p>这次是一个比较枯燥的符号认知的过程.好在,常用的符号我们已经学习完毕,从下篇开始,我们做大量的练习,并学习更高级的知识</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/07/其他技术/从开一个手机号码开始/" itemprop="url">
-                  从开一个手机号码开始-正则表达式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-07T11:30:26+08:00" content="2015-03-07">
-              2015-03-07
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/其他技术/" itemprop="url" rel="index">
-                    <span itemprop="name">其他技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>正则表达式是描述一组字符串特征的模式,用来匹配特定的字符串.<br>—Ken Thompson</p>
-<p>虽然有点抽象,但是我觉得大家已经模模糊糊的明白了.<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/03/07/其他技术/从开一个手机号码开始/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/02/28/环境、配置相关/使用-Homebrew-管理你的mac开发包/" itemprop="url">
-                  使用 Homebrew 管理你的mac开发包
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-02-28T09:32:47+08:00" content="2015-02-28">
-              2015-02-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/环境、配置相关/" itemprop="url" rel="index">
-                    <span itemprop="name">环境、配置相关</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="context">context</h2><p>很多人可能不了解 Homebrew, 其实它相当于开发软件界的 Appstore.</p>
-<p>比如,如果我要安装 python 的最新版本,那么传统的做法是</p>
-<ol>
-<li>到官方网站下载 python 的最新版本 </li>
-<li>极其麻烦和小心翼翼的删除自带的 python 版本 </li>
-<li>安装新的版本 </li>
-<li>设置环境变量</li>
-</ol>
-<p>而借助 <code>Homebrew</code>, 需要做的仅仅是:<br><code>brew uninstall python</code><br>然后<br><code>brew install python</code></p>
-<p>整个过程只是等待而已,不需要百度 <code>python</code> 的官方网址,不需要找卸载安装配置环境变量教程…</p>
-<h2 id="安装_Homebrew">安装 Homebrew</h2><p>更多的好处就会在你以后的使用中被发掘.<br>下面我们进行 Homebrew 的安装.</p>
-<p>打开终端,输入以下命令:<br><code>ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</code>objc</p>
-<p>注意:</p>
-<ul>
-<li><p>因网络的原因,可能会不成功,请多尝试几次,一直到成功安装.</p>
-</li>
-<li><p>中间会出现一个 Press RETURN to continue or any other key to abort,请及时回车,并输入密码,不要傻等着…</p>
-</li>
-<li><p>不要加 sudo, 加了也没关系,待会会提示你 Don’t run as root</p>
-</li>
-<li><p>如果出现了某个包导致的安装失败,你仅需要按照提示进行操作即可</p>
-</li>
-</ul>
-<p>当看到下面的内容时 ,证明已经安装成功了.</p>
-<p><img src="http://ww4.sinaimg.cn/large/9e446dffjw1essytoxlv1j20ka0dhtf0.jpg"></p>
-<p>注: 本文来自本人早期在 csdn 上撰写的文章,内容为原创</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/01/15/iOS Tips/用枚举表示状态、选项、状态码/" itemprop="url">
-                  高效OC编程-用枚举表示状态、选项、状态码 
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-01-15T12:21:05+08:00" content="2015-01-15">
-              2015-01-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS Tips</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>由于Objective-C 基于C 语言，所以C 语言有的功能它都有。其中之一就是枚举类型：</p>
-<p>enum 系统框架中频繁用到此类型，然而开发者容易忽视它。在以一系列常量来表示错误状态码或可组合的选项时，极宜使用枚举为其命名。由于C++11 标准扩充了枚举的特性所以最新版系统框架使用了“强类型”（strong type）的枚举。没错，Objective-C 也能得益于<br>C++11 标准。<br>枚举只是一种常量命名方式。某个对象所经历的各种状态就可以定义为一个简单的枚举集（enumeration set）。比如说，可以用下列枚举表示“套接字连接”（socket connection）的状态:  </p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> EOCConnectionState &#123;</span><br><span class="line">EOCConnectionStateDisconnected,  </span><br><span class="line"></span><br><span class="line">EOCConnectionStateConnecting,  </span><br><span class="line"></span><br><span class="line">EOCConnectionStateConnected,  </span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/01/15/iOS Tips/用枚举表示状态、选项、状态码/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/11/10/重构、模式、架构/iOS平台(移动平台)架构问题 /" itemprop="url">
-                   iOS平台(移动平台)架构问题 
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-11-10T17:53:41+08:00" content="2014-11-10">
-              2014-11-10
+            <time itemprop="dateCreated" datetime="2015-08-09T12:02:36+08:00" content="2015-08-09">
+              2015-08-09
             </time>
           </span>
 
@@ -1398,6 +282,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/09/重构、模式、架构/当遇到严格要求的UI-实现/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1419,33 +310,675 @@
       
         
           
-            <h2 id="尴尬的遭遇">尴尬的遭遇</h2><p>自己从内心觉得对项目分层是一种非常好的思想,于是便在网络中寻找有关iOS项目分层的资料. 无奈,网络中关于iOS的项目架构资料非常少(最后证明我大方向走错了了,架构应该是独立于平台的,所以”iOS”的架构资料是找不到的),就算有几篇博文,也是自己琢磨出来的野路子.(个人思想比较保守,不够权威的东西不能让我信服,而事实上,每个人都能看到那些博文是有过度设计的问题的)</p>
-<p>后来尝试在 code4app群里讨论这个问题,结果群里几个发言活跃的群友对这个架构问题”免讨论”</p>
-<p>然后在 “跟MJ完虐iOS3.0”这个群中,更是遭到了红果果的嘲笑:MVC就够了,还分什么层?</p>
-<p>并无刻意谈论群友,只是想拿事实举例:现在相当一部分开发者,对架构和分层这个东西认知不足.然后, 自己深知分层的好处,虽然有些灰心,但不至于放弃.最终,发现了Martin Fowler写的 &lt;&lt;企业应用架构模式&gt;&gt;一书,顿觉豁然开朗.</p>
-<h2 id="对于移动设备来说,分层是否有必要?">对于移动设备来说,分层是否有必要?</h2><p>我最早是做java的,接触到的项目比较大,会有架构设计. 那么转到移动,就会考虑,移动是否也真的需要架构设计</p>
-<p>只要是软件,就会有需求的变更,那么分层就显得非常有必要了. 即,我们需要为自己的软件留一条”后路”,解耦合,让其可扩展.<br>低耦合企业级系统架构涉及及移动平台的分层架构设计</p>
-<p>从大方面来讲,架构是必要的,关键是怎么去执行.</p>
-<p>一个系统,采用什么样子的结构,有哪些组件,组件之间什么关系,和环境之间有什么关系,这都是设计架构(或者分层)需要考虑的问题.</p>
-<p>目的都是为了建立低耦合的企业级应用系统,低耦合的系统的好处是细化开发较色,提高开发效率,提高扩展性</p>
-<p>需求是经常变化的,导致了系统不能满足需求变化的需求,因为是强耦合的,模块与模块之间,类和类之间.</p>
-<p>低耦合的好处太多了</p>
+            <h2 id="说明">说明</h2><p>因为公司项目负责,所以这个代码将用Demo的形式建立,然后引入到项目中.然后对项目的调用进行重构.</p>
+<h2 id="创建项目文件">创建项目文件</h2><p>文件清单:</p>
 <ul>
-<li>可扩展性强</li>
-<li>效率高</li>
-<li>适应用户需求的变化</li>
+<li>产品父类 <code>GUILayout</code> 包含各种属性</li>
+<li>iPhone4s/4 布局类 <code>GUIIP4SLayout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone5s/5 布局类 <code>GUIIP5Layout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone6 布局类  <code>GUIIP6Layout</code> 继承 <code>GUILayout</code></li>
+<li>iPhone6 plus 布局类 <code>GUIIP6PLayout</code> 继承 <code>GUILayout</code></li>
+<li>工厂类 <code>GUILayoutFactory</code></li>
 </ul>
-<p>这样我们系统维护工作就少,就是比较灵活<br>什么是企业级系统</p>
-<p>这个问题在我的架构的基本概念和演化-博客园(或者csdn的架构的概念和最基本的三层架构-iOS企业应用架构设计 )一文中讨论过,但是这里还是有必要再提一下:</p>
-<p>系统比较庞大,涉及到前端,后台(数据库,中间件,实际的设备)</p>
-<p>现在的 java .net 都是可以构建企业级系统的.<br>设计的注意点</p>
-<p>设计一定要考虑的非常周到,这样就存在一个文件,需要降低耦合度.分层,每层里面合理的运用设计模式 这就是:架构设计和设计模式</p>
-<p>每层之间的东西必须是具有类似功能的类和子系统的集合.</p>
-<p>可以分四层,五层,甚至一层,二层. 每种分法必须要有自己的道理.</p>
-<p>比如你的房子,要开个窗户,结果就塌了,就这说明是不合理的设计</p>
-<blockquote>
-<p>此文中很多想法和灵感源自关东升老师的一节视频,视频在 51cto可以搜索到,但是付费的,本人只是学习了免费的第一节的内容,便觉得受益匪浅,更是在尝试寻求老师分层不合理性的时候,发现了Martin的&lt;&lt;企业应用架构设计&gt;&gt;一书,开始了更远的探究.在此感谢老师. —-我</p>
-</blockquote>
+<h2 id="代码详解">代码详解</h2><p>首先是     <code>GUILayout</code>,它定义了所有需要的属性.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUILayout</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="built_in">CGFloat</span> textFieldHeight;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="built_in">CGFloat</span> textFieldWidth;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="built_in">CGFloat</span> loginButtonWidth;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="built_in">CGFloat</span> loginButtonHeight;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUILayout.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUILayout</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>它的布局子类,在 <code>init</code>方法中,对布局属性进行了初始化,因为代码几乎一样,所以拿一个类说明:(为了以后区分,我给不同的布局类不同的值:<br>4/4s 值都是 4 ,5/5s 值都是5 ,6 值都是6 ,6 plus值都是 60)</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">"GUILayout.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUIIP4SLayout</span> : <span class="title">GUILayout</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIIP4SLayout.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUIIP4SLayout</span></span></span><br><span class="line"></span><br><span class="line">- (instancetype)init &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">self</span><span class="variable">.textFieldHeight</span>   = <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.textFieldWidth</span>    = <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.loginButtonHeight</span> = <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">self</span><span class="variable">.loginButtonWidth</span>  = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>然后是工厂类:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">@class</span> <span class="title">GUILayout</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUILayoutFactory</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UILayout</span>*)createLayout;</span><br><span class="line">+(G<span class="built_in">UILayout</span>*)createLayout;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUILayoutFactory.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIIP4SLayout.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIIP6Layout.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIIP6PLayout.h"</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GUIIP5Layout.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSUInteger</span>, G<span class="built_in">UIDeviceType</span>) &#123;</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UIDeviceType4S</span> = <span class="number">1</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType5</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType6</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType6P</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceTypeNotFound</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GUILayoutFactory</span></span></span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UILayout</span>*)createLayout&#123;</span><br><span class="line">    </span><br><span class="line">   <span class="keyword">switch</span> ([<span class="keyword">self</span> deviceType]) &#123;</span><br><span class="line">        <span class="keyword">case</span> G<span class="built_in">UIDeviceType4S</span>:</span><br><span class="line">            <span class="keyword">return</span> [G<span class="built_in">UIIP4SLayout</span> new];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> G<span class="built_in">UIDeviceType6</span>:</span><br><span class="line">            <span class="keyword">return</span> [G<span class="built_in">UIIP6Layout</span> new];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> G<span class="built_in">UIDeviceType6P</span>:</span><br><span class="line">            <span class="keyword">return</span> [G<span class="built_in">UIIP6PLayout</span> new];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> G<span class="built_in">UIDeviceType5</span>:</span><br><span class="line">            <span class="keyword">return</span> [G<span class="built_in">UIIP5Layout</span> new];</span><br><span class="line">        <span class="keyword">case</span> G<span class="built_in">UIDeviceTypeNotFound</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+(G<span class="built_in">UILayout</span>*)createLayout&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>  [[G<span class="built_in">UILayoutFactory</span> new] createLayout];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UIDeviceType</span>)deviceType&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (kisiPhone4) &#123;</span><br><span class="line">        <span class="keyword">return</span> G<span class="built_in">UIDeviceType4S</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(kisiPhone5)&#123;</span><br><span class="line">        <span class="keyword">return</span> G<span class="built_in">UIDeviceType5</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(kisiPhone6)&#123;</span><br><span class="line">        <span class="keyword">return</span> G<span class="built_in">UIDeviceType6</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(kisiPhone6Plus)&#123;</span><br><span class="line">        <span class="keyword">return</span> G<span class="built_in">UIDeviceType6P</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> G<span class="built_in">UIDeviceTypeNotFound</span>;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>将判断逻辑下放到工厂类中,简化了控制器的调用</li>
+<li>定义根据屏幕尺寸判断设备类型的宏</li>
+<li>根据枚举类型决定返回的<code>layout</code>类型</li>
+</ul>
+<h2 id="结语">结语</h2><p>好了,这就是完整的代码了.根据自己的需求,修改参数名,可以方便的用到自己的系统中.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/" itemprop="url">
+                  当遇到严格要求的UI-模式选择
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-09T11:16:28+08:00" content="2015-08-09">
+              2015-08-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/重构、模式、架构/" itemprop="url" rel="index">
+                    <span itemprop="name">重构、模式、架构</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/09/重构、模式、架构/当遇到严格要求的UI-模式选择/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="context">context</h2><p>公司最近的一个项目,在UI上有比较严格的要求: <strong>每种屏幕下地控件的尺寸要求绝对的精确</strong>  </p>
+<h2 id="实现方案">实现方案</h2><p>使用的纯代码 ,加上要适配 iOS 7 ,所以 <code>Size-Class</code> 就不用考虑了. </p>
+<p>分析情况,其实控件的相对位置是固定的.开始也是用了 <code>Masonry</code>,只是需要提供不同屏幕下地控件尺寸,间距等内容.</p>
+<h2 id="如何更优雅可拓展的实现">如何更优雅可拓展的实现</h2><p>当然,你可以在布局的时候,写<code>if-else</code> 和 <code>switch-case</code>来对不同屏幕的尺寸参数赋不同的值. 可是如果以后要修改呢,苹果要抽风推出了新尺寸的iPhone,而你被要求去适配呢? 你岂不是要找遍整个项目修改原来的分支判断.<br>    就是说,以上的实现方式:</p>
+<ul>
+<li>维护性差 人工维护成本高,也破坏了<code>开闭原则</code></li>
+<li>扩展性差 如果有新的要求,需要逐个重写.</li>
+</ul>
+<h2 id="设计模式选择">设计模式选择</h2><p>对于这种情况,一开始首先是想到了<code>策略模式</code>,因为我考虑每种屏幕都可以算作是一种方案.而至于<code>策略模式</code>是行为模式,也当然可以通过重构技巧把属性替换为方法,完成策略的行为需求.我兴冲冲的绘制了草稿(OC没有合适的UML类图工具,所以用了普通的绘图工具,线条种类不足以完全表示UML类图中得关系)</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/当遇到严格要求的UIQQ20150809-5@2x.png" alt="策略模式"></p>
+<p>为了规避策略模式需要让客户端(调用者)知道具体策略的缺点(我认为是缺点),我采用重构手法将逻辑下放到<code>context</code>,<code>DeviceType</code>能决定具体的策略,算是<code>简单工厂</code>和<code>策略模式</code>的结合.</p>
+<p>但是在绘图的过程中,想到,这有点算过度设计了, <strong>其实我只是需要一个能够保持属性的对象,然后在布局的时候,使用它</strong> ,使用策略模式,意味着我需要把所有的属性的 <code>getter</code>实现,才算符合<code>策略</code>的本意.<br>这次是一次失败的案例:</p>
+<ul>
+<li>对这种级别的方法使用策略,大材小用,无缘故的增加复杂度而已</li>
+<li>一开始就不应该偏执的考虑将属性重构为方法,这里只是简单地赋值,不需要拦截其 <code>get</code> 过程</li>
+</ul>
+<p>然后想到了,建造者模式: 创建型的模式,很符合我要个布局对象的需求,也给他弄上了个简单工厂,避免了在控制器中出现分支语句:</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/当遇到严格要求的UIQQ20150809-3@2x.png" alt=""></p>
+<p>没画出具体的产品(布局),请见谅.</p>
+<p>但是, 这里又有一个问题: 在我以前的经验中, 建造者模式是用来区分过程固定,但是有需要多样化的建造方式的. 在我的场景中,我最复杂的情况也仅仅是赋值而已, 所以,也是不适合的.</p>
+<h2 id="最终方案">最终方案</h2><p>其实最简单的,往往是最好的.最重要的是弄明白自己需要的. 我仅仅需要几个承载着不同属性的对象.最合适的方案应该是 <code>简单工厂</code>,而且可以把逻辑下放到简单工厂中.这模式太简单了,就不画图了.</p>
+<h2 id="总结">总结</h2><p>在设计模式的选择,甚至是去除设计模式的过程中,需要开发者有足够的经验来做决定. 今天就走了一个弯路,好在及时发现了.如果用策略模式或者建造者编码,将来的维护成本肯定要上升.</p>
+<p>下一篇中,将用代码实现.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/" itemprop="url">
+                  通过重构实现模板方法模式（Template Method ) 模式篇
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-06T11:26:58+08:00" content="2015-08-06">
+              2015-08-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/重构、模式、架构/" itemprop="url" rel="index">
+                    <span itemprop="name">重构、模式、架构</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="书接上文">书接上文</h2><p>上次使用了一些简单地重构方法,得到的最终代码如下:<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/06/重构、模式、架构/通过重构实现模板方法模式（Template-Method-模式篇/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/" itemprop="url">
+                  通过重构实现模板方法模式（Template Method）: 重构篇
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-05T10:00:35+08:00" content="2015-08-05">
+              2015-08-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/重构、模式、架构/" itemprop="url" rel="index">
+                    <span itemprop="name">重构、模式、架构</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="context">context</h2><p>现在公司的项目中,有两个界面表现几乎完全一样的控制器.如图:</p>
+<p><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-2@2x.png" alt=""><br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/template-refactoringQQ20150806-3@2x.png" alt=""></p>
+<p>但是两者的行为是部分有差别的,当时编码过程中,遵循了<code>极限编程</code>的原则,尽快的写出可以实现功能的代码. 重构和使用模式的工作放在以后进行 . 以防止<code>过度设计</code>带来的问题.<br>写好一个界面之后,直接复制代码,修改了部分.这在什么时候来看,都是编写的最快方式,但是却不是好的设计和可维护方案.</p>
+<p>所以现在要开始进行重构了.</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/05/重构、模式、架构/通过重构实现模板方法模式（Template Method ) 重构篇/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/" itemprop="url">
+                  UIWebView执行JS的几个注意点
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-04T08:22:09+08:00" content="2015-08-04">
+              2015-08-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="context">context</h2><p>这是一个给培训的同学写的Demo,概括起来的几个特点是:</p>
+<ul>
+<li>无法和服务器沟通,只能在iOS端这里更改网页</li>
+<li>需要隐藏两个html组件</li>
+</ul>
+<p>这是没有修改的网页的<a href="http://m.shijieyou.com/mdetail-3445464-0-%5BLjava.lang.String;@6625086c">地址</a> ,可以看到,顶部和底部有网页原来的两个条,需要隐藏,来实现如下的效果:<br><img src="http://7xkv7m.com1.z0.glb.clouddn.com/UIWebViewGVS9U@{[OH%25D9%257D$5DARPT.jpg" alt=""></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/04/iOS Tips/UIWebView执行JS的几个注意点/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/08/01/重构、模式、架构/常见问题之过度设计和设计不足/" itemprop="url">
+                  常见问题之过度设计和设计不足
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-01T15:28:17+08:00" content="2015-08-01">
+              2015-08-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/重构、模式、架构/" itemprop="url" rel="index">
+                    <span itemprop="name">重构、模式、架构</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/01/重构、模式、架构/常见问题之过度设计和设计不足/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/01/重构、模式、架构/常见问题之过度设计和设计不足/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>每个从事软件开发的人 , 都会强调设计模式的重要性.</strong></p>
+<h2 id="过度设计">过度设计</h2><p>软件模式的伟大之处 ,在于它们传递了了许多有用的思想 . 那么我们在学习了大量的设计模式之后,就理当成为一个优秀的软件设计和开发者 ,对吧 ? 模式帮助我们开发灵活的框架 ,帮助我们构建健壮 , 拓展性强的软件系统 . 但是现在的现状是 ,非常熟知设计模式的开发者 ,在工作中, 经常会犯过度设计的错误 .</p>
+<p>所谓的过度设计 ,就是”杀鸡用了牛刀” .有些程序员这么做, 是因为它们认为自己正确地估计了软件系统的未来需求 . 他们急于这种未来的需求,应用各种设计模式 , 让软件系统能够更加灵活, 可拓展 . 但是能做到这种未卜先知的人又有几个呢 ? 如果估计错误 ,就要对繁冗的代码进行调整 .相应地 ,开发新功能和解决缺陷的时间就被减少了 .</p>
+<p>说到对软件设计模式的偏执 , 这个还是非常容易理解的 . 小时候 ,我们得了一件新玩具 ,总是特别希望在小伙伴面前好好显摆显摆 .</p>
+<h2 id="设计不足">设计不足</h2><p>相对于过度设计 , 设计不足要常见的多 (过度设计起码需要你掌握一些设计模式) . 设计不足是指开发的软件设计不良 . 其产生的原因有如下几个:</p>
+<ul>
+<li>程序员没有时间进行重构</li>
+<li>程序员在何为好的软件设计方面知识不足</li>
+<li>程序员呗要求在既有的系统中快速地添加功能</li>
+<li>程序员被迫同时进行太多项目.</li>
+</ul>
+<p>随着时间的推移 , 设计不足的软件将变成昂贵的,难以维护甚至无法维护的大麻烦.</p>
 
           
         
@@ -1478,7 +1011,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1590,7 +1123,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2013 - 
   <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -1682,9 +1215,30 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"imguiqing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
   
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
 
 
 
