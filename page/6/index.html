@@ -203,9 +203,32 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
   
 </nav>
 
@@ -218,6 +241,131 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/08/19/iOS Tips/利用Runtime实现自依赖按钮/" itemprop="url">
+                  利用Runtime实现自依赖按钮
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-19T19:17:13+08:00" content="2015-08-19">
+              2015-08-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/利用Runtime实现自依赖按钮/" itemprop="url" rel="index">
+                    <span itemprop="name">利用Runtime实现自依赖按钮</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/19/iOS Tips/利用Runtime实现自依赖按钮/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/19/iOS Tips/利用Runtime实现自依赖按钮/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="context">context</h2><p>我在开发中遇到一个问题, 就是传统的<code>Target-Action</code>没法满足我的要求. 因为当按钮触发的瞬间, 控制器可能已经被销毁了. <code>Target</code>没有了. 暂且不说这个设计的优劣, 单纯从技术方面,剖析一下是否可以实现一个按钮 ,这个按钮不依赖外部 <code>Target</code> ,而是依赖自己.</p>
+<h2 id="几个想法">几个想法</h2><p>首先想到的是继承<code>UIButton</code>,然后给<code>Button</code>增加一个<code>block</code>属性 ,然后内部执行<code>block</code>代码.</p>
+<p>但是这样要求我项目中所有使用UIButton的地方都需要修改 ,成本太高,遂放弃.</p>
+<p>然后想到通过给<code>UIButton</code>添加<code>Category</code>的方式,完成需求. 之前曾经做个一个分类,就是让<code>NSObject</code>携带一个字典,字典内部可以带上用户自定义的一些参数.解决了一些<code>seletor</code>不能传递任意参数的问题. 所以,这次给<code>Button</code>分类增加个属性,也没有什么问题:</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/19/iOS Tips/利用Runtime实现自依赖按钮/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -859,174 +1007,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/08/10/重构、模式、架构/从简单工厂到工厂模式/" itemprop="url">
-                  从简单工厂到工厂模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-08-10T08:48:58+08:00" content="2015-08-10">
-              2015-08-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/重构、模式、架构/" itemprop="url" rel="index">
-                    <span itemprop="name">重构、模式、架构</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/08/10/重构、模式、架构/从简单工厂到工厂模式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/10/重构、模式、架构/从简单工厂到工厂模式/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="context">context</h2><p>上次的文章,用简单工厂,解决了生产布局类的问题. 但是,上次的方式针对一个模块是可以的,当模块多了,每个类负责的属性就太多了.这是一个需要重构的点.</p>
-<h2 id="准备工作">准备工作</h2><p>首先,将类重命名, 比如 原来的: </p>
-<p>GUILayoutFactory -&gt; GUILoginLayoutFactory</p>
-<p>原来的布局产品名称也是应该修改的,但是就不贴出来了,一个原则就是:不要让类名把你自己弄迷糊了即可.</p>
-<h2 id="重构">重构</h2><p>下面是我工厂模式的结构图,目前工厂只有 Login这一个,项目中有更多,但是没必要都在此列举.</p>
-<p><img src="" alt=""></p>
-<p>文件说明图</p>
-<p><img src="" alt=""></p>
-<p>当把图画出来, 很容易看出来, 需要进行重构了. 因为在 <code>GUILoginLayoutFactory</code> 存在着逻辑判断代码,如下:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSUInteger</span>, G<span class="built_in">UIDeviceType</span>) &#123;</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UIDeviceType4S</span> = <span class="number">1</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType5</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType6</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType6P</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceTypeNotFound</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>上面的代码是当时在应用简单工厂的时候,将逻辑下放到工厂中得.现在它存在于我们的 <code>GUILoginLayoutFactory</code>中,这个工厂还会有同级的兄弟工厂.它们也需要这种判断来生产具体的 layou产品,比如<code>GUIDiaryLayoutFactory</code>,那么,现在应该采用将这些代码提升到父类的重构手法.  <code>GUILoginLayoutFactory</code> 的父类是我们的 “ 总工厂 “ 也就是 <code>GUILayoutFactory</code></p>
-<p>现在 <code>GUILayoutFactory</code>的头文件代码是:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">@class</span> <span class="title">GUILayout</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#define kisiPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242,2208), [[UIScreen mainScreen] currentMode].size) : NO)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSUInteger</span>, G<span class="built_in">UIDeviceType</span>) &#123;</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UIDeviceType4S</span> = <span class="number">1</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType5</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType6</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceType6P</span>,</span><br><span class="line">    G<span class="built_in">UIDeviceTypeNotFound</span></span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GUILayoutFactory</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">-(G<span class="built_in">UILayout</span> *)layout;</span><br><span class="line">+(G<span class="built_in">UILayout</span> *)layout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>养成好习惯,每次小重构后都进行编译.</p>
-<p>客户端调用代码:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    G<span class="built_in">UILayoutFactory</span> * layoutFactory = [G<span class="built_in">UILoginLayoutFactory</span> new];</span><br><span class="line">    G<span class="built_in">UILayout</span> * layout = [layoutFactory layout];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"\n %f \n %f \n %f \n %f"</span>,layout<span class="variable">.textFieldWidth</span>,layout<span class="variable">.textFieldHeight</span>,layout<span class="variable">.loginButtonWidth</span>,layout<span class="variable">.loginButtonHeight</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>是的, 调用端需要知晓具体的工厂.比如这里的 <code>GUILoginFactory</code>才能拿到具体的产品.</p>
-<h2 id="对比简单工厂">对比简单工厂</h2><p>原来使用简单工厂实现的时候,如果要增加新产品.那么需要:</p>
-<ol>
-<li>添加具体的产品(Layout类)</li>
-<li>在工厂类中增加一个分支语句</li>
-</ol>
-<p>客户端是无需修改和知道工厂内部的细节的.</p>
-<p>现在使用工厂模式,如果要增加新产品:</p>
-<ol>
-<li>添加具体的产品(Layout类)</li>
-<li>添加具体产品的工厂类(LayoutFactory类)</li>
-<li>客户端进行判断和需要知晓新的工厂类</li>
-</ol>
-<p>加重了客户端的负担.</p>
-<p>总结来说: </p>
-<ul>
-<li><p>简单工厂最大的优点在于工厂类中包含了必要的逻辑判断,根据客户端的选择(或者是其他条件)动态实例化相关的类,对于客户端来说,去除了与具体产品的依赖 .</p>
-</li>
-<li><p>但是如果添加新产品,要修改工厂类,违背了”开放-封闭原则”</p>
-</li>
-<li><p>工厂模式让子类工厂决定实例化哪个类.让产品类的实例化延迟到了子工厂.</p>
-</li>
-<li><p>新增加产品的时候, 整个工厂的体系是没有修改的,只是扩展出一个子类.</p>
-</li>
-<li><p>工厂模式,客户端需要知晓具体的工厂子类</p>
-</li>
-</ul>
-<p>两者没有好坏, 我们需要根据自己的实际情景来选择模式进行应用.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1067,7 +1052,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1260,6 +1245,135 @@
 
   
   
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
 
   
 

@@ -203,9 +203,32 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
   
 </nav>
 
@@ -218,6 +241,132 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/" itemprop="url">
+                  一份自己满意的ClangFormat配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-18T14:19:06+08:00" content="2016-08-18">
+              2016-08-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/环境、配置相关/" itemprop="url" rel="index">
+                    <span itemprop="name">环境、配置相关</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对于一个团队来说,有共同的代码格式规范是非常重要的.但是,却不能保证每个细节,使用代码格式化工具可以极大的提高效率.下面是自己积累出来的一份配置,每一行都有注释,可以自己比对:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#基于那个配置文件</span></span><br><span class="line">BasedOnStyle: LLVM</span><br><span class="line"><span class="preprocessor">#指针的*的挨着哪边</span></span><br><span class="line">PointerAlignment: Right</span><br><span class="line"><span class="preprocessor">#缩进宽度</span></span><br><span class="line">IndentWidth: <span class="number">4</span></span><br><span class="line"><span class="preprocessor"># 连续的空行保留几行</span></span><br><span class="line">MaxEmptyLinesToKeep: <span class="number">1</span></span><br><span class="line"><span class="preprocessor"># 在 @property 后面添加空格, \@property (readonly) 而不是 \@property(readonly).</span></span><br><span class="line">ObjCSpaceAfterProperty: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># OC block后面的缩进</span></span><br><span class="line">ObjCBlockIndentWidth: <span class="number">4</span></span><br><span class="line"><span class="preprocessor"># 是否允许短方法单行</span></span><br><span class="line">AllowShortFunctionsOnASingleLine: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># 是否允许短if单行 If true, if (a) return; 可以放到同一行</span></span><br><span class="line">AllowShortIfStatementsOnASingleLine: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#注释对齐</span></span><br><span class="line">AlignTrailingComments: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># 换行的时候对齐操作符</span></span><br><span class="line"><span class="preprocessor">#AlignOperands: true</span></span><br><span class="line"><span class="preprocessor"># 中括号两边空格 [] </span></span><br><span class="line">SpacesInSquareBrackets: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># 小括号两边添加空格</span></span><br><span class="line">SpacesInParentheses : <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#多行声明语句按照=对齐</span></span><br><span class="line">AlignConsecutiveDeclarations: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#连续的赋值语句以 = 为中心对齐</span></span><br><span class="line">AlignConsecutiveAssignments: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#等号两边的空格</span></span><br><span class="line">SpaceBeforeAssignmentOperators: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor"># 容器类的空格 例如 OC的字典</span></span><br><span class="line">SpacesInContainerLiterals: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#缩进</span></span><br><span class="line">IndentWrappedFunctionNames: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#在block从空行开始</span></span><br><span class="line">KeepEmptyLinesAtTheStartOfBlocks: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#在构造函数初始化时按逗号断行，并以冒号对齐</span></span><br><span class="line">BreakConstructorInitializersBeforeComma: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#函数参数换行</span></span><br><span class="line">AllowAllParametersOfDeclarationOnNextLine: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#括号后添加空格</span></span><br><span class="line">SpaceAfterCStyleCast: <span class="literal">true</span></span><br><span class="line"><span class="preprocessor">#tab键盘的宽度</span></span><br><span class="line">TabWidth: <span class="number">4</span></span><br><span class="line">UseTab: Never</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用方法">使用方法</h2><ol>
+<li>安装Clang-Format Xcode插件, <a href="https://github.com/travisjeffery/ClangFormat-Xcode" target="_blank" rel="external">地址</a></li>
+<li>在用户根目录下创建 <code>.clang-format</code>文件,将上面配置拷贝进去</li>
+<li>在Xocde中的选中以下菜单即可:<br>  <img src="http://7xv9rf.com1.z0.glb.clouddn.com/82417QQ20160818-1@2x.png" alt="82417QQ20160818-1@2x.png"></li>
+<li>可以设置在保存文件的时候自动格式化,也可以自己配置<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/67391QQ20160818-2@2x.png" alt="67391QQ20160818-2@2x.png"></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -1094,175 +1243,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/18/其他技术/Vim实践Tips(一)/" itemprop="url">
-                  Vim实践Tips(一)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-18T15:12:36+08:00" content="2016-07-18">
-              2016-07-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/其他技术/" itemprop="url" rel="index">
-                    <span itemprop="name">其他技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/18/其他技术/Vim实践Tips(一)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/18/其他技术/Vim实践Tips(一)/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Tip_1_dot_命令">Tip 1 dot 命令</h1><p>说明: . dot 重复上个命令的使用</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">line one</span><br><span class="line"></span><br><span class="line">line two</span><br><span class="line"></span><br><span class="line">line three </span><br><span class="line"></span><br><span class="line">line four</span><br></pre></td></tr></table></figure>
-<p><code>x</code> :删除当前光标下的字符</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> one " x . . .  x 删除, . 重复</span><br><span class="line"></span><br><span class="line">line two</span><br><span class="line"></span><br><span class="line">line three </span><br><span class="line"></span><br><span class="line">line four</span><br></pre></td></tr></table></figure>
-<p>如图:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/1xdotdot.gif" alt="dot 命令的使用"></p>
-<h2 id="几个小提示:">几个小提示:</h2><h3 id=":set_nu_显示行号_:set_nonu_关闭行号显示">:set nu 显示行号 :set nonu 关闭行号显示</h3><p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/2setnu.gif" alt="显示和关闭行号"></p>
-<h3 id=":3,5_co_8_将9到12行的内容输出到8行">:3,5 co 8 将9到12行的内容输出到8行</h3><p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/003line_copy.gif" alt="输出范围到领一行"></p>
-<h3 id=":3,5_de_删除3到5行的内容">:3,5 de 删除3到5行的内容</h3><p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/004delete.gif" alt="删除范围"></p>
-<p><code>&gt;G</code> 增加从当前行到文件末尾所有行的缩进.同理,使用 . 可以重复增加缩进</p>
-<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/005_intent.gif" alt="重复缩进"></p>
-<p>还可以利用 j. 做成下面的布局</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">line one</span><br><span class="line"></span><br><span class="line">	line two</span><br><span class="line"></span><br><span class="line">		line three </span><br><span class="line"></span><br><span class="line">			line four</span><br></pre></td></tr></table></figure>
-<p><img src="http://7xv9rf.com1.z0.glb.clouddn.com/007_jdot.gif" alt="梯形缩进"></p>
-<h1 id="Tip_2_不要重复">Tip 2 不要重复</h1><p>例如,我们想要在下面所有的行后面加一个分号</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1</span><br><span class="line"></span><br><span class="line">var bar = 'bar'</span><br><span class="line"></span><br><span class="line">var foobar = foo + bar</span><br></pre></td></tr></table></figure>
-<p>使用 <code>$</code> 移动到行末尾,<code>a</code>追加然后输入<code>;</code> ,然后按<code>&lt;Esc&gt;</code>返回命令模式.这算完成了第一行</p>
-<p>如果对下面两行也应用这个,就应该: <code>j$.</code> </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;</span><br><span class="line"></span><br><span class="line">var bar = 'bar'; "j$.</span><br><span class="line"></span><br><span class="line">var foobar = foo + bar; "j$.</span><br></pre></td></tr></table></figure>
-<p>虽然这样也能完成,但是还是差点意思.还是有提升空间的.</p>
-<h3 id="减少无关的移动">减少无关的移动</h3><p><code>a</code> 是在当前光标位置后面追加,并自动切换到插入模式</p>
-<p><code>A</code> 是在当前行末进行追加,并自动切换到插入模式 相当于 <code>$a</code></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var foo = 1;	" A;&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">var bar = 'bar'; " j.</span><br><span class="line"></span><br><span class="line">var foobar = foo + bar; " j.</span><br></pre></td></tr></table></figure>
-<p><code>d</code> 删除，不能单独用，得跟后续操作符，比如 <code>dd</code> 是删除一整行，<code>d$</code> 是删除直到行的末尾</p>
-<p><code>x</code> 删除当前光标下的单个字符</p>
-<p><code>c</code> 跟 <code>d</code> 类次，但是删除完成后会进入插入模式</p>
-<p><code>c</code> 和 <code>d</code> 都要加入<code>motion</code> <code>motion</code>类似是 <code>w</code> <code>b</code> 等这些</p>
-<p><code>23,35 co 66</code> 复制</p>
-<p><code>23,35 m 66</code> 剪切</p>
-<p><code>23,35 de</code> 删除</p>
-<p>几个一个顶俩的快捷键</p>
-<p><code>C c$</code> 删除到行末尾,并进入插入模式</p>
-<p><code>s cl</code> 替换当前字符: c加motion,l 一个字符</p>
-<p><code>S ^C</code> 删除整个行 ^移动到行首,C删除整行</p>
-<p><code>I ^i</code> 到行首进行插入</p>
-<p><code>A $a</code> 到行尾进行插入</p>
-<p><code>o A&lt;CR&gt;</code> 进入下一行,并进入插入模式 <cr>是回车的意思</cr></p>
-<p><code>O ko</code> 进入上一行,然后插入</p>
-<h2 id="Tip_3_退一步,进三步">Tip 3 退一步,进三步</h2><figure class="highlight"><figcaption><span>foo = "method("+argument1+","+argument2+")";```objc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#19978;&#38754;&#30340;&#20195;&#30721;&#30475;&#30528;&#19981;&#22826;&#33298;&#26381;,&#22240;&#20026;&#22312;&#25105;&#20204;&#21360;&#35937;&#20013;,&#21152;&#21495;&#20004;&#36793;&#24212;&#35813;&#26377;&#31354;&#26684;.&#37027;&#20040;&#25105;&#20204;&#26469;&#30475;&#24590;&#20040;&#20197;Vim&#30340;&#26041;&#24335;&#23436;&#25104;&#36825;&#20010;&#20219;&#21153;:&#10;&#10;`f+` &#26597;&#25214;&#26368;&#36817;&#30340;`+` , `s` &#26367;&#25442;`+` &#20026; `&#31354;&#26684;+&#31354;&#26684;`&#10;&#10;```var foo = &#34;method(&#34; + argument1+&#34;,&#34;+argument2+&#34;)&#34;;</span><br></pre></td></tr></table></figure>
-<p>对于后面的,我们当然可以使用 <code>f+</code> 然后 <code>.</code> 重复替换,完成任务.</p>
-<p>但是这里有个新的操作符 <code>;</code> 这个 <code>;</code> 可以重复执行最近的查找操作.<code>f+</code>就是一个查找操作.所以,对于后面的<code>+</code> ,我们可以通过 <code>;.</code> 依次完成替换.</p>
-<h2 id="Tip4_操作,重复,撤销">Tip4 操作,重复,撤销</h2><p>通过以上的几个tip,我们学会了,先操作,然后另其重复执行,借此完成一些重复任务.</p>
-<p>但是有时候,我们可能在反复的重复操作中,按多了.例如 tip2 中的 j.j.j. 很可能顺序按错了. 如果出现错误,那么我们就可以在出错的时候按 u 来撤销操作.又或者,Tip3中的;按多了(意味着移动的太过了)那么可以使用,来跳回去.</p>
-<p>通过以上的描述,能看出来,不同的误操作,对应着不同的撤销方式.下面是个参考表</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">意图				操作				重复		撤销</span><br><span class="line"></span><br><span class="line">改变点东西			&#123;edit&#125;			.		u</span><br><span class="line"></span><br><span class="line">行内查找下个字符	f&#123;<span class="keyword">char</span>&#125;/t&#123;<span class="keyword">char</span>&#125;		;		,</span><br><span class="line"></span><br><span class="line">行内查找前一个字符	F&#123;<span class="keyword">char</span>&#125;/T&#123;<span class="keyword">char</span>&#125;		;		,</span><br><span class="line"></span><br><span class="line">在文档内查找下个匹配	/pattern&lt;CR&gt; 		n		N</span><br><span class="line"></span><br><span class="line">在文档内查找前个匹配	?pattern&lt;CR&gt;		n		N</span><br><span class="line"></span><br><span class="line">执行替换		:s/target/replacement	&amp;		u</span><br><span class="line"></span><br><span class="line">执行一系列改变		qx&#123;changes&#125;q		@x		  u</span><br></pre></td></tr></table></figure>
-<p><code>f</code> 和 <code>t</code> 的区别是 <code>f</code> 停留光标在查找字符,<code>t</code>光标停留在查找字符之前</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1303,7 +1288,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1496,6 +1481,135 @@
 
   
   
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
 
   
 
