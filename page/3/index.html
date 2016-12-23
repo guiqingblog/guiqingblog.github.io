@@ -263,6 +263,336 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/21/其他技术/Vim实践Tips-三/" itemprop="url">
+                  Vim实践Tips(三)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-21T17:43:06+08:00" content="2016-07-21">
+              2016-07-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/其他技术/" itemprop="url" rel="index">
+                    <span itemprop="name">其他技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/21/其他技术/Vim实践Tips-三/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/21/其他技术/Vim实践Tips-三/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Tip_10_使用计数做一些简单的计算">Tip 10 使用计数做一些简单的计算</h2><p>大多数命令模式下的指令能够和计数搭配使用.我们可以利用这个特性做一些简单的运算.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span> character is <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p><code>&lt;C-a&gt;</code> 增加计数 (Ctrl+a)<br><code>&lt;C-x&gt;</code> 减少计数 (Ctrl+x)<br>他们可以可数字搭配使用,例如:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span> character is <span class="number">16</span> <span class="string">" 10&lt;C-a&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这个<c-a> 如果是在数字字符上,那么就会给他增加数字.如果没有在数字上,那么它会在这行中查找数字,并且跳转到数字上.如果没有那么就不会做任何操作.</c-a></p>
+<p>例如下面有一段 css 代码:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">.blog</span>, <span class="variable">.news</span> &#123; background-image: url(/sprite<span class="variable">.png</span>); &#125;</span><br><span class="line"><span class="variable">.blog</span> &#123; background-position: <span class="number">0</span>px <span class="number">0</span>px &#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们要复制最后一行,然后做一些改变:</p>
+<ol>
+<li>把单词 <code>blog</code> 换成 <code>news</code></li>
+<li>把 <code>0px</code> 换成 <code>-180px</code></li>
+</ol>
+<p>实现1,可以使用 <code>yyp</code> 然后使用 <code>cw</code> 修改单词.<br>那么2怎么实现呢?</p>
+<p>第一种方式是: <code>f0</code>, 然后 <code>i</code> 进入插入模式,输入<code>-18</code>,然后<code>&lt;Esc&gt;</code><br>但是我们的光标不在数字上,那么需要额外的跳转.而 <code>&lt;C-x&gt;</code> 可以自动给我们找到数字.<br>所以,直接 <code>180&lt;C-x&gt;</code> 更快</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">.blog</span> &#123; background-position: -<span class="number">180</span>px <span class="number">0</span>px &#125; <span class="string">"180&lt;C-x&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tip_11_如果可以重复,就别计数">Tip 11 如果可以重复,就别计数</h2><p>我们可以通过提供个数字来减少完成特定任务所需要的按键.但是这不代表我们就该这么做.还是应该思考下到底该重复还是该计数.</p>
+<p>假设我们有下面的文字:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Delete more than one word</span><br></pre></td></tr></table></figure>
+<p><code>d2w</code>  和 <code>2dw</code> 都能完成任务.</p>
+<ul>
+<li><code>d2w</code> 是<code>d</code>, 然后加上<code>2w</code> 的 <code>motion</code> ,理解为: 删除两个单词</li>
+<li><code>2dw</code>是2次执行 <code>dw</code> ,理解为: 删除一个单词,执行两次</li>
+</ul>
+<p>现在让我们想想一个替换方案: <code>dw.</code> 删除一个单词,然后重复之.</p>
+<h3 id="讨论几种方式-">讨论几种方式.</h3><p>其实<code>d2w</code>和<code>2dw</code> 没有区别,如果执行之后,按 <code>u</code> ,都会恢复两个单词.如果按<code>dot</code>,将重复删除后两个单词.<br>如果我们要删除下一个单词(总共三个)那我们就需要先<code>u</code>(恢复两个单词),然后<code>d3w</code>.这还是比较麻烦的.<br><code>dw.</code> 按<code>u</code>,会恢复一个单词,如果删除下个单词,只需要重新按<code>dot</code>即可.<br>在这种情况下,重复的优势更明显.</p>
+<p>如果我要删除6个单词呢? 我可以 <code>d6w</code> 或者<code>6dw</code>.或者 <code>dw.....</code> ,当然,前者有更少的按键.但是有个问题在这:我们需要数一下单词的数量,而且如果错误了,<code>u</code>会恢复<code>6</code>个单词.而<code>dw.....</code>如果出现错误,<code>u</code>一下,只是恢复一个单词.我们可以更好的控制这个过程.</p>
+<p>记住我们的”咒语”: 操作,重复,撤销. </p>
+<h3 id="必要时使用计数">必要时使用计数</h3><p>下面的文字,如果我要把 <code>a couple of</code> 换成 <code>some more.</code><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">I have a couple of questions.</span><br><span class="line">I have some more questions. <span class="string">"按键依次是 c3wsome more</span></span><br></pre></td></tr></table></figure></p>
+<p>在这个场景下,使用dot命令没有什么意义.即使重复了,最后还要按<code>i</code>进入插入模式.这样太笨拙了,所以我还是愿意使用计数.</p>
+<p>计数还有个好处,就是能够有个条理清楚的恢复操作.比如我<code>d3w</code>,<code>u</code>就会恢复3个单词</p>
+<h1 id="Tip_12_征服结合命令">Tip 12 征服结合命令</h1><p>Vim的强大源于操作符和移动命令的结合.</p>
+<h3 id="操作符+移动=操作">操作符+移动=操作</h3><p><code>d{motion}</code> 可以使用<code>dl</code>删除一个字符,<code>daw</code>删除整个单词,<code>dap</code>删除整段.<br><code>c{motion}</code> 和 <code>y{motion}</code>和上面类似</p>
+<p>操作符和移动的结合,可以认为是一种语法.第一条规则很简单:一个动作由一个操作符和一个移动组成.学习新的操作符就像学习Vim的词汇表.只要我们遵循简单的语法,随着词汇量增加,我们就能表达更多想法.</p>
+<p>假设我们已经知道了通过 daw 删除一整个单词.然后,我们学到了 <code>gU</code>,这也是一个操作符.所以,我们就能通过gUaw把当前单词转换成大写.</p>
+<p>再假设我们知道了<code>ap</code>(一整段motion},然后我们就能合成新的操作:<br><code>dap</code> 删除一整段 <code>gUap</code> 让一整段大写.</p>
+<p><code>Vim</code>  的语法还有个规则:如果一个操作符被重复输入,那么<code>motion</code>就等于当前行.例如:<br>-<code>dd</code>   删除当前行<br>-<code>&gt;&gt;</code>  缩进当前行<br>-<code>gUgU</code> 或者 <code>gUU</code> 大写当前行 g是后面操作符的一个前缀</p>
+<p>Vim的操作符命令</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">操作符        效果</span><br><span class="line">c             Change 改变</span><br><span class="line">d             Delete 删除</span><br><span class="line">y             Yank into <span class="keyword">register</span> 复制到寄存器</span><br><span class="line">g~            Swap <span class="keyword">case</span> 切换大小写</span><br><span class="line">gu            make lowercase 小写</span><br><span class="line">gU            make upppercase 大写</span><br><span class="line">&gt;             shift right 右移</span><br><span class="line">&lt;             shift left 左移</span><br><span class="line">=             autoindent 自动缩进</span><br><span class="line">!             Filter &#123;motion&#125; lines through an external program</span><br></pre></td></tr></table></figure>
+<h3 id="拓展Vim整合的力量">拓展Vim整合的力量</h3><p>Vim标准的操作符相对来说比较少,但是我们可以定义新的.</p>
+<h3 id="使用现有的操作符自定义移动">使用现有的操作符自定义移动</h3><p>Vim标准的移动命令已经很全面,但是我们还可以增加新的移动和文本对象.</p>
+<h3 id="待决模式">待决模式</h3><p>除了明显的插入,命令和底行模式.Vim还有些容易被忽略的模式.待决模式( Operator-Pending mode )就是其中的一个.我们每天都大量使用它,但是每次都持续一小段时间.例如<code>dw</code>,这个模式仅仅持续了你按下<code>d</code>到按下<code>w</code>这中间的这个时间.</p>
+<p>如果我们把Vim看做是一个有限状态机.那么待决模式就是仅接受移动命令的状态.当一个操作符被触发的时候,这个状态被激活,在输入移动命令之前,Vim不会做任何操作.当待决模式被激活后,我们可以通过<esc>就可以中断,返回命令模式.</esc></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/19/其他技术/Vim实践Tips(二)/" itemprop="url">
+                  Vim实践Tips(二)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-19T17:40:15+08:00" content="2016-07-19">
+              2016-07-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/其他技术/" itemprop="url" rel="index">
+                    <span itemprop="name">其他技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/19/其他技术/Vim实践Tips(二)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/19/其他技术/Vim实践Tips(二)/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Tip_5_手动查找和替换">Tip 5 手动查找和替换</h2><p>下面每一行中都有 <code>content</code> 这个单词</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">...We're waiting for content before the site can go live...</span><br><span class="line"></span><br><span class="line">...If you are content with this, let's go ahead with it...</span><br><span class="line"></span><br><span class="line">...We'll launch as soon as we have the content...</span><br></pre></td></tr></table></figure>
+<p>如果我们想把所有的 <code>content</code> 替换成 <code>copy</code>, 那么可以很简单的想到替换命令.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">:%s/content/<span class="keyword">copy</span>/g</span><br></pre></td></tr></table></figure>
+<p> 但是有时候我们并不想全局替换掉.</p>
+<h3 id="懒惰点:不做输入的查找">懒惰点:不做输入的查找</h3><p> 你也许已经猜到<code>.</code>是我最喜欢的单键<code>Vim</code>命令.第二喜欢的是 <code>*</code>,它可以搜索处于光标下面的单词.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">...We're waiting for copy before the site can go live...</span><br><span class="line"></span><br><span class="line">...If you are copy with this, let's go ahead with it...</span><br><span class="line"></span><br><span class="line">...We'll launch as soon as we have the content...</span><br></pre></td></tr></table></figure>
+<p> 首先将光标置于 <code>content</code> 上面,然后用<code>*</code>命令去查找它,这时候将发生两个事情:</p>
+<ol>
+<li><p>光标将跳转到下个匹配处(即下个 <code>content</code> 单词) </p>
+</li>
+<li><p>所有出现匹配项的地方将高亮显示 (如果没有,使用 <code>:set hls</code> .</p>
+</li>
+</ol>
+<p>上面两件事情发生之后,我们就可以使用 <code>n</code> 命令跳转到下一个.这时候,使用 <code>*nn</code> 可以循环所有匹配,然后光标转到我们开始进行搜索的地方</p>
+<h3 id="让更改变得可重复">让更改变得可重复</h3><p>当我们的光标置于 <code>content</code> 的开始位置的时候,我们准备去更改它.这包含两个步骤:</p>
+<ol>
+<li><p>删除单词 <code>content</code> </p>
+</li>
+<li><p>输入修改的内容. <code>cw</code> 删除到单词结尾命令,并且进入插入模式.</p>
+</li>
+</ol>
+<p>然后我们输入 <code>copy</code> 这个单词. Vim 将记录我们的键盘点击,直到我们离开插入模式,所以, <code>cwcopy&lt;Esc&gt;</code> 将会被记录为一个单个命令.通过使用<code>.</code>就可以重复上面的操作.</p>
+<h2 id="Tip6_Dot公式">Tip6 Dot公式</h2><p>在 Tip2中,我们试着将每个句子后面加<code>;</code> 最后,我们通过 <code>j.</code> 进行重复操作.</p>
+<p>在 Tip3中,我们将每个<code>+</code>前后添加空格.  最后,我们通过 <code>;.</code> 进行重复操作</p>
+<p>在 Tip5中,我们将 <code>content</code> 替换成 <code>copy</code>,最后,我们通过 <code>n.</code> 进行重复操作.</p>
+<h3 id="理想的状态:_一个按键负责移动,一个按键负责执行操作-">理想的状态: 一个按键负责移动,一个按键负责执行操作.</h3><p> 在上面所有的操作中 . 重复最后的更改.这不是他们全部的共同点,我们都还用了一个键去移动光标.这已经是一个不能再好的情况了.我们在将来的编辑中,可以反复看到这个编辑模式.为了方便,我们把这个模式成为 Dot公式 (Dot Formula)</p>
+<h2 id="Tip7_拿开你的笔刷">Tip7 拿开你的笔刷</h2><p><code>Normal Mode</code> (命令模式) 可以类比为一个画家,把笔刷离开画布.这时候,他可以休息,可以构思.同理,程序员也可以在 <code>Normal Mode</code> 中进行思考,组织自己的思路.当我们要改变的时候,也不用非得进入插入模式.在 <code>Normal Mode</code>中,我们可以格式化我们的代码,复制,或者移动他们.</p>
+<h2 id="Tip8_强化你的撤销">Tip8 强化你的撤销</h2><p>在其他编辑器中,通过在输入一些东西之后进行撤销,可以撤销我们最后输入的单词或者字符.然后在 Vim 中,我们设置可以调整撤销命令的粒度.</p>
+<p><code>u</code> 这个命令可以触发撤销命令.它可以撤销包括Normal,Visual还有 Command-Line 模式的更改.当然,也包括在插入模式下的文本输入或者删除.所以我们可以说: <code>i{ 插入一些更改}&lt; Esc&gt;</code>  构成了一个改变. 然后一次<code>u</code> 就可以撤销这个改变.</p>
+<p>另外,插入模式中,如果使用了上下左右箭头,那么就相当于在 NormalMode下使用了 <code>hjkl</code>.区别就是我们不用离开插入模式,但是这些操作,会被记录到点公式 (Dot Fomula)中.</p>
+<h2 id="Tip9_创建可重复的改变">Tip9 创建可重复的改变</h2><p>vim将重复操作进行了优化,为了利用这个特性.我们需要留心怎么创建可重复的改变</p>
+<p>在 Vim 中,做一件事通常有很多方式.但是衡量”好”的方式的机制就是:更少的键盘敲击.</p>
+<p>假设我们的光标在 <code>h</code> 这个字母上,我们想要删除单词 <code>nigh</code></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">The end is nigh</span><br></pre></td></tr></table></figure>
+<h3 id="1-_向后删除">1. 向后删除</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">The end is nigh "开始</span><br><span class="line"></span><br><span class="line">The end is h "db  从光标位置删除单词的前面部分</span><br><span class="line"></span><br><span class="line">The end is  "x 删除当前光标的字符</span><br></pre></td></tr></table></figure>
+<h3 id="2-_向前删除">2. 向前删除</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">The end is nigh   "开始</span><br><span class="line"></span><br><span class="line">The end is nigh   "b  向后移动光标一个单词</span><br><span class="line"></span><br><span class="line">The end is        "dw 向前删除一个单词</span><br></pre></td></tr></table></figure>
+<h3 id="3-_删除整个单词">3. 删除整个单词</h3><p>上面两个解决方案都牵涉到了一些准备工作,例如移动.其实,利用<code>aw</code> 命令可以更精准高效的完成我们的需求</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">The end ais nigh   "开始</span><br><span class="line"></span><br><span class="line">The end is "daw</span><br></pre></td></tr></table></figure>
+<h3 id="4-_哪一个是最可重复的">4. 哪一个是最可重复的</h3><p>上面我们使用了三种方式进行删除一个单词.每种方式中,我们都是按了三个键,那么那种方式是更好的呢?</p>
+<p>记住, Vim 优化了重复.那么检验好坏的标准就是重复.下面使用dot 命令来检验三种方式,通过测试发现:</p>
+<ul>
+<li><p>第一种方式: <code>.</code> 等价于 <code>x</code> (<code>db</code> 是改变操作. <code>x</code> 也是改变操作)</p>
+</li>
+<li><p>第二种方式: <code>.</code> 等价于 <code>dw</code> (<code>b</code> 是纯移动, <code>dw</code> 是改变操作)</p>
+</li>
+<li><p>第三种方式: <code>.</code> 等价于 <code>daw</code> (<code>daw</code>是改变操作)</p>
+</li>
+</ul>
+<p>看起来<code>2</code> <code>3</code> 都是挺有用的,但是有个细节 <code>2</code>删除一个单词,但是不会删除对应的空格,表象上来看就是不会移动光标到下个单词上,那么这时候, <code>.</code>这个命令就没什么意义. <code>3</code> 会把要删除的单词附带空格删除,同时光标停留在 <code>is</code> 的结尾.那么<code>.</code>这个操作就能继续删除一个单词. (我强烈建议自己动手试试看)</p>
+<p>﻿</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/18/其他技术/Vim实践Tips(一)/" itemprop="url">
                   Vim实践Tips(一)
                 </a>
@@ -825,321 +1155,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/" itemprop="url">
-                  RACObserve 和 rac_textSignal 的搭配使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-18T23:28:19+08:00" content="2016-06-18">
-              2016-06-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/ReactiveCocoa/" itemprop="url" rel="index">
-                    <span itemprop="name">ReactiveCocoa</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/18/ReactiveCocoa/RACObserve-和-rac-textSignal-的搭配使用/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>项目中有个小需求,文本框与按钮绑定.当文本框内容符合规则的时候,按钮才会可用.把判定条件修改一下,代码如下:</p>
- <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> RAC(<span class="keyword">self</span><span class="variable">.loginButton</span>,enabled)  = [<span class="keyword">self</span><span class="variable">.textFiled</span><span class="variable">.rac_textSignal</span>  map:^<span class="keyword">id</span>(<span class="built_in">NSString</span> *value) &#123;</span><br><span class="line">    <span class="keyword">return</span> @(value<span class="variable">.length</span>&gt;<span class="number">3</span>);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<p>但是如果在发送请求之后,通过代码清除了文本框的内容,按钮并不会改变状态. </p>
-<p> 想到了, 应该是这个 <code>rac_textSignal</code> 出现问题了.<br> 看一下它的实现:<br> <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> - (RACSignal *)rac_textSignal &#123;</span><br><span class="line">	@weakify(<span class="keyword">self</span>);</span><br><span class="line">	<span class="keyword">return</span> [[[[[RACSignal</span><br><span class="line">		defer:^&#123;</span><br><span class="line">			@strongify(<span class="keyword">self</span>);</span><br><span class="line">			<span class="keyword">return</span> [RACSignal <span class="keyword">return</span>:<span class="keyword">self</span>];</span><br><span class="line">		&#125;]</span><br><span class="line">		concat:[<span class="keyword">self</span> rac_signalForControlEvents:<span class="built_in">UIControlEventAllEditingEvents</span>]]</span><br><span class="line">		map:^(<span class="built_in">UITextField</span> *x) &#123;</span><br><span class="line">			<span class="keyword">return</span> x<span class="variable">.text</span>;</span><br><span class="line">		&#125;]</span><br><span class="line">		takeUntil:<span class="keyword">self</span><span class="variable">.rac_willDeallocSignal</span>]</span><br><span class="line">		setNameWithFormat:<span class="string">@"%@ -rac_textSignal"</span>, <span class="keyword">self</span><span class="variable">.rac_description</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>几个关键词的解释:<br><code>defer</code> : 将代码的创建推迟到信号被订阅<br><code>concat</code>: 连接信号,第一个信号必须发送完成，第二个信号才会被激活<br><code>map</code> : 映射,将信号内容转换<br><code>takeUtil</code> :  signalA takeUntil:signalB 当signalB激活之后,停止signalA 的订阅</p>
-<p>其实主要的是, 这个 <code>signal</code> 是监听的: <code>UIControlEventAllEditingEvents</code> . 那么也就是说对<code>setter</code> 方式不会触发信号 </p>
-<p><code>RACObserve</code> 是一个常用的宏,我们都知道是监听属性值改变的.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#define RACObserve(TARGET, KEYPATH) \</span></span><br><span class="line">	(&#123; \</span><br><span class="line">		_Pragma(<span class="string">"clang diagnostic push"</span>) \</span><br><span class="line">		_Pragma(<span class="string">"clang diagnostic ignored \"-Wreceiver-is-weak\""</span>) \</span><br><span class="line">		__<span class="keyword">weak</span> <span class="keyword">id</span> target_ = (TARGET); \</span><br><span class="line">		[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:<span class="keyword">self</span>]; \</span><br><span class="line">		_Pragma(<span class="string">"clang diagnostic pop"</span>) \</span><br><span class="line">	&#125;)</span><br></pre></td></tr></table></figure>
-<p>主要代码是:<code>[target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self];</code><br>然后这个<code>rac_valuesForKeyPath</code>的实现如下:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (RACSignal *)rac_valuesForKeyPath:(<span class="built_in">NSString</span> *)keyPath observer:(__<span class="keyword">weak</span> <span class="built_in">NSObject</span> *)observer &#123;</span><br><span class="line">	<span class="keyword">return</span> [[[<span class="keyword">self</span></span><br><span class="line">		rac_valuesAndChangesForKeyPath:keyPath options:<span class="built_in">NSKeyValueObservingOptionInitial</span> observer:observer]</span><br><span class="line">		map:^(RACTuple *value) &#123;</span><br><span class="line">			<span class="comment">// -map: because it doesn't require the block trampoline that -reduceEach: uses</span></span><br><span class="line">			<span class="keyword">return</span> value[<span class="number">0</span>];</span><br><span class="line">		&#125;]</span><br><span class="line">		setNameWithFormat:<span class="string">@"RACObserve(%@, %@)"</span>, <span class="keyword">self</span><span class="variable">.rac_description</span>, keyPath];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>主要代码:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rac_valuesAndChangesForKeyPath:keyPath options:<span class="built_in">NSKeyValueObservingOptionInitial</span> observer:observer]</span><br></pre></td></tr></table></figure>
-<p>也就是这个是通过 <code>KVO</code> 实现的. 而 <code>KVO</code> 得实现是通过临时生成一个子类,并重写父类的 <code>setter</code> 方法.这个在官方文档中有说明:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Key-Value Observing Implementation Details</span><br><span class="line"></span><br><span class="line">Automatic key-value observing is implemented using a technique called isa-swizzling. </span><br><span class="line">The isa pointer, as the name suggests, points to the object's class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data. </span><br><span class="line">When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance. </span><br><span class="line">You should never rely on the isa pointer to determine class membership. Instead, you should use the class method to determine the class of an object instance.</span><br></pre></td></tr></table></figure>
-<h3 id="最终实现">最终实现</h3><p>了解了两者的实现,就可以很容易实现代码:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RAC(<span class="keyword">self</span><span class="variable">.loginButton</span>,enabled) =[ [RACObserve(<span class="keyword">self</span><span class="variable">.textFiled</span>, text)  merge:<span class="keyword">self</span><span class="variable">.textFiled</span><span class="variable">.rac_textSignal</span> ] map:^<span class="keyword">id</span>(<span class="built_in">NSString</span> *value) &#123;</span><br><span class="line">     <span class="keyword">return</span> @(value<span class="variable">.length</span>&gt;<span class="number">3</span>);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/15/Swift/Swift3-新特性/" itemprop="url">
-                  Swift3 新特性 
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-15T14:51:18+08:00" content="2016-06-15">
-              2016-06-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index">
-                    <span itemprop="name">Swift</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/15/Swift/Swift3-新特性/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/15/Swift/Swift3-新特性/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>看了一下刚出的 Session 406,简单记录一下关于 Swift3.0相比2.2的改动. 能力有限,若有谬误,欢迎指正 .</p>
-<h3 id="简化的_API">简化的 API</h3><ul>
-<li>优化将方法名切分,将操作中的动词提取,作为方法名.将其余部分作为参数名.</li>
-<li>在不引起歧义的情况下,去掉了重复性的名词.</li>
-</ul>
-<p>Swift 2.2</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var array:Array = [<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">array<span class="variable">.appendContentsOf</span>([<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>])</span><br><span class="line">array<span class="variable">.insert</span>(<span class="number">1</span>, atIndex: <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">var url = <span class="built_in">NSURL</span>(string: <span class="string">"randomLoacation"</span>)!</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> url<span class="variable">.fileURL</span> &#123;&#125;</span><br><span class="line">var x = url<span class="variable">.URLByAppendingPathComponent</span>(<span class="string">"file.txt"</span>)</span><br></pre></td></tr></table></figure>
-<p>Swift 3.0</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Swift.Array</span></span><br><span class="line">var array:Array = [<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">array<span class="variable">.append</span>(contentsOf: [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>])</span><br><span class="line">array<span class="variable">.insert</span>(<span class="number">1</span>, at: <span class="number">0</span>) <span class="comment">//index没有什么特定信息,只是重复</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Foudation.NSURL</span></span><br><span class="line">var url = <span class="built_in">NSURL</span>(string: <span class="string">"randomLoacation"</span>)!</span><br><span class="line"><span class="keyword">if</span> url<span class="variable">.isFileURL</span> &#123;&#125; <span class="comment">//意思更明确</span></span><br><span class="line">var x = url<span class="variable">.appendingPathComponent</span>(<span class="string">"file.txt"</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="一致的函数参数标签">一致的函数参数标签</h3><p>原来2.2中, 第一个参数标签可以省略.类似这样:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">func myFunction(a: Int , b: Int , c: Int)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">myFunction(<span class="number">42</span>, b: <span class="number">57</span>, c: <span class="number">39</span>)</span><br></pre></td></tr></table></figure>
-<p>在 3.0 中,上面的用法会报错. 需要显式写出标签,类似这样:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">func myFunction(a: Int , b: Int , c: Int)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">myFunction(a: <span class="number">10</span>, b: <span class="number">10</span>, c: <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-<p>当然,如果实在不想写,可以在声明的时候使用 <code>_</code> .</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">func myFunction(_ a: Int , b: Int , c: Int)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">myFunction(<span class="number">10</span>, b: <span class="number">10</span>, c: <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="移动_Where_语句到函数声明的结尾">移动 Where 语句到函数声明的结尾</h3><p>在 Swift2.2中,泛型约束语句<code>Where</code>需要放到泛型的<code>&lt;&gt;</code>中.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func anyCommon&lt;T: SequenceType, U: SequenceType</span><br><span class="line">    where T<span class="variable">.Generator</span><span class="variable">.Element</span> : Equatable,</span><br><span class="line">    T<span class="variable">.Generator</span><span class="variable">.Element</span> == U<span class="variable">.Generator</span><span class="variable">.Element</span>&gt;(lhs: T, rhs: U) -&gt; Bool&#123;</span><br><span class="line">    print(<span class="string">"here"</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在 Swift3.0中,将其提取到声明之后:<br>代码是参考的 Session 中的代码,但是本人用 Xcode8.0的 Playground 报错.但是主旨不会错,就是将<code>Where</code>语句提取出来.<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func anyCommons&lt;T: Sequence, U: Sequence&gt;(lhs: T, rhs: U) -&gt; Bool</span><br><span class="line">    where T<span class="variable">.Element</span>: Equatable,T<span class="variable">.Element</span> == U<span class="variable">.Element</span></span><br><span class="line">&#123;</span><br><span class="line">    print(<span class="string">"here"</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="结果未使用警告的方法">结果未使用警告的方法</h3><p>对于一个没有使用的函数返回值(或者自定义的变量值),编译器都会给你一个警告.因为既然你认为有返回值, 而你却没有使用.这可能就是你忘记了.这种操作可能会造成你编码的 bug</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">func plusOne(_ a : Int) -&gt;Int&#123;</span><br><span class="line">         print(a)</span><br><span class="line">         <span class="keyword">return</span> a+<span class="number">1</span></span><br><span class="line">     &#125;</span><br><span class="line">     </span><br><span class="line">     plusOne(<span class="number">3</span>) <span class="comment">//得到警告 Result of call to 'plusOne' is unused</span></span><br></pre></td></tr></table></figure>
-<p>但是一些情况下.我们确实不需要用到这个返回值,而且仅仅是为了函数的一个副作用( side effect) 而去调用函数. 例如,上面代码中的<code>print(a)</code>.这就是我调用函数的目的.<br>为了消除警告,可以使用如下方式:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">func plusOne(_ a : Int) -&gt;Int&#123;</span><br><span class="line">    print(a)</span><br><span class="line">    <span class="keyword">return</span> a+<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_ =  plusOne(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<p>或者使用标记 <code>@discardableResult</code>:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@discardableResult</span><br><span class="line">func plusOne(_ a : Int) -&gt;Int&#123;</span><br><span class="line">    print(a)</span><br><span class="line">    <span class="keyword">return</span> a+<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">plusOne(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="索引集合">索引集合</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let collection = [<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>,<span class="string">"d"</span>]</span><br><span class="line"></span><br><span class="line">var i = collection<span class="variable">.startIndex</span></span><br></pre></td></tr></table></figure>
-<p>在 Swift 2.2 中</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swift <span class="number">2</span> : var next = i<span class="variable">.successor</span>()</span><br></pre></td></tr></table></figure>
-<p>在 Swift 3.0 中</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var next = collection<span class="variable">.index</span>(after: <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="浮点型和数值型">浮点型和数值型</h3><ul>
-<li>Float,Double,Float80 和 CGFloat统一使用新的浮点协议( Floating Point Protocol )</li>
-<li>提供 IEEE-754 相关的属性和方法 (IEEE 754 标准是IEEE二进位浮点数算术标准（IEEE Standard for Floating-Point Arithmetic）的标准编号  ，等同于国际标准ISO/IEC/IEEE 60559[2])</li>
-<li>允许在所有的浮点类型上使用算法泛型(水平有限,原文是:permits algrithms to be gerneric over all floating point types)</li>
-</ul>
-<p>用 PI 来举个例子:<br>Swift 2.2</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let v = <span class="number">2</span> * Float(M_PI)</span><br></pre></td></tr></table></figure>
-<p>而在 Swift3.0中</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let v = <span class="number">2</span> * Float<span class="variable">.pi</span></span><br></pre></td></tr></table></figure>
-<p>如果第一个操作数是浮点数,还可以这样写:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let anotherV = <span class="number">2.0</span> * <span class="variable">.pi</span> / <span class="number">180</span></span><br></pre></td></tr></table></figure>
-<h3 id="隐式解包可选">隐式解包可选</h3><p>在 Swift2.2中<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func f(value: Int!)&#123;</span><br><span class="line">    let x = value + <span class="number">1</span> <span class="comment">// x 是 Int 类型 - 强制解包</span></span><br><span class="line">    let y = value     <span class="comment">// y 是 Int!</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在 Swift 3.0 中<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func f(value: Int!)&#123;</span><br><span class="line">    let x = value + <span class="number">1</span> <span class="comment">// x 是 Int 类型 - 强制解包</span></span><br><span class="line">    let y = value     <span class="comment">// y 是 Int?</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>具体参考:<br><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0054-abolish-iuo.md" target="_blank" rel="external">SE-0054</a></p>
-<h3 id="一些细节的增强">一些细节的增强</h3><ul>
-<li>当前文件访问级别,新增的权限控制关键字 <code>fileprivate</code> <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md" target="_blank" rel="external">SE-0025</a></li>
-<li><code>case</code>中的标签可以使用多种模式 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0043-declare-variables-in-case-labels-with-multiple-patterns.md" target="_blank" rel="external">SE-0043</a></li>
-<li>泛型别名 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0048-generic-typealias.md" target="_blank" rel="external">SE-0048</a></li>
-<li>引用Objective-C 的 key-paths <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0062-objc-keypaths.md" target="_blank" rel="external">SE-0062</a></li>
-<li>引用 Objective-C中属性的 getter 和 setter <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0064-property-selectors.md" target="_blank" rel="external">SE-0064</a></li>
-<li>协议和协议拓展的别名 <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0092-typealiases-in-protocols.md" target="_blank" rel="external">SE-0092</a><h3 id="移除的功能">移除的功能</h3></li>
-</ul>
-<ol>
-<li>函数柯里化<a href="http://www.cocoachina.com/ios/20141110/10166.html" target="_blank" rel="external">Currying介绍</a></li>
-<li>函数参数中的 <code>var</code> <a href="http://www.swiftcafe.io/2016/05/05/swift3-var/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">详细介绍</a></li>
-<li>去掉 <code>++</code> 和 <code>--</code> 操作符</li>
-<li>C 风格的for循环</li>
-<li>通过元组的形式传递函数参数列表 .<a href="http://www.paulrobinson.net/function-parameters-are-tuples-in-swift/" target="_blank" rel="external">详细介绍</a></li>
-</ol>
-<p>对第5条做一个说明:<br>在 swift 2.2 中,我们可以:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">let param = (<span class="number">20</span>,<span class="string">"kenny"</span>,<span class="string">"male"</span>)</span><br><span class="line"></span><br><span class="line">func personInfo(age: Int ,_ name: String ,_ gender: String)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">personInfo(param)</span><br><span class="line"></span><br><span class="line"><span class="comment">//也可以不省略标签</span></span><br><span class="line"></span><br><span class="line">let param = (age:<span class="number">20</span>, name:<span class="string">"kenny"</span>, gender:<span class="string">"male"</span>)</span><br><span class="line"></span><br><span class="line">func personInfo(age age: Int , name: String , gender: String)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">personInfo(param)</span><br></pre></td></tr></table></figure>
-<p>这个语法在 Swift3.0中被去掉了.原因是这么传递,可能会和有一个元组类型参数的函数混淆.</p>
-<p>参考 : WWDC 2016 Session 402 What’s new in Swift</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1185,7 +1200,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">73</span>
+              <span class="site-state-item-count">75</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1193,7 +1208,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1202,7 +1217,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

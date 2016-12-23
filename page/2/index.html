@@ -263,6 +263,286 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/24/iOS Tips/GCD实现线程同步的三种方式/" itemprop="url">
+                  GCD实现线程同步的三种方式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-24T10:49:05+08:00" content="2016-09-24">
+              2016-09-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/24/iOS Tips/GCD实现线程同步的三种方式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/24/iOS Tips/GCD实现线程同步的三种方式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>写这篇文章的原因是自己几天前的一个面试,当时面试官问这个线程同步的问题,感觉自己回答的不好,知识接触过,却不系统条理.所以这次特地整理一下</p>
+<h2 id="什么是线程同步">什么是线程同步</h2><p>同步就是协同步调，按预定的先后次序进行运行。如：你说完，我再说。<br>“同”字从字面上容易理解为一起动作<br>其实不是，“同”字应是指协同、协助、互相配合。<br>如进程、线程同步，可理解为进程或线程A和B一块配合，A执行到一定程度时要依靠B的某个结果，于是停下来，示意B运行；B依言执行，再将结果给A；A再继续操作。</p>
+<p><strong>以上内容来自百度百科</strong></p>
+<h2 id="GCD中实现线程同步的方式">GCD中实现线程同步的方式</h2><h3 id="dispatch_group">dispatch_group</h3><p><code>dispatch_group</code>是GCD中经常使用的线程同步方式,具体用法如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"cc.imguiqing"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 1 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 2 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 3 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>可以看出,这个和普通的GCD任务相比,每个API都多了一个group参数.但是如果仅仅是像上面的方式使用,就没有什么必要了.我们使用Group的原因,更多是想要知道这个Group中的执行情况.借此来获得时机做一些逻辑操作.所以<code>dispatch_group</code>提供了两个API:</p>
+<ol>
+<li>通知Group中的任务都执行完毕</li>
+</ol>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">dispatch_group_notify(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"all task done"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>阻塞式的等待Group中的任务都执行完毕</li>
+</ol>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dispatch_group_wait(group, DISPATCH_TIME_FOREVER);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"since all done , I move on"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="更常见的写法">更常见的写法</h4><p>上面的写法虽然简单,但是如果看过一些三方库的代码,发现那么用的并不多.更多的是利用<code>dispatch_group_enter(group)</code>和<code>dispatch_group_leave(group)</code>来包装任务,本质上两者没有区别,多说这些仅仅是让你别以后看代码的时候感到疑惑,<br>代码如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_queue( <span class="number">0</span>, <span class="number">0</span> );</span><br><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line"></span><br><span class="line">dispatch_group_enter(group);</span><br><span class="line"><span class="built_in">dispatch_async</span>( queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>( <span class="string">@"task 1 --- %@"</span>, [<span class="built_in">NSThread</span> currentThread] );</span><br><span class="line">    dispatch_group_leave(group);</span><br><span class="line">&#125; );</span><br><span class="line">dispatch_group_enter(group);</span><br><span class="line"><span class="built_in">dispatch_async</span>( queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>( <span class="string">@"task 2 --- %@"</span>, [<span class="built_in">NSThread</span> currentThread] );</span><br><span class="line">    dispatch_group_leave(group);</span><br><span class="line">&#125; );</span><br><span class="line">dispatch_group_notify( group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>( <span class="string">@"all task done %@"</span>, [<span class="built_in">NSThread</span> currentThread] );</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure>
+<h3 id="信号量">信号量</h3><p>信号量可以理解为一个特殊的变量.程序对它的访问都是原子性的,我们通过PV操作来修改信号量.<br>使用代码简单说明:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_semaphore_t sem = 	dispatch_semaphore_create(<span class="number">0</span>);</span><br><span class="line">[networkManager requestWithDelay:<span class="number">5</span> completion:^&#123;</span><br><span class="line">    dispatch_semaphore_signal(sem);<span class="comment">//+1</span></span><br><span class="line">&#125;];</span><br><span class="line">dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);<span class="comment">//-1</span></span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"five sectonds"</span>);</span><br></pre></td></tr></table></figure>
+<p>信号量创建的时候, 可以给他指定一个值.<code>dispatch_semaphore_signal(sem)</code>对信号进行<code>+1</code>操作.<code>dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER)</code>对信号进行<code>-1</code>操作.当进行<code>-1</code>时,如果发现信号结果会小于0,那么线程进入阻塞状态.只有当信号<code>&gt;=0</code>才能通过.</p>
+<p>那么上面的代码段就容易明白了: 一直等到一个异步的网络请求结束,才继续执行<code>NSLog(@&quot;five sectonds&quot;);</code>,也是就其他的逻辑</p>
+<h3 id="Barrier">Barrier</h3><p>相比上面两种方式,Barrier知道的人相对少一些.但是Barrier用起来相对上面两种更加简单.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"cc.imguiqing"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 1 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 2 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"barrier =========="</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 3 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>上面的代码,<code>task 1</code>和<code>task 2</code>会并发执行,然后执行<code>barrier</code>,最后是<code>task 3</code>,用图来说明:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160924147468717647516.jpg?imageView2/0/format/jpg" alt="20160924147468717647516.jpg"></p>
+<p>这个 barrier就相当于一个栅栏,将不同的任务区分开来.从代码中也不难看出,这个barrier函数不需要依赖其它的变量,没有侵入性.所以非常好用.和Group也是非常好搭配.例如下面的代码:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"cc.imguiqing"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; <span class="number">500000000</span>; i++) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 1 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"======"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; <span class="number">500000000</span>; i++) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 2 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"======"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 3 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_notify(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"all task done"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_wait(group, DISPATCH_TIME_FOREVER);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"since all done , I move on"</span>);</span><br></pre></td></tr></table></figure>
+<p>能保证 <code>task 1 2 3</code>顺序执行,同时,由于使用了Group,也能知道执行结束的时机. 但是仅仅是为了说明问题,如果要顺序执行,那么还是使用GCD中同步队列更加合适.</p>
+<p><strong>注意点: 这个barrier函数只能用于并发队列,且不能是<code>global queue</code>.</strong></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/23/Xcode&环境配置/Xcode-8-必要配置/" itemprop="url">
+                  Xcode 8 适配
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-23T14:48:47+08:00" content="2016-09-23">
+              2016-09-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Xcode-环境配置/" itemprop="url" rel="index">
+                    <span itemprop="name">Xcode&环境配置</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/23/Xcode&环境配置/Xcode-8-必要配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/23/Xcode&环境配置/Xcode-8-必要配置/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>相信很多小伙伴都升级了Xcode 8 ,但是发现很多恶心的地方.下面是自己这几天的积累,解决了一部分问题.希望能帮到大家.</p>
+<h2 id="注释快捷键失效">注释快捷键失效</h2><p>我们常用的<code>cmd+/</code>失效了了.</p>
+<h2 id="解决方案">解决方案</h2><p>终端输入:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/libexec/xpccachectl</span><br></pre></td></tr></table></figure></p>
+<p>然后重启mac</p>
+<h2 id="去掉多余打印">去掉多余打印</h2><p>当你开开心心的想去控制台看Log的时候,发现这样:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/2016092374983截图 2016-09-23 14时52分35秒.jpg" alt="2016092374983截图 2016-09-23 14时52分35秒.jpg"></p>
+<h2 id="解决方法">解决方法</h2><p>到<code>Target</code>中添加如下键值对:<br><code>OS_ACTIVITY_MODE disable</code><br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461373922375.jpg?imageView2/0/format/jpg" alt="20160923147461373922375.jpg"></p>
+<h2 id="插件失效">插件失效</h2><p>每次升级,都会面临插件失效的情况. 以前比较简单的可以通过修改插件plist的方法来完成修复.<br>1.打开终端，输入以下代码获取到<code>DVTPlugInCompatibilityUUID</code><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults read /Applications/Xcode<span class="variable">.app</span>/Contents/Info DVTPlugInCompatibilityU<span class="built_in">UID</span></span><br></pre></td></tr></table></figure></p>
+<p>2.然后输入如下命令 【最后一项是获取到的DVTPlugInCompatibilityUUID】<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins -name Info<span class="variable">.plist</span> -maxdepth <span class="number">3</span> | xargs -I&#123;&#125; defaults write &#123;&#125; DVTPlugInCompatibilityU<span class="built_in">UIDs</span> -array-add <span class="number">9</span>F75337B-<span class="number">21</span>B4-<span class="number">4</span>ADC-B558-F9<span class="built_in">CADF7073A7</span></span><br></pre></td></tr></table></figure></p>
+<p><a href="http://blog.csdn.net/u014536527/article/details/45022747" target="_blank" rel="external">来源网址</a><br>但是Xcode 8 却不行了,甚至明确说支持Xcode8的插件也不正常工作.这是因为Xcode8要求<code>code sign</code></p>
+<h2 id="解决方法-1">解决方法</h2><p>因为我一直很依赖<code>xvim</code>这个插件,所以一直关注等着更新.今天意外发现有个适配Xcode8的说明:</p>
+<p>1.打开<code>Keychain Access</code>,在左边栏中选择<code>login</code>这个条目<br>2.选择<code>Create a Certificate</code><br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461457298237.jpg?imageView2/0/format/jpg" alt="20160923147461457298237.jpg"><br>3.输入名字,然后选择<code>Code Signing</code>这个类型<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461461158577.jpg?imageView2/0/format/jpg" alt="20160923147461461158577.jpg"><br>4.退出Xode,然后终端中输入:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo codesign -f -s XcodeSigner /Applications/Xcode<span class="variable">.app</span></span><br></pre></td></tr></table></figure></p>
+<p>具体Xcode路径看自己放哪.<br>5.然后可以依靠旧的方法去使用,或者去获取最新版本.</p>
+<p><a href="https://github.com/XVimProject/XVim/blob/master/INSTALL_Xcode8.md" target="_blank" rel="external">来源网址</a></p>
+<h2 id="切换Swift版本">切换Swift版本</h2><p>目前Xcode8中支持Swift3.0 ,但是不幸的是,很多三方库还不支持. 我们可以通过配置,切换为Swift的2.3版本.</p>
+<h2 id="修改配置">修改配置</h2><p>配置如下图,设置为NO表示使用 Swift 3.0. YES表示使用Swift2.3<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461514664286.jpg?imageView2/0/format/jpg" alt="20160923147461514664286.jpg"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/18/环境、配置相关/一份自己满意的ClangFormat配置/" itemprop="url">
                   一份自己满意的ClangFormat配置
                 </a>
@@ -913,336 +1193,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/21/其他技术/Vim实践Tips-三/" itemprop="url">
-                  Vim实践Tips(三)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-21T17:43:06+08:00" content="2016-07-21">
-              2016-07-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/其他技术/" itemprop="url" rel="index">
-                    <span itemprop="name">其他技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/21/其他技术/Vim实践Tips-三/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/21/其他技术/Vim实践Tips-三/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Tip_10_使用计数做一些简单的计算">Tip 10 使用计数做一些简单的计算</h2><p>大多数命令模式下的指令能够和计数搭配使用.我们可以利用这个特性做一些简单的运算.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span> character is <span class="number">5</span></span><br></pre></td></tr></table></figure>
-<p><code>&lt;C-a&gt;</code> 增加计数 (Ctrl+a)<br><code>&lt;C-x&gt;</code> 减少计数 (Ctrl+x)<br>他们可以可数字搭配使用,例如:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span> character is <span class="number">16</span> <span class="string">" 10&lt;C-a&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这个<c-a> 如果是在数字字符上,那么就会给他增加数字.如果没有在数字上,那么它会在这行中查找数字,并且跳转到数字上.如果没有那么就不会做任何操作.</c-a></p>
-<p>例如下面有一段 css 代码:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">.blog</span>, <span class="variable">.news</span> &#123; background-image: url(/sprite<span class="variable">.png</span>); &#125;</span><br><span class="line"><span class="variable">.blog</span> &#123; background-position: <span class="number">0</span>px <span class="number">0</span>px &#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们要复制最后一行,然后做一些改变:</p>
-<ol>
-<li>把单词 <code>blog</code> 换成 <code>news</code></li>
-<li>把 <code>0px</code> 换成 <code>-180px</code></li>
-</ol>
-<p>实现1,可以使用 <code>yyp</code> 然后使用 <code>cw</code> 修改单词.<br>那么2怎么实现呢?</p>
-<p>第一种方式是: <code>f0</code>, 然后 <code>i</code> 进入插入模式,输入<code>-18</code>,然后<code>&lt;Esc&gt;</code><br>但是我们的光标不在数字上,那么需要额外的跳转.而 <code>&lt;C-x&gt;</code> 可以自动给我们找到数字.<br>所以,直接 <code>180&lt;C-x&gt;</code> 更快</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">.blog</span> &#123; background-position: -<span class="number">180</span>px <span class="number">0</span>px &#125; <span class="string">"180&lt;C-x&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="Tip_11_如果可以重复,就别计数">Tip 11 如果可以重复,就别计数</h2><p>我们可以通过提供个数字来减少完成特定任务所需要的按键.但是这不代表我们就该这么做.还是应该思考下到底该重复还是该计数.</p>
-<p>假设我们有下面的文字:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Delete more than one word</span><br></pre></td></tr></table></figure>
-<p><code>d2w</code>  和 <code>2dw</code> 都能完成任务.</p>
-<ul>
-<li><code>d2w</code> 是<code>d</code>, 然后加上<code>2w</code> 的 <code>motion</code> ,理解为: 删除两个单词</li>
-<li><code>2dw</code>是2次执行 <code>dw</code> ,理解为: 删除一个单词,执行两次</li>
-</ul>
-<p>现在让我们想想一个替换方案: <code>dw.</code> 删除一个单词,然后重复之.</p>
-<h3 id="讨论几种方式-">讨论几种方式.</h3><p>其实<code>d2w</code>和<code>2dw</code> 没有区别,如果执行之后,按 <code>u</code> ,都会恢复两个单词.如果按<code>dot</code>,将重复删除后两个单词.<br>如果我们要删除下一个单词(总共三个)那我们就需要先<code>u</code>(恢复两个单词),然后<code>d3w</code>.这还是比较麻烦的.<br><code>dw.</code> 按<code>u</code>,会恢复一个单词,如果删除下个单词,只需要重新按<code>dot</code>即可.<br>在这种情况下,重复的优势更明显.</p>
-<p>如果我要删除6个单词呢? 我可以 <code>d6w</code> 或者<code>6dw</code>.或者 <code>dw.....</code> ,当然,前者有更少的按键.但是有个问题在这:我们需要数一下单词的数量,而且如果错误了,<code>u</code>会恢复<code>6</code>个单词.而<code>dw.....</code>如果出现错误,<code>u</code>一下,只是恢复一个单词.我们可以更好的控制这个过程.</p>
-<p>记住我们的”咒语”: 操作,重复,撤销. </p>
-<h3 id="必要时使用计数">必要时使用计数</h3><p>下面的文字,如果我要把 <code>a couple of</code> 换成 <code>some more.</code><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">I have a couple of questions.</span><br><span class="line">I have some more questions. <span class="string">"按键依次是 c3wsome more</span></span><br></pre></td></tr></table></figure></p>
-<p>在这个场景下,使用dot命令没有什么意义.即使重复了,最后还要按<code>i</code>进入插入模式.这样太笨拙了,所以我还是愿意使用计数.</p>
-<p>计数还有个好处,就是能够有个条理清楚的恢复操作.比如我<code>d3w</code>,<code>u</code>就会恢复3个单词</p>
-<h1 id="Tip_12_征服结合命令">Tip 12 征服结合命令</h1><p>Vim的强大源于操作符和移动命令的结合.</p>
-<h3 id="操作符+移动=操作">操作符+移动=操作</h3><p><code>d{motion}</code> 可以使用<code>dl</code>删除一个字符,<code>daw</code>删除整个单词,<code>dap</code>删除整段.<br><code>c{motion}</code> 和 <code>y{motion}</code>和上面类似</p>
-<p>操作符和移动的结合,可以认为是一种语法.第一条规则很简单:一个动作由一个操作符和一个移动组成.学习新的操作符就像学习Vim的词汇表.只要我们遵循简单的语法,随着词汇量增加,我们就能表达更多想法.</p>
-<p>假设我们已经知道了通过 daw 删除一整个单词.然后,我们学到了 <code>gU</code>,这也是一个操作符.所以,我们就能通过gUaw把当前单词转换成大写.</p>
-<p>再假设我们知道了<code>ap</code>(一整段motion},然后我们就能合成新的操作:<br><code>dap</code> 删除一整段 <code>gUap</code> 让一整段大写.</p>
-<p><code>Vim</code>  的语法还有个规则:如果一个操作符被重复输入,那么<code>motion</code>就等于当前行.例如:<br>-<code>dd</code>   删除当前行<br>-<code>&gt;&gt;</code>  缩进当前行<br>-<code>gUgU</code> 或者 <code>gUU</code> 大写当前行 g是后面操作符的一个前缀</p>
-<p>Vim的操作符命令</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">操作符        效果</span><br><span class="line">c             Change 改变</span><br><span class="line">d             Delete 删除</span><br><span class="line">y             Yank into <span class="keyword">register</span> 复制到寄存器</span><br><span class="line">g~            Swap <span class="keyword">case</span> 切换大小写</span><br><span class="line">gu            make lowercase 小写</span><br><span class="line">gU            make upppercase 大写</span><br><span class="line">&gt;             shift right 右移</span><br><span class="line">&lt;             shift left 左移</span><br><span class="line">=             autoindent 自动缩进</span><br><span class="line">!             Filter &#123;motion&#125; lines through an external program</span><br></pre></td></tr></table></figure>
-<h3 id="拓展Vim整合的力量">拓展Vim整合的力量</h3><p>Vim标准的操作符相对来说比较少,但是我们可以定义新的.</p>
-<h3 id="使用现有的操作符自定义移动">使用现有的操作符自定义移动</h3><p>Vim标准的移动命令已经很全面,但是我们还可以增加新的移动和文本对象.</p>
-<h3 id="待决模式">待决模式</h3><p>除了明显的插入,命令和底行模式.Vim还有些容易被忽略的模式.待决模式( Operator-Pending mode )就是其中的一个.我们每天都大量使用它,但是每次都持续一小段时间.例如<code>dw</code>,这个模式仅仅持续了你按下<code>d</code>到按下<code>w</code>这中间的这个时间.</p>
-<p>如果我们把Vim看做是一个有限状态机.那么待决模式就是仅接受移动命令的状态.当一个操作符被触发的时候,这个状态被激活,在输入移动命令之前,Vim不会做任何操作.当待决模式被激活后,我们可以通过<esc>就可以中断,返回命令模式.</esc></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/19/其他技术/Vim实践Tips(二)/" itemprop="url">
-                  Vim实践Tips(二)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-19T17:40:15+08:00" content="2016-07-19">
-              2016-07-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/其他技术/" itemprop="url" rel="index">
-                    <span itemprop="name">其他技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/19/其他技术/Vim实践Tips(二)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/19/其他技术/Vim实践Tips(二)/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Tip_5_手动查找和替换">Tip 5 手动查找和替换</h2><p>下面每一行中都有 <code>content</code> 这个单词</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">...We're waiting for content before the site can go live...</span><br><span class="line"></span><br><span class="line">...If you are content with this, let's go ahead with it...</span><br><span class="line"></span><br><span class="line">...We'll launch as soon as we have the content...</span><br></pre></td></tr></table></figure>
-<p>如果我们想把所有的 <code>content</code> 替换成 <code>copy</code>, 那么可以很简单的想到替换命令.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">:%s/content/<span class="keyword">copy</span>/g</span><br></pre></td></tr></table></figure>
-<p> 但是有时候我们并不想全局替换掉.</p>
-<h3 id="懒惰点:不做输入的查找">懒惰点:不做输入的查找</h3><p> 你也许已经猜到<code>.</code>是我最喜欢的单键<code>Vim</code>命令.第二喜欢的是 <code>*</code>,它可以搜索处于光标下面的单词.</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">...We're waiting for copy before the site can go live...</span><br><span class="line"></span><br><span class="line">...If you are copy with this, let's go ahead with it...</span><br><span class="line"></span><br><span class="line">...We'll launch as soon as we have the content...</span><br></pre></td></tr></table></figure>
-<p> 首先将光标置于 <code>content</code> 上面,然后用<code>*</code>命令去查找它,这时候将发生两个事情:</p>
-<ol>
-<li><p>光标将跳转到下个匹配处(即下个 <code>content</code> 单词) </p>
-</li>
-<li><p>所有出现匹配项的地方将高亮显示 (如果没有,使用 <code>:set hls</code> .</p>
-</li>
-</ol>
-<p>上面两件事情发生之后,我们就可以使用 <code>n</code> 命令跳转到下一个.这时候,使用 <code>*nn</code> 可以循环所有匹配,然后光标转到我们开始进行搜索的地方</p>
-<h3 id="让更改变得可重复">让更改变得可重复</h3><p>当我们的光标置于 <code>content</code> 的开始位置的时候,我们准备去更改它.这包含两个步骤:</p>
-<ol>
-<li><p>删除单词 <code>content</code> </p>
-</li>
-<li><p>输入修改的内容. <code>cw</code> 删除到单词结尾命令,并且进入插入模式.</p>
-</li>
-</ol>
-<p>然后我们输入 <code>copy</code> 这个单词. Vim 将记录我们的键盘点击,直到我们离开插入模式,所以, <code>cwcopy&lt;Esc&gt;</code> 将会被记录为一个单个命令.通过使用<code>.</code>就可以重复上面的操作.</p>
-<h2 id="Tip6_Dot公式">Tip6 Dot公式</h2><p>在 Tip2中,我们试着将每个句子后面加<code>;</code> 最后,我们通过 <code>j.</code> 进行重复操作.</p>
-<p>在 Tip3中,我们将每个<code>+</code>前后添加空格.  最后,我们通过 <code>;.</code> 进行重复操作</p>
-<p>在 Tip5中,我们将 <code>content</code> 替换成 <code>copy</code>,最后,我们通过 <code>n.</code> 进行重复操作.</p>
-<h3 id="理想的状态:_一个按键负责移动,一个按键负责执行操作-">理想的状态: 一个按键负责移动,一个按键负责执行操作.</h3><p> 在上面所有的操作中 . 重复最后的更改.这不是他们全部的共同点,我们都还用了一个键去移动光标.这已经是一个不能再好的情况了.我们在将来的编辑中,可以反复看到这个编辑模式.为了方便,我们把这个模式成为 Dot公式 (Dot Formula)</p>
-<h2 id="Tip7_拿开你的笔刷">Tip7 拿开你的笔刷</h2><p><code>Normal Mode</code> (命令模式) 可以类比为一个画家,把笔刷离开画布.这时候,他可以休息,可以构思.同理,程序员也可以在 <code>Normal Mode</code> 中进行思考,组织自己的思路.当我们要改变的时候,也不用非得进入插入模式.在 <code>Normal Mode</code>中,我们可以格式化我们的代码,复制,或者移动他们.</p>
-<h2 id="Tip8_强化你的撤销">Tip8 强化你的撤销</h2><p>在其他编辑器中,通过在输入一些东西之后进行撤销,可以撤销我们最后输入的单词或者字符.然后在 Vim 中,我们设置可以调整撤销命令的粒度.</p>
-<p><code>u</code> 这个命令可以触发撤销命令.它可以撤销包括Normal,Visual还有 Command-Line 模式的更改.当然,也包括在插入模式下的文本输入或者删除.所以我们可以说: <code>i{ 插入一些更改}&lt; Esc&gt;</code>  构成了一个改变. 然后一次<code>u</code> 就可以撤销这个改变.</p>
-<p>另外,插入模式中,如果使用了上下左右箭头,那么就相当于在 NormalMode下使用了 <code>hjkl</code>.区别就是我们不用离开插入模式,但是这些操作,会被记录到点公式 (Dot Fomula)中.</p>
-<h2 id="Tip9_创建可重复的改变">Tip9 创建可重复的改变</h2><p>vim将重复操作进行了优化,为了利用这个特性.我们需要留心怎么创建可重复的改变</p>
-<p>在 Vim 中,做一件事通常有很多方式.但是衡量”好”的方式的机制就是:更少的键盘敲击.</p>
-<p>假设我们的光标在 <code>h</code> 这个字母上,我们想要删除单词 <code>nigh</code></p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">The end is nigh</span><br></pre></td></tr></table></figure>
-<h3 id="1-_向后删除">1. 向后删除</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">The end is nigh "开始</span><br><span class="line"></span><br><span class="line">The end is h "db  从光标位置删除单词的前面部分</span><br><span class="line"></span><br><span class="line">The end is  "x 删除当前光标的字符</span><br></pre></td></tr></table></figure>
-<h3 id="2-_向前删除">2. 向前删除</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">The end is nigh   "开始</span><br><span class="line"></span><br><span class="line">The end is nigh   "b  向后移动光标一个单词</span><br><span class="line"></span><br><span class="line">The end is        "dw 向前删除一个单词</span><br></pre></td></tr></table></figure>
-<h3 id="3-_删除整个单词">3. 删除整个单词</h3><p>上面两个解决方案都牵涉到了一些准备工作,例如移动.其实,利用<code>aw</code> 命令可以更精准高效的完成我们的需求</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">The end ais nigh   "开始</span><br><span class="line"></span><br><span class="line">The end is "daw</span><br></pre></td></tr></table></figure>
-<h3 id="4-_哪一个是最可重复的">4. 哪一个是最可重复的</h3><p>上面我们使用了三种方式进行删除一个单词.每种方式中,我们都是按了三个键,那么那种方式是更好的呢?</p>
-<p>记住, Vim 优化了重复.那么检验好坏的标准就是重复.下面使用dot 命令来检验三种方式,通过测试发现:</p>
-<ul>
-<li><p>第一种方式: <code>.</code> 等价于 <code>x</code> (<code>db</code> 是改变操作. <code>x</code> 也是改变操作)</p>
-</li>
-<li><p>第二种方式: <code>.</code> 等价于 <code>dw</code> (<code>b</code> 是纯移动, <code>dw</code> 是改变操作)</p>
-</li>
-<li><p>第三种方式: <code>.</code> 等价于 <code>daw</code> (<code>daw</code>是改变操作)</p>
-</li>
-</ul>
-<p>看起来<code>2</code> <code>3</code> 都是挺有用的,但是有个细节 <code>2</code>删除一个单词,但是不会删除对应的空格,表象上来看就是不会移动光标到下个单词上,那么这时候, <code>.</code>这个命令就没什么意义. <code>3</code> 会把要删除的单词附带空格删除,同时光标停留在 <code>is</code> 的结尾.那么<code>.</code>这个操作就能继续删除一个单词. (我强烈建议自己动手试试看)</p>
-<p>﻿</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1288,7 +1238,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">73</span>
+              <span class="site-state-item-count">75</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1296,7 +1246,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1305,7 +1255,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

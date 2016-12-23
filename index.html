@@ -263,6 +263,270 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/23/其他技术/深入讲解Cocoapods打包framework-静态库/" itemprop="url">
+                  深入讲解Cocoapods打包framework/静态库
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-23T14:02:01+08:00" content="2016-12-23">
+              2016-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/其他技术/" itemprop="url" rel="index">
+                    <span itemprop="name">其他技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/23/其他技术/深入讲解Cocoapods打包framework-静态库/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/23/其他技术/深入讲解Cocoapods打包framework-静态库/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="背景">背景</h2><p>   关于使用Cocoapods打包静态库或者是Framework的文章,网上一搜一堆.可是当你读完,发现用处有限.它们的都是用最简单的场景串了一遍打包的流程,而整个过程中的多个坑,却根本没有提及.这就造成了一个假象,Cocoapods打包framework是简单愉快的,放弃原来的创建framework的形式吧!结果,当热情满满的开发者去用的时候,发现已经入了歧途了! </p>
+<p>本人目前正在处理一款语音框架的工作,所以正好整理出来,希望能够对大家有帮助!</p>
+<h2 id="Cocoapods流程">Cocoapods流程</h2><p>关于如何安装<code>Cocoapods</code>,在此就不赘述了.如果没有<code>Cocoapods</code>使用经验,也不建议看这篇文章. 另外,建议将<code>Cocoapods</code>升级到最新版本(包括最新的beta),升级命令如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install cocoapods --pre</span><br></pre></td></tr></table></figure>
+<h3 id="创建基本的工程结构">创建基本的工程结构</h3><ol>
+<li><p>通过命令创建一个规范规程(这个很重要,方便你的开发与验证)</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create YouFrameworkName</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接下来就是一些问题,根据实际情况选择.(我这开发的OC版本)</p>
+</li>
+</ol>
+<p><strong>特别说明: 一定要创建Demo Application!这个对你的开发有极大的帮助!!</strong></p>
+<p>具体步骤也不赘述了,给大家几篇参考文章.做完就具备了基本的结构了.主要是想一块继续深入下去.</p>
+<p><a href="http://www.cnblogs.com/brycezhang/p/4117180.html" target="_blank" rel="external">使用CocoaPods开发并打包静态库</a></p>
+<p><a href="http://www.jianshu.com/p/0b516ee6576f" target="_blank" rel="external">一步一步教你使用CocoaPods打包静态库</a></p>
+<h3 id="继续深入">继续深入</h3><p>有一个问题需要注意: <strong>如果你选择打包.a的静态库,那么cocoapods是不会给你生成头文件的</strong> ,这就意味着,其实,你只能打包framework.</p>
+<p>按照上面的两篇文章做完,你会发现.握草,根本不够项目用啊.我项目还有三方的<code>framework</code>,还有三方的<code>.a</code>库,还想添加<code>pch</code>文件…</p>
+<p>另外,关于各种路径的问题,例如:<code>s.source_files</code> 和<code>s.header_dir</code>这些,经常会被Cocoapods报错:pattern匹配不到任何文件.其实,只要记住一个原则:<strong>你的库路径(可能是线上git库也可能是本地git库)+你的指定路径 =  要找的文件路径</strong>,那么就一定没问题. 例如我的库路径是:<code>:git =&gt; &#39;/Users/kenny/Documents/LTVoiceAssistant&#39;</code> 而我指定的<code>s.source_files = &#39;LTVoiceAssistant/Classes/**/*.{c,h,hh,m,mm,cpp,a,pch}&#39;</code>,它们两个拼接,正好是我各种源码文件的路径.</p>
+<h4 id="三方Framework和Library">三方Framework和Library</h4><p>在项目中,我们经常会有一些以文件形式存在的framework和.a,例如我项目中就有百度的语音识别和一个高德的.而由于某些原因,你不能用cocoapods将其管理,只能拖到项目中,cocoapods使用<code>vendored_frameworks</code>和<code>vendored_libraries</code>字段进行设置:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s.ios.vendored_libraries = 'LTVoiceAssistant/Classes/libBDVoiceRecognitionClient.a',</span><br><span class="line">                            'LTVoiceAssistant/Classes/libBDSSpeechSynthesizer.a'</span><br><span class="line"></span><br><span class="line">	s.ios.vendored_frameworks = 'LTVoiceAssistant/Classes/*.framework'</span><br></pre></td></tr></table></figure>
+<h4 id="pch">pch</h4><p>如果你不是从零开始,而是将其他项目的代码剥离打包framework的话,这个绝对会帮你大忙,因为cocoapods的验证,会检查你代码的依赖性,如果有照不到的头文件或者引入关系不对,是通不过验证的.podspec中,提供了两种方式添加pch文件.<br>方法一 : 使用<code>s.prefix_header_contents</code>用法如下:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.prefix_header_contents = '#import "AHeader.h"','#import "BHeader.h"'</span><br></pre></td></tr></table></figure>
+<p>可以看出,简单方便.但是也是因为简单,所以一些负责的宏之类的,你用这个是没法完成的.</p>
+<p>方法二: 添加pch文件.<br>首先framework工程里(不是DemoApplication中)添加pch文件.然后将文件加入到编译的source中(如果你是拷贝进来的头文件)<br>最后,在podspec中,添加下面的信息:<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.prefix_header_file = 'LTVoiceAssistant/Classes/Global/LTSpeech-prefix.pch'</span><br></pre></td></tr></table></figure></p>
+<p>在cocoapods的issue中,作者特别提到了.如果报找不到,那么是Xcode没找到,不是cocoapods,所以,确保将pch加入了编译.</p>
+<h4 id="xib和storyboard">xib和storyboard</h4><p>如果你的代码中包含Xib和Storyboard,需要注意,这几个文件是需要添加到资源中的.<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.resource = 'LTVoiceAssistant/Classes/Cells/*.xib'</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/13/Mac下的汇编/来个特殊的HelloWord-Mac下汇编初探/" itemprop="url">
+                  来个特殊的HelloWord-Mac下汇编初探
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-13T14:49:47+08:00" content="2016-10-13">
+              2016-10-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Mac下的汇编/" itemprop="url" rel="index">
+                    <span itemprop="name">Mac下的汇编</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/13/Mac下的汇编/来个特殊的HelloWord-Mac下汇编初探/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/13/Mac下的汇编/来个特殊的HelloWord-Mac下汇编初探/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/28/研究随笔/用-Attribute-做点好玩的事情-第一篇/" itemprop="url">
                   用__Attribute__做点好玩的事情:第一篇
                 </a>
@@ -763,286 +1027,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/24/iOS Tips/GCD实现线程同步的三种方式/" itemprop="url">
-                  GCD实现线程同步的三种方式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-24T10:49:05+08:00" content="2016-09-24">
-              2016-09-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS Tips</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/24/iOS Tips/GCD实现线程同步的三种方式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/24/iOS Tips/GCD实现线程同步的三种方式/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>写这篇文章的原因是自己几天前的一个面试,当时面试官问这个线程同步的问题,感觉自己回答的不好,知识接触过,却不系统条理.所以这次特地整理一下</p>
-<h2 id="什么是线程同步">什么是线程同步</h2><p>同步就是协同步调，按预定的先后次序进行运行。如：你说完，我再说。<br>“同”字从字面上容易理解为一起动作<br>其实不是，“同”字应是指协同、协助、互相配合。<br>如进程、线程同步，可理解为进程或线程A和B一块配合，A执行到一定程度时要依靠B的某个结果，于是停下来，示意B运行；B依言执行，再将结果给A；A再继续操作。</p>
-<p><strong>以上内容来自百度百科</strong></p>
-<h2 id="GCD中实现线程同步的方式">GCD中实现线程同步的方式</h2><h3 id="dispatch_group">dispatch_group</h3><p><code>dispatch_group</code>是GCD中经常使用的线程同步方式,具体用法如下:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"cc.imguiqing"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 1 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 2 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 3 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>可以看出,这个和普通的GCD任务相比,每个API都多了一个group参数.但是如果仅仅是像上面的方式使用,就没有什么必要了.我们使用Group的原因,更多是想要知道这个Group中的执行情况.借此来获得时机做一些逻辑操作.所以<code>dispatch_group</code>提供了两个API:</p>
-<ol>
-<li>通知Group中的任务都执行完毕</li>
-</ol>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">dispatch_group_notify(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"all task done"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<ol>
-<li>阻塞式的等待Group中的任务都执行完毕</li>
-</ol>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dispatch_group_wait(group, DISPATCH_TIME_FOREVER);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"since all done , I move on"</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="更常见的写法">更常见的写法</h4><p>上面的写法虽然简单,但是如果看过一些三方库的代码,发现那么用的并不多.更多的是利用<code>dispatch_group_enter(group)</code>和<code>dispatch_group_leave(group)</code>来包装任务,本质上两者没有区别,多说这些仅仅是让你别以后看代码的时候感到疑惑,<br>代码如下:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_queue( <span class="number">0</span>, <span class="number">0</span> );</span><br><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line"></span><br><span class="line">dispatch_group_enter(group);</span><br><span class="line"><span class="built_in">dispatch_async</span>( queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>( <span class="string">@"task 1 --- %@"</span>, [<span class="built_in">NSThread</span> currentThread] );</span><br><span class="line">    dispatch_group_leave(group);</span><br><span class="line">&#125; );</span><br><span class="line">dispatch_group_enter(group);</span><br><span class="line"><span class="built_in">dispatch_async</span>( queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>( <span class="string">@"task 2 --- %@"</span>, [<span class="built_in">NSThread</span> currentThread] );</span><br><span class="line">    dispatch_group_leave(group);</span><br><span class="line">&#125; );</span><br><span class="line">dispatch_group_notify( group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>( <span class="string">@"all task done %@"</span>, [<span class="built_in">NSThread</span> currentThread] );</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure>
-<h3 id="信号量">信号量</h3><p>信号量可以理解为一个特殊的变量.程序对它的访问都是原子性的,我们通过PV操作来修改信号量.<br>使用代码简单说明:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_semaphore_t sem = 	dispatch_semaphore_create(<span class="number">0</span>);</span><br><span class="line">[networkManager requestWithDelay:<span class="number">5</span> completion:^&#123;</span><br><span class="line">    dispatch_semaphore_signal(sem);<span class="comment">//+1</span></span><br><span class="line">&#125;];</span><br><span class="line">dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);<span class="comment">//-1</span></span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"five sectonds"</span>);</span><br></pre></td></tr></table></figure>
-<p>信号量创建的时候, 可以给他指定一个值.<code>dispatch_semaphore_signal(sem)</code>对信号进行<code>+1</code>操作.<code>dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER)</code>对信号进行<code>-1</code>操作.当进行<code>-1</code>时,如果发现信号结果会小于0,那么线程进入阻塞状态.只有当信号<code>&gt;=0</code>才能通过.</p>
-<p>那么上面的代码段就容易明白了: 一直等到一个异步的网络请求结束,才继续执行<code>NSLog(@&quot;five sectonds&quot;);</code>,也是就其他的逻辑</p>
-<h3 id="Barrier">Barrier</h3><p>相比上面两种方式,Barrier知道的人相对少一些.但是Barrier用起来相对上面两种更加简单.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"cc.imguiqing"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 1 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 2 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"barrier =========="</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 3 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>上面的代码,<code>task 1</code>和<code>task 2</code>会并发执行,然后执行<code>barrier</code>,最后是<code>task 3</code>,用图来说明:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160924147468717647516.jpg?imageView2/0/format/jpg" alt="20160924147468717647516.jpg"></p>
-<p>这个 barrier就相当于一个栅栏,将不同的任务区分开来.从代码中也不难看出,这个barrier函数不需要依赖其它的变量,没有侵入性.所以非常好用.和Group也是非常好搭配.例如下面的代码:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"cc.imguiqing"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; <span class="number">500000000</span>; i++) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 1 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"======"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; <span class="number">500000000</span>; i++) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 2 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"======"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"task 3 on %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_notify(group, queue, ^&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"all task done"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_wait(group, DISPATCH_TIME_FOREVER);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"since all done , I move on"</span>);</span><br></pre></td></tr></table></figure>
-<p>能保证 <code>task 1 2 3</code>顺序执行,同时,由于使用了Group,也能知道执行结束的时机. 但是仅仅是为了说明问题,如果要顺序执行,那么还是使用GCD中同步队列更加合适.</p>
-<p><strong>注意点: 这个barrier函数只能用于并发队列,且不能是<code>global queue</code>.</strong></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/23/Xcode&环境配置/Xcode-8-必要配置/" itemprop="url">
-                  Xcode 8 适配
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-23T14:48:47+08:00" content="2016-09-23">
-              2016-09-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Xcode-环境配置/" itemprop="url" rel="index">
-                    <span itemprop="name">Xcode&环境配置</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/23/Xcode&环境配置/Xcode-8-必要配置/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/23/Xcode&环境配置/Xcode-8-必要配置/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>相信很多小伙伴都升级了Xcode 8 ,但是发现很多恶心的地方.下面是自己这几天的积累,解决了一部分问题.希望能帮到大家.</p>
-<h2 id="注释快捷键失效">注释快捷键失效</h2><p>我们常用的<code>cmd+/</code>失效了了.</p>
-<h2 id="解决方案">解决方案</h2><p>终端输入:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/libexec/xpccachectl</span><br></pre></td></tr></table></figure></p>
-<p>然后重启mac</p>
-<h2 id="去掉多余打印">去掉多余打印</h2><p>当你开开心心的想去控制台看Log的时候,发现这样:<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/2016092374983截图 2016-09-23 14时52分35秒.jpg" alt="2016092374983截图 2016-09-23 14时52分35秒.jpg"></p>
-<h2 id="解决方法">解决方法</h2><p>到<code>Target</code>中添加如下键值对:<br><code>OS_ACTIVITY_MODE disable</code><br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461373922375.jpg?imageView2/0/format/jpg" alt="20160923147461373922375.jpg"></p>
-<h2 id="插件失效">插件失效</h2><p>每次升级,都会面临插件失效的情况. 以前比较简单的可以通过修改插件plist的方法来完成修复.<br>1.打开终端，输入以下代码获取到<code>DVTPlugInCompatibilityUUID</code><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults read /Applications/Xcode<span class="variable">.app</span>/Contents/Info DVTPlugInCompatibilityU<span class="built_in">UID</span></span><br></pre></td></tr></table></figure></p>
-<p>2.然后输入如下命令 【最后一项是获取到的DVTPlugInCompatibilityUUID】<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins -name Info<span class="variable">.plist</span> -maxdepth <span class="number">3</span> | xargs -I&#123;&#125; defaults write &#123;&#125; DVTPlugInCompatibilityU<span class="built_in">UIDs</span> -array-add <span class="number">9</span>F75337B-<span class="number">21</span>B4-<span class="number">4</span>ADC-B558-F9<span class="built_in">CADF7073A7</span></span><br></pre></td></tr></table></figure></p>
-<p><a href="http://blog.csdn.net/u014536527/article/details/45022747" target="_blank" rel="external">来源网址</a><br>但是Xcode 8 却不行了,甚至明确说支持Xcode8的插件也不正常工作.这是因为Xcode8要求<code>code sign</code></p>
-<h2 id="解决方法-1">解决方法</h2><p>因为我一直很依赖<code>xvim</code>这个插件,所以一直关注等着更新.今天意外发现有个适配Xcode8的说明:</p>
-<p>1.打开<code>Keychain Access</code>,在左边栏中选择<code>login</code>这个条目<br>2.选择<code>Create a Certificate</code><br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461457298237.jpg?imageView2/0/format/jpg" alt="20160923147461457298237.jpg"><br>3.输入名字,然后选择<code>Code Signing</code>这个类型<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461461158577.jpg?imageView2/0/format/jpg" alt="20160923147461461158577.jpg"><br>4.退出Xode,然后终端中输入:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo codesign -f -s XcodeSigner /Applications/Xcode<span class="variable">.app</span></span><br></pre></td></tr></table></figure></p>
-<p>具体Xcode路径看自己放哪.<br>5.然后可以依靠旧的方法去使用,或者去获取最新版本.</p>
-<p><a href="https://github.com/XVimProject/XVim/blob/master/INSTALL_Xcode8.md" target="_blank" rel="external">来源网址</a></p>
-<h2 id="切换Swift版本">切换Swift版本</h2><p>目前Xcode8中支持Swift3.0 ,但是不幸的是,很多三方库还不支持. 我们可以通过配置,切换为Swift的2.3版本.</p>
-<h2 id="修改配置">修改配置</h2><p>配置如下图,设置为NO表示使用 Swift 3.0. YES表示使用Swift2.3<br><img src="http://7xv9rf.com1.z0.glb.clouddn.com/20160923147461514664286.jpg?imageView2/0/format/jpg" alt="20160923147461514664286.jpg"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1088,7 +1072,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">73</span>
+              <span class="site-state-item-count">75</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1096,7 +1080,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1105,7 +1089,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
